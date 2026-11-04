@@ -73,7 +73,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islamic Circle</span></a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#learn">Learn</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="#community">Community</a><a href="#about">About</a>
+          <a href="/learn">Discover Islam</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="#community">Community</a><a href="#about">About</a>
         </nav>
         <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
@@ -101,6 +101,21 @@ export default function Home() {
             <button type="button" className={mosqueScene===1?"active":""} onClick={()=>setMosqueScene(1)} aria-label="Show Madinah"></button>
           </div>
           <span className="mosque-scene-caption">A new sacred-place view every 10 seconds</span>
+        </div>
+      </section>
+
+      <section className="faith-entry-section" aria-labelledby="faith-entry-title">
+        <div className="faith-entry-heading">
+          <span className="eyebrow">A guide to the faith</span>
+          <h2 id="faith-entry-title">Discover Islam</h2>
+          <p>Explore the foundations of Muslim belief, worship, character and the place of Hadith in everyday life. Choose a subject to open its own learning space.</p>
+        </div>
+        <div className="faith-entry-grid">
+          <a className="faith-entry-card faith-entry-main" href="/learn"><span className="faith-entry-icon">☪</span><span className="faith-entry-label">Start here</span><h3>Discover Islam</h3><p>Explore the foundations of faith, the Five Pillars, articles of Iman, Qur’an, Sunnah and Islamic character.</p><strong>Enter the learning guide ↗</strong></a>
+          <a className="faith-entry-card" href="/hadith"><span className="faith-entry-icon">۞</span><h3>Hadith Library</h3><p>Explore Hadith collections with Arabic and available translations.</p><strong>Open Hadith library ↗</strong></a>
+          <a className="faith-entry-card" href="/hadith#qaida-lessons"><span className="faith-entry-icon">ا ب</span><h3>Beginner’s Qaida</h3><p>Start learning Arabic letters and basic reading rules.</p><strong>Open Qaida lessons ↗</strong></a>
+          <a className="faith-entry-card" href="/heritage"><span className="faith-entry-icon">🕌</span><h3>Islamic Heritage</h3><p>Discover historic mosques and important places around the world.</p><strong>Explore the gallery ↗</strong></a>
+          <a className="faith-entry-card" href="/quran"><span className="faith-entry-icon">۩</span><h3>Qur’an Reader</h3><p>Read the Qur’an with Arabic text, translations and recitation.</p><strong>Read the Qur’an ↗</strong></a>
         </div>
       </section>
 
