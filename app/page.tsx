@@ -71,7 +71,7 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islamic Circle</span></a>
+        <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islam 360</span></a>
         <nav className="nav-links" aria-label="Main navigation">
           <a href="/learn">Discover Islam</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="#community">Community</a><a href="#about">About</a>
         </nav>
@@ -82,7 +82,7 @@ export default function Home() {
         <div className="hero-copy">
           <div className="eyebrow">A place to learn, reflect & grow</div>
           <h1>Your Quran journey, wherever you are.</h1>
-          <p>Read, listen, learn, and build a meaningful connection with the Quran. RHM Islamic Circle is a welcoming learning space for individuals, families, and communities around the world.</p>
+          <p>Read, listen, learn, and build a meaningful connection with the Quran. RHM Islam 360 is a welcoming learning space for individuals, families, and communities around the world.</p>
           <div className="hero-actions"><a className="btn btn-primary" href="#quran">Explore the Quran <span aria-hidden="true">↗</span></a><a className="btn btn-light" href="#learn">Discover learning paths</a></div>
           <div className="hero-note">Open to learners around the world · Learn at your own pace</div>
         </div>
@@ -145,7 +145,7 @@ export default function Home() {
       </section>
 
       <section className="section" id="quran">
-        <div className="daily"><div><div className="eyebrow">The heart of the journey</div><h2>Make time for the words of Allah.</h2><p>The Quran reading area will bring Surah navigation, translations, recitation, bookmarks, and last-read progress together in one calm space.</p><a className="btn btn-light" href="/quran">Read Quran at RHM Islamic Circle ↗</a></div><div className="arabic" lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا<br/><span style={{fontSize:14,color:"#d8e5dd"}}>And say: My Lord, increase me in knowledge. (20:114)</span></div></div>
+        <div className="daily"><div><div className="eyebrow">The heart of the journey</div><h2>Make time for the words of Allah.</h2><p>The Quran reading area will bring Surah navigation, translations, recitation, bookmarks, and last-read progress together in one calm space.</p><a className="btn btn-light" href="/quran">Read Quran at RHM Islam 360 ↗</a></div><div className="arabic" lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا<br/><span style={{fontSize:14,color:"#d8e5dd"}}>And say: My Lord, increase me in knowledge. (20:114)</span></div></div>
       </section>
 
       <section className="section" id="community">
@@ -153,7 +153,7 @@ export default function Home() {
         <div className="cards"><article className="feature-card"><div className="feature-icon">♡</div><h3>For individuals</h3><p>Build your own routine, save your place, and follow lessons at a comfortable pace.</p></article><article className="feature-card"><div className="feature-icon">♧</div><h3>For organisations</h3><p>Create learning circles for employees, students, or community members.</p></article><article className="feature-card"><div className="feature-icon">✧</div><h3>For families</h3><p>Encourage children and adults to learn together in a supportive environment.</p></article></div>
       </section>
 
-      <footer className="footer" id="about"><span>© {new Date().getFullYear()} RHM Islamic Circle</span><span>Founded and owned by Mr Muhammad Hadi Ur Rehman</span><span>Built with care for learners everywhere</span></footer>
+      <footer className="footer" id="about"><span>© {new Date().getFullYear()} RHM Islam 360</span><span>Founded and owned by Mr Muhammad Hadi Ur Rehman</span><span>Built with care for learners everywhere</span></footer>
     </main>
   );
 }
