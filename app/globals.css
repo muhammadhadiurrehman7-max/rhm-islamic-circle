@@ -248,3 +248,22 @@ button { font: inherit; cursor: pointer; }
 .hadith-page .hadith-urdu { font-family:"Noto Nastaliq Urdu","Noto Naskh Arabic",serif; font-size:21px; line-height:2.5; }
 .hadith-page .hadith-meta { font-family:"DM Sans",sans-serif; }
 @media(max-width:600px) { .hadith-page .hadith-urdu { font-size:19px; line-height:2.35; } }
+
+/* Rotating Islamic guidance and sourced reminders */
+.guidance-section { position:relative; overflow:hidden; padding:72px 20px; background:radial-gradient(ellipse at 50% 0%,#315f4d 0%,#174b3c 52%,#102f26 100%); color:#fff; text-align:center; }
+.guidance-inner { width:min(820px,100%); margin:0 auto; }
+.guidance-section .eyebrow { color:#e1c48b; }
+.guidance-section h2 { margin:10px 0 18px; color:#fff; font:600 clamp(30px,4vw,42px)/1.2 "Playfair Display",serif; }
+.guidance-ornament { color:#e1c48b; font-size:28px; opacity:.9; animation:guidance-turn 18s linear infinite; }
+.guidance-quote { min-height:210px; display:flex; flex-direction:column; align-items:center; justify-content:center; animation:guidance-appear .8s ease both; }
+.guidance-arabic { width:100%; margin:14px 0 4px; color:#f2dfb4; font:500 clamp(24px,4vw,34px)/2 "Noto Naskh Arabic","Amiri",serif; }
+.guidance-quote blockquote { max-width:720px; margin:16px auto; color:#fff; font:500 clamp(20px,3vw,28px)/1.65 "Playfair Display",serif; }
+.guidance-by { margin:8px 0 4px; color:#f2dfb4; font-weight:700; font-size:14px; }
+.guidance-source { color:#d8e5dd; font-size:12px; text-decoration:underline; text-underline-offset:3px; }
+.guidance-timer { margin-top:22px; color:#c5d7cb; font-size:12px; letter-spacing:.04em; }
+.guidance-dots { display:flex; justify-content:center; gap:9px; margin-top:16px; }
+.guidance-dots button { width:8px; height:8px; padding:0; border:0; border-radius:50%; background:#91ad9b; opacity:.65; }
+.guidance-dots button.active { width:23px; border-radius:9px; background:#e1c48b; opacity:1; }
+@keyframes guidance-appear { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes guidance-turn { to { transform:rotate(360deg); } }
+@media(prefers-reduced-motion:reduce) { .guidance-ornament { animation:none; }.guidance-quote { animation:none; } }
