@@ -170,6 +170,12 @@ export default function QuranPage() {
                         const nextAyah = currentAyah?.nextElementSibling;
                         if (nextAyah instanceof HTMLElement) {
                           nextAyah.scrollIntoView({ behavior: "smooth", block: "center" });
+                          const nextAudio = nextAyah.querySelector("audio");
+                          if (nextAudio) {
+                            nextAudio.play().catch(() => {
+                              // Some browsers block chained playback; the next Ayah remains visible with its play control.
+                            });
+                          }
                         }
                       }}
                     >
