@@ -13,9 +13,9 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islamic Circle</span></a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#learn">Learn</a><a href="#quran">Quran</a><a href="#community">Community</a><a href="/donate">Donate</a><a href="#about">About</a>
+          <a href="#learn">Learn</a><a href="#quran">Quran</a><a href="#community">Community</a><a href="#about">About</a>
         </nav>
-        <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-light" href="/donate">Donate</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
+        <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
 
       <section className="hero">
