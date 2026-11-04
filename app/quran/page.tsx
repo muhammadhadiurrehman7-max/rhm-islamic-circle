@@ -147,6 +147,7 @@ export default function QuranPage() {
           <article className="faith-card"><span className="faith-icon">♡</span><h3>Character and daily life</h3><p>Explore honesty, patience, mercy, family rights, justice and kindness.</p><a href="/learn/character">Open full lesson →</a></article>
           <article className="faith-card"><span className="faith-icon">📚</span><h3>Hadith and Sunnah</h3><p>Read narrations in Arabic, Urdu and English in the RHM Hadith library.</p><a href="/hadith#hadith-reader">Open Hadith library →</a></article>
           <article className="faith-card"><span className="faith-icon">ا ب</span><h3>Beginner’s Qaida</h3><p>Learn Arabic letters, vowel signs and basic reading rules step by step.</p><a href="/hadith#qaida-lessons">Open Qaida lessons →</a></article>
+          <article className="faith-card"><span className="faith-icon">🕌</span><h3>Islamic Heritage &amp; Famous Mosques</h3><p>Explore historic mosques and remarkable Islamic places across the world through photographs and history.</p><a href="/heritage">Explore famous mosques →</a></article>
         </div>
         <p className="faith-note"><strong>Learn responsibly:</strong> These are introductory learning notes, not personal religious rulings. Translation is not a substitute for the Arabic Qur’an or detailed Tafsir. For questions of Islamic law, consult a qualified, trusted scholar.</p>
       </section>
