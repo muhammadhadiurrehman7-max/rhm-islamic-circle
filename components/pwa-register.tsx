@@ -71,9 +71,9 @@ export default function PwaRegister() {
 
   if (installPrompt) {
     return (
-      <aside className="pwa-install-card" aria-label="Install RHM Islamic Circle">
+      <aside className="pwa-install-card" aria-label="Install RHM Islam 360">
         <div>
-          <strong>Install RHM Islamic Circle</strong>
+          <strong>Install RHM Islam 360</strong>
           <span>Open your Islamic learning app from your home screen.</span>
         </div>
         <button type="button" onClick={installApp}>Install app</button>
@@ -83,7 +83,7 @@ export default function PwaRegister() {
 
   if (showIosHelp) {
     return (
-      <aside className="pwa-install-card pwa-ios-help" aria-label="Add RHM Islamic Circle to your home screen">
+      <aside className="pwa-install-card pwa-ios-help" aria-label="Add RHM Islam 360 to your home screen">
         <div>
           <strong>Add to your Home Screen</strong>
           <span>In Safari, tap Share, then choose “Add to Home Screen”.</span>
