@@ -539,3 +539,52 @@ html[data-site-theme="dark"] .islam-info-card,
 html[data-site-theme="dark"] .qaida-lesson { color:#f0eee4; }
 html[data-site-theme="dark"] .donation-value-row { background:#172821; border-color:#34483e; color:#f0eee4; }
 @media(max-width:560px) { .site-theme-toggle { right:12px; bottom:12px; padding:10px 13px; } }
+
+
+/* Installable RHM Islamic Circle app */
+.pwa-install-card {
+  position: fixed;
+  z-index: 1100;
+  left: 50%;
+  bottom: 82px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: min(520px, calc(100% - 28px));
+  padding: 15px 17px;
+  border: 1px solid #d9e3dc;
+  border-radius: 18px;
+  background: #fffefa;
+  color: #17352d;
+  box-shadow: 0 16px 44px rgba(12,35,27,.2);
+}
+.pwa-install-card div { display:flex; flex-direction:column; gap:4px; }
+.pwa-install-card strong { font-size:14px; }
+.pwa-install-card span { color:#687b73; font-size:12px; line-height:1.5; }
+.pwa-install-card button {
+  flex:none; padding:10px 15px; border:0; border-radius:999px;
+  background:#174b3c; color:#fff; font-weight:700; font-size:12px;
+}
+.pwa-ios-help button { min-width:34px; padding:6px 10px; font-size:20px; }
+.pwa-offline-page {
+  min-height:100svh; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; padding:30px; text-align:center;
+  background:linear-gradient(145deg,#f8f8f1,#e8f1e9); color:#17352d;
+}
+.pwa-offline-mark {
+  display:grid; place-items:center; width:76px; height:76px; margin-bottom:24px;
+  border-radius:24px; background:#123d32; color:#f7f5ed;
+  font:700 25px "Playfair Display",serif;
+}
+.pwa-offline-kicker { color:#98733b; font-size:11px; font-weight:800; letter-spacing:.16em; }
+.pwa-offline-page h1 { max-width:600px; font:600 clamp(32px,5vw,48px)/1.15 "Playfair Display",serif; }
+.pwa-offline-page p:not(.pwa-offline-kicker) { max-width:540px; color:#62756c; line-height:1.8; }
+.pwa-offline-page a { margin-top:18px; padding:12px 20px; border-radius:999px; background:#174b3c; color:#fff; font-weight:700; }
+html[data-site-theme="dark"] .pwa-install-card { background:#1c3028; color:#f0eee4; border-color:#34483e; }
+html[data-site-theme="dark"] .pwa-install-card span { color:#bdc9c0; }
+@media(max-width:560px) {
+  .pwa-install-card { bottom:74px; align-items:flex-start; gap:10px; padding:13px; }
+  .pwa-install-card button { padding:10px 12px; }
+}
