@@ -63,3 +63,20 @@ button { font: inherit; cursor: pointer; }
 .quran-source { margin:24px 0 0; color:#7c8c83; font-size:12px; line-height:1.6; text-align:center; }
 .quran-footer { padding:24px 20px; background:#102f26; color:#dce8e0; text-align:center; font-size:12px; }
 @media(max-width:560px){.quran-topbar{padding:14px 18px}.quran-brand{font-size:14px}.quran-heading{padding:44px 20px 28px}.quran-controls{align-items:stretch;flex-direction:column}.quran-controls select{width:100%;min-width:0}.ayah{padding:22px 0}}
+
+
+/* Donation page */
+.donate-page { min-height:100vh; background:#fbfaf6; }
+.donate-heading { padding:58px 20px 34px; text-align:center; background:linear-gradient(135deg,#f8f8f1,#edf3ed); }
+.donate-heading h1 { margin:12px 0; color:#17352d; font:600 clamp(34px,5vw,54px)/1.12 "Playfair Display",serif; }
+.donate-heading p { max-width:680px; margin:0 auto; color:#62756c; line-height:1.8; }
+.donation-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; width:min(1050px,calc(100% - 36px)); margin:36px auto 22px; }
+.donation-card { padding:26px; background:#fff; border:1px solid #e8ede8; border-radius:20px; }
+.donation-method-icon { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:#eaf2ed; color:#174b3c; font-weight:700; }
+.donation-card h2 { margin:18px 0 6px; color:#17352d; font:600 24px "Playfair Display",serif; }
+.donation-card p { margin:0 0 14px; color:#687b73; font-size:13px; }
+.donation-value-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:12px; border:1px solid #e4ebe5; border-radius:12px; background:#fbfaf6; }
+.donation-value { font-size:15px; font-weight:700; letter-spacing:.02em; overflow-wrap:anywhere; }
+.donation-copy { flex:none; padding:8px 12px; border:0; border-radius:9px; background:#174b3c; color:white; font-size:12px; font-weight:700; }
+.donation-note { width:min(800px,calc(100% - 36px)); margin:0 auto 56px; color:#687b73; font-size:13px; line-height:1.8; text-align:center; }
+@media(max-width:760px){.donation-options{grid-template-columns:1fr;max-width:500px}.donate-heading{padding:44px 20px 28px}}
