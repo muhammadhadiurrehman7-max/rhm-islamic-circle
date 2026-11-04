@@ -33,7 +33,7 @@ export default function DonatePage() {
         <a className="quran-home-link" href="/">Back to home</a>
       </header>
       <section className="donate-heading">
-        <div className="eyebrow">Support the circle</div>
+        <div className="eyebrow">Support RHM Islam 360</div>
         <h1>Support Islamic learning</h1>
         <p>If you wish to support RHM Islam 360, you can make a voluntary contribution using one of the payment details below. Bank and wallet transfers are sent directly to the recipient account you select; they are not processed by the website.</p>
       </section>
