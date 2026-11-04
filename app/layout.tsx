@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   },
   description: "Explore the Holy Quran, learn Islam, study the Five Pillars and Articles of Iman, read Hadith, begin Arabic Qaida lessons, and discover famous mosques with RHM Islamic Circle.",
   applicationName: "RHM Islamic Circle",
+  verification: { google: "oLZJuf2MTIq_Rwi3bvXEFPY202vRZ5_8plMjXqHYdvo" },
   keywords: [
     "RHM Islamic Circle",
     "Quran online",
