@@ -6,6 +6,8 @@ on:
     paths:
       - "capacitor.config.ts"
       - "www/**"
+      - "public/icon-512.svg"
+      - "app/donate/page.tsx"
       - ".github/workflows/build-android-apk.yml"
 
 permissions:
