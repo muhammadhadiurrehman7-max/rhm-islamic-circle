@@ -8,17 +8,17 @@ const siteUrl = "https://rhm-islamic-circle.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "RHM Islamic Circle | Quran, Islamic Learning & Hadith",
-    template: "%s | RHM Islamic Circle",
+    default: "RHM Islam 360 | Quran, Hadith & Complete Islamic Learning",
+    template: "%s | RHM Islam 360",
   },
-  description: "Explore the Holy Quran, learn Islam, study the Five Pillars and Articles of Iman, read Hadith, begin Arabic Qaida lessons, and discover famous mosques with RHM Islamic Circle.",
-  applicationName: "RHM Islamic Circle",
+  description: "Explore the Holy Quran, learn Islam, study the Five Pillars and Articles of Iman, read Hadith, begin Arabic Qaida lessons, and discover famous mosques with RHM Islam 360.",
+  applicationName: "RHM Islam 360",
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: "RHM Islamic Circle", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "RHM Islam 360", statusBarStyle: "default" },
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }], apple: [{ url: "/icon.svg", type: "image/svg+xml" }] },
   verification: { google: "oLZJuf2MTIq_Rwi3bvXEFPY202vRZ5_8plMjXqHYdvo" },
   keywords: [
-    "RHM Islamic Circle",
+    "RHM Islam 360",
     "Quran online",
     "read Quran",
     "Islamic learning",
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteUrl,
-    siteName: "RHM Islamic Circle",
-    title: "RHM Islamic Circle | Quran, Islamic Learning & Hadith",
+    siteName: "RHM Islam 360",
+    title: "RHM Islam 360 | Quran, Islamic Learning & Hadith",
     description: "A welcoming online space to read the Quran, explore Islamic beliefs, learn Hadith and Arabic basics, and discover Islamic heritage.",
     locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "RHM Islamic Circle | Quran & Islamic Learning",
+    title: "RHM Islam 360 | Quran & Islamic Learning",
     description: "Read the Quran and explore Islamic learning, Hadith, Qaida and Islamic heritage.",
   },
   robots: {
