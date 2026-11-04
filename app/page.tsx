@@ -35,6 +35,7 @@ export default function Home() {
       <section className="section" id="learn">
         <div className="section-heading"><div><div className="eyebrow">Explore the circle</div><h2>Knowledge for every step</h2></div><p className="section-intro">A growing collection of learning experiences designed to make Islamic learning approachable and consistent.</p></div>
         <div className="cards">{features.map((feature) => <article className="feature-card" key={feature.title}><div className="feature-icon" aria-hidden="true">{feature.icon}</div><h3>{feature.title}</h3><p>{feature.text}</p></article>)}</div>
+        <a className="feature-card hadith-feature-card" href="/hadith"><div className="feature-icon" aria-hidden="true">۞</div><h3>Hadith & Sunnah Library</h3><p>Explore narrations from major Hadith collections in Arabic, Urdu, and English. Search by Hadith number or text and view available references.</p><span className="hadith-card-link">Explore Hadith library ↗</span></a>
       </section>
 
       <section className="section" id="quran">
