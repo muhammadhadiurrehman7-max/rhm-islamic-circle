@@ -13,12 +13,17 @@ export default function PwaRegister() {
   const [installed, setInstalled] = useState(false);
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/sw.js").catch(() => {
-          // The website remains usable if offline support cannot be registered.
-        });
+    const registerServiceWorker = () => {
+      if (!("serviceWorker" in navigator)) return;
+      navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {
+        // The website remains usable if offline support cannot be registered.
       });
+    };
+
+    if (document.readyState === "complete") {
+      registerServiceWorker();
+    } else {
+      window.addEventListener("load", registerServiceWorker, { once: true });
     }
 
     const standalone =
@@ -27,7 +32,7 @@ export default function PwaRegister() {
 
     if (standalone) {
       setInstalled(true);
-      return;
+      return () => window.removeEventListener("load", registerServiceWorker);
     }
 
     const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
@@ -48,6 +53,7 @@ export default function PwaRegister() {
     window.addEventListener("appinstalled", handleInstalled);
 
     return () => {
+      window.removeEventListener("load", registerServiceWorker);
       window.removeEventListener("beforeinstallprompt", handleInstallPrompt);
       window.removeEventListener("appinstalled", handleInstalled);
     };
