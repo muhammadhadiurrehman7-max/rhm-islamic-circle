@@ -15,21 +15,17 @@ export const metadata: Metadata = {
   applicationName: "RHM Islam 360",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "RHM Islam 360", statusBarStyle: "default" },
-  icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }], apple: [{ url: "/icon.svg", type: "image/svg+xml" }] },
+  icons: {
+    icon: [{ url: "/icon.jpg", type: "image/jpeg" }],
+    shortcut: [{ url: "/icon.jpg", type: "image/jpeg" }],
+    apple: [{ url: "/icon.jpg", type: "image/jpeg" }]
+  },
   verification: { google: "oLZJuf2MTIq_Rwi3bvXEFPY202vRZ5_8plMjXqHYdvo" },
   keywords: [
-    "RHM Islam 360",
-    "Quran online",
-    "read Quran",
-    "Islamic learning",
-    "learn Islam for beginners",
-    "Five Pillars of Islam",
-    "Six Articles of Iman",
-    "Hadith library",
-    "Arabic Qaida lessons",
-    "Islamic history",
-    "famous mosques",
-    "Quran Urdu translation",
+    "RHM Islam 360", "Quran online", "read Quran", "Islamic learning",
+    "learn Islam for beginners", "Five Pillars of Islam", "Six Articles of Iman",
+    "Hadith library", "Arabic Qaida lessons", "Islamic history", "famous mosques",
+    "Quran Urdu translation"
   ],
   alternates: { canonical: "/" },
   openGraph: {
@@ -39,11 +35,13 @@ export const metadata: Metadata = {
     title: "RHM Islam 360 | Quran, Islamic Learning & Hadith",
     description: "A welcoming online space to read the Quran, explore Islamic beliefs, learn Hadith and Arabic basics, and discover Islamic heritage.",
     locale: "en_US",
+    images: ["/icon.jpg"]
   },
   twitter: {
     card: "summary",
     title: "RHM Islam 360 | Quran & Islamic Learning",
     description: "Read the Quran and explore Islamic learning, Hadith, Qaida and Islamic heritage.",
+    images: ["/icon.jpg"]
   },
   robots: {
     index: true,
