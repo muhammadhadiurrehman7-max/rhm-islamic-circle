@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 
 type Surah = { number: number; name: string; englishName: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string };
-type Ayah = { numberInSurah: number; text: string };
+type Ayah = { number: number; numberInSurah: number; text: string };
 type Reciter = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
-type Edition = { ayahs: Ayah[] };
+type Translation = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
+type Edition = { ayahs: Ayah[]; edition?: Translation };
 type SurahText = { name: string; englishName: string; numberOfAyahs: number; editions: Edition[] };
 
 export default function QuranPage() {
@@ -18,6 +19,9 @@ export default function QuranPage() {
   const [selectedReciter, setSelectedReciter] = useState("ar.alafasy");
   const [recitersLoading, setRecitersLoading] = useState(true);
   const [audioError, setAudioError] = useState("");
+  const [translations, setTranslations] = useState<Translation[]>([]);
+  const [selectedTranslation, setSelectedTranslation] = useState("ur.jalandhry");
+  const [translationsLoading, setTranslationsLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://api.alquran.cloud/v1/surah")
@@ -27,6 +31,24 @@ export default function QuranPage() {
       })
       .then((data) => setSurahs(data.data))
       .catch(() => setError("We couldn't load the Quran index. Please check your internet connection and try again."));
+  }, []);
+
+  useEffect(() => {
+    fetch("https://api.alquran.cloud/v1/edition?format=text&type=translation")
+      .then((response) => {
+        if (!response.ok) throw new Error("Could not load translations.");
+        return response.json();
+      })
+      .then((data) => {
+        const available = (data.data as Translation[]).filter((edition) => edition.language && edition.identifier);
+        setTranslations(available);
+        const urdu = available.find((edition) => edition.identifier === "ur.jalandhry")
+          || available.find((edition) => edition.language === "ur");
+        if (urdu) setSelectedTranslation(urdu.identifier);
+        else if (available.length) setSelectedTranslation(available[0].identifier);
+      })
+      .catch(() => setError("Translation options could not be loaded. Please refresh the page."))
+      .finally(() => setTranslationsLoading(false));
   }, []);
 
   useEffect(() => {
@@ -54,7 +76,7 @@ export default function QuranPage() {
     let active = true;
     setLoading(true);
     setError("");
-    fetch(`https://api.alquran.cloud/v1/surah/${selected}/editions/quran-uthmani,en.sahih`)
+    fetch(`https://api.alquran.cloud/v1/surah/${selected}/editions/quran-uthmani,${selectedTranslation}`)
       .then((response) => {
         if (!response.ok) throw new Error("Could not load this Surah.");
         return response.json();
@@ -69,7 +91,7 @@ export default function QuranPage() {
         if (active) setLoading(false);
       });
     return () => { active = false; };
-  }, [selected]);
+  }, [selected, selectedTranslation]);
 
   return (
     <main className="quran-page">
@@ -80,7 +102,7 @@ export default function QuranPage() {
       <section className="quran-heading">
         <div className="eyebrow">The Noble Quran</div>
         <h1>Read. Reflect. Return.</h1>
-        <p>Explore the words of Allah in Arabic alongside an English translation. Reading is open to everyone.</p>
+        <p>Read every Ayah in Arabic, listen verse by verse, and choose Urdu or another available translation language. Open to everyone, without sign-in.</p>
       </section>
       <section className="quran-reader" aria-label="Quran reader">
         <div className="quran-controls">
@@ -89,6 +111,11 @@ export default function QuranPage() {
             {surahs.map((surah) => <option key={surah.number} value={surah.number}>{surah.number}. {surah.englishName} — {surah.name}</option>)}
           </select>
           {chapter && <span className="quran-count">{chapter.numberOfAyahs} Ayahs</span>}
+          <label htmlFor="translation-select">Translation language</label>
+          <select id="translation-select" value={selectedTranslation} onChange={(event) => setSelectedTranslation(event.target.value)} disabled={translationsLoading || translations.length === 0}>
+            {translationsLoading && <option>Loading languages…</option>}
+            {translations.map((edition) => <option key={edition.identifier} value={edition.identifier}>{edition.language.toUpperCase()} · {edition.englishName || edition.name}</option>)}
+          </select>
         </div>
         <section className="recitation-panel" aria-label="Quran recitation player">
           <div className="recitation-heading">
@@ -117,20 +144,29 @@ export default function QuranPage() {
             <div className="surah-title">
               <span className="surah-arabic-name" lang="ar" dir="rtl">{chapter.name}</span>
               <h2>{chapter.englishName}</h2>
-              <p>English translation · Saheeh International</p>
+              <p>{chapter.editions[1]?.edition?.englishName || chapter.editions[1]?.edition?.name || selectedTranslation} · {chapter.editions[1]?.edition?.language?.toUpperCase() || "Translation"}</p>
             </div>
             <div className="ayah-list">
               {chapter.editions[0].ayahs.map((ayah, index) => (
-                <article className="ayah" key={ayah.numberInSurah}>
-                  <div className="ayah-number">{ayah.numberInSurah}</div>
+                <article className="ayah ayah-card" key={ayah.numberInSurah}>
+                  <div className="ayah-card-top">
+                    <span className="ayah-number">{ayah.numberInSurah}</span>
+                    <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
+                  </div>
                   <p className="ayah-arabic" lang="ar" dir="rtl">{ayah.text}</p>
-                  <p className="ayah-translation">{chapter.editions[1].ayahs[index]?.text}</p>
+                  <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{chapter.editions[1]?.ayahs[index]?.text || "Translation unavailable for this Ayah."}</p>
+                  <div className="ayah-audio-row">
+                    <span>Listen to Ayah {ayah.numberInSurah}</span>
+                    <audio controls preload="none" src={`https://cdn.islamic.network/quran/audio/128/${selectedReciter}/${ayah.number}.mp3`} aria-label={`Play Surah ${selected}, Ayah ${ayah.numberInSurah}`}>
+                      Your browser does not support audio playback.
+                    </audio>
+                  </div>
                 </article>
               ))}
             </div>
           </>
         )}
-        <p className="quran-source">Quran text, reciter catalogue, and recitation audio are provided through AlQuran Cloud API. Reciters are listed dynamically from the provider; this is not a claim to include every reciter worldwide. Please refer to trusted scholars for interpretation and study.</p>
+        <p className="quran-source">Arabic Quran text, translations, and Ayah-by-Ayah recitations are streamed through AlQuran Cloud. Translation names and contributors are shown where supplied by the source. Translation is not a substitute for Tafsir or scholarly explanation.</p>
       </section>
       <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
     </main>
