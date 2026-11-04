@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "RHM Islamic Circle",
-    short_name: "RHM Circle",
+    name: "RHM Islam 360",
+    short_name: "RHM 360",
     description:
       "A free Islamic learning space for the Quran, Hadith, Arabic Qaida and Islamic knowledge.",
     lang: "en",
