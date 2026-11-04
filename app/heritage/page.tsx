@@ -1,0 +1,39 @@
+"use client";
+
+import Link from "next/link";
+
+const places = [
+{ name:"Al-Masjid al-Haram", city:"Makkah, Saudi Arabia", era:"Ancient sanctuary · continually expanded", image:"https://commons.wikimedia.org/wiki/Special:FilePath/The_Ka%27ba,_Great_Mosque_of_Mecca,_Saudi_Arabia_(4).jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:The_Ka%27ba,_Great_Mosque_of_Mecca,_Saudi_Arabia_(4).jpg", note:"The Sacred Mosque surrounds the Kaaba, the direction of prayer for Muslims. It is the destination of Hajj and Umrah." },
+{ name:"Al-Masjid an-Nabawi", city:"Madinah, Saudi Arabia", era:"Founded in 622 CE", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Medium_shot_of_the_Green_Dome_at_The_Prophet%27s_Mosque_(Al_Masjid-e-Nabawi).jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:Medium_shot_of_the_Green_Dome_at_The_Prophet%27s_Mosque_(Al_Masjid-e-Nabawi).jpg", note:"The Prophet’s Mosque was established by Prophet Muhammad ﷺ after the Hijrah to Madinah. It is one of the most important mosques in Islam." },
+{ name:"Al-Aqsa Mosque and Sanctuary", city:"Jerusalem, Palestine", era:"A sacred site with a long layered history", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Alaqsa_mosque_at_night.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/Category:Al-Aqsa", note:"Al-Masjid al-Aqsa is part of the wider Al-Aqsa sanctuary in Jerusalem, a place of profound religious and historical significance. The Dome of the Rock is a distinct shrine within the same compound." },
+{ name:"Quba Mosque", city:"Madinah, Saudi Arabia", era:"Established after the Hijrah in 622 CE", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Quba_Mosque_Madinah.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/Category:Quba_Mosque", note:"Quba is widely known as the first mosque established by Prophet Muhammad ﷺ after his arrival near Madinah. The Prophet visited it and encouraged prayer there." },
+{ name:"Sultan Ahmed Mosque (Blue Mosque)", city:"Istanbul, Türkiye", era:"Built 1609–1616", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Sultan_Ahmed_Mosque_in_Istanbul.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:Sultan_Ahmed_Mosque_in_Istanbul.jpg", note:"Commissioned by Sultan Ahmed I, this Ottoman mosque is famous for its cascading domes, six minarets and blue Iznik tile decoration." },
+{ name:"Sheikh Zayed Grand Mosque", city:"Abu Dhabi, United Arab Emirates", era:"Opened in 2007", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Sheikh_Zayed_Grand_Mosque_%40_Abu_Dhabi_(15856602738).jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:Sheikh_Zayed_Grand_Mosque_%40_Abu_Dhabi_(15856602738).jpg", note:"A modern landmark known for its white marble, extensive courtyards, intricate floral designs and large prayer hall." },
+{ name:"Faisal Mosque", city:"Islamabad, Pakistan", era:"Completed in 1986", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Faisal_Mosque,_Islamabad,_Pakistan.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:Faisal_Mosque,_Islamabad,_Pakistan.jpg", note:"Designed by Turkish architect Vedat Dalokay, the mosque is recognised for its striking tent-inspired form at the foot of the Margalla Hills." },
+{ name:"Badshahi Mosque", city:"Lahore, Pakistan", era:"Built 1671–1673", image:"https://commons.wikimedia.org/wiki/Special:FilePath/BadshahiMosqueLahore.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:BadshahiMosqueLahore.jpg", note:"Commissioned by Mughal emperor Aurangzeb, this monumental mosque is celebrated for its red sandstone, marble domes and vast courtyard." },
+{ name:"Umayyad Mosque (Great Mosque of Damascus)", city:"Damascus, Syria", era:"Major construction in the early 8th century", image:"https://commons.wikimedia.org/wiki/Special:FilePath/The_Umayyad_Mosque,_Damascus,_Syria.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:The_Umayyad_Mosque,_Damascus,_Syria.jpg", note:"Built during the Umayyad period on a site with earlier religious structures, it is a major monument of early Islamic architecture." },
+{ name:"Great Mosque of Córdoba", city:"Córdoba, Spain", era:"Founded in 785–786 CE; later additions", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Great_Mosque_of_C%C3%B3rdoba_(Spain).jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:Great_Mosque_of_C%C3%B3rdoba_(Spain).jpg", note:"A landmark of Islamic-era al-Andalus, renowned for its forest of columns and red-and-white arches. The building later became a cathedral; its layered history should be understood in context." },
+{ name:"Hassan II Mosque", city:"Casablanca, Morocco", era:"Opened in 1993", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Hassan_II_Mosque_and_Its_Minaret_in_Casablanca,_Morocco_2.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/File:Hassan_II_Mosque_and_Its_Minaret_in_Casablanca,_Morocco_2.jpg", note:"A major modern mosque overlooking the Atlantic Ocean, known for its monumental minaret and detailed Moroccan craftsmanship." },
+{ name:"Great Mosque of Kairouan", city:"Kairouan, Tunisia", era:"Founded in 670 CE; rebuilt and enlarged", image:"https://commons.wikimedia.org/wiki/Special:FilePath/Great_Mosque_of_Kairouan.jpg?width=1200", credit:"https://commons.wikimedia.org/wiki/Category:Great_Mosque_of_Kairouan", note:"One of North Africa’s most important early Islamic monuments, with a celebrated courtyard, hypostyle prayer hall and historic minaret." }
+];
+
+export default function IslamicHeritagePage() {
+  return <main className="quran-page heritage-page">
+    <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</Link><div className="quran-top-actions"><Link className="quran-home-link" href="/quran">Back to learning centre</Link></div></header>
+    <div className="heritage-wrap">
+      <header className="heritage-hero"><span className="eyebrow">Explore Islamic civilisation</span><h1>Islamic Heritage &amp; Famous Mosques</h1><p>Discover remarkable mosques and sacred places across the Muslim world through real photographs and short historical introductions.</p><span className="heritage-arabic" lang="ar" dir="rtl">مساجد ومعالم إسلامية</span></header>
+      <div className="heritage-note">A respectful learning gallery: dates and descriptions are concise introductions. Some sites have complex, layered histories and are sacred to more than one community.</div>
+      <section className="heritage-grid" aria-label="Famous mosques and Islamic heritage places">
+        {places.map((place) => <article className="heritage-card" key={place.name}>
+          <a className="heritage-photo-link" href={place.credit} target="_blank" rel="noreferrer" aria-label={"View photo source for "+place.name}>
+            <img className="heritage-photo" src={place.image} alt={place.name+" in "+place.city} loading="lazy" />
+          </a>
+          <div className="heritage-card-content"><span className="heritage-city">{place.city}</span><h2>{place.name}</h2><span className="heritage-era">{place.era}</span><p>{place.note}</p><a className="heritage-credit" href={place.credit} target="_blank" rel="noreferrer">Photo source / details ↗</a></div>
+        </article>)}
+      </section>
+      <p className="heritage-disclaimer">Photographs are linked from Wikimedia Commons. Each photo-source link leads to its file or category page, where the photographer and licence information can be checked. Availability of individual image files may change.</p>
+      <div className="heritage-return"><Link href="/quran">← Return to RHM Islamic learning centre</Link></div>
+    </div>
+    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+  </main>;
+}
