@@ -58,6 +58,11 @@ const features = [
 
 export default function Home() {
   const [guidanceIndex, setGuidanceIndex] = useState(0);
+  const [mosqueScene, setMosqueScene] = useState(0);
+  useEffect(() => {
+    const sceneTimer = window.setInterval(() => setMosqueScene((current) => (current + 1) % 2), 10000);
+    return () => window.clearInterval(sceneTimer);
+  }, []);
   useEffect(() => {
     const timer = window.setInterval(() => setGuidanceIndex((current) => (current + 1) % guidanceQuotes.length), 20000);
     return () => window.clearInterval(timer);
@@ -81,9 +86,21 @@ export default function Home() {
           <div className="hero-actions"><a className="btn btn-primary" href="#quran">Explore the Quran <span aria-hidden="true">↗</span></a><a className="btn btn-light" href="#learn">Discover learning paths</a></div>
           <div className="hero-note">Open to learners around the world · Learn at your own pace</div>
         </div>
-        <div className="hero-garden" role="img" aria-label="A peaceful animated garden beneath a crescent moon, framed by an Islamic arch">
-          <div className="garden-arch"><div className="garden-sky"><span className="garden-moon">☾</span><i className="garden-star star-one">✦</i><i className="garden-star star-two">✧</i><i className="garden-star star-three">·</i><div className="garden-dome"></div><div className="garden-minaret"></div><div className="garden-horizon"></div><div className="garden-water"></div><div className="garden-tree tree-left"></div><div className="garden-tree tree-right"></div><div className="garden-flower flower-one">✿</div><div className="garden-flower flower-two">✿</div><div className="garden-flower flower-three">✿</div><div className="garden-path"></div></div></div>
-          <div className="garden-caption">سُبْحَانَ اللّٰهِ · Find peace in remembrance</div>
+        <div className={`hero-mosque-scene scene-${mosqueScene}`} aria-label={mosqueScene===0?"The Kaaba at Al-Masjid al-Haram in Makkah":"Al-Masjid an-Nabawi in Madinah"}>
+          <div className="mosque-scene-image scene-image-makkah" aria-hidden="true"></div>
+          <div className="mosque-scene-image scene-image-madinah" aria-hidden="true"></div>
+          <div className="mosque-scene-shade"></div>
+          <div className="mosque-scene-copy" key={mosqueScene}>
+            <span className="mosque-scene-kicker">Sacred places of Islam</span>
+            <h2>{mosqueScene===0?"Makkah Al-Mukarramah":"Al-Madinah Al-Munawwarah"}</h2>
+            <p>{mosqueScene===0?"Al-Masjid al-Haram · The Holy Kaaba":"Al-Masjid an-Nabawi · The Prophet’s Mosque"}</p>
+            <a href="/heritage">Explore Islamic heritage <span aria-hidden="true">↗</span></a>
+          </div>
+          <div className="mosque-scene-indicators" aria-label="Featured mosque scene">
+            <button type="button" className={mosqueScene===0?"active":""} onClick={()=>setMosqueScene(0)} aria-label="Show Makkah"></button>
+            <button type="button" className={mosqueScene===1?"active":""} onClick={()=>setMosqueScene(1)} aria-label="Show Madinah"></button>
+          </div>
+          <span className="mosque-scene-caption">A new sacred-place view every 10 seconds</span>
         </div>
       </section>
 
