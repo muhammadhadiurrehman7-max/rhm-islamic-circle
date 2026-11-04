@@ -221,3 +221,18 @@ button { font: inherit; cursor: pointer; }
 .quran-page[data-theme="dark"] .ayah-card { box-shadow:0 10px 28px rgba(0,0,0,.18); }
 .quran-page *, .quran-page *::before, .quran-page *::after { transition:background-color .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease; }
 @media(prefers-reduced-motion:reduce) { .quran-page *, .quran-page *::before, .quran-page *::after { transition:none !important; } }
+
+
+/* Hadith library */
+.hadith-reader { max-width:1040px; }
+.hadith-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; padding-bottom:22px; border-bottom:1px solid var(--q-border); }
+.hadith-controls label { align-self:end; color:var(--q-ink); font-size:13px; font-weight:700; }
+.hadith-controls select,.hadith-controls input { width:100%; min-width:0; padding:12px 14px; border:1px solid var(--q-border); border-radius:12px; background:var(--q-card); color:var(--q-ink); font:inherit; }
+.hadith-count { margin:18px 0; color:var(--q-muted); font-size:13px; }
+.hadith-card { margin:16px 0; padding:24px clamp(16px,3vw,30px); border:1px solid var(--q-border); border-radius:18px; background:var(--q-card); color:var(--q-ink); }
+.hadith-arabic { margin:22px 0; color:var(--q-ink); font-family:"Noto Naskh Arabic","Amiri",serif; font-size:clamp(25px,4vw,36px); line-height:2.15; text-align:right; }
+.hadith-translation { margin:14px 0; padding:17px 18px; border-right:3px solid var(--q-gold); border-radius:10px; background:var(--q-bg); color:var(--q-ink); font-size:16px; line-height:1.95; }
+.hadith-urdu { font-family:"Noto Nastaliq Urdu","Noto Naskh Arabic",serif; font-size:20px; line-height:2.4; text-align:right; }
+.hadith-meta { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; padding-top:14px; border-top:1px solid var(--q-border); color:var(--q-muted); font-size:12px; }
+.hadith-more { display:block; margin:24px auto; padding:12px 22px; border:1px solid var(--q-border); border-radius:999px; background:var(--q-card); color:var(--q-ink); font:600 14px "DM Sans",sans-serif; cursor:pointer; }
+@media(max-width:600px) { .hadith-controls { grid-template-columns:1fr; }.hadith-card { padding:18px 14px; }.hadith-urdu { font-size:18px; } }
