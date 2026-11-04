@@ -22,6 +22,17 @@ export default function QuranPage() {
   const [translations, setTranslations] = useState<Translation[]>([]);
   const [selectedTranslation, setSelectedTranslation] = useState("ur.jalandhry");
   const [translationsLoading, setTranslationsLoading] = useState(true);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("rhm-quran-theme");
+    if (savedTheme === "dark" || savedTheme === "light") setTheme(savedTheme);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.quranTheme = theme;
+    window.localStorage.setItem("rhm-quran-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     fetch("https://api.alquran.cloud/v1/surah")
@@ -94,11 +105,24 @@ export default function QuranPage() {
   }, [selected, selectedTranslation]);
 
   return (
-    <main className="quran-page">
+    <main className="quran-page" data-theme={theme}>
       <header className="quran-topbar">
         <a className="quran-brand" href="/"> <span className="brand-mark">ر</span> RHM Islamic Circle</a>
-        <a className="quran-home-link" href="/">Back to home</a>
+        <div className="quran-top-actions">
+          <button className="theme-toggle" type="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={theme === "light" ? "Switch to dark theme" : "Switch to light theme"}>
+            <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span> {theme === "light" ? "Dark mode" : "Light mode"}
+          </button>
+          <a className="quran-home-link" href="/">Back to home</a>
+        </div>
       </header>
+      <section className="sacred-places" aria-label="Photographs of the holy mosques">
+        <div className="sacred-place sacred-kaaba">
+          <div className="sacred-place-caption"><span>Makkah al-Mukarramah</span><strong>The Holy Kaaba</strong></div>
+        </div>
+        <div className="sacred-place sacred-madinah">
+          <div className="sacred-place-caption"><span>Al-Madinah al-Munawwarah</span><strong>Al-Masjid an-Nabawi</strong></div>
+        </div>
+      </section>
       <section className="quran-heading">
         <div className="eyebrow">The Noble Quran</div>
         <h1>Read. Reflect. Return.</h1>
