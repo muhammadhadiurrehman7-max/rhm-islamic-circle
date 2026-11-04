@@ -396,3 +396,53 @@ button { font: inherit; cursor: pointer; }
 @media(max-width:850px) { .hero-mosque-scene { width:min(78%,440px); } }
 @media(max-width:560px) { .hero-mosque-scene { width:min(94%,380px); }.mosque-scene-copy { bottom:70px; }.mosque-scene-caption { font-size:9px; } }
 @media(prefers-reduced-motion:reduce) { .mosque-scene-image,.mosque-scene-copy { transition:none; animation:none; } }
+
+/* Separate Discover Islam entry and independent learning spaces */
+.faith-entry-section { padding:68px clamp(20px,8vw,120px); background:linear-gradient(180deg,#f5f7f1,#edf3ed); }
+.faith-entry-heading { max-width:760px; margin:0 auto 30px; text-align:center; }
+.faith-entry-heading h2 { margin:10px 0; color:#17352d; font:600 clamp(32px,4vw,46px)/1.15 "Playfair Display",serif; }
+.faith-entry-heading p { color:#62756c; line-height:1.85; }
+.faith-entry-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17px; max-width:1180px; margin:0 auto; }
+.faith-entry-card { display:flex; flex-direction:column; align-items:flex-start; min-height:235px; padding:24px; border:1px solid #e0e9e1; border-radius:20px; background:#fff; box-shadow:0 12px 30px rgba(23,53,45,.045); transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease; }
+.faith-entry-card:hover { transform:translateY(-5px); border-color:#c59a55; box-shadow:0 18px 38px rgba(23,53,45,.1); }
+.faith-entry-main { background:linear-gradient(145deg,#174b3c,#102f26); color:#fff; border-color:#174b3c; }
+.faith-entry-icon { display:grid; place-items:center; width:45px; height:45px; margin-bottom:15px; border-radius:14px; background:#eaf2ed; color:#174b3c; font-size:23px; }
+.faith-entry-main .faith-entry-icon { background:rgba(255,255,255,.13); color:#f0dfb9; }
+.faith-entry-label { color:#e9d2a3; font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+.faith-entry-card h3 { margin:4px 0 9px; font:600 21px/1.25 "Playfair Display",serif; }
+.faith-entry-card p { margin:0 0 18px; color:#687b73; font-size:13px; line-height:1.8; }
+.faith-entry-main p { color:#e0eae4; }
+.faith-entry-card strong { margin-top:auto; color:#98733b; font-size:12px; }
+.faith-entry-main strong { color:#f0dfb9; }
+.faith-resources { padding:46px clamp(20px,8vw,120px) 60px; background:#f5f7f1; }
+.faith-resources-heading { max-width:760px; margin:0 auto 22px; text-align:center; }
+.faith-resources-heading h2 { margin:8px 0; color:#17352d; font:600 clamp(27px,3vw,36px)/1.2 "Playfair Display",serif; }
+.faith-resources-heading p { color:#687b73; line-height:1.75; font-size:14px; }
+.faith-resource-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; max-width:1050px; margin:auto; }
+.faith-resource-card { padding:23px; border:1px solid #e3eae3; border-radius:17px; background:#fff; }
+.faith-resource-card>span { color:#98733b; font-size:25px; }
+.faith-resource-card h3 { margin:12px 0 7px; color:#17352d; font:600 20px "Playfair Display",serif; }
+.faith-resource-card p { color:#687b73; font-size:13px; line-height:1.7; }
+.faith-resource-card strong { color:#98733b; font-size:12px; }
+.discover-islam-wrap { width:min(1100px,calc(100% - 36px)); margin:34px auto 64px; }
+.discover-islam-hero { padding:clamp(32px,6vw,62px) 24px; border:1px solid #e0e9e1; border-radius:24px; background:linear-gradient(140deg,#f8f8f1,#e8f1e9); text-align:center; }
+.discover-islam-hero h1 { margin:12px 0; color:#17352d; font:600 clamp(36px,5vw,54px)/1.1 "Playfair Display",serif; }
+.discover-islam-hero p { max-width:760px; margin:0 auto; color:#62756c; line-height:1.9; }
+.discover-islam-arabic { display:block; margin:25px 0 7px; color:#98733b; font:700 clamp(24px,4vw,34px)/1.7 "Noto Naskh Arabic",serif; }
+.discover-islam-reference { color:#687b73; font-size:12px; }
+.discover-islam-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px; margin-top:22px; }
+.discover-topic-card { position:relative; padding:25px; border:1px solid #e3eae3; border-radius:19px; background:#fff; }
+.discover-topic-icon { display:inline-grid; place-items:center; width:44px; height:44px; border-radius:13px; background:#eaf2ed; color:#174b3c; font-size:22px; }
+.discover-topic-number { float:right; padding-top:12px; color:#9b783e; font-size:10px; font-weight:800; letter-spacing:.13em; }
+.discover-topic-card h2 { margin:15px 0 8px; color:#17352d; font:600 22px "Playfair Display",serif; }
+.discover-topic-card p { color:#687b73; font-size:14px; line-height:1.8; }
+.discover-topic-card a { display:inline-block; margin-top:8px; color:#98733b; font-size:13px; font-weight:800; }
+.discover-other-resources { margin-top:36px; }
+.discover-other-resources h2 { color:#17352d; font:600 27px "Playfair Display",serif; }
+.discover-other-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.discover-other-grid a { display:flex; flex-direction:column; gap:7px; padding:18px; border:1px solid #e3eae3; border-radius:15px; background:#fff; }
+.discover-other-grid strong { color:#17352d; font-size:14px; }
+.discover-other-grid span { color:#687b73; font-size:12px; line-height:1.5; }
+.discover-islam-note { margin-top:24px; color:#687b73; font-size:12px; line-height:1.8; }
+@media(max-width:850px) { .faith-entry-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.faith-resource-grid { grid-template-columns:1fr; }.discover-other-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:560px) { .faith-entry-grid,.discover-islam-grid,.discover-other-grid { grid-template-columns:1fr; }.faith-entry-section,.faith-resources { padding-left:18px; padding-right:18px; }.discover-islam-wrap { width:calc(100% - 24px); margin-top:20px; }.discover-topic-card { padding:21px; } }
