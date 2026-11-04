@@ -15,7 +15,7 @@ export default function Home() {
         <nav className="nav-links" aria-label="Main navigation">
           <a href="#learn">Learn</a><a href="#quran">Quran</a><a href="#community">Community</a><a href="#about">About</a>
         </nav>
-        <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="mailto:hello@rhmIslamicCircle.org?subject=RHM%20Islamic%20Circle%20Account">Join the circle</a></div>
+        <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
 
       <section className="hero">
