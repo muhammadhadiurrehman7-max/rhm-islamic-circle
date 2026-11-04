@@ -19,11 +19,17 @@ export default function Home() {
       </header>
 
       <section className="hero">
-        <div className="eyebrow">A place to learn, reflect & grow</div>
-        <h1>Your Quran journey, wherever you are.</h1>
-        <p>Read, listen, learn, and build a meaningful connection with the Quran. RHM Islamic Circle is being created as a welcoming learning space for individuals, families, and communities around the world.</p>
-        <div className="hero-actions"><a className="btn btn-primary" href="#quran">Explore the Quran <span aria-hidden="true">↗</span></a><a className="btn btn-light" href="#learn">Discover learning paths</a></div>
-        <div className="hero-note">Open to learners around the world · Learn at your own pace</div>
+        <div className="hero-copy">
+          <div className="eyebrow">A place to learn, reflect & grow</div>
+          <h1>Your Quran journey, wherever you are.</h1>
+          <p>Read, listen, learn, and build a meaningful connection with the Quran. RHM Islamic Circle is a welcoming learning space for individuals, families, and communities around the world.</p>
+          <div className="hero-actions"><a className="btn btn-primary" href="#quran">Explore the Quran <span aria-hidden="true">↗</span></a><a className="btn btn-light" href="#learn">Discover learning paths</a></div>
+          <div className="hero-note">Open to learners around the world · Learn at your own pace</div>
+        </div>
+        <div className="hero-garden" role="img" aria-label="A peaceful animated garden beneath a crescent moon, framed by an Islamic arch">
+          <div className="garden-arch"><div className="garden-sky"><span className="garden-moon">☾</span><i className="garden-star star-one">✦</i><i className="garden-star star-two">✧</i><i className="garden-star star-three">·</i><div className="garden-dome"></div><div className="garden-minaret"></div><div className="garden-horizon"></div><div className="garden-water"></div><div className="garden-tree tree-left"></div><div className="garden-tree tree-right"></div><div className="garden-flower flower-one">✿</div><div className="garden-flower flower-two">✿</div><div className="garden-flower flower-three">✿</div><div className="garden-path"></div></div></div>
+          <div className="garden-caption">سُبْحَانَ اللّٰهِ · Find peace in remembrance</div>
+        </div>
       </section>
 
       <section className="section" id="learn">
