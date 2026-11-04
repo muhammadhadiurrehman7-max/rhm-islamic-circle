@@ -306,3 +306,28 @@ button { font: inherit; cursor: pointer; }
 .qaida-disclaimer { margin:14px auto 0; max-width:900px; color:var(--q-muted); font-size:12px; line-height:1.7; text-align:center; }
 @media(max-width:850px){.qaida-lesson-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:560px){.qaida-lesson-grid{grid-template-columns:1fr;}.qaida-practice{align-items:flex-start;flex-direction:column;}.qaida-lesson{padding:19px;}}
+
+
+/* RHM Islamic learning centre on the Quran page */
+.faith-centre { width:min(1120px,calc(100% - 36px)); margin:42px auto 48px; }
+.faith-centre-heading { max-width:760px; margin:0 auto 26px; text-align:center; }
+.faith-centre-heading h2 { margin:10px 0; color:var(--q-ink); font:600 clamp(28px,4vw,40px)/1.2 "Playfair Display",serif; }
+.faith-centre-heading p { color:var(--q-muted); line-height:1.85; }
+.faith-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.faith-card { padding:23px; border:1px solid var(--q-border); border-radius:18px; background:var(--q-card); color:var(--q-ink); box-shadow:0 9px 26px rgba(20,48,37,.055); }
+.faith-icon { display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:var(--q-bg); color:var(--q-gold); font-size:22px; font-weight:700; }
+.faith-card h3,.faith-detail h3 { margin:15px 0 8px; color:var(--q-ink); font:600 21px/1.3 "Playfair Display",serif; }
+.faith-card p,.faith-detail p { color:var(--q-muted); font-size:14px; line-height:1.9; }
+.faith-card a,.faith-action { display:inline-block; margin-top:12px; color:var(--q-gold); font-size:13px; font-weight:700; line-height:1.7; text-underline-offset:4px; }
+.faith-detail { scroll-margin-top:24px; margin-top:18px; padding:25px clamp(18px,3vw,30px); border:1px solid var(--q-border); border-radius:18px; background:var(--q-card); }
+.faith-detail .eyebrow { color:var(--q-gold); }
+.faith-detail h3 { margin-top:8px; font-size:24px; }
+.faith-list { margin:12px 0 0; padding-left:22px; color:var(--q-muted); font-size:14px; line-height:1.95; }
+.faith-list li { padding:5px 0 5px 4px; }
+.faith-list strong { color:var(--q-ink); }
+.faith-note { margin:18px 0 0; padding:18px 20px; border-left:3px solid var(--q-gold); border-radius:10px; background:var(--q-card); color:var(--q-muted); font-size:13px; line-height:1.85; }
+.faith-note strong { color:var(--q-ink); }
+.quran-reader[id],.faith-detail[id] { scroll-margin-top:22px; }
+@media(max-width:850px) { .faith-card-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:560px) { .faith-card-grid { grid-template-columns:1fr; }.faith-card { padding:20px; }.faith-detail { padding:20px 17px; } }
+.quran-page[data-theme="dark"] .faith-card,.quran-page[data-theme="dark"] .faith-detail,.quran-page[data-theme="dark"] .faith-note { box-shadow:0 10px 28px rgba(0,0,0,.18); }
