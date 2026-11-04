@@ -166,3 +166,59 @@ button { font: inherit; cursor: pointer; }
 .quran-page[data-theme="dark"] .quran-heading { background:linear-gradient(135deg,#15251f,#101d19); }
 .quran-page[data-theme="dark"] .quran-reader { box-shadow:0 14px 42px rgba(0,0,0,.18); }
 @media(max-width:600px) { .sacred-places { grid-template-columns:1fr; gap:10px; margin-top:16px; }.sacred-place { min-height:190px; }.quran-top-actions { gap:8px; }.theme-toggle { padding:8px 10px; font-size:12px; }.quran-home-link { font-size:12px; } }
+
+
+/* Complete Quran page theme coverage: every section follows the selected mode */
+.quran-page { width:100%; min-height:100vh; color:var(--q-ink); background:var(--q-bg); }
+.quran-page[data-theme="light"] { color-scheme:light; }
+.quran-page[data-theme="dark"] { color-scheme:dark; }
+.quran-page .quran-topbar,
+.quran-page .quran-heading,
+.quran-page .quran-reader,
+.quran-page .recitation-panel,
+.quran-page .surah-title,
+.quran-page .ayah-list,
+.quran-page .quran-controls,
+.quran-page .quran-source { color:var(--q-ink); }
+.quran-page .quran-topbar { background:var(--q-surface); border-bottom:1px solid var(--q-border); }
+.quran-page .quran-brand { color:var(--q-ink); }
+.quran-page .quran-heading { color:var(--q-ink); background:linear-gradient(135deg,var(--q-surface),var(--q-bg)); }
+.quran-page .quran-heading .eyebrow,
+.quran-page .recitation-heading .eyebrow { color:var(--q-gold); }
+.quran-page .quran-heading h1,
+.quran-page .recitation-heading h2,
+.quran-page .surah-title h2 { color:var(--q-ink); }
+.quran-page .quran-heading p,
+.quran-page .recitation-heading p,
+.quran-page .recitation-note,
+.quran-page .recitation-panel .reciter-label,
+.quran-page .quran-status,
+.quran-page .quran-count,
+.quran-page .quran-home-link { color:var(--q-muted); }
+.quran-page .quran-reader { background:var(--q-surface); border:1px solid var(--q-border); }
+.quran-page .quran-controls { background:transparent; color:var(--q-ink); border-color:var(--q-border); }
+.quran-page label { color:var(--q-ink); }
+.quran-page select,
+.quran-page input,
+.quran-page textarea { color:var(--q-ink); background:var(--q-card); border-color:var(--q-border); }
+.quran-page select option { color:var(--q-ink); background:var(--q-card); }
+.quran-page .recitation-panel { color:var(--q-ink); background:var(--q-card); border:1px solid var(--q-border); border-radius:18px; padding:20px; }
+.quran-page .recitation-symbol { color:var(--q-gold); }
+.quran-page .surah-title { color:var(--q-ink); border-color:var(--q-border); }
+.quran-page .surah-arabic-name { color:var(--q-ink); }
+.quran-page .ayah-card { color:var(--q-ink); background:var(--q-card); border-color:var(--q-border); }
+.quran-page .ayah-number { color:var(--q-ink); background:var(--q-bg); border-color:var(--q-border); }
+.quran-page .ayah-reference { color:var(--q-gold); }
+.quran-page .ayah-arabic { color:var(--q-ink); }
+.quran-page .ayah-translation { color:var(--q-ink); background:var(--q-bg); border-color:var(--q-gold); }
+.quran-page .ayah-audio-row { color:var(--q-muted); border-color:var(--q-border); }
+.quran-page audio { color-scheme:normal; max-width:100%; }
+.quran-page .quran-error { color:#b42318; background:rgba(180,35,24,.08); border-color:rgba(180,35,24,.25); }
+.quran-page[data-theme="dark"] .quran-error { color:#ffb4aa; background:rgba(255,100,85,.1); border-color:rgba(255,150,130,.25); }
+.quran-page .quran-footer { color:#f5f2e8; background:#102f26; }
+.quran-page[data-theme="dark"] .quran-footer { color:#f5f2e8; background:#09130f; border-top:1px solid #34483e; }
+.quran-page .theme-toggle { color:var(--q-ink); background:var(--q-card); border-color:var(--q-border); }
+.quran-page[data-theme="dark"] .sacred-place { box-shadow:0 14px 34px rgba(0,0,0,.35); }
+.quran-page[data-theme="dark"] .ayah-card { box-shadow:0 10px 28px rgba(0,0,0,.18); }
+.quran-page *, .quran-page *::before, .quran-page *::after { transition:background-color .22s ease,border-color .22s ease,color .22s ease,box-shadow .22s ease; }
+@media(prefers-reduced-motion:reduce) { .quran-page *, .quran-page *::before, .quran-page *::after { transition:none !important; } }
