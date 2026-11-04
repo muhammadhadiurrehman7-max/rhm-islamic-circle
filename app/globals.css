@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
 :root { --ink: #17352d; --muted: #687b73; --green: #174b3c; --mint: #eaf2ed; --gold: #c59a55; --paper: #fbfaf6; }
 * { box-sizing: border-box; }
@@ -135,7 +135,6 @@ button { font: inherit; cursor: pointer; }
 
 
 /* Quran reader: refined typography, sacred-place photography and themes */
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 .quran-page { --q-bg:#f6f4ed; --q-surface:#fffefa; --q-card:#fff; --q-ink:#17352d; --q-muted:#687b73; --q-border:#e5e8df; --q-gold:#c59a55; min-height:100vh; color:var(--q-ink); background:var(--q-bg); transition:background .25s ease,color .25s ease; }
 .quran-page[data-theme="dark"] { --q-bg:#101d19; --q-surface:#172821; --q-card:#1c3028; --q-ink:#f0eee4; --q-muted:#bdc9c0; --q-border:#34483e; --q-gold:#d9b878; }
 .quran-page .quran-topbar,.quran-page .quran-reader { background:var(--q-card); border-color:var(--q-border); }
