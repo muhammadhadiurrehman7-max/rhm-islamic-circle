@@ -35,3 +35,31 @@ button { font: inherit; cursor: pointer; }
 .footer { padding:30px clamp(20px,8vw,120px); background:#102f26; color:#dce8e0; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; font-size:13px; }
 @media(max-width:850px){.nav-links{display:none}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.daily{grid-template-columns:1fr}}
 @media(max-width:560px){.site-header{padding:16px 18px}.brand{font-size:14px}.nav-actions .btn-light{display:none}.hero{padding-top:60px}.cards{grid-template-columns:1fr}.section-heading{display:block}.daily{padding:24px}.footer{display:block}.footer span{display:block;margin:8px 0}}
+
+
+/* Public Quran reader */
+.quran-page { min-height:100vh; background:#fbfaf6; }
+.quran-topbar { display:flex; align-items:center; justify-content:space-between; padding:18px clamp(20px,6vw,88px); background:#fff; border-bottom:1px solid #e9eee9; }
+.quran-brand { display:flex; align-items:center; gap:12px; font-weight:700; }
+.quran-home-link { color:#53675e; font-size:14px; }
+.quran-heading { text-align:center; padding:58px 20px 34px; background:linear-gradient(135deg,#f8f8f1,#edf3ed); }
+.quran-heading h1 { margin:12px 0; font:600 clamp(34px,5vw,54px)/1.12 "Playfair Display",serif; color:#17352d; }
+.quran-heading p { max-width:620px; margin:0 auto; color:#62756c; line-height:1.7; }
+.quran-reader { width:min(900px,calc(100% - 32px)); margin:30px auto 60px; padding:clamp(18px,4vw,34px); background:#fff; border:1px solid #e8ede8; border-radius:22px; box-shadow:0 12px 40px rgba(23,53,45,.05); }
+.quran-controls { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding-bottom:22px; border-bottom:1px solid #edf0ec; }
+.quran-controls label { font-size:14px; font-weight:700; }
+.quran-controls select { flex:1; min-width:220px; padding:12px 14px; border:1px solid #d9e3dc; border-radius:12px; background:#fff; color:#17352d; font:inherit; }
+.quran-count { color:#687b73; font-size:13px; }
+.quran-status,.quran-error { padding:28px 10px; text-align:center; color:#687b73; }
+.quran-error { color:#9b3c32; }
+.surah-title { text-align:center; padding:30px 10px 18px; border-bottom:1px solid #edf0ec; }
+.surah-arabic-name { display:block; color:#9b783e; font-family:serif; font-size:34px; }
+.surah-title h2 { margin:10px 0 4px; font:600 28px "Playfair Display",serif; }
+.surah-title p { margin:0; color:#687b73; font-size:13px; }
+.ayah { position:relative; padding:28px 4px; border-bottom:1px solid #edf0ec; }
+.ayah-number { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:#eaf2ed; color:#174b3c; font-size:12px; font-weight:700; }
+.ayah-arabic { margin:18px 0; color:#17352d; font-family:"Times New Roman",serif; font-size:clamp(25px,4vw,34px); line-height:2.05; text-align:right; }
+.ayah-translation { margin:0; color:#53675e; font-size:16px; line-height:1.9; }
+.quran-source { margin:24px 0 0; color:#7c8c83; font-size:12px; line-height:1.6; text-align:center; }
+.quran-footer { padding:24px 20px; background:#102f26; color:#dce8e0; text-align:center; font-size:12px; }
+@media(max-width:560px){.quran-topbar{padding:14px 18px}.quran-brand{font-size:14px}.quran-heading{padding:44px 20px 28px}.quran-controls{align-items:stretch;flex-direction:column}.quran-controls select{width:100%;min-width:0}.ayah{padding:22px 0}}
