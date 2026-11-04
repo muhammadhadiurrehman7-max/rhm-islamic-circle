@@ -29,13 +29,13 @@ export default function DonatePage() {
   return (
     <main className="donate-page">
       <header className="quran-topbar">
-        <a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</a>
+        <a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</a>
         <a className="quran-home-link" href="/">Back to home</a>
       </header>
       <section className="donate-heading">
         <div className="eyebrow">Support the circle</div>
         <h1>Support Islamic learning</h1>
-        <p>If you wish to support RHM Islamic Circle, you can use one of the payment details below. Please verify the recipient and details in your banking app before confirming any transfer.</p>
+        <p>If you wish to support RHM Islam 360, you can make a voluntary contribution using one of the payment details below. Bank and wallet transfers are sent directly to the recipient account you select; they are not processed by the website.</p>
       </section>
       <section className="donation-options" aria-label="Donation payment details">
         <article className="donation-card">
@@ -57,8 +57,12 @@ export default function DonatePage() {
           <CopyValue value="000882001645812" label="Soneri Bank account number" />
         </article>
       </section>
-      <p className="donation-note">Before sending a donation, confirm the account name shown by your payment provider. Never share your PIN, password, or one-time verification code with anyone.</p>
-      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+      <section className="donate-heading">
+        <h2>How contributions support the project</h2>
+        <p>Voluntary contributions can help with website hosting, app development, accessibility, and creating free Islamic learning resources. No payment is required to access the basic learning content.</p>
+      </section>
+      <p className="donation-note">Before sending money, verify the recipient account title and details in your own banking or wallet app. Keep your transfer receipt. Never share your PIN, password, or one-time verification code. Donations are voluntary and are not represented as tax-deductible.</p>
+      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
     </main>
   );
 }
