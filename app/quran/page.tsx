@@ -157,7 +157,22 @@ export default function QuranPage() {
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{chapter.editions[1]?.ayahs[index]?.text || "Translation unavailable for this Ayah."}</p>
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
-                    <audio controls preload="none" src={`https://cdn.islamic.network/quran/audio/128/${selectedReciter}/${ayah.number}.mp3`} aria-label={`Play Surah ${selected}, Ayah ${ayah.numberInSurah}`}>
+                    <audio
+                      controls
+                      preload="none"
+                      src={`https://cdn.islamic.network/quran/audio/128/${selectedReciter}/${ayah.number}.mp3`}
+                      aria-label={`Play Surah ${selected}, Ayah ${ayah.numberInSurah}`}
+                      onPlay={(event) => {
+                        event.currentTarget.closest(".ayah-card")?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }}
+                      onEnded={(event) => {
+                        const currentAyah = event.currentTarget.closest(".ayah-card");
+                        const nextAyah = currentAyah?.nextElementSibling;
+                        if (nextAyah instanceof HTMLElement) {
+                          nextAyah.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }
+                      }}
+                    >
                       Your browser does not support audio playback.
                     </audio>
                   </div>
