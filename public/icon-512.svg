@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="RHM Islamic Circle app icon">
+  <rect width="512" height="512" rx="112" fill="#123d32"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#d7b66d" stroke-width="10" opacity=".9"/>
+  <path d="M330 105a151 151 0 1 0 77 257A166 166 0 1 1 330 105Z" fill="#e7ca83"/>
+  <path d="M126 350h260v27H126z" fill="#e7ca83"/>
+  <path d="M163 350V264l37-30 37 30v86M274 350V264l37-30 37 30v86" fill="none" stroke="#f7f5ed" stroke-width="15" stroke-linejoin="round"/>
+  <path d="M184 264v-25a16 16 0 0 1 32 0v25M295 264v-25a16 16 0 0 1 32 0v25" fill="none" stroke="#f7f5ed" stroke-width="12"/>
+  <path d="M238 350v-56a18 18 0 0 1 36 0v56" fill="none" stroke="#e7ca83" stroke-width="12"/>
+  <text x="256" y="425" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700" letter-spacing="4" fill="#f7f5ed">RHM</text>
+</svg>
