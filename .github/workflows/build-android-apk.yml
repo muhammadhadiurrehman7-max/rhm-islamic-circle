@@ -1,0 +1,63 @@
+name: Build RHM Islam 360 Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "capacitor.config.ts"
+      - "www/**"
+      - ".github/workflows/build-android-apk.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Capacitor tools
+        run: npm install --no-save @capacitor/core@^7 @capacitor/cli@^7 @capacitor/android@^7
+
+      - name: Generate Android project
+        run: npx cap add android
+
+      - name: Apply RHM Islam 360 launcher icon
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          convert public/icon-512.svg -background none -resize 512x512 /tmp/rhm-icon.png
+          find android/app/src/main/res -type f \( -name 'ic_launcher.png' -o -name 'ic_launcher_round.png' \) -print0 | while IFS= read -r -d '' file; do
+            size=$(identify -format '%wx%h' "$file")
+            convert /tmp/rhm-icon.png -resize "$size" "$file"
+          done
+
+      - name: Build installable debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: RHM-Islam-360-Android-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
