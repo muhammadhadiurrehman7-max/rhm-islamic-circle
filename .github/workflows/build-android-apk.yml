@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out project
         uses: actions/checkout@v4
@@ -33,6 +33,9 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools;platforms;android-35;build-tools;35.0.0
+          accept-android-sdk-licenses: true
 
       - name: Install Capacitor tools
         run: npm install --no-save @capacitor/core@^7 @capacitor/cli@^7 @capacitor/android@^7
