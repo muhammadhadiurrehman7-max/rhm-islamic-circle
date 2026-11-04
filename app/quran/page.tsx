@@ -140,47 +140,13 @@ export default function QuranPage() {
           <p>Learn the essentials, read the Qur’an, and explore Hadith and beginner Arabic lessons — all within RHM Islamic Circle.</p>
         </div>
         <div className="faith-card-grid">
-          <article className="faith-card"><span className="faith-icon">☪</span><h3>What is Islam?</h3><p>Understand Tawheed — worshipping Allah alone — and the purpose of faith, worship and good character.</p><a href="#surah-ikhlas">Explore the meaning of Surah Al-Ikhlas →</a></article>
-          <article className="faith-card"><span className="faith-icon">✦</span><h3>The Five Pillars</h3><p>Learn about Shahadah, Salah, Zakah, Sawm and Hajj, the foundations of Muslim practice.</p><a href="#five-pillars">Explore the five pillars →</a></article>
-          <article className="faith-card"><span className="faith-icon">❖</span><h3>The Six Articles of Iman</h3><p>Explore the six core beliefs that shape a Muslim’s faith.</p><a href="#six-articles">Explore the articles of faith →</a></article>
-          <article className="faith-card"><span className="faith-icon">۞</span><h3>Qur’an and Sunnah</h3><p>Read the Qur’an in Arabic with available translations and listen to recitation.</p><a href="#quran-reader">Open the RHM Qur’an reader →</a></article>
-          <article className="faith-card"><span className="faith-icon">♡</span><h3>Character and daily life</h3><p>Discover Islamic guidance on honesty, patience, mercy, family, neighbours and helping others.</p><a href="#good-character">Explore good character →</a></article>
-          <article className="faith-card"><span className="faith-icon">📚</span><h3>Hadith and Sunnah</h3><p>Study narrations from major Hadith collections in Arabic, Urdu and English.</p><a href="/hadith#hadith-reader">Open the RHM Hadith library →</a></article>
-          <article className="faith-card"><span className="faith-icon">ا ب</span><h3>Beginner’s Qaida</h3><p>Start learning Arabic letters, vowel signs and basic reading rules.</p><a href="/hadith#qaida-lessons">Open beginner Qaida lessons →</a></article>
-        </div>
-        <div className="faith-detail" id="surah-ikhlas">
-          <span className="eyebrow">Tawheed · The Oneness of Allah</span>
-          <h3>What is Islam?</h3>
-          <p>Islam means willing submission to Allah. Its central message is to worship Allah alone, follow His guidance, believe in His messengers, and live with justice, mercy and responsibility.</p>
-          <p>Surah Al-Ikhlas (Chapter 112) is a concise declaration of Allah’s oneness and uniqueness. Use the reader below to open it in Arabic and your selected translation.</p>
-          <a className="faith-action" href="/quran?surah=112#quran-reader">Read Surah Al-Ikhlas in RHM Qur’an reader →</a>
-        </div>
-        <div className="faith-detail" id="five-pillars">
-          <span className="eyebrow">The foundations of worship</span><h3>The Five Pillars of Islam</h3>
-          <ol className="faith-list">
-            <li><strong>Shahadah — testimony of faith.</strong> Affirming that none has the right to be worshipped except Allah and that Muhammad ﷺ is His Messenger.</li>
-            <li><strong>Salah — prayer.</strong> Performing the five prescribed daily prayers.</li>
-            <li><strong>Zakah — obligatory charity.</strong> Giving the prescribed share to eligible recipients when its conditions are met.</li>
-            <li><strong>Sawm — fasting.</strong> Fasting during Ramadan from dawn to sunset, with the exemptions recognised in Islamic law.</li>
-            <li><strong>Hajj — pilgrimage.</strong> Making the pilgrimage to Makkah once in a lifetime for those who are physically and financially able.</li>
-          </ol>
-        </div>
-        <div className="faith-detail" id="six-articles">
-          <span className="eyebrow">The foundations of belief</span><h3>The Six Articles of Iman</h3>
-          <ol className="faith-list">
-            <li><strong>Belief in Allah:</strong> His existence, oneness and perfect attributes.</li>
-            <li><strong>Belief in the angels:</strong> created servants of Allah who fulfil His commands.</li>
-            <li><strong>Belief in the revealed books:</strong> the scriptures Allah revealed to His messengers, with the Qur’an as the final revelation.</li>
-            <li><strong>Belief in the messengers:</strong> those sent by Allah to guide people, including Nuh, Ibrahim, Musa, Isa and Muhammad (peace be upon them).</li>
-            <li><strong>Belief in the Last Day:</strong> resurrection, judgement and the Hereafter.</li>
-            <li><strong>Belief in divine decree (Qadar):</strong> that Allah’s knowledge and will encompass all things.</li>
-          </ol>
-        </div>
-        <div className="faith-detail" id="good-character">
-          <span className="eyebrow">Faith in everyday life</span><h3>Character and daily life</h3>
-          <p>Islam teaches truthfulness, fulfilling promises, patience, gratitude, modesty, kindness to parents, care for neighbours, generosity and avoiding harm. Good character should be reflected in how we treat every person.</p>
-          <p>The Qur’an (16:90) commands justice, excellence and giving to relatives, and forbids immorality, wrongdoing and oppression.</p>
-          <a className="faith-action" href="/quran?surah=16#quran-reader">Read Surah An-Nahl in RHM Qur’an reader →</a>
+          <article className="faith-card"><span className="faith-icon">☪</span><h3>What is Islam?</h3><p>Explore Tawheed, faith, worship, mercy and the purpose of Islam.</p><a href="/learn/what-is-islam">Open full lesson →</a></article>
+          <article className="faith-card"><span className="faith-icon">✦</span><h3>The Five Pillars</h3><p>Explore five separate explanations: Shahadah, Salah, Zakah, Sawm and Hajj.</p><a href="/learn/five-pillars">Open all five explanations →</a></article>
+          <article className="faith-card"><span className="faith-icon">❖</span><h3>The Six Articles of Iman</h3><p>Learn about the six essential beliefs of a Muslim, each explained separately.</p><a href="/learn/six-articles">Open full lesson →</a></article>
+          <article className="faith-card"><span className="faith-icon">۞</span><h3>Qur’an and Sunnah</h3><p>Understand the Qur’an, the Prophetic example and how to study them carefully.</p><a href="/learn/quran-sunnah">Open full lesson →</a></article>
+          <article className="faith-card"><span className="faith-icon">♡</span><h3>Character and daily life</h3><p>Explore honesty, patience, mercy, family rights, justice and kindness.</p><a href="/learn/character">Open full lesson →</a></article>
+          <article className="faith-card"><span className="faith-icon">📚</span><h3>Hadith and Sunnah</h3><p>Read narrations in Arabic, Urdu and English in the RHM Hadith library.</p><a href="/hadith#hadith-reader">Open Hadith library →</a></article>
+          <article className="faith-card"><span className="faith-icon">ا ب</span><h3>Beginner’s Qaida</h3><p>Learn Arabic letters, vowel signs and basic reading rules step by step.</p><a href="/hadith#qaida-lessons">Open Qaida lessons →</a></article>
         </div>
         <p className="faith-note"><strong>Learn responsibly:</strong> These are introductory learning notes, not personal religious rulings. Translation is not a substitute for the Arabic Qur’an or detailed Tafsir. For questions of Islamic law, consult a qualified, trusted scholar.</p>
       </section>
