@@ -145,13 +145,21 @@ export default function QuranPage() {
           <article className="faith-card"><span className="faith-icon">❖</span><h3>The Six Articles of Iman</h3><p>Learn about the six essential beliefs of a Muslim, each explained separately.</p><a href="/learn/six-articles">Open full lesson →</a></article>
           <article className="faith-card"><span className="faith-icon">۞</span><h3>Qur’an and Sunnah</h3><p>Understand the Qur’an, the Prophetic example and how to study them carefully.</p><a href="/learn/quran-sunnah">Open full lesson →</a></article>
           <article className="faith-card"><span className="faith-icon">♡</span><h3>Character and daily life</h3><p>Explore honesty, patience, mercy, family rights, justice and kindness.</p><a href="/learn/character">Open full lesson →</a></article>
-          <article className="faith-card"><span className="faith-icon">📚</span><h3>Hadith and Sunnah</h3><p>Read narrations in Arabic, Urdu and English in the RHM Hadith library.</p><a href="/hadith#hadith-reader">Open Hadith library →</a></article>
-          <article className="faith-card"><span className="faith-icon">ا ب</span><h3>Beginner’s Qaida</h3><p>Learn Arabic letters, vowel signs and basic reading rules step by step.</p><a href="/hadith#qaida-lessons">Open Qaida lessons →</a></article>
-          <article className="faith-card"><span className="faith-icon">🕌</span><h3>Islamic Heritage &amp; Famous Mosques</h3><p>Explore historic mosques and remarkable Islamic places across the world through photographs and history.</p><a href="/heritage">Explore famous mosques →</a></article>
+          
+          
+          
         </div>
         <p className="faith-note"><strong>Learn responsibly:</strong> These are introductory learning notes, not personal religious rulings. Translation is not a substitute for the Arabic Qur’an or detailed Tafsir. For questions of Islamic law, consult a qualified, trusted scholar.</p>
       </section>
-      <section className="quran-reader" id="quran-reader" aria-label="Quran reader">
+            <section className="faith-resources" aria-labelledby="faith-resources-title">
+        <div className="faith-resources-heading"><span className="eyebrow">More from RHM</span><h2 id="faith-resources-title">Explore other learning spaces</h2><p>These resources are separate from the Discover Islam guide. Open each one whenever you want to study a different subject.</p></div>
+        <div className="faith-resource-grid">
+          <a className="faith-resource-card" href="/hadith"><span>📚</span><h3>Hadith Library</h3><p>Explore Hadith collections and translations.</p><strong>Open Hadith ↗</strong></a>
+          <a className="faith-resource-card" href="/hadith#qaida-lessons"><span>ا ب</span><h3>Beginner’s Qaida</h3><p>Learn Arabic letters and basic reading rules.</p><strong>Open Qaida ↗</strong></a>
+          <a className="faith-resource-card" href="/heritage"><span>🕌</span><h3>Islamic Heritage</h3><p>Discover famous mosques and historic places.</p><strong>Explore heritage ↗</strong></a>
+        </div>
+      </section>
+<section className="quran-reader" id="quran-reader" aria-label="Quran reader">
         <div className="quran-controls">
           <label htmlFor="surah-select">Choose a Surah</label>
           <select id="surah-select" value={selected} onChange={(event) => setSelected(Number(event.target.value))}>
