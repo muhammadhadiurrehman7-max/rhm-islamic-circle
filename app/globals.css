@@ -286,3 +286,23 @@ button { font: inherit; cursor: pointer; }
 @media(max-width:800px){.islam-info-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:560px){.islam-info-grid{grid-template-columns:1fr;}.islam-info-card{padding:20px;}}
 .quran-page[data-theme="dark"] .islam-info-card,.quran-page[data-theme="dark"] .islam-learning-note{box-shadow:0 10px 28px rgba(0,0,0,.16);}
+
+
+/* Beginner Qaida lessons */
+.qaida-section { width:min(1120px,calc(100% - 36px)); margin:48px auto 30px; }
+.qaida-heading { max-width:720px; margin:0 auto 24px; text-align:center; }
+.qaida-heading h2 { margin:10px 0; color:var(--q-ink); font:600 clamp(28px,4vw,40px)/1.2 "Playfair Display",serif; }
+.qaida-heading p { color:var(--q-muted); line-height:1.8; }
+.qaida-lesson-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.qaida-lesson { padding:22px; border:1px solid var(--q-border); border-radius:18px; background:var(--q-card); color:var(--q-ink); }
+.qaida-step { color:var(--q-gold); font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; }
+.qaida-lesson h3 { margin:10px 0; color:var(--q-ink); font:600 20px/1.3 "Playfair Display",serif; }
+.qaida-lesson p:not(.qaida-arabic) { margin:0; color:var(--q-muted); font-size:13px; line-height:1.8; }
+.qaida-arabic { margin:14px 0; padding:12px 8px; border-radius:12px; background:var(--q-bg); color:var(--q-ink); font:500 clamp(22px,3vw,30px)/2 "Noto Naskh Arabic","Amiri",serif; text-align:center; direction:rtl; }
+.qaida-practice { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-top:18px; padding:22px; border-radius:16px; background:var(--q-card); border:1px solid var(--q-border); }
+.qaida-practice strong { color:var(--q-ink); }
+.qaida-practice p { margin:6px 0 0; max-width:700px; color:var(--q-muted); font-size:13px; line-height:1.8; }
+.qaida-practice a { flex:none; color:var(--q-gold); font-size:13px; font-weight:700; text-underline-offset:3px; }
+.qaida-disclaimer { margin:14px auto 0; max-width:900px; color:var(--q-muted); font-size:12px; line-height:1.7; text-align:center; }
+@media(max-width:850px){.qaida-lesson-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:560px){.qaida-lesson-grid{grid-template-columns:1fr;}.qaida-practice{align-items:flex-start;flex-direction:column;}.qaida-lesson{padding:19px;}}
