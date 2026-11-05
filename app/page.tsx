@@ -73,7 +73,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islam 360</span></a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="/learn">Discover Islam</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="#community">Community</a><a href="#about">About</a>
+          <a href="/learn">Discover Islam</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="/duas">Daily Duas</a><a href="/duas">Daily Duas</a><a href="/qaida">Qaida</a><a href="#community">Community</a><a href="#about">About</a>
         </nav>
         <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
@@ -112,7 +112,7 @@ export default function Home() {
         </div>
         <div className="faith-entry-grid">
           <a className="faith-entry-card faith-entry-main" href="/learn"><span className="faith-entry-icon">☪</span><span className="faith-entry-label">Start here</span><h3>Discover Islam</h3><p>Explore the foundations of faith, the Five Pillars, articles of Iman, Qur’an, Sunnah and Islamic character.</p><strong>Enter the learning guide ↗</strong></a>
-          <a className="faith-entry-card" href="/hadith"><span className="faith-entry-icon">۞</span><h3>Hadith Library</h3><p>Explore Hadith collections with Arabic and available translations.</p><strong>Open Hadith library ↗</strong></a>
+          <a className="faith-entry-card" href="/hadith"><span className="faith-entry-icon">۞</span><h3>Hadith Library</h3><p>Explore Hadith collections with Arabic and available translations. Search by exact narration number or text.</p><strong>Open Hadith library ↗</strong></a>\n          <a className="faith-entry-card" href="/duas"><span className="faith-entry-icon">🤲</span><h3>Daily Duas</h3><p>Learn daily supplications from the Qur’an and Sunnah with Arabic, Urdu, English and clear references.</p><strong>Explore daily duas ↗</strong></a>
           <a className="faith-entry-card" href="/daily-life"><span className="faith-entry-icon">☪</span><h3>Everyday Muslim Life</h3><p>Learn Wudu, Ghusl, cleanliness, prayer preparation, Qibla direction and daily Islamic manners.</p><strong>Open daily-life guide ↗</strong></a>
           <a className="faith-entry-card" href="/qaida"><span className="faith-entry-icon">ا ب</span><h3>Beginner’s Qaida</h3><p>Start learning Arabic letters and basic reading rules.</p><strong>Open Qaida lessons ↗</strong></a>
           <a className="faith-entry-card" href="/heritage"><span className="faith-entry-icon">🕌</span><h3>Islamic Heritage</h3><p>Discover historic mosques and important places around the world.</p><strong>Explore the gallery ↗</strong></a>
