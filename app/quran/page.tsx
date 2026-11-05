@@ -29,6 +29,48 @@ export default function QuranPage() {
     if (Number.isInteger(requestedSurah) && requestedSurah >= 1 && requestedSurah <= 114) setSelected(requestedSurah);
   }, []);
 
+
+  // Keep one listening volume across the Surah player and every Ayah player.
+  useEffect(() => {
+    const storageKey = "rhm-quran-audio-volume";
+    const stored = Number(window.localStorage.getItem(storageKey));
+    const initialVolume = Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : 1;
+
+    const applyVolume = (root: ParentNode, volume: number) => {
+      if (root instanceof HTMLAudioElement && root.volume !== volume) root.volume = volume;
+      root.querySelectorAll("audio").forEach((audio) => {
+        if (audio.volume !== volume) audio.volume = volume;
+      });
+    };
+
+    applyVolume(document, initialVolume);
+
+    const handleVolumeChange = (event: Event) => {
+      const changedAudio = event.target;
+      if (!(changedAudio instanceof HTMLAudioElement)) return;
+      const volume = changedAudio.volume;
+      window.localStorage.setItem(storageKey, String(volume));
+      document.querySelectorAll("audio").forEach((audio) => {
+        if (audio !== changedAudio && audio.volume !== volume) audio.volume = volume;
+      });
+    };
+
+    document.addEventListener("volumechange", handleVolumeChange);
+    const observer = new MutationObserver((records) => {
+      const saved = Number(window.localStorage.getItem(storageKey));
+      const volume = Number.isFinite(saved) && saved >= 0 && saved <= 1 ? saved : initialVolume;
+      records.forEach((record) => record.addedNodes.forEach((node) => {
+        if (node instanceof HTMLElement) applyVolume(node, volume);
+      }));
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      document.removeEventListener("volumechange", handleVolumeChange);
+      observer.disconnect();
+    };
+  }, []);
+
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("rhm-quran-theme");
     if (savedTheme === "dark" || savedTheme === "light") setTheme(savedTheme);
