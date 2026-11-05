@@ -253,7 +253,7 @@ export default function QuranPage() {
                     <span className="ayah-number">{ayah.numberInSurah}</span>
                     <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
                   </div>
-                  <p className="ayah-arabic" lang="ar" dir="rtl">{ayah.text}</p>
+                  <p className="ayah-arabic" lang="ar" dir="rtl">{ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
