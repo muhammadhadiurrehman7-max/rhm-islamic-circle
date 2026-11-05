@@ -154,7 +154,7 @@ export default function DailyDuasPage() {
           <label htmlFor="duas-category">Browse by source</label>
           <select id="duas-category" value={category} onChange={(event) => setCategory(event.target.value)}><option>All</option><option>Qur'anic duas</option><option>Prophetic Sunnah</option></select>
           <label htmlFor="duas-language">Meaning language</label>
-          <select id="duas-language" value={language} onChange={(event) => setLanguage(event.target.value)}><option value="both">Urdu + English</option><option value="ur">Urdu</option><option value="en">English</option></select>
+          <select id="duas-language" value={language} onChange={(event) => { const value = event.target.value; if (value === "both" || value === "en" || value === "ur") setLanguage(value); }}><option value="both">Urdu + English</option><option value="ur">Urdu</option><option value="en">English</option></select>
         </div>
         <p className="duas-count" aria-live="polite">{filtered.length} supplications found</p>
         {filtered.map((dua) => <article className="dua-card" key={dua.id}>
