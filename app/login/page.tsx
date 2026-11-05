@@ -54,6 +54,7 @@ export default function LoginPage() {
           <button className="btn btn-primary" disabled={busy} type="submit">{busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}</button>
         </form>
         {message && <p role="status" style={{ padding: 12, background: "#edf3ed", borderRadius: 12, fontSize: 14 }}>{message}</p>}
+        {mode === "signin" && <p style={{ marginTop: 12, fontSize: 14 }}><Link href="/forgot-password" style={{ color: "var(--green)", fontWeight: 700 }}>Forgot your password?</Link></p>}
         <p style={{ fontSize: 14, color: "var(--muted)", marginTop: 22 }}>
           {mode === "signin" ? "New to the circle? " : "Already have an account? "}
           <button type="button" onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setMessage(""); }} style={{ border: 0, background: "none", color: "var(--green)", fontWeight: 700 }}>
