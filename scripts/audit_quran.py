@@ -55,7 +55,7 @@ def parse_api(payload: str) -> dict[tuple[int, int], str]:
             key = (sn, int(ayah["numberInSurah"]))
             if key in records:
                 raise ValueError(f"Duplicate API key {key}")
-            records[key] = ayah["text"]
+            records[key] = ayah["text"].lstrip("\ufeff")
     if not records:
         raise ValueError("AlQuran Cloud response could not be parsed.")
     return records
