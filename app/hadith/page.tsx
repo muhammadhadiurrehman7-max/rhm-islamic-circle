@@ -19,7 +19,7 @@ export default function HadithPage() {
     .catch(()=>{if(live){setItems([]);setArabic([]);setError("This edition could not be loaded. Please try another collection or language.");}})
     .finally(()=>{if(live)setLoading(false);});return()=>{live=false;};
   },[book,lang]);
-  const filtered=useMemo(()=>{const q=query.trim().toLocaleLowerCase();const exactNumber=q.match(/^(?:hadith\\s*)?#?\\s*(\\d+)$/i)?.[1];return items.filter((h,i)=>{const number=String(h.hadithnumber??i+1);if(!q)return true;if(exactNumber)return number===exactNumber;return number.toLocaleLowerCase().includes(q)||String(h.text??"").toLocaleLowerCase().includes(q);});},[items,query]);
+  const filtered=useMemo(()=>{const q=query.trim().toLocaleLowerCase();const exactNumber=q.match(/^(?:hadith\s*)?#?\s*(\d+)$/i)?.[1];return items.filter((h,i)=>{const number=String(h.hadithnumber??i+1);if(!q)return true;if(exactNumber)return number===exactNumber;return number.toLocaleLowerCase().includes(q)||String(h.text??"").toLocaleLowerCase().includes(q);});},[items,query]);
   const arabicByNumber=useMemo(()=>new Map(arabic.map((entry,i)=>[String(entry.hadithnumber??i+1),entry.text||""])),[arabic]);
   const bookName=books.find(b=>b.id===book)?.name||book;
   return <main className="quran-page hadith-page" data-theme={theme}>
