@@ -131,6 +131,7 @@ export default function QuranPage() {
   }, []);
 
   const surahAudioUrl = `https://cdn.islamic.network/quran/audio-surah/128/${selectedReciter}/${selected}.mp3`;
+  const translationByAyah = new Map((chapter?.editions[1]?.ayahs ?? []).map((ayah) => [ayah.numberInSurah, ayah.text]));
 
   useEffect(() => {
     let active = true;
@@ -246,14 +247,14 @@ export default function QuranPage() {
               <p>{chapter.editions[1]?.edition?.englishName || chapter.editions[1]?.edition?.name || selectedTranslation} · {chapter.editions[1]?.edition?.language?.toUpperCase() || "Translation"}</p>
             </div>
             <div className="ayah-list">
-              {chapter.editions[0].ayahs.map((ayah, index) => (
+              {chapter.editions[0].ayahs.map((ayah) => (
                 <article className="ayah ayah-card" key={ayah.numberInSurah}>
                   <div className="ayah-card-top">
                     <span className="ayah-number">{ayah.numberInSurah}</span>
                     <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
                   </div>
                   <p className="ayah-arabic" lang="ar" dir="rtl">{ayah.text}</p>
-                  <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{chapter.editions[1]?.ayahs[index]?.text || "Translation unavailable for this Ayah."}</p>
+                  <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
                     <audio
