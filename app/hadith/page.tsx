@@ -19,7 +19,7 @@ export default function HadithPage() {
     .catch(()=>{if(live){setItems([]);setArabic([]);setError("This edition could not be loaded. Please try another collection or language.");}})
     .finally(()=>{if(live)setLoading(false);});return()=>{live=false;};
   },[book,lang]);
-  const filtered=useMemo(()=>{const q=query.trim().toLocaleLowerCase();return items.filter((h,i)=>!q||String(h.hadithnumber??i+1).includes(q)||String(h.text??"").toLocaleLowerCase().includes(q));},[items,query]);
+  const filtered=useMemo(()=>{const q=query.trim().toLocaleLowerCase();const exactNumber=q.match(/^(?:hadith\\s*)?#?\\s*(\\d+)$/i)?.[1];return items.filter((h,i)=>{const number=String(h.hadithnumber??i+1);if(!q)return true;if(exactNumber)return number===exactNumber;return number.toLocaleLowerCase().includes(q)||String(h.text??"").toLocaleLowerCase().includes(q);});},[items,query]);
   const arabicByNumber=useMemo(()=>new Map(arabic.map((entry,i)=>[String(entry.hadithnumber??i+1),entry.text||""])),[arabic]);
   const bookName=books.find(b=>b.id===book)?.name||book;
   return <main className="quran-page hadith-page" data-theme={theme}>
@@ -28,7 +28,7 @@ export default function HadithPage() {
     <section className="quran-reader hadith-reader" id="hadith-reader"><div className="hadith-controls">
       <label htmlFor="hadith-book">Collection</label><select id="hadith-book" value={book} onChange={e=>setBook(e.target.value)}>{books.map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select>
       <label htmlFor="hadith-lang">Language</label><select id="hadith-lang" value={lang} onChange={e=>setLang(e.target.value)}><option value="urd">Urdu</option><option value="eng">English</option><option value="ara">Arabic</option></select>
-      <label htmlFor="hadith-search">Search text or number</label><input id="hadith-search" type="search" value={query} onChange={e=>{setQuery(e.target.value);setLimit(50);}} placeholder="Search Hadith…"/>
+      <label htmlFor="hadith-search">Search text or number</label><input id="hadith-search" type="search" value={query} onChange={e=>{setQuery(e.target.value);setLimit(50);}} placeholder="Exact Hadith number (e.g. 52) or search words…"/>
     </div><p className="hadith-count">{loading?"Loading…":filtered.length+" matching narrations · Showing "+Math.min(limit,filtered.length)}</p>
     {loading&&<p className="quran-status">Loading Hadith collection…</p>}{error&&<div className="quran-error" role="alert">{error}</div>}
     {!loading&&!error&&filtered.slice(0,limit).map((h,i)=>{const no=h.hadithnumber??i+1;const ar=lang==="ara"?h.text:arabicByNumber.get(String(no));const grades=h.grades?.map(g=>[g.name,g.grade].filter(Boolean).join(": ")).join(" · ");return <article className="hadith-card" key={book+lang+no}><div className="ayah-card-top"><span className="ayah-number">{no}</span><span className="ayah-reference">{bookName}</span></div>{ar&&<p className="hadith-arabic" lang="ar" dir="rtl">{ar}</p>}{lang!=="ara"&&<p className={lang==="urd"?"hadith-translation hadith-urdu":"hadith-translation"} lang={lang==="urd"?"ur":"en"} dir={lang==="urd"?"rtl":"ltr"}>{h.text}</p>}<div className="hadith-meta"><span>Reference: {bookName}, Hadith {no}</span>{grades&&<span>Grade supplied by source: {grades}</span>}</div></article>;})}
