@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: "RHM Islam 360 | Quran, Hadith & Complete Islamic Learning",
     template: "%s | RHM Islam 360",
   },
-  description: "Explore the Holy Quran, learn Islam, study the Five Pillars and Articles of Iman, read Hadith, begin Arabic Qaida lessons, and discover famous mosques with RHM Islam 360.",
+  description: "Explore the Holy Quran, learn Islam, study the Five Pillars and Articles of Iman, read Hadith, learn daily duas with references, begin Arabic Qaida lessons, and discover famous mosques with RHM Islam 360.",
   applicationName: "RHM Islam 360",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "RHM Islam 360", statusBarStyle: "default" },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   keywords: [
     "RHM Islam 360", "Quran online", "read Quran", "Islamic learning",
     "learn Islam for beginners", "Five Pillars of Islam", "Six Articles of Iman",
-    "Hadith library", "Arabic Qaida lessons", "Islamic history", "famous mosques",
+    "Hadith library", "Daily duas", "Islamic supplications", "Arabic Qaida lessons", "Islamic history", "famous mosques",
     "Quran Urdu translation"
   ],
   alternates: { canonical: "/" },
