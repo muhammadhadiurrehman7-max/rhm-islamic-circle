@@ -1,0 +1,37 @@
+name: Independent Quran text audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/quran/**"
+      - "scripts/audit_quran.py"
+      - ".github/workflows/independent-quran-audit.yml"
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare-quran-text:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compare all Quran verses against Tanzil Uthmani
+        run: python scripts/audit_quran.py
+      - name: Upload comparison report even when differences are found
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rhm-quran-independent-audit
+          path: audit-results/
+          if-no-files-found: warn
+          retention-days: 90
