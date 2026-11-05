@@ -6,6 +6,7 @@ Discrepancy detector only. It never edits sacred text and does not use fuzzy mat
 from __future__ import annotations
 import json
 import sys
+import csv
 from difflib import SequenceMatcher
 from collections import Counter
 import unicodedata
@@ -120,6 +121,17 @@ def main() -> int:
     for key, a, b in different:
         lines += [f"### {key[0]}:{key[1]}", describe(a, b), ""]
     (output / "quran-comparison.md").write_text("\n".join(lines), encoding="utf-8")
+    with (output / "quran-discrepancy-review.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(["surah", "ayah", "review_status", "unicode_edit_patterns"])
+        for (surah, ayah), a, b in different:
+            edits = []
+            for tag, i1, i2, j1, j2 in SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
+                if tag != "equal":
+                    old = " ".join(f"U+{ord(ch):04X}" for ch in a[i1:i2]) or "(none)"
+                    new = " ".join(f"U+{ord(ch):04X}" for ch in b[j1:j2]) or "(none)"
+                    edits.append(f"{tag}: {old} -> {new}")
+            writer.writerow([surah, ayah, "Needs qualified human review", "; ".join(edits)])
     summary = {
         "reference_verses": len(reference), "app_verses": len(candidate),
         "exact_matches": len(exact), "nfc_equivalent_raw_differences": len(nfc_only),
