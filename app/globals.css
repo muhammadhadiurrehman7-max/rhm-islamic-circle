@@ -588,3 +588,35 @@ html[data-site-theme="dark"] .pwa-install-card span { color:#bdc9c0; }
   .pwa-install-card { bottom:74px; align-items:flex-start; gap:10px; padding:13px; }
   .pwa-install-card button { padding:10px 12px; }
 }
+
+
+/* Daily Duas learning library */
+.duas-reader { max-width:1040px; }
+.duas-intro { margin:0 0 22px; padding:20px 22px; border-radius:16px; background:var(--q-bg); color:var(--q-ink); }
+.duas-intro strong { font:600 20px "Playfair Display",serif; }
+.duas-intro p { margin:8px 0 0; color:var(--q-muted); line-height:1.7; }
+.duas-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; padding-bottom:20px; border-bottom:1px solid var(--q-border); }
+.duas-controls label { align-self:end; font-size:13px; font-weight:700; }
+.duas-controls input,.duas-controls select { width:100%; min-width:0; padding:12px 14px; border:1px solid var(--q-border); border-radius:12px; background:var(--q-card); color:var(--q-ink); font:inherit; }
+.duas-count { margin:18px 0; color:var(--q-muted); font-size:13px; }
+.dua-card { margin:18px 0; padding:24px clamp(16px,3vw,30px); border:1px solid var(--q-border); border-radius:20px; background:var(--q-card); color:var(--q-ink); }
+.dua-card-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+.dua-category { color:#9b783e; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+.dua-origin { color:var(--q-muted); font-size:12px; }
+.dua-card h2 { margin:18px 0 12px; font:600 22px "Playfair Display",serif; }
+.dua-arabic { margin:20px 0; font:500 clamp(27px,4.2vw,38px)/2.15 "Noto Naskh Arabic","Amiri",serif; text-align:right; color:var(--q-ink); }
+.dua-transliteration { color:var(--q-muted); font-style:italic; line-height:1.8; }
+.dua-meaning { display:flex; flex-direction:column; gap:7px; margin:14px 0; padding:15px 17px; border-radius:12px; background:var(--q-bg); color:var(--q-ink); line-height:1.8; }
+.dua-meaning strong { color:var(--q-gold); font-size:12px; letter-spacing:.04em; text-transform:uppercase; }
+.dua-meaning-ur { font:18px/2.1 "Noto Nastaliq Urdu","Noto Naskh Arabic",serif; }
+.dua-meaning-ur strong { font:700 13px "DM Sans",sans-serif; text-align:right; }
+.dua-meta { display:flex; flex-direction:column; gap:6px; margin-top:18px; padding-top:14px; border-top:1px solid var(--q-border); color:var(--q-muted); font-size:12px; line-height:1.7; }
+.dua-repetition { margin:12px 0 0; color:var(--q-gold); font-size:13px; font-weight:700; }
+.dua-occasion { color:var(--q-muted); font-size:13px; line-height:1.7; }
+.dua-scholar-note { padding:12px 14px; border-left:3px solid var(--q-gold); background:var(--q-bg); color:var(--q-muted); font-size:12px; line-height:1.7; }
+.dua-source-link { display:inline-flex; margin-top:8px; color:var(--q-gold); font-size:13px; font-weight:700; }
+.duas-editorial-note { width:min(1040px,calc(100% - 32px)); margin:0 auto 54px; padding:24px; border:1px solid var(--q-border); border-radius:18px; background:var(--q-surface); color:var(--q-ink); }
+.duas-editorial-note h2 { margin:0 0 12px; font:600 24px "Playfair Display",serif; }
+.duas-editorial-note p { color:var(--q-muted); font-size:13px; line-height:1.8; }
+.duas-caution { padding-top:12px; border-top:1px solid var(--q-border); }
+@media(max-width:600px) { .duas-controls { grid-template-columns:1fr; }.dua-card { padding:18px 14px; }.duas-editorial-note { padding:18px; } }
