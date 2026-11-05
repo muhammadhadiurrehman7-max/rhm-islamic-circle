@@ -13,7 +13,7 @@ Do not describe the entire Quran or Hadith library as independently verified unt
 - A mismatch is a review item, not permission for software to edit Quran text. A qualified Quran teacher/Hafiz must review each discrepancy against a recognised printed Mushaf before any source/display change.
 - GitHub Actions runs the comparison on relevant pushes and weekly, and uploads a report artifact.
 
-## Translation audit
+## Preliminary Quran comparison (first automated run)\n\nThe first full run returned 6,236 verse keys in both datasets, 5,926 exact raw-text matches and 310 string differences. One difference was an invisible U+FEFF byte-order mark at the beginning of the first API verse; this is an encoding signature, not Quran text. The audit script now removes that transport marker only before comparing, and the reader hides it at display time. The remaining differences must be classified and reviewed; no claim is made that they are errors or that they are all harmless orthographic variants.\n\n## Translation audit
 
 Translations are not the Arabic Quran and are not interchangeable. Each edition must record its exact identifier, translator, language, version, source/licence, verse-key alignment and reviewer. The Quran reader joins translation text to Arabic verses by numberInSurah, not array position.
 
