@@ -48,12 +48,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y imagemagick
           mkdir -p android/app/src/main/res/mipmap-mdpi android/app/src/main/res/mipmap-hdpi android/app/src/main/res/mipmap-xhdpi android/app/src/main/res/mipmap-xxhdpi android/app/src/main/res/mipmap-xxxhdpi
-          convert public/icon.jpg -resize 48x48 android/app/src/main/res/mipmap-mdpi/ic_launcher.png
-          convert public/icon.jpg -resize 72x72 android/app/src/main/res/mipmap-hdpi/ic_launcher.png
-          convert public/icon.jpg -resize 96x96 android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
-          convert public/icon.jpg -resize 144x144 android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
-          convert public/icon.jpg -resize 192x192 android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-          cp android/app/src/main/res/mipmap-*/ic_launcher.png /tmp/ 2>/dev/null || true
+          identify public/icon.jpg
+          convert public/icon.jpg -resize 48x48\! android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          convert public/icon.jpg -resize 72x72\! android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          convert public/icon.jpg -resize 96x96\! android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          convert public/icon.jpg -resize 144x144\! android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          convert public/icon.jpg -resize 192x192\! android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
           find android/app/src/main/res -type f -name 'ic_launcher_round.png' -delete
 
       - name: Build installable debug APK

@@ -17,7 +17,7 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["education", "books", "lifestyle"],
     icons: [
       { src: "/icon.jpg", sizes: "192x192", type: "image/jpeg", purpose: "any" },
-      { src: "/icon.jpg", sizes: "512x512", type: "image/jpeg", purpose: "any maskable" }
+      { src: "/icon.jpg", sizes: "192x192", type: "image/jpeg", purpose: "maskable" }
     ],
     shortcuts: [
       { name: "Read the Quran", short_name: "Quran", url: "/quran" },

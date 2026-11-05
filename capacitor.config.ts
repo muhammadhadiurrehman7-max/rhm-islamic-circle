@@ -1,6 +1,4 @@
-import type { CapacitorConfig } from "@capacitor/cli";
-
-const config: CapacitorConfig = {
+const config = {
   appId: "com.rhm.islam360",
   appName: "RHM Islam 360",
   webDir: "www",
