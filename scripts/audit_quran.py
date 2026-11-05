@@ -6,6 +6,8 @@ Discrepancy detector only. It never edits sacred text and does not use fuzzy mat
 from __future__ import annotations
 import json
 import sys
+from difflib import SequenceMatcher
+from collections import Counter
 import unicodedata
 import urllib.request
 from datetime import datetime, timezone
@@ -75,6 +77,7 @@ def main() -> int:
     ref_keys, api_keys = set(reference), set(candidate)
     missing, extra = sorted(ref_keys - api_keys), sorted(api_keys - ref_keys)
     exact, nfc_only, different = [], [], []
+    change_counter = Counter()
     for key in sorted(ref_keys & api_keys):
         a, b = reference[key], candidate[key]
         if a == b:
@@ -83,6 +86,11 @@ def main() -> int:
             nfc_only.append((key, a, b))
         else:
             different.append((key, a, b))
+            for tag, i1, i2, j1, j2 in SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
+                if tag != "equal":
+                    old = " ".join(f"U+{ord(ch):04X}" for ch in a[i1:i2]) or "(none)"
+                    new = " ".join(f"U+{ord(ch):04X}" for ch in b[j1:j2]) or "(none)"
+                    change_counter[(tag, old, new)] += 1
 
     output = Path("audit-results")
     output.mkdir(exist_ok=True)
@@ -101,8 +109,11 @@ def main() -> int:
         f"- Differences after NFC: {len(different)}",
         f"- Missing keys: {missing}",
         f"- Unexpected keys: {extra}", "",
-        "## NFC-equivalent differences"
+        "## Most common Unicode edit patterns",
     ]
+    for (tag, old, new), count in change_counter.most_common(30):
+        lines.append(f"- {count} × {tag}: {old} → {new}")
+    lines += ["", "## NFC-equivalent differences"]
     for key, a, b in nfc_only:
         lines += [f"### {key[0]}:{key[1]}", describe(a, b), ""]
     lines += ["## Differences after NFC"]
@@ -113,6 +124,7 @@ def main() -> int:
         "reference_verses": len(reference), "app_verses": len(candidate),
         "exact_matches": len(exact), "nfc_equivalent_raw_differences": len(nfc_only),
         "unicode_differences_after_nfc": len(different),
+        "most_common_unicode_edit_patterns": [{"operation": k[0], "reference_codepoints": k[1], "app_codepoints": k[2], "count": v} for k, v in change_counter.most_common(30)],
         "missing_keys": missing, "unexpected_keys": extra
     }
     (output / "quran-comparison.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
