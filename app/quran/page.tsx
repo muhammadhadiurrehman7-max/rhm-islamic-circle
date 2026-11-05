@@ -33,7 +33,8 @@ export default function QuranPage() {
   // Keep one listening volume across the Surah player and every Ayah player.
   useEffect(() => {
     const storageKey = "rhm-quran-audio-volume";
-    const stored = Number(window.localStorage.getItem(storageKey));
+    const storedValue = window.localStorage.getItem(storageKey);
+    const stored = storedValue === null ? Number.NaN : Number(storedValue);
     const initialVolume = Number.isFinite(stored) && stored >= 0 && stored <= 1 ? stored : 1;
 
     const applyVolume = (root: ParentNode, volume: number) => {
@@ -57,7 +58,8 @@ export default function QuranPage() {
 
     document.addEventListener("volumechange", handleVolumeChange);
     const observer = new MutationObserver((records) => {
-      const saved = Number(window.localStorage.getItem(storageKey));
+      const savedValue = window.localStorage.getItem(storageKey);
+      const saved = savedValue === null ? Number.NaN : Number(savedValue);
       const volume = Number.isFinite(saved) && saved >= 0 && saved <= 1 ? saved : initialVolume;
       records.forEach((record) => record.addedNodes.forEach((node) => {
         if (node instanceof HTMLElement) applyVolume(node, volume);
