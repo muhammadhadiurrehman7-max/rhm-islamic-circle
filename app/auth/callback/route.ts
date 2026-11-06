@@ -2,7 +2,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 function safePath(value: string | null) {
-  return value && value.startsWith("/") && !value.startsWith("//") ? value : "/dashboard";
+  return value && value.startsWith("/") && !value.startsWith("//")
+    ? value
+    : "/dashboard";
 }
 
 export async function GET(request: NextRequest) {
@@ -13,8 +15,13 @@ export async function GET(request: NextRequest) {
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) return NextResponse.redirect(new URL(destination, origin));
+
+    if (!error) {
+      return NextResponse.redirect(new URL(destination, origin));
+    }
   }
 
-  return NextResponse.redirect(new URL("/login?error=confirmation", origin));
+  return NextResponse.redirect(
+    new URL("/login?error=confirmation", origin)
+  );
 }
