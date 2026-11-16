@@ -20,10 +20,18 @@ In the Vercel project `rhm-islamic-circle`, open Settings → Environment Variab
 
 Apply to Preview and Production as appropriate, then redeploy. Do not paste the secret into GitHub or ChatGPT.
 
-## 3. Test
-Open an Ayah in the Quran reader and choose **Word by word**. Without credentials, the reader displays a setup message; after valid credentials and permissions are configured, it loads word text, translation/transliteration and word audio where supplied by the API.
+## 3. Enable the complete Quran dataset
+The reader's Arabic Quran text and Surah index already cover all 114 Surahs. Word-by-word data and Tafsir are served by Quran Foundation, so their coverage depends on the API environment and dataset enabled for your app.
 
-Prelive Quran data is limited to Al-Fatihah and Al-Baqarah. Full Quran testing requires approved production API access.
+- Prelive is a test dataset and is limited to Al-Fatihah and Al-Baqarah.
+- To enable word-by-word data and Urdu Tafsir throughout all 114 Surahs, request/confirm **production** Content API access and the granular scopes approved for your app, including `content.quran.read`, `content.tafsirs.read`, and any word/translation scopes shown in your Developer Console.
+- Once production access is approved, set `QF_ENV=production` and add the same approved `QF_CLIENT_ID`, `QF_CLIENT_SECRET`, and `QF_SCOPE` values to the Vercel **Production** environment. Redeploy Production only after those values are configured.
+
+## 4. Urdu Tafsir comparison
+The Quran reader can display multiple Urdu Tafsir editions side by side for each Ayah. Select one or more editions in the Tafsir list; each passage is kept separate and labelled with the resource name/author supplied by Quran Foundation. The available writers are determined by the Urdu Tafsir resources actually returned for your API credentials—RHM must not invent missing author texts or merge different scholars' views without attribution.
+
+## 5. Test
+Open any Surah in the Quran reader and select **Word by word** and one or more **Urdu Tafsir** editions. Check the returned Arabic words, Urdu meanings, transliteration, word audio, and each scholar's Tafsir independently. Prelive can only verify the two test Surahs; full 114-Surah word/Tafsir coverage requires approved production API access.
 
 ## Official documentation
 - [Quran Foundation Content API quickstart](https://api-docs.quran.com/docs/quickstart/)
