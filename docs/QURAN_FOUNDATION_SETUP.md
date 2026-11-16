@@ -3,7 +3,7 @@
 RHM's optional word-by-word study feature uses the official Quran Foundation Content API. The client secret is used only by the Next.js server route at `/api/quran/verse`; never add it to browser code, a public `NEXT_PUBLIC_*` variable, GitHub source, or a message.
 
 ## 1. Request API access
-1. Open the [Quran Foundation Developer Console](https://quran.foundation/developer).
+1. Open the [Quran Foundation Developer Console](https://api-docs.quran.com/request-access/).
 2. Create a backend/server application.
 3. Request the Content API permissions needed for Quran verses and word data.
 4. Obtain the app's client ID and client secret.
