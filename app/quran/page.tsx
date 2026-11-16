@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 type Surah = { number: number; name: string; englishName: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string };
-type Ayah = { number: number; numberInSurah: number; text: string };
+type Ayah = { number: number; numberInSurah: number; text: string; juz?: number; page?: number };
 type Reciter = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
 type Translation = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
 type Edition = { ayahs: Ayah[]; edition?: Translation };
@@ -26,6 +26,18 @@ export default function QuranPage() {
   const [autoNextSurah, setAutoNextSurah] = useState(true);
   const [continueAfterSurah, setContinueAfterSurah] = useState(false);
   const [playbackStatus, setPlaybackStatus] = useState("");
+  const [readerQuery, setReaderQuery] = useState("");
+  const [fontScale, setFontScale] = useState(1);
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [notes, setNotes] = useState<Record<string, string>>({});
+  const [noteFor, setNoteFor] = useState<string | null>(null);
+  const [showBookmarksOnly, setShowBookmarksOnly] = useState(false);
+  const [autoNextAyah, setAutoNextAyah] = useState(true);
+  const [repeatCount, setRepeatCount] = useState(1);
+  const [repeatRemaining, setRepeatRemaining] = useState(1);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const [activeAyah, setActiveAyah] = useState<string | null>(null);
+  const [lastRead, setLastRead] = useState<string | null>(null);
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -76,6 +88,19 @@ export default function QuranPage() {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    try {
+      setBookmarks(JSON.parse(window.localStorage.getItem("rhm-quran-bookmarks") || "[]"));
+      setNotes(JSON.parse(window.localStorage.getItem("rhm-quran-notes") || "{}"));
+      setLastRead(window.localStorage.getItem("rhm-quran-last-read"));
+      const savedScale = Number(window.localStorage.getItem("rhm-quran-font-scale"));
+      if (Number.isFinite(savedScale)) setFontScale(Math.min(1.6, Math.max(.8, savedScale)));
+    } catch { /* Ignore invalid local reading preferences and start clean. */ }
+  }, []);
+  useEffect(() => { window.localStorage.setItem("rhm-quran-bookmarks", JSON.stringify(bookmarks)); }, [bookmarks]);
+  useEffect(() => { window.localStorage.setItem("rhm-quran-notes", JSON.stringify(notes)); }, [notes]);
+  useEffect(() => { window.localStorage.setItem("rhm-quran-font-scale", String(fontScale)); }, [fontScale]);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("rhm-quran-theme");
@@ -136,6 +161,15 @@ export default function QuranPage() {
 
   const surahAudioUrl = `https://cdn.islamic.network/quran/audio-surah/128/${selectedReciter}/${selected}.mp3`;
   const translationByAyah = new Map((chapter?.editions[1]?.ayahs ?? []).map((ayah) => [ayah.numberInSurah, ayah.text]));
+  const visibleAyahs = (chapter?.editions[0]?.ayahs ?? []).filter((ayah) => {
+    const key = `${selected}:${ayah.numberInSurah}`;
+    const translation = translationByAyah.get(ayah.numberInSurah) || "";
+    const term = readerQuery.trim();
+    const matchesSearch = !term || ayah.text.includes(term) || translation.toLocaleLowerCase().includes(term.toLocaleLowerCase()) || key.includes(term);
+    return matchesSearch && (!showBookmarksOnly || bookmarks.includes(key));
+  });
+  const toggleBookmark = (key: string) => setBookmarks((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key]);
+  const saveLastRead = (key: string) => { setLastRead(key); window.localStorage.setItem("rhm-quran-last-read", key); };
 
   useEffect(() => {
     let active = true;
@@ -260,6 +294,8 @@ export default function QuranPage() {
             {surahs.map((surah) => <option key={surah.number} value={surah.number}>{surah.number}. {surah.englishName} — {surah.name}</option>)}
           </select>
           {chapter && <span className="quran-count">{chapter.numberOfAyahs} Ayahs</span>}
+          <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.max(1, value - 1))} disabled={selected === 1}>← Previous Surah</button>
+          <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.min(114, value + 1))} disabled={selected === 114}>Next Surah →</button>
           <label htmlFor="translation-select">Translation language</label>
           <select id="translation-select" value={selectedTranslation} onChange={(event) => setSelectedTranslation(event.target.value)} disabled={translationsLoading || translations.length === 0}>
             {translationsLoading && <option>Loading languages…</option>}
@@ -304,6 +340,16 @@ export default function QuranPage() {
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
           <p className="recitation-note">Recitations are streamed from AlQuran Cloud. Audio availability may vary by reciter and Surah.</p>
         </section>
+        <div className="reader-tools" aria-label="Reading tools">
+          <label htmlFor="quran-search">Find in this Surah</label>
+          <input id="quran-search" type="search" value={readerQuery} onChange={(event) => setReaderQuery(event.target.value)} placeholder="Search Arabic, translation or reference (e.g. 2:5)" />
+          <button type="button" className={`reader-tool-button ${showBookmarksOnly ? "is-active" : ""}`} onClick={() => setShowBookmarksOnly((value) => !value)}>{showBookmarksOnly ? "Show all Ayahs" : `Bookmarks (${bookmarks.length})`}</button>
+          <label>Arabic size <input aria-label="Arabic text size" type="range" min="0.8" max="1.6" step="0.05" value={fontScale} onChange={(event) => setFontScale(Number(event.target.value))} /></label>
+          <label>Repeat Ayah <select value={repeatCount} onChange={(event) => setRepeatCount(Number(event.target.value))}><option value={1}>Off</option><option value={2}>2 times</option><option value={3}>3 times</option><option value={5}>5 times</option><option value={10}>10 times</option></select></label>
+          <label>Playback speed <select value={playbackRate} onChange={(event) => setPlaybackRate(Number(event.target.value))}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option><option value={2}>2×</option></select></label>
+          <label><input type="checkbox" checked={autoNextAyah} onChange={(event) => setAutoNextAyah(event.target.checked)} /> Auto-play next Ayah</label>
+          {lastRead && <button type="button" className="reader-tool-button" onClick={() => { const [surahNo, ayahNo] = lastRead.split(":").map(Number); setSelected(surahNo); window.setTimeout(() => document.getElementById(`ayah-${surahNo}-${ayahNo}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 650); }}>Resume {lastRead}</button>}
+        </div>
         {loading && <p className="quran-status">Loading Quran text…</p>}
         {error && <div className="quran-error" role="alert">{error}</div>}
         {!loading && chapter && !error && (
@@ -314,13 +360,17 @@ export default function QuranPage() {
               <p>{chapter.editions[1]?.edition?.englishName || chapter.editions[1]?.edition?.name || selectedTranslation} · {chapter.editions[1]?.edition?.language?.toUpperCase() || "Translation"}</p>
             </div>
             <div className="ayah-list">
-              {chapter.editions[0].ayahs.map((ayah) => (
-                <article className="ayah ayah-card" key={ayah.numberInSurah}>
+              {visibleAyahs.map((ayah) => {
+                const key = `${selected}:${ayah.numberInSurah}`;
+                const bookmarked = bookmarks.includes(key);
+                return (
+                <article id={`ayah-${selected}-${ayah.numberInSurah}`} className={`ayah ayah-card ${activeAyah === key ? "is-playing" : ""}`} key={ayah.numberInSurah}>
                   <div className="ayah-card-top">
                     <span className="ayah-number">{ayah.numberInSurah}</span>
                     <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
+                    <div className="ayah-actions"><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
                   </div>
-                  <p className="ayah-arabic" lang="ar" dir="rtl">{ayah.text.replace(/^\uFEFF/, "")}</p>
+                  <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
@@ -329,28 +379,36 @@ export default function QuranPage() {
                       preload="none"
                       src={`https://cdn.islamic.network/quran/audio/128/${selectedReciter}/${ayah.number}.mp3`}
                       aria-label={`Play Surah ${selected}, Ayah ${ayah.numberInSurah}`}
+                      ref={(audio) => { if (audio) audio.playbackRate = playbackRate; }}
                       onPlay={(event) => {
+                        document.querySelectorAll<HTMLAudioElement>(".quran-page audio").forEach((other) => { if (other !== event.currentTarget) other.pause(); });
+                        if (activeAyah !== key) setRepeatRemaining(repeatCount);
+                        setActiveAyah(key);
+                        saveLastRead(key);
                         event.currentTarget.closest(".ayah-card")?.scrollIntoView({ behavior: "smooth", block: "center" });
                       }}
                       onEnded={(event) => {
-                        const currentAyah = event.currentTarget.closest(".ayah-card");
-                        const nextAyah = currentAyah?.nextElementSibling;
-                        if (nextAyah instanceof HTMLElement) {
+                        if (repeatRemaining > 1) {
+                          setRepeatRemaining((remaining) => remaining - 1);
+                          event.currentTarget.currentTime = 0;
+                          event.currentTarget.play().catch(() => setPlaybackStatus("Press Play to repeat this Ayah."));
+                          return;
+                        }
+                        const nextAyah = event.currentTarget.closest(".ayah-card")?.nextElementSibling;
+                        if (autoNextAyah && nextAyah instanceof HTMLElement) {
                           nextAyah.scrollIntoView({ behavior: "smooth", block: "center" });
                           const nextAudio = nextAyah.querySelector("audio");
-                          if (nextAudio) {
-                            nextAudio.play().catch(() => {
-                              // Some browsers block chained playback; the next Ayah remains visible with its play control.
-                            });
-                          }
-                        }
+                          if (nextAudio) nextAudio.play().catch(() => setPlaybackStatus("Next Ayah is ready. Press Play to continue."));
+                        } else { setActiveAyah(null); }
                       }}
                     >
                       Your browser does not support audio playback.
                     </audio>
                   </div>
+                  {noteFor === key && <div className="ayah-note-editor"><label htmlFor={`note-${selected}-${ayah.numberInSurah}`}>Your private study note</label><textarea id={`note-${selected}-${ayah.numberInSurah}`} value={notes[key] || ""} onChange={(event) => setNotes((current) => ({ ...current, [key]: event.target.value }))} placeholder="Write a personal reflection or study note…" rows={3} /></div>}
                 </article>
-              ))}
+              ); })}
+              {visibleAyahs.length === 0 && <p className="quran-status">No Ayahs match this search or bookmark filter.</p>}
             </div>
           </>
         )}
