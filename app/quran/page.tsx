@@ -52,6 +52,7 @@ export default function QuranPage() {
   const [wordStudy, setWordStudy] = useState<Record<string, WordPart[]>>({});
   const [wordLoading, setWordLoading] = useState<string | null>(null);
   const [wordErrors, setWordErrors] = useState<Record<string, string>>({});
+  const [wordStudyMode, setWordStudyMode] = useState(false);
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -241,6 +242,28 @@ export default function QuranPage() {
     finally { setWordLoading(null); }
   };
 
+  // Load word details lazily as each Ayah approaches the viewport.
+  // This avoids firing hundreds of API requests when a long Surah opens.
+  useEffect(() => {
+    if (!wordStudyMode || !chapter || loading) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const card = entry.target as HTMLElement;
+        const key = card.dataset.ayahKey;
+        if (!key || wordStudy[key] || wordLoading === key || wordErrors[key]) return;
+        void loadWordStudy(key);
+        observer.unobserve(card);
+      });
+    }, { rootMargin: "500px 0px" });
+
+    document.querySelectorAll<HTMLElement>(".ayah-card[data-ayah-key]").forEach((card) => {
+      const key = card.dataset.ayahKey;
+      if (key && !wordStudy[key] && !wordLoading && !wordErrors[key]) observer.observe(card);
+    });
+    return () => observer.disconnect();
+  }, [wordStudyMode, chapter, loading, wordStudy, wordLoading, wordErrors, selected]);
+
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -424,6 +447,7 @@ export default function QuranPage() {
           <label htmlFor="quran-search">Find in this Surah</label>
           <input id="quran-search" type="search" value={readerQuery} onChange={(event) => setReaderQuery(event.target.value)} placeholder="Search Arabic, translation or reference (e.g. 2:5)" />
           <button type="button" className={`reader-tool-button ${showBookmarksOnly ? "is-active" : ""}`} onClick={() => setShowBookmarksOnly((value) => !value)}>{showBookmarksOnly ? "Show all Ayahs" : `Bookmarks (${bookmarks.length})`}</button>
+          <button type="button" className={`reader-tool-button ${wordStudyMode ? "is-active" : ""}`} aria-pressed={wordStudyMode} onClick={() => setWordStudyMode((enabled) => !enabled)}>{wordStudyMode ? "Word-by-word mode: On" : "Word-by-word mode: Off"}</button>
           <label>Arabic size <input aria-label="Arabic text size" type="range" min="0.8" max="1.6" step="0.05" value={fontScale} onChange={(event) => setFontScale(Number(event.target.value))} /></label>
           <label>Repeat Ayah <select value={repeatCount} onChange={(event) => setRepeatCount(Number(event.target.value))}><option value={1}>Off</option><option value={2}>2 times</option><option value={3}>3 times</option><option value={5}>5 times</option><option value={10}>10 times</option></select></label>
           <label>Playback speed <select value={playbackRate} onChange={(event) => setPlaybackRate(Number(event.target.value))}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option><option value={2}>2×</option></select></label>
@@ -444,11 +468,11 @@ export default function QuranPage() {
                 const key = `${selected}:${ayah.numberInSurah}`;
                 const bookmarked = bookmarks.includes(key);
                 return (
-                <article id={`ayah-${selected}-${ayah.numberInSurah}`} className={`ayah ayah-card ${activeAyah === key ? "is-playing" : ""}`} key={ayah.numberInSurah}>
+                <article id={`ayah-${selected}-${ayah.numberInSurah}`} className={`ayah ayah-card ${activeAyah === key ? "is-playing" : ""}`} data-ayah-key={key} key={ayah.numberInSurah}>
                   <div className="ayah-card-top">
                     <span className="ayah-number">{ayah.numberInSurah}</span>
                     <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
-                    <div className="ayah-actions"><button type="button" onClick={() => void loadWordStudy(key)}>{wordStudy[key] ? "Hide words" : wordLoading === key ? "Loading…" : "Word by word"}</button><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
+                    <div className="ayah-actions"><button type="button" onClick={() => { if (wordStudy[key]) setWordStudy((current) => { const next = { ...current }; delete next[key]; return next; }); else if (wordLoading !== key) void loadWordStudy(key); }}>{wordStudy[key] ? "Hide words" : wordLoading === key ? "Loading…" : "Show words"}</button><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
                   </div>
                   <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
