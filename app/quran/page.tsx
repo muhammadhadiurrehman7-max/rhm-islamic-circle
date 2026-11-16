@@ -5,6 +5,35 @@ import { useEffect, useRef, useState } from "react";
 type Surah = { number: number; name: string; englishName: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string };
 type Ayah = { number: number; numberInSurah: number; text: string; juz?: number; page?: number };
 type Reciter = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
+function readSurahAudioIndex(value: unknown): Record<string, number> {
+  const found: Record<string, number> = {};
+  const visit = (node: unknown, key = "") => {
+    if (Array.isArray(node)) {
+      if (/^ar\\./.test(key)) {
+        const rates = node.map(Number).filter((n) => Number.isFinite(n) && n > 0);
+        if (rates.length) found[key] = rates.includes(128) ? 128 : Math.max(...rates);
+      }
+      node.forEach((item) => visit(item));
+      return;
+    }
+    if (!node || typeof node !== "object") return;
+    const record = node as Record<string, unknown>;
+    if (typeof record.identifier === "string" && /^ar\\./.test(record.identifier)) {
+      const rates = [record.bitrate, record.bitrates, record.quality, record.qualities].flatMap((item) => Array.isArray(item) ? item : [item]).map(Number).filter((n) => Number.isFinite(n) && n > 0);
+      if (rates.length) found[record.identifier] = rates.includes(128) ? 128 : Math.max(...rates);
+    }
+    Object.entries(record).forEach(([childKey, child]) => {
+      if (/^ar\\./.test(childKey)) {
+        const candidate = child && typeof child === "object" ? child as Record<string, unknown> : {};
+        const rates = [...Object.keys(candidate), ...(Array.isArray(child) ? child : [])].map(Number).filter((n) => Number.isFinite(n) && n > 0);
+        if (rates.length) found[childKey] = rates.includes(128) ? 128 : Math.max(...rates);
+      }
+      visit(child, childKey);
+    });
+  };
+  visit(value);
+  return found;
+}
 type Translation = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
 type Edition = { ayahs: Ayah[]; edition?: Translation };
 type SurahText = { name: string; englishName: string; numberOfAyahs: number; editions: Edition[] };
@@ -23,6 +52,7 @@ export default function QuranPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reciters, setReciters] = useState<Reciter[]>([]);
+  const [surahAudioBitrates, setSurahAudioBitrates] = useState<Record<string, number>>({});
   const [selectedReciter, setSelectedReciter] = useState("ar.alafasy");
   const [recitersLoading, setRecitersLoading] = useState(true);
   const [audioError, setAudioError] = useState("");
@@ -184,25 +214,40 @@ export default function QuranPage() {
   }, [selected, selectedTafsirs.join(",")]);
 
   useEffect(() => {
-    fetch("https://api.alquran.cloud/v1/edition/format/audio")
-      .then((response) => {
-        if (!response.ok) throw new Error("Could not load reciters.");
+    let active = true;
+    Promise.all([
+      fetch("https://api.alquran.cloud/v1/edition/format/audio").then((response) => {
+        if (!response.ok) throw new Error("The Ayah reciter catalogue could not be loaded.");
         return response.json();
-      })
-      .then((data) => {
-        const arabicReciters = (data.data as Reciter[])
-          .filter((edition) => edition.identifier.startsWith("ar.") && edition.language === "ar")
-          .filter((edition) => edition.type === "versebyverse");
-        setReciters(arabicReciters);
-        if (arabicReciters.length && !arabicReciters.some((edition) => edition.identifier === selectedReciter)) {
-          setSelectedReciter(arabicReciters[0].identifier);
+      }),
+      fetch("https://cdn.islamic.network/quran/info/by-surah/info.json").then((response) => {
+        if (!response.ok) throw new Error("The full-Surah audio availability catalogue could not be loaded.");
+        return response.json();
+      }),
+    ])
+      .then(([editionData, surahIndex]) => {
+        if (!active) return;
+        const bitrates = readSurahAudioIndex(surahIndex);
+        setSurahAudioBitrates(bitrates);
+        const editions = (editionData.data as Reciter[]).filter((edition) =>
+          edition.identifier.startsWith("ar.") && edition.language === "ar"
+        );
+        // Only list reciters that the CDN explicitly indexes for complete-Surah audio.
+        const available = editions.filter((edition) => bitrates[edition.identifier]);
+        setReciters(available);
+        if (available.length && !available.some((edition) => edition.identifier === selectedReciter)) {
+          setSelectedReciter(available[0].identifier);
         }
+        if (!available.length) setAudioError("The provider did not return any matching full-Surah reciters. Ayah audio availability may still differ.");
       })
-      .catch(() => setAudioError("The reciter list is temporarily unavailable. Please try again later."))
-      .finally(() => setRecitersLoading(false));
+      .catch((error) => {
+        if (active) setAudioError(error instanceof Error ? error.message : "The reciter availability list is temporarily unavailable.");
+      })
+      .finally(() => { if (active) setRecitersLoading(false); });
+    return () => { active = false; };
   }, []);
 
-  const surahAudioUrl = `https://cdn.islamic.network/quran/audio-surah/128/${selectedReciter}/${selected}.mp3`;
+  const surahAudioUrl = `https://cdn.islamic.network/quran/audio-surah/${surahAudioBitrates[selectedReciter] || 128}/${selectedReciter}/${selected}.mp3`;
   const translationByAyah = new Map((chapter?.editions[1]?.ayahs ?? []).map((ayah) => [ayah.numberInSurah, ayah.text]));
   const visibleAyahs = (chapter?.editions[0]?.ayahs ?? []).filter((ayah) => {
     const key = `${selected}:${ayah.numberInSurah}`;
@@ -429,7 +474,7 @@ export default function QuranPage() {
             <div>
               <div className="eyebrow">Listen to the Quran</div>
               <h2>Choose a Qari / Reciter</h2>
-              <p>Select a reciter and listen to the complete selected Surah.</p>
+              <p>Only reciters listed in the provider’s full-Surah catalogue appear here. Availability and audio quality are taken from the provider’s live index.</p>
             </div>
             <span className="recitation-symbol" aria-hidden="true">♫</span>
           </div>
@@ -467,7 +512,7 @@ export default function QuranPage() {
           </audio>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
-          <p className="recitation-note">Recitations are streamed from AlQuran Cloud. Audio availability may vary by reciter and Surah.</p>
+          <p className="recitation-note">Source: AlQuran Cloud audio-edition catalogue and its full-Surah CDN index. The selected bitrate is chosen from the provider’s published availability data. Some individual Ayah files may have different availability.</p>
         </section>
         <section className="quran-search-panel" aria-label="Search the Quran">
           <form onSubmit={(event) => { event.preventDefault(); void runGlobalSearch(); }}><label htmlFor="quran-global-search">Search the entire Quran</label><input id="quran-global-search" type="search" value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search a word or phrase in the selected translation"/><button type="submit" disabled={searching || !globalSearch.trim()}>{searching ? "Searching…" : "Search Quran"}</button></form>
