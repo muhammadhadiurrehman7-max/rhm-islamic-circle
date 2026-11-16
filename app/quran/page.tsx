@@ -8,6 +8,7 @@ type Reciter = { identifier: string; name: string; englishName: string; language
 type Translation = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
 type Edition = { ayahs: Ayah[]; edition?: Translation };
 type SurahText = { name: string; englishName: string; numberOfAyahs: number; editions: Edition[] };
+type SearchMatch = { text: string; number: number; numberInSurah: number; surah: { number: number; englishName: string; name: string } };
 
 export default function QuranPage() {
   const [surahs, setSurahs] = useState<Surah[]>([]);
@@ -39,6 +40,14 @@ export default function QuranPage() {
   const [activeAyah, setActiveAyah] = useState<string | null>(null);
   const [lastRead, setLastRead] = useState<string | null>(null);
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
+  const [tafsirs, setTafsirs] = useState<Translation[]>([]);
+  const [selectedTafsir, setSelectedTafsir] = useState("");
+  const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, string>>(new Map());
+  const [globalSearch, setGlobalSearch] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchMatch[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState("");
+  const [selectedJuz, setSelectedJuz] = useState("");
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -143,6 +152,23 @@ export default function QuranPage() {
   }, []);
 
   useEffect(() => {
+    fetch("https://api.alquran.cloud/v1/edition?format=text&type=tafsir")
+      .then((response) => { if (!response.ok) throw new Error("Could not load Tafsir editions."); return response.json(); })
+      .then((data) => setTafsirs((data.data as Translation[]).filter((edition) => edition.identifier && edition.language)))
+      .catch(() => setSearchError("Tafsir choices are temporarily unavailable."));
+  }, []);
+
+  useEffect(() => {
+    if (!selectedTafsir) { setTafsirByAyah(new Map()); return; }
+    let active = true;
+    fetch(`https://api.alquran.cloud/v1/surah/${selected}/${selectedTafsir}`)
+      .then((response) => { if (!response.ok) throw new Error("Tafsir unavailable"); return response.json(); })
+      .then((data) => { if (active) setTafsirByAyah(new Map((data.data.ayahs as Ayah[]).map((ayah) => [ayah.numberInSurah, ayah.text]))); })
+      .catch(() => { if (active) setTafsirByAyah(new Map()); });
+    return () => { active = false; };
+  }, [selected, selectedTafsir]);
+
+  useEffect(() => {
     fetch("https://api.alquran.cloud/v1/edition/format/audio")
       .then((response) => {
         if (!response.ok) throw new Error("Could not load reciters.");
@@ -171,6 +197,31 @@ export default function QuranPage() {
     return matchesSearch && (!showBookmarksOnly || bookmarks.includes(key));
   });
   const toggleBookmark = (key: string) => setBookmarks((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key]);
+  const runGlobalSearch = async () => {
+    const term = globalSearch.trim();
+    if (!term) return;
+    setSearching(true); setSearchError(""); setSearchResults([]);
+    try {
+      const response = await fetch(`https://api.alquran.cloud/v1/search/${encodeURIComponent(term)}/all/${selectedTranslation}`);
+      if (!response.ok) throw new Error("Search request failed");
+      const data = await response.json();
+      setSearchResults((data.data?.matches || []) as SearchMatch[]);
+      if (!data.data?.matches?.length) setSearchError("No matching Ayahs were found in this translation.");
+    } catch { setSearchError("Search is temporarily unavailable. Please try again."); }
+    finally { setSearching(false); }
+  };
+  const jumpToJuz = async (juz: number) => {
+    setSelectedJuz(String(juz)); setSearchError("");
+    try {
+      const response = await fetch(`https://api.alquran.cloud/v1/juz/${juz}/quran-uthmani`);
+      if (!response.ok) throw new Error("Juz unavailable");
+      const data = await response.json();
+      const first = data.data.ayahs?.[0];
+      if (!first) throw new Error("Empty Juz");
+      setSelected(first.surah.number);
+      window.setTimeout(() => document.getElementById(`ayah-${first.surah.number}-${first.numberInSurah}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 700);
+    } catch { setSearchError("Could not open that Juz right now. Please try again."); }
+  };
   const saveLastRead = (key: string) => { setLastRead(key); window.localStorage.setItem("rhm-quran-last-read", key); };
 
   useEffect(() => {
@@ -298,6 +349,8 @@ export default function QuranPage() {
           {chapter && <span className="quran-count">{chapter.numberOfAyahs} Ayahs</span>}
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.max(1, value - 1))} disabled={selected === 1}>← Previous Surah</button>
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.min(114, value + 1))} disabled={selected === 114}>Next Surah →</button>
+          <label htmlFor="juz-select">Jump to Juz</label>
+          <select id="juz-select" value={selectedJuz} onChange={(event) => { if (event.target.value) void jumpToJuz(Number(event.target.value)); }}><option value="">Choose Juz (1–30)</option>{Array.from({ length: 30 }, (_, index) => <option key={index + 1} value={index + 1}>Juz {index + 1}</option>)}</select>
           <label htmlFor="translation-select">Translation language</label>
           <select id="translation-select" value={selectedTranslation} onChange={(event) => setSelectedTranslation(event.target.value)} disabled={translationsLoading || translations.length === 0}>
             {translationsLoading && <option>Loading languages…</option>}
@@ -319,6 +372,8 @@ export default function QuranPage() {
             {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
+          <label className="reciter-label" htmlFor="tafsir-select">Tafsir / Exegesis</label>
+          <select id="tafsir-select" className="reciter-select" value={selectedTafsir} onChange={(event) => setSelectedTafsir(event.target.value)}><option value="">Do not show Tafsir</option>{tafsirs.map((edition) => <option key={edition.identifier} value={edition.identifier}>{edition.language.toUpperCase()} · {edition.englishName || edition.name}</option>)}</select>
           <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
@@ -342,6 +397,11 @@ export default function QuranPage() {
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
           <p className="recitation-note">Recitations are streamed from AlQuran Cloud. Audio availability may vary by reciter and Surah.</p>
+        </section>
+        <section className="quran-search-panel" aria-label="Search the Quran">
+          <form onSubmit={(event) => { event.preventDefault(); void runGlobalSearch(); }}><label htmlFor="quran-global-search">Search the entire Quran</label><input id="quran-global-search" type="search" value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search a word or phrase in the selected translation"/><button type="submit" disabled={searching || !globalSearch.trim()}>{searching ? "Searching…" : "Search Quran"}</button></form>
+          {searchError && <p role="status">{searchError}</p>}
+          {searchResults.length > 0 && <ul className="quran-search-results">{searchResults.slice(0, 12).map((match) => <li key={match.number}><button type="button" onClick={() => { setSelected(match.surah.number); window.setTimeout(() => document.getElementById(`ayah-${match.surah.number}-${match.numberInSurah}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 700); }}>{match.surah.englishName} {match.surah.number}:{match.numberInSurah}</button><span>{match.text}</span></li>)}</ul>}
         </section>
         <div className="reader-tools" aria-label="Reading tools">
           <label htmlFor="quran-search">Find in this Surah</label>
@@ -375,6 +435,7 @@ export default function QuranPage() {
                   </div>
                   <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
+                  {selectedTafsir && tafsirByAyah.has(ayah.numberInSurah) && <details className="ayah-tafsir"><summary>{tafsirs.find((item) => item.identifier === selectedTafsir)?.englishName || "Read Tafsir"}</summary><p>{tafsirByAyah.get(ayah.numberInSurah)}</p></details>}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
                     <audio
