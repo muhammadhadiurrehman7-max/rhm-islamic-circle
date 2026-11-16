@@ -9,7 +9,7 @@ function readSurahAudioIndex(value: unknown): Record<string, number> {
   const found: Record<string, number> = {};
   const visit = (node: unknown, key = "") => {
     if (Array.isArray(node)) {
-      if (/^ar\\./.test(key)) {
+      if (/^ar\./.test(key)) {
         const rates = node.map(Number).filter((n) => Number.isFinite(n) && n > 0);
         if (rates.length) found[key] = rates.includes(128) ? 128 : Math.max(...rates);
       }
@@ -18,14 +18,14 @@ function readSurahAudioIndex(value: unknown): Record<string, number> {
     }
     if (!node || typeof node !== "object") return;
     const record = node as Record<string, unknown>;
-    if (typeof record.identifier === "string" && /^ar\\./.test(record.identifier)) {
+    if (typeof record.identifier === "string" && /^ar\./.test(record.identifier)) {
       const rates = [record.bitrate, record.bitrates, record.quality, record.qualities].flatMap((item) => Array.isArray(item) ? item : [item]).map(Number).filter((n) => Number.isFinite(n) && n > 0);
       if (rates.length) found[record.identifier] = rates.includes(128) ? 128 : Math.max(...rates);
     }
     Object.entries(record).forEach(([childKey, child]) => {
-      if (/^ar\\./.test(childKey)) {
+      if (/^ar\./.test(childKey)) {
         const candidate = child && typeof child === "object" ? child as Record<string, unknown> : {};
-        const rates = [...Object.keys(candidate), ...(Array.isArray(child) ? child : [])].map(Number).filter((n) => Number.isFinite(n) && n > 0);
+        const rates = [...Object.keys(candidate), candidate.bitrate, candidate.bitrates, candidate.quality, candidate.qualities, ...(Array.isArray(child) ? child : [])].flatMap((item) => Array.isArray(item) ? item : [item]).map(Number).filter((n) => Number.isFinite(n) && n > 0);
         if (rates.length) found[childKey] = rates.includes(128) ? 128 : Math.max(...rates);
       }
       visit(child, childKey);
