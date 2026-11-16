@@ -114,6 +114,7 @@ export default function DailyLifePage() {
         <nav><a href="/">Home</a><a href="/learn">Discover Islam</a><a href="/quran">Qur’an</a></nav>
       </header>
 
+      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life" aria-current="page">Daily Life</a></nav>
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <span className={styles.eyebrow}>{t.eyebrow}</span>
