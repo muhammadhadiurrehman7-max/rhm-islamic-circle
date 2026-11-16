@@ -9,6 +9,7 @@ type Translation = { identifier: string; name: string; englishName: string; lang
 type Edition = { ayahs: Ayah[]; edition?: Translation };
 type SurahText = { name: string; englishName: string; numberOfAyahs: number; editions: Edition[] };
 type SearchMatch = { text: string; number: number; numberInSurah: number; surah: { number: number; englishName: string; name: string } };
+type WordPart = { id?: number; position?: number; textUthmani?: string; textIndopak?: string; translation?: { text?: string }; transliteration?: { text?: string }; audioUrl?: string };
 
 export default function QuranPage() {
   const [surahs, setSurahs] = useState<Surah[]>([]);
@@ -48,6 +49,9 @@ export default function QuranPage() {
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [selectedJuz, setSelectedJuz] = useState("");
+  const [wordStudy, setWordStudy] = useState<Record<string, WordPart[]>>({});
+  const [wordLoading, setWordLoading] = useState<string | null>(null);
+  const [wordErrors, setWordErrors] = useState<Record<string, string>>({});
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -223,6 +227,19 @@ export default function QuranPage() {
     } catch { setSearchError("Could not open that Juz right now. Please try again."); }
   };
   const saveLastRead = (key: string) => { setLastRead(key); window.localStorage.setItem("rhm-quran-last-read", key); };
+  const loadWordStudy = async (key: string) => {
+    if (wordStudy[key]) { setWordStudy((current) => { const next = { ...current }; delete next[key]; return next; }); return; }
+    setWordLoading(key); setWordErrors((current) => ({ ...current, [key]: "" }));
+    try {
+      const response = await fetch(`/api/quran/verse?verse=${encodeURIComponent(key)}&language=${chapter?.editions[1]?.edition?.language || "ur"}`);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Word-by-word study is unavailable.");
+      const words = data.verses?.[0]?.words || data.verse?.words || data.words;
+      if (!Array.isArray(words) || words.length === 0) throw new Error("No word-by-word details were returned for this Ayah.");
+      setWordStudy((current) => ({ ...current, [key]: words }));
+    } catch (error) { setWordErrors((current) => ({ ...current, [key]: error instanceof Error ? error.message : "Word-by-word study is unavailable." })); }
+    finally { setWordLoading(null); }
+  };
 
   useEffect(() => {
     let active = true;
@@ -431,10 +448,12 @@ export default function QuranPage() {
                   <div className="ayah-card-top">
                     <span className="ayah-number">{ayah.numberInSurah}</span>
                     <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
-                    <div className="ayah-actions"><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
+                    <div className="ayah-actions"><button type="button" onClick={() => void loadWordStudy(key)}>{wordStudy[key] ? "Hide words" : wordLoading === key ? "Loading…" : "Word by word"}</button><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
                   </div>
                   <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
+                  {wordErrors[key] && <p className="word-study-error" role="status">{wordErrors[key]}</p>}
+                  {wordStudy[key] && <div className="word-study-panel" aria-label={`Word by word study for ${key}`}>{wordStudy[key].map((word, index) => <div className="word-study-item" key={word.id || word.position || index}><span lang="ar" dir="rtl">{word.textUthmani || word.textIndopak || ""}</span><small>{word.translation?.text || ""}</small><small>{word.transliteration?.text || ""}</small>{word.audioUrl && <audio controls preload="none" src={`https://audio.qurancdn.com/${word.audioUrl.replace(/^\\/+/, "")}`} aria-label={`Pronounce word ${index + 1}`} />}</div>)}</div>}
                   {selectedTafsir && tafsirByAyah.has(ayah.numberInSurah) && <details className="ayah-tafsir"><summary>{tafsirs.find((item) => item.identifier === selectedTafsir)?.englishName || "Read Tafsir"}</summary><p>{tafsirByAyah.get(ayah.numberInSurah)}</p></details>}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
