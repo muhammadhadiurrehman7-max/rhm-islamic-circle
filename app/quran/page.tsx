@@ -10,6 +10,10 @@ type Edition = { ayahs: Ayah[]; edition?: Translation };
 type SurahText = { name: string; englishName: string; numberOfAyahs: number; editions: Edition[] };
 type SearchMatch = { text: string; number: number; numberInSurah: number; surah: { number: number; englishName: string; name: string } };
 type WordPart = { id?: number; position?: number; textUthmani?: string; textIndopak?: string; translation?: { text?: string }; transliteration?: { text?: string }; audioUrl?: string };
+type TafsirResource = { id: number; name: string; author_name?: string; slug: string; language_name: string };
+function cleanTafsirText(value: string) {
+  return value.replace(/<\/(p|div|h[1-6]|li|br)\s*>/gi, "\n\n").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
+}
 
 export default function QuranPage() {
   const [surahs, setSurahs] = useState<Surah[]>([]);
@@ -41,9 +45,9 @@ export default function QuranPage() {
   const [activeAyah, setActiveAyah] = useState<string | null>(null);
   const [lastRead, setLastRead] = useState<string | null>(null);
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
-  const [tafsirs, setTafsirs] = useState<Translation[]>([]);
+  const [tafsirs, setTafsirs] = useState<TafsirResource[]>([]);
   const [selectedTafsir, setSelectedTafsir] = useState("");
-  const [tafsirMode, setTafsirMode] = useState(false);
+  const [tafsirMode, setTafsirMode] = useState(true);
   const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, string>>(new Map());
   const [globalSearch, setGlobalSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchMatch[]>([]);
@@ -158,20 +162,23 @@ export default function QuranPage() {
   }, []);
 
   useEffect(() => {
-    fetch("https://api.alquran.cloud/v1/edition?format=text&type=tafsir")
-      .then((response) => { if (!response.ok) throw new Error("Could not load Tafsir editions."); return response.json(); })
-      .then((data) => setTafsirs((data.data as Translation[]).filter((edition) => edition.identifier && edition.language)))
-      .catch(() => setSearchError("Tafsir choices are temporarily unavailable."));
+    fetch("/api/quran/verse?resources=tafsirs&language=ur")
+      .then((response) => { if (!response.ok) throw new Error("Could not load Urdu Tafsir resources."); return response.json(); })
+      .then((data) => {
+        const available = (data.tafsirs || data.resources || []) as TafsirResource[];
+        const urdu = available.filter((item) => item.id && (item.language_name === "urdu" || item.language_name === "ur"));
+        setTafsirs(urdu);
+        const preferred = urdu.find((item) => /ibn.?kathir/i.test(item.name)) || urdu[0];
+        if (preferred) setSelectedTafsir(String(preferred.id));
+      })
+      .catch(() => setSearchError("Urdu Tafsir choices are temporarily unavailable. Check Quran Foundation API access."));
   }, []);
 
   useEffect(() => {
-    if (!selectedTafsir) { setTafsirByAyah(new Map()); return; }
-    let active = true;
-    fetch(`https://api.alquran.cloud/v1/surah/${selected}/${selectedTafsir}`)
-      .then((response) => { if (!response.ok) throw new Error("Tafsir unavailable"); return response.json(); })
-      .then((data) => { if (active) setTafsirByAyah(new Map((data.data.ayahs as Ayah[]).map((ayah) => [ayah.numberInSurah, ayah.text]))); })
-      .catch(() => { if (active) setTafsirByAyah(new Map()); });
-    return () => { active = false; };
+    setWordStudy({});
+    setWordErrors({});
+    setWordLoading(null);
+    setTafsirByAyah(new Map());
   }, [selected, selectedTafsir]);
 
   useEffect(() => {
@@ -233,20 +240,27 @@ export default function QuranPage() {
     if (wordStudy[key]) { setWordStudy((current) => { const next = { ...current }; delete next[key]; return next; }); return; }
     setWordLoading(key); setWordErrors((current) => ({ ...current, [key]: "" }));
     try {
-      const response = await fetch(`/api/quran/verse?verse=${encodeURIComponent(key)}&language=${chapter?.editions[1]?.edition?.language || "ur"}`);
+      const params = new URLSearchParams({ verse: key, language: chapter?.editions[1]?.edition?.language || "ur" });
+      if (selectedTafsir) params.set("tafsirs", selectedTafsir);
+      const response = await fetch(`/api/quran/verse?${params.toString()}`);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Word-by-word study is unavailable.");
-      const words = data.verses?.[0]?.words || data.verse?.words || data.words;
-      if (!Array.isArray(words) || words.length === 0) throw new Error("No word-by-word details were returned for this Ayah.");
-      setWordStudy((current) => ({ ...current, [key]: words }));
-    } catch (error) { setWordErrors((current) => ({ ...current, [key]: error instanceof Error ? error.message : "Word-by-word study is unavailable." })); }
+      const verseData = data.verses?.[0] || data.verse || data;
+      const words = verseData.words || data.words;
+      if (Array.isArray(words) && words.length) setWordStudy((current) => ({ ...current, [key]: words }));
+      if (selectedTafsir) {
+        const tafsirEntry = (verseData.tafsirs || []).find((item: { resource_id?: number; id?: number }) => String(item.resource_id || item.id) === selectedTafsir);
+        if (tafsirEntry?.text) setTafsirByAyah((current) => new Map(current).set(Number(key.split(":")[1]), cleanTafsirText(tafsirEntry.text)));
+      }
+      if ((!Array.isArray(words) || !words.length) && !verseData.tafsirs?.length) throw new Error("No word-by-word or Tafsir details were returned for this Ayah.");
+    } catch (error) { setWordErrors((current) => ({ ...current, [key]: error instanceof Error ? error.message : "Quran study details are unavailable." })); }
     finally { setWordLoading(null); }
   };
 
   // Load word details lazily as each Ayah approaches the viewport.
   // This avoids firing hundreds of API requests when a long Surah opens.
   useEffect(() => {
-    if (!wordStudyMode || !chapter || loading) return;
+    if ((!wordStudyMode && !selectedTafsir) || !chapter || loading) return;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -263,7 +277,7 @@ export default function QuranPage() {
       if (key && !wordStudy[key] && !wordLoading && !wordErrors[key]) observer.observe(card);
     });
     return () => observer.disconnect();
-  }, [wordStudyMode, chapter, loading, wordStudy, wordLoading, wordErrors, selected]);
+  }, [wordStudyMode, selectedTafsir, chapter, loading, wordStudy, wordLoading, wordErrors, selected]);
 
   useEffect(() => {
     let active = true;
@@ -413,9 +427,9 @@ export default function QuranPage() {
             {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
-          <label className="reciter-label" htmlFor="tafsir-select">Tafsir / Exegesis</label>
-          <select id="tafsir-select" className="reciter-select" value={selectedTafsir} onChange={(event) => setSelectedTafsir(event.target.value)}><option value="">Do not show Tafsir</option>{tafsirs.map((edition) => <option key={edition.identifier} value={edition.identifier}>{edition.language.toUpperCase()} · {edition.englishName || edition.name}</option>)}</select>
-          <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsir} /> Automatically expand Tafsir for every Ayah</label>
+          <label className="reciter-label" htmlFor="tafsir-select">Urdu Tafsir (تشریح)</label>
+          <select id="tafsir-select" className="reciter-select" value={selectedTafsir} onChange={(event) => setSelectedTafsir(event.target.value)}><option value="">Urdu Tafsir off</option>{tafsirs.map((edition) => <option key={edition.id} value={String(edition.id)}>{edition.name}{edition.author_name ? ` — ${edition.author_name}` : ""}</option>)}</select>
+          <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsir} /> Show Urdu Tafsir automatically for each Ayah</label>
           <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
@@ -479,8 +493,8 @@ export default function QuranPage() {
                   <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   {wordErrors[key] && <p className="word-study-error" role="status">{wordErrors[key]}</p>}
-                  {wordStudy[key] && <div className="word-study-panel" aria-label={`Word by word study for ${key}`}>{wordStudy[key].map((word, index) => <div className="word-study-item" key={word.id || word.position || index}><span lang="ar" dir="rtl">{word.textUthmani || word.textIndopak || ""}</span><small>{word.translation?.text || ""}</small><small>{word.transliteration?.text || ""}</small>{word.audioUrl && <audio controls preload="none" src={`https://audio.qurancdn.com/${word.audioUrl.replace(/^\/+/, "")}`} aria-label={`Pronounce word ${index + 1}`} />}</div>)}</div>}
-                  {selectedTafsir && tafsirByAyah.has(ayah.numberInSurah) && <details className="ayah-tafsir" open={tafsirMode}><summary>{tafsirs.find((item) => item.identifier === selectedTafsir)?.englishName || "Read Tafsir"}</summary><p>{tafsirByAyah.get(ayah.numberInSurah)}</p></details>}
+                  {wordStudy[key] && <div className="word-study-heading"><strong>Word-by-word meaning · لفظ بہ لفظ معنی</strong><span>Each word is shown separately with its Urdu meaning and pronunciation.</span></div><div className="word-study-panel" aria-label={`Word by word study for ${key}`} dir="rtl">{wordStudy[key].map((word, index) => <div className="word-study-item" key={word.id || word.position || index}><span className="word-study-arabic" lang="ar" dir="rtl">{word.textUthmani || word.textIndopak || ""}</span><small className="word-study-meaning" lang="ur" dir="rtl">{word.translation?.text || "اردو معنی دستیاب نہیں"}</small><small className="word-study-transliteration" lang="en" dir="ltr">{word.transliteration?.text || ""}</small><small className="word-study-index">لفظ {word.position || index + 1}</small>{word.audioUrl && <audio controls preload="none" src={`https://audio.qurancdn.com/${word.audioUrl.replace(/^\\/+/, "")}`} aria-label={`Pronounce word ${index + 1}`} />}</div>)}</div>}}
+                  {selectedTafsir && tafsirByAyah.has(ayah.numberInSurah) && <details className="ayah-tafsir ayah-tafsir-urdu" open={tafsirMode}><summary>{tafsirs.find((item) => String(item.id) === selectedTafsir)?.name || "اردو تفسیر"} · آیت {ayah.numberInSurah}</summary><p lang="ur" dir="rtl">{tafsirByAyah.get(ayah.numberInSurah)}</p></details>}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
                     <audio
