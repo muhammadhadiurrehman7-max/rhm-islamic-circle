@@ -509,7 +509,7 @@ export default function QuranPage() {
                               <small className="word-study-meaning" lang="ur" dir="rtl">{word.translation?.text || "اردو معنی دستیاب نہیں"}</small>
                               <small className="word-study-transliteration" lang="en" dir="ltr">{word.transliteration?.text || ""}</small>
                               <small className="word-study-index">لفظ {word.position || index + 1}</small>
-                              {audioPath && <audio controls preload="none" src={`https://audio.qurancdn.com/${audioPath.replace(/^\\/+/, "")}`} aria-label={`Pronounce word ${index + 1}`} />}
+                              <audio controls preload="none" src={"https://audio.qurancdn.com/" + (audioPath || "")} aria-label={"Pronounce word " + (index + 1)}></audio>
                             </div>
                           );
                         })}
