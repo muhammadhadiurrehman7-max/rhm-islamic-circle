@@ -494,7 +494,28 @@ export default function QuranPage() {
                   <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   {wordErrors[key] && <p className="word-study-error" role="status">{wordErrors[key]}</p>}
-                  {wordStudy[key] && (wordStudyMode || wordPanelsOpen[key]) && <><div className="word-study-heading"><strong>Word-by-word meaning · لفظ بہ لفظ معنی</strong><span>Each word is shown separately with its Urdu meaning and pronunciation.</span></div><div className="word-study-panel" aria-label={`Word by word study for ${key}`} dir="rtl">{wordStudy[key].map((word, index) => <div className="word-study-item" key={word.id || word.position || index}><span className="word-study-arabic" lang="ar" dir="rtl">{word.textUthmani || word.text_uthmani || word.textIndopak || word.text_indopak || ""}</span><small className="word-study-meaning" lang="ur" dir="rtl">{word.translation?.text || "اردو معنی دستیاب نہیں"}</small><small className="word-study-transliteration" lang="en" dir="ltr">{word.transliteration?.text || ""}</small><small className="word-study-index">لفظ {word.position || index + 1}</small>{(word.audioUrl || word.audio_url) && <audio controls preload="none" src={`https://audio.qurancdn.com/${(word.audioUrl || word.audio_url || "").replace(/^\\/+/, "")}`} aria-label={`Pronounce word ${index + 1}`} />}</div>)}</div></>}
+                  {wordStudy[key] && (wordStudyMode || wordPanelsOpen[key]) ? (
+                    <>
+                      <div className="word-study-heading">
+                        <strong>Word-by-word meaning · لفظ بہ لفظ معنی</strong>
+                        <span>Each word is shown separately with its Urdu meaning and pronunciation.</span>
+                      </div>
+                      <div className="word-study-panel" aria-label={`Word by word study for ${key}`} dir="rtl">
+                        {wordStudy[key].map((word, index) => {
+                          const audioPath = word.audioUrl || word.audio_url;
+                          return (
+                            <div className="word-study-item" key={word.id || word.position || index}>
+                              <span className="word-study-arabic" lang="ar" dir="rtl">{word.textUthmani || word.text_uthmani || word.textIndopak || word.text_indopak || ""}</span>
+                              <small className="word-study-meaning" lang="ur" dir="rtl">{word.translation?.text || "اردو معنی دستیاب نہیں"}</small>
+                              <small className="word-study-transliteration" lang="en" dir="ltr">{word.transliteration?.text || ""}</small>
+                              <small className="word-study-index">لفظ {word.position || index + 1}</small>
+                              {audioPath ? <audio controls preload="none" src={`https://audio.qurancdn.com/${audioPath.replace(/^\\/+/, "")}`} aria-label={`Pronounce word ${index + 1}`} /> : null}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  ) : null}
                   {selectedTafsir && tafsirByAyah.has(ayah.numberInSurah) && <details className="ayah-tafsir ayah-tafsir-urdu" open={tafsirMode}><summary>{tafsirs.find((item) => String(item.id) === selectedTafsir)?.name || "اردو تفسیر"} · آیت {ayah.numberInSurah}</summary><p lang="ur" dir="rtl">{tafsirByAyah.get(ayah.numberInSurah)}</p></details>}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
