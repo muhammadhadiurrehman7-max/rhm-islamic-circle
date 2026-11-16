@@ -38,6 +38,7 @@ export default function QuranPage() {
   const [playbackRate, setPlaybackRate] = useState(1);
   const [activeAyah, setActiveAyah] = useState<string | null>(null);
   const [lastRead, setLastRead] = useState<string | null>(null);
+  const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -97,10 +98,11 @@ export default function QuranPage() {
       const savedScale = Number(window.localStorage.getItem("rhm-quran-font-scale"));
       if (Number.isFinite(savedScale)) setFontScale(Math.min(1.6, Math.max(.8, savedScale)));
     } catch { /* Ignore invalid local reading preferences and start clean. */ }
+    finally { setPreferencesLoaded(true); }
   }, []);
-  useEffect(() => { window.localStorage.setItem("rhm-quran-bookmarks", JSON.stringify(bookmarks)); }, [bookmarks]);
-  useEffect(() => { window.localStorage.setItem("rhm-quran-notes", JSON.stringify(notes)); }, [notes]);
-  useEffect(() => { window.localStorage.setItem("rhm-quran-font-scale", String(fontScale)); }, [fontScale]);
+  useEffect(() => { if (preferencesLoaded) window.localStorage.setItem("rhm-quran-bookmarks", JSON.stringify(bookmarks)); }, [bookmarks, preferencesLoaded]);
+  useEffect(() => { if (preferencesLoaded) window.localStorage.setItem("rhm-quran-notes", JSON.stringify(notes)); }, [notes, preferencesLoaded]);
+  useEffect(() => { if (preferencesLoaded) window.localStorage.setItem("rhm-quran-font-scale", String(fontScale)); }, [fontScale, preferencesLoaded]);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("rhm-quran-theme");
@@ -317,7 +319,8 @@ export default function QuranPage() {
             {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
-          <audio key={surahAudioUrl} ref={surahAudioRef} className="surah-audio" controls preload="none" src={surahAudioUrl}
+          <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
+            onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
               if (autoNextSurah && selected < 114) {
                 const nextName = surahs.find((surah) => surah.number === selected + 1)?.englishName || "the next Surah";
