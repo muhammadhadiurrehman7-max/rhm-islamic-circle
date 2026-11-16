@@ -741,3 +741,48 @@ html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card,.discover-
 .quran-page .ayah-tafsir summary { color:var(--q-gold); font-size:13px; font-weight:750; cursor:pointer; }
 .quran-page .ayah-tafsir p { margin:10px 0 0; color:var(--q-muted); font-size:14px; line-height:1.85; white-space:pre-wrap; }
 @media(max-width:600px) { .quran-page .quran-search-panel form { align-items:stretch; flex-direction:column; }.quran-page .quran-search-panel form > * { width:100%; } }
+
+
+/* RHM Quran study: high-clarity Urdu word cards and Urdu Tafsir */
+.quran-page .word-study-heading {
+  display:flex; flex-direction:column; gap:5px; margin:20px 0 12px;
+  padding:13px 16px; border:1px solid var(--q-border); border-radius:13px;
+  background:var(--q-surface); color:var(--q-ink);
+}
+.quran-page .word-study-heading strong { font-size:15px; }
+.quran-page .word-study-heading span { color:var(--q-muted); font-size:12px; line-height:1.6; }
+.quran-page .word-study-panel {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:11px; margin:12px 0 18px; direction:rtl;
+}
+.quran-page .word-study-item {
+  display:flex; min-width:0; flex-direction:column; align-items:center; justify-content:flex-start;
+  gap:9px; padding:16px 12px; border:1px solid var(--q-border); border-radius:14px;
+  background:var(--q-card); color:var(--q-ink); text-align:center;
+  box-shadow:0 3px 12px rgba(20,40,30,.045);
+}
+.quran-page .word-study-item .word-study-arabic {
+  display:block; min-height:48px; font:600 clamp(27px,3.4vw,36px)/1.8 "Noto Naskh Arabic","Amiri",serif;
+  color:var(--q-ink);
+}
+.quran-page .word-study-item .word-study-meaning {
+  display:block; width:100%; padding-top:8px; border-top:1px solid var(--q-border);
+  color:var(--q-gold); font:600 17px/1.9 "Noto Nastaliq Urdu","Noto Naskh Arabic",serif;
+}
+.quran-page .word-study-item .word-study-transliteration {
+  color:var(--q-muted); font:12px/1.5 "DM Sans",sans-serif;
+}
+.quran-page .word-study-item .word-study-index { color:var(--q-muted); font-size:10px; }
+.quran-page .word-study-item audio { width:100%; max-width:180px; height:34px; }
+.quran-page .ayah-tafsir-urdu { padding:18px 20px; border-right:4px solid var(--q-gold); }
+.quran-page .ayah-tafsir-urdu summary { text-align:right; font-size:14px; }
+.quran-page .ayah-tafsir-urdu p {
+  color:var(--q-ink); font:17px/2.25 "Noto Nastaliq Urdu","Noto Naskh Arabic",serif;
+  text-align:right; direction:rtl; white-space:pre-wrap;
+}
+@media(max-width:560px) {
+  .quran-page .word-study-panel { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .quran-page .word-study-item { padding:13px 8px; }
+  .quran-page .ayah-tafsir-urdu { padding:14px 13px; }
+  .quran-page .ayah-tafsir-urdu p { font-size:16px; line-height:2.1; }
+}
