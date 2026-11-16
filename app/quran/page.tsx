@@ -158,6 +158,50 @@ export default function QuranPage() {
     return () => { active = false; };
   }, [selected, selectedTranslation]);
 
+  // A Surah hand-off is driven by the newly mounted player, not by a single
+  // onCanPlay callback. This handles both fast cached audio and slower networks.
+  useEffect(() => {
+    if (!continueAfterSurah) return;
+    const player = surahAudioRef.current;
+    if (!player) return;
+
+    let cancelled = false;
+    let started = false;
+    const startNextSurah = () => {
+      if (cancelled || started) return;
+      started = true;
+      player.play().then(() => {
+        if (cancelled) return;
+        setContinueAfterSurah(false);
+        setPlaybackStatus("");
+        setAudioError("");
+      }).catch(() => {
+        if (cancelled) return;
+        setContinueAfterSurah(false);
+        setPlaybackStatus("The next Surah is loaded, but your browser did not allow automatic playback. Press Play to continue.");
+      });
+    };
+
+    const handleCanPlay = () => startNextSurah();
+    const handleError = () => {
+      if (cancelled) return;
+      setContinueAfterSurah(false);
+      setAudioError("The next Surah could not be loaded for this reciter. Choose another reciter or press Next Surah to try again.");
+      setPlaybackStatus("");
+    };
+
+    player.addEventListener("canplay", handleCanPlay);
+    player.addEventListener("error", handleError);
+    if (player.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) startNextSurah();
+    else player.load();
+
+    return () => {
+      cancelled = true;
+      player.removeEventListener("canplay", handleCanPlay);
+      player.removeEventListener("error", handleError);
+    };
+  }, [selected, continueAfterSurah, surahAudioUrl]);
+
   return (
     <main className="quran-page" data-theme={theme}>
       <header className="quran-topbar">
@@ -250,17 +294,9 @@ export default function QuranPage() {
                 setPlaybackStatus("Surah completed. Select the next Surah whenever you are ready.");
               }
             }}
-            onCanPlay={() => {
-              if (!continueAfterSurah) return;
-              const player = surahAudioRef.current;
-              if (!player) return;
-              player.play().then(() => {
-                setContinueAfterSurah(false);
-                setPlaybackStatus("");
-              }).catch(() => {
-                setContinueAfterSurah(false);
-                setPlaybackStatus("The next Surah is ready. Press Play to continue listening.");
-              });
+            onError={() => {
+              setAudioError("This Surah audio is temporarily unavailable for the selected reciter. Try another reciter or select the Surah again.");
+              setContinueAfterSurah(false);
             }}>
             Your browser does not support audio playback.
           </audio>
