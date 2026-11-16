@@ -73,7 +73,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islam 360</span></a>
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="/learn">Discover Islam</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="/duas">Daily Duas</a><a href="/qaida">Qaida</a><a href="#community">Community</a><a href="#about">About</a>
+          <a href="/learn">Discover Islam</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="/duas">Daily Duas</a><a href="/qaida">Qaida</a><a href="/daily-life">Daily Life</a><a href="#community">Community</a><a href="#about">About</a>
         </nav>
         <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
