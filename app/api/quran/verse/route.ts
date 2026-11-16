@@ -29,9 +29,13 @@ export async function GET(request: Request) {
   const verseKey = searchParams.get("verse");
   const language = searchParams.get("language") || "ur";
   const tafsirs = searchParams.get("tafsirs");
+  const resources = searchParams.get("resources");
 
-  if (!verseKey || !/^([1-9]|[1-9][0-9]|1[01][0-9]|11[0-4]):[1-9][0-9]{0,2}$/.test(verseKey)) {
+  if (resources !== "tafsirs" && (!verseKey || !/^([1-9]|[1-9][0-9]|1[01][0-9]|11[0-4]):[1-9][0-9]{0,2}$/.test(verseKey))) {
     return NextResponse.json({ error: "Provide a valid verse reference such as 2:255." }, { status: 400 });
+  }
+  if (resources && resources !== "tafsirs") {
+    return NextResponse.json({ error: "Unsupported resource request." }, { status: 400 });
   }
   if (!/^[a-z]{2}$/.test(language)) {
     return NextResponse.json({ error: "Language must be a two-letter code." }, { status: 400 });
@@ -55,9 +59,10 @@ export async function GET(request: Request) {
   const scope = process.env.QF_SCOPE || "content";
   try {
     const token = await getContentToken(clientId, clientSecret, authBase, scope);
-    const params = new URLSearchParams({ words: "true", language });
-    if (tafsirs) params.set("tafsirs", tafsirs);
-    const response = await fetch(`${apiBase}/content/api/v4/verses/by_key/${verseKey}?${params.toString()}`, {
+    const endpoint = resources === "tafsirs"
+      ? `${apiBase}/content/api/v4/resources/tafsirs?language=${encodeURIComponent(language)}`
+      : `${apiBase}/content/api/v4/verses/by_key/${verseKey}?${new URLSearchParams({ words: "true", language, ...(tafsirs ? { tafsirs } : {}) }).toString()}`;
+    const response = await fetch(endpoint, {
       headers: { "x-auth-token": token, "x-client-id": clientId },
       next: { revalidate: 3600 },
     });
