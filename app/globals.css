@@ -620,3 +620,32 @@ html[data-site-theme="dark"] .pwa-install-card span { color:#bdc9c0; }
 .duas-editorial-note p { color:var(--q-muted); font-size:13px; line-height:1.8; }
 .duas-caution { padding-top:12px; border-top:1px solid var(--q-border); }
 @media(max-width:600px) { .duas-controls { grid-template-columns:1fr; }.dua-card { padding:18px 14px; }.duas-editorial-note { padding:18px; } }
+
+
+/* Dedicated course navigation shared by the independent learning spaces */
+.learning-space-nav {
+  display:flex; flex-wrap:wrap; justify-content:center; gap:9px;
+  width:min(1080px,calc(100% - 32px)); margin:18px auto 30px; padding:12px;
+  border:1px solid #e2e9e1; border-radius:18px;
+  background:rgba(255,255,255,.82); box-shadow:0 8px 24px rgba(23,53,45,.045);
+}
+.learning-space-nav a {
+  display:inline-flex; align-items:center; justify-content:center; min-height:40px;
+  padding:9px 15px; border:1px solid transparent; border-radius:999px;
+  color:#536b60; font:700 12px "DM Sans",sans-serif; text-decoration:none;
+  transition:background .2s ease,color .2s ease,border-color .2s ease;
+}
+.learning-space-nav a:hover { border-color:#d8c39b; background:#f7f3e9; color:#174b3c; }
+.learning-space-nav a[aria-current="page"] { background:#174b3c; color:#fff; }
+.auto-next-toggle { display:flex; align-items:center; gap:9px; margin:12px 0; color:var(--q-muted); font-size:13px; }
+.auto-next-toggle input { width:17px; height:17px; accent-color:#174b3c; }
+.hadith-page .hadith-hero { background:linear-gradient(135deg,#f6f2e8 0%,#edf3ed 55%,#e7eee8 100%); }
+.qaida-page .quran-heading { background:linear-gradient(135deg,#f4f0e5,#e8f0e9); }
+.duas-page .quran-heading { background:linear-gradient(135deg,#f6f1e7,#edf3ed); }
+html[data-site-theme="dark"] .learning-space-nav { background:#172821; border-color:#34483e; }
+html[data-site-theme="dark"] .learning-space-nav a { color:#bdc9c0; }
+html[data-site-theme="dark"] .learning-space-nav a[aria-current="page"] { background:#d9b878; color:#172821; }
+html[data-site-theme="dark"] .hadith-page .hadith-hero,
+html[data-site-theme="dark"] .qaida-page .quran-heading,
+html[data-site-theme="dark"] .duas-page .quran-heading { background:linear-gradient(135deg,#172821,#101d19); }
+@media(max-width:560px) { .learning-space-nav { justify-content:flex-start; overflow-x:auto; flex-wrap:nowrap; padding:9px; }.learning-space-nav a { flex:none; } }
