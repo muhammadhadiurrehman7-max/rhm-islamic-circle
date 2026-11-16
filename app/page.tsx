@@ -117,7 +117,8 @@ export default function Home() {
           <a className="faith-entry-card" href="/daily-life"><span className="faith-entry-icon">☪</span><h3>Everyday Muslim Life</h3><p>Learn Wudu, Ghusl, cleanliness, prayer preparation, Qibla direction and daily Islamic manners.</p><strong>Open daily-life guide ↗</strong></a>
           <a className="faith-entry-card" href="/qaida"><span className="faith-entry-icon">ا ب</span><h3>Beginner’s Qaida</h3><p>Start learning Arabic letters and basic reading rules.</p><strong>Open Qaida lessons ↗</strong></a>
           <a className="faith-entry-card" href="/heritage"><span className="faith-entry-icon">🕌</span><h3>Islamic Heritage</h3><p>Discover historic mosques and important places around the world.</p><strong>Explore the gallery ↗</strong></a>
-          <a className="faith-entry-card" href="/quran"><span className="faith-entry-icon">۩</span><h3>Qur’an Reader</h3><p>Read the Qur’an with Arabic text, translations and recitation.</p><strong>Read the Qur’an ↗</strong></a>\n          <a className="faith-entry-card" href="/journey"><span className="faith-entry-icon">✦</span><h3>My Islamic Journey</h3><p>Set a gentle daily learning routine and track your personal progress on this device.</p><strong>Build your daily routine ↗</strong></a>
+          <a className="faith-entry-card" href="/quran"><span className="faith-entry-icon">۩</span><h3>Qur’an Reader</h3><p>Read the Qur’an with Arabic text, translations and recitation.</p><strong>Read the Qur’an ↗</strong></a>
+          <a className="faith-entry-card" href="/journey"><span className="faith-entry-icon">✦</span><h3>My Islamic Journey</h3><p>Set a gentle daily learning routine and track your personal progress on this device.</p><strong>Build your daily routine ↗</strong></a>
         </div>
       </section>
 
