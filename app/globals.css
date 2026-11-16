@@ -654,3 +654,48 @@ html[data-site-theme="dark"] .duas-page .quran-heading { background:linear-gradi
 /* Direct links to the two most requested sacred-place guides */
 .heritage-card[id] { scroll-margin-top:24px; }
 @media(max-width:560px) { .mosque-scene-actions { gap:7px; }.mosque-scene-copy a { padding:9px 11px; font-size:11px; } }
+
+
+/* Dark mode readability: enforce accessible contrast across every site section */
+html[data-site-theme="dark"] body {
+  color-scheme: dark;
+  color: #edf2eb;
+}
+html[data-site-theme="dark"] body :is(h1,h2,h3,h4,h5,h6) {
+  color: #f6f1e5 !important;
+  background-image: none !important;
+  -webkit-text-fill-color: #f6f1e5 !important;
+  text-shadow: none;
+}
+html[data-site-theme="dark"] body :is(p,li,dt,dd,figcaption,blockquote,label,legend,small) {
+  color: #cbd7ce;
+}
+html[data-site-theme="dark"] body :is(strong,b,th) {
+  color: #f0eee4;
+}
+html[data-site-theme="dark"] body a:not(.btn):not(.btn-primary):not([aria-current="page"]):not(.site-theme-toggle) {
+  color: #e4c98f;
+}
+html[data-site-theme="dark"] body :is(input,select,textarea) {
+  color: #f0eee4;
+  background-color: #172821;
+  border-color: #52665a;
+}
+html[data-site-theme="dark"] body :is(input,textarea)::placeholder {
+  color: #aebdb2;
+  opacity: 1;
+}
+html[data-site-theme="dark"] body :is(table,th,td) {
+  color: #edf2eb;
+  border-color: #40564a;
+}
+html[data-site-theme="dark"] body :is(.btn-primary,.site-theme-toggle,.theme-toggle) {
+  -webkit-text-fill-color: currentColor;
+}
+html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card,.discover-topic-card,.faith-card,.faith-resource-card,.islam-info-card,.qaida-lesson,.donation-card,.heritage-card,.learn-content-card,.topic-content-card,.quran-reader,.ayah-card,.learning-space-nav,.dua-card,.hadith-card) {
+  color: #edf2eb;
+  border-color: #40564a;
+}
+html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card,.discover-topic-card,.faith-card,.faith-resource-card,.islam-info-card,.qaida-lesson,.donation-card,.heritage-card,.learn-content-card,.topic-content-card,.quran-reader,.ayah-card,.dua-card,.hadith-card) :is(p,li,small,figcaption) {
+  color: #cbd7ce;
+}
