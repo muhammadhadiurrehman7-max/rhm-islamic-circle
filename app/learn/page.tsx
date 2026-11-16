@@ -28,7 +28,7 @@ export default function DiscoverIslamPage() {
       <div className="discover-other-resources"><h2>Explore other RHM learning spaces</h2><div className="discover-other-grid">
         <Link href="/quran"><strong>Qur’an Reader</strong><span>Read and listen to the Qur’an →</span></Link>
         <Link href="/hadith"><strong>Hadith Library</strong><span>Browse Hadith collections →</span></Link>
-        <Link href="/hadith#qaida-lessons"><strong>Beginner’s Qaida</strong><span>Learn Arabic reading basics →</span></Link>
+        <Link href="/qaida"><strong>Beginner’s Qaida</strong><span>Learn Arabic reading basics →</span></Link>
         <Link href="/heritage"><strong>Islamic Heritage</strong><span>Explore historic mosques →</span></Link>
       </div></div>
       <p className="discover-islam-note">These pages offer introductory educational information, not personal religious rulings or a complete Tafsir. For detailed explanations and individual circumstances, consult a qualified, trusted scholar.</p>
