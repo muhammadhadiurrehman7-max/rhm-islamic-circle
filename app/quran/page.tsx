@@ -239,7 +239,7 @@ export default function QuranPage() {
   };
   const saveLastRead = (key: string) => { setLastRead(key); window.localStorage.setItem("rhm-quran-last-read", key); };
   const loadWordStudy = async (key: string) => {
-    if (wordStudy[key]) { setWordStudy((current) => { const next = { ...current }; delete next[key]; return next; }); return; }
+    if (wordStudy[key]) return; // Keep fetched word/Tafsir data cached; panel visibility is controlled separately.
     setWordLoading(key); setWordErrors((current) => ({ ...current, [key]: "" }));
     try {
       const params = new URLSearchParams({ verse: key, language: chapter?.editions[1]?.edition?.language || "ur" });
