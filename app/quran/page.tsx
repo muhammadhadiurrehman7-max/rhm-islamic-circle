@@ -43,6 +43,7 @@ export default function QuranPage() {
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const [tafsirs, setTafsirs] = useState<Translation[]>([]);
   const [selectedTafsir, setSelectedTafsir] = useState("");
+  const [tafsirMode, setTafsirMode] = useState(false);
   const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, string>>(new Map());
   const [globalSearch, setGlobalSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchMatch[]>([]);
@@ -414,6 +415,7 @@ export default function QuranPage() {
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
           <label className="reciter-label" htmlFor="tafsir-select">Tafsir / Exegesis</label>
           <select id="tafsir-select" className="reciter-select" value={selectedTafsir} onChange={(event) => setSelectedTafsir(event.target.value)}><option value="">Do not show Tafsir</option>{tafsirs.map((edition) => <option key={edition.identifier} value={edition.identifier}>{edition.language.toUpperCase()} · {edition.englishName || edition.name}</option>)}</select>
+          <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsir} /> Automatically expand Tafsir for every Ayah</label>
           <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
@@ -478,7 +480,7 @@ export default function QuranPage() {
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   {wordErrors[key] && <p className="word-study-error" role="status">{wordErrors[key]}</p>}
                   {wordStudy[key] && <div className="word-study-panel" aria-label={`Word by word study for ${key}`}>{wordStudy[key].map((word, index) => <div className="word-study-item" key={word.id || word.position || index}><span lang="ar" dir="rtl">{word.textUthmani || word.textIndopak || ""}</span><small>{word.translation?.text || ""}</small><small>{word.transliteration?.text || ""}</small>{word.audioUrl && <audio controls preload="none" src={`https://audio.qurancdn.com/${word.audioUrl.replace(/^\/+/, "")}`} aria-label={`Pronounce word ${index + 1}`} />}</div>)}</div>}
-                  {selectedTafsir && tafsirByAyah.has(ayah.numberInSurah) && <details className="ayah-tafsir"><summary>{tafsirs.find((item) => item.identifier === selectedTafsir)?.englishName || "Read Tafsir"}</summary><p>{tafsirByAyah.get(ayah.numberInSurah)}</p></details>}
+                  {selectedTafsir && tafsirByAyah.has(ayah.numberInSurah) && <details className="ayah-tafsir" open={tafsirMode}><summary>{tafsirs.find((item) => item.identifier === selectedTafsir)?.englishName || "Read Tafsir"}</summary><p>{tafsirByAyah.get(ayah.numberInSurah)}</p></details>}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
                     <audio
