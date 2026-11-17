@@ -49,14 +49,31 @@ const guidanceQuotes = [
 
 const features = [
   { icon: "۞", title: "Read the Quran", text: "Explore all 114 Surahs with a clear reading experience and space for translations and recitation." },
-  { icon: "♫", title: "Listen & reflect", text: "A planned audio library with recitation controls, repeat listening, and saved listening progress." },
-  { icon: "✦", title: "Learn step by step", text: "Build confidence through beginner-friendly lessons in Arabic letters, Tajweed, and memorisation." },
+  { icon: "♫", title: "Listen & reflect", text: "Listen to available reciters, repeat ayahs, follow along, and make space for reflection." },
+  { icon: "✦", title: "Learn step by step", text: "Build confidence with Arabic letters, Qaida foundations, reading practice, and guided lessons." },
   { icon: "☾", title: "Daily reminders", text: "Create a steady routine with daily Ayah reflections, duas, goals, and personal progress." },
   { icon: "◎", title: "Learning circles", text: "Join as an individual or learn together in a private group organised by a company or community." },
   { icon: "❖", title: "Islamic knowledge", text: "Discover Seerah, Prophets’ stories, Islamic history, and learning resources with clear references." }
 ];
 
 export default function Home() {
+  const [shareMessage, setShareMessage] = useState("");
+  async function shareLearningLink(path: string, title: string) {
+    const url = new URL(path, window.location.origin).toString();
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text: "Explore this learning resource from RHM Islam 360.", url });
+        setShareMessage("Thank you for sharing beneficial knowledge.");
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        setShareMessage("Learning link copied. You can now send it to others.");
+      } else {
+        setShareMessage("Copy this link from your browser address bar to share this lesson.");
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name !== "AbortError") setShareMessage("Sharing is not available right now. You can copy the page link from your browser.");
+    }
+  }
   const [guidanceIndex, setGuidanceIndex] = useState(0);
   const [mosqueScene, setMosqueScene] = useState(0);
   useEffect(() => {
@@ -78,30 +95,40 @@ export default function Home() {
         <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
 
-      <section className="hero">
-        <div className="hero-copy">
-          <div className="eyebrow">A place to learn, reflect & grow</div>
-          <h1>Your Quran journey, wherever you are.</h1>
-          <p>Read, listen, learn, and build a meaningful connection with the Quran. RHM Islam 360 is a welcoming learning space for individuals, families, and communities around the world.</p>
-          <div className="hero-actions"><a className="btn btn-primary" href="#quran">Explore the Quran <span aria-hidden="true">↗</span></a><a className="btn btn-light" href="#learn">Discover learning paths</a></div>
-          <div className="hero-note">Open to learners around the world · Learn at your own pace</div>
-        </div>
-        <div className={`hero-mosque-scene scene-${mosqueScene}`} aria-label={mosqueScene===0?"The Kaaba at Al-Masjid al-Haram in Makkah":"Al-Masjid an-Nabawi in Madinah"}>
-          <div className="mosque-scene-image scene-image-makkah" aria-hidden="true"></div>
-          <div className="mosque-scene-image scene-image-madinah" aria-hidden="true"></div>
-          <div className="mosque-scene-shade"></div>
-          <div className="mosque-scene-copy" key={mosqueScene}>
-            <span className="mosque-scene-kicker">Sacred places of Islam</span>
-            <h2>{mosqueScene===0?"Makkah Al-Mukarramah":"Al-Madinah Al-Munawwarah"}</h2>
-            <p>{mosqueScene===0?"Al-Masjid al-Haram · The Holy Kaaba":"Al-Masjid an-Nabawi · The Prophet’s Mosque"}</p>
-            <div className="mosque-scene-actions"><a href="/heritage#kaaba">View the Kaaba <span aria-hidden="true">↗</span></a><a href="/heritage#masjid-nabawi">Explore the Prophet’s Mosque <span aria-hidden="true">↗</span></a></div>
+      <section className="hero premium-hero">
+        <div className="hero-copy premium-hero-copy">
+          <div className="eyebrow">A beautiful space for beneficial knowledge</div>
+          <p className="hero-arabic-kicker" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+          <h1>Let the light of knowledge illuminate your journey.</h1>
+          <p>Read the Qur’an with care, listen to beautiful recitation, understand authentic teachings, and learn Islam step by step — in a calm space made for learners everywhere.</p>
+          <div className="hero-actions">
+            <a className="btn btn-primary" href="/quran">Begin with the Qur’an <span aria-hidden="true">↗</span></a>
+            <a className="btn btn-light" href="/learn">Explore Islamic learning</a>
           </div>
-          <div className="mosque-scene-indicators" aria-label="Featured mosque scene">
-            <button type="button" className={mosqueScene===0?"active":""} onClick={()=>setMosqueScene(0)} aria-label="Show Makkah"></button>
-            <button type="button" className={mosqueScene===1?"active":""} onClick={()=>setMosqueScene(1)} aria-label="Show Madinah"></button>
-          </div>
-          <span className="mosque-scene-caption">A new sacred-place view every 10 seconds</span>
+          <div className="hero-note">Free learning resources · Arabic, Urdu and English · Learn at your own pace</div>
         </div>
+        <div className="calligraphy-stage" aria-label="Qur’anic calligraphy: Read in the name of your Lord who created, Surah Al-Alaq 96 verse 1">
+          <div className="calligraphy-orbit orbit-one"></div>
+          <div className="calligraphy-orbit orbit-two"></div>
+          <div className="calligraphy-star star-a">✦</div><div className="calligraphy-star star-b">✧</div>
+          <div className="calligraphy-arch">
+            <div className="calligraphy-inner">
+              <span className="calligraphy-overline">THE FIRST REVELATION</span>
+              <div className="calligraphy-bismillah" lang="ar" dir="rtl">اقْرَأْ</div>
+              <div className="calligraphy-main" lang="ar" dir="rtl">بِاسْمِ رَبِّكَ الَّذِي خَلَقَ</div>
+              <span className="calligraphy-rule"></span>
+              <p className="calligraphy-translation">“Read in the name of your Lord who created.”</p>
+              <span className="calligraphy-reference">THE QUR’AN · 96:1</span>
+            </div>
+          </div>
+          <div className="calligraphy-caption"><span>۞</span> Knowledge begins with revelation <span>۞</span></div>
+        </div>
+      </section>
+
+      <section className="sacred-learning-ribbon" aria-label="Explore sacred places and learning">
+        <a href="/heritage#kaaba"><span className="ribbon-symbol">⌂</span><span><strong>Makkah Al-Mukarramah</strong><small>Explore the Holy Kaaba</small></span><span className="ribbon-arrow">↗</span></a>
+        <a href="/heritage#masjid-nabawi"><span className="ribbon-symbol">۞</span><span><strong>Al-Madinah Al-Munawwarah</strong><small>Discover Al-Masjid an-Nabawi</small></span><span className="ribbon-arrow">↗</span></a>
+        <a href="/quran"><span className="ribbon-symbol">۩</span><span><strong>Qur’an & reflection</strong><small>Read, listen and understand</small></span><span className="ribbon-arrow">↗</span></a>
       </section>
 
       <section className="faith-entry-section" aria-labelledby="faith-entry-title">
@@ -120,6 +147,37 @@ export default function Home() {
           <a className="faith-entry-card" href="/quran"><span className="faith-entry-icon">۩</span><h3>Qur’an Reader</h3><p>Read the Qur’an with Arabic text, translations and recitation.</p><strong>Read the Qur’an ↗</strong></a>
           <a className="faith-entry-card" href="/journey"><span className="faith-entry-icon">✦</span><h3>My Islamic Journey</h3><p>Set a gentle daily learning routine and track your personal progress on this device.</p><strong>Build your daily routine ↗</strong></a>
         </div>
+      </section>
+
+      <section className="share-learning-section" id="share-learning">
+        <div className="share-learning-heading">
+          <span className="eyebrow">Knowledge is a trust to share</span>
+          <h2>Learn something meaningful. Pass it on.</h2>
+          <p>Every lesson can become a source of benefit. Explore a learning space, then share its direct link with family, friends, classmates or your community.</p>
+        </div>
+        <div className="share-learning-grid">
+          <article className="share-learning-card">
+            <span className="share-card-mark">۩</span><span className="share-card-label">QUR’AN</span>
+            <h3>Read and reflect</h3><p>Explore Arabic verses, translations, listening tools and study resources.</p>
+            <div className="share-card-actions"><a href="/quran">Open Qur’an <span>↗</span></a><button type="button" onClick={() => shareLearningLink("/quran", "RHM Islam 360 — Qur’an")}>Share lesson ↗</button></div>
+          </article>
+          <article className="share-learning-card">
+            <span className="share-card-mark">ا ب</span><span className="share-card-label">ARABIC FOUNDATIONS</span>
+            <h3>Start with the letters</h3><p>Take your first steps in Arabic reading with beginner-friendly Qaida lessons.</p>
+            <div className="share-card-actions"><a href="/qaida">Start learning <span>↗</span></a><button type="button" onClick={() => shareLearningLink("/qaida", "RHM Islam 360 — Qaida")}>Share lesson ↗</button></div>
+          </article>
+          <article className="share-learning-card">
+            <span className="share-card-mark">۞</span><span className="share-card-label">HADITH & SUNNAH</span>
+            <h3>Learn from authentic sources</h3><p>Explore narrations with available Arabic text, translations and references.</p>
+            <div className="share-card-actions"><a href="/hadith">Explore Hadith <span>↗</span></a><button type="button" onClick={() => shareLearningLink("/hadith", "RHM Islam 360 — Hadith")}>Share lesson ↗</button></div>
+          </article>
+          <article className="share-learning-card">
+            <span className="share-card-mark">رَبِّ زِدْنِي عِلْمًا</span><span className="share-card-label">DAILY REMINDERS</span>
+            <h3>Bring learning into daily life</h3><p>Discover duas and practical Islamic guidance for everyday moments.</p>
+            <div className="share-card-actions"><a href="/duas">Explore duas <span>↗</span></a><button type="button" onClick={() => shareLearningLink("/duas", "RHM Islam 360 — Daily Duas")}>Share lesson ↗</button></div>
+          </article>
+        </div>
+        <p className="share-learning-status" role="status" aria-live="polite">{shareMessage}</p>
       </section>
 
       <section className="section" id="learn">
