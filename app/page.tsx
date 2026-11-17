@@ -85,6 +85,22 @@ export default function Home() {
       </header>
 
       <div id="main-content" tabIndex={-1}>
+      <style jsx global>{`
+        .premium-hero {
+          position: relative;
+          background-image: linear-gradient(90deg,rgba(8,25,20,.94) 0%,rgba(8,25,20,.82) 42%,rgba(8,25,20,.30) 72%,rgba(8,25,20,.18) 100%),url('/images/rhm-islam360-quran-hero.webp');
+          background-size: cover; background-position: center 56%; color: #f7f1df;
+        }
+        .premium-hero-copy h1 { color:#fff7e8; text-shadow:0 3px 24px rgba(0,0,0,.28); }
+        .premium-hero-copy > p:not(.hero-arabic-kicker) { color:#eee7d8; }
+        .premium-hero-copy .hero-arabic-kicker { color:#f0ce82; }
+        .premium-hero .eyebrow,.premium-hero .hero-note { color:#e5d5ad; }
+        .premium-hero .btn-light { background:rgba(255,255,255,.10); border-color:rgba(236,211,155,.55); color:#fff7e8; }
+        .premium-hero .calligraphy-stage { filter:drop-shadow(0 18px 35px rgba(0,0,0,.26)); }
+        html[data-site-theme="dark"] .premium-hero { background-image:linear-gradient(90deg,rgba(5,18,14,.95),rgba(5,18,14,.78) 45%,rgba(5,18,14,.25)),url('/images/rhm-islam360-quran-hero.webp'); }
+        @media(max-width:850px) { .premium-hero { background-position:58% center; } .premium-hero:before { content:"";position:absolute;inset:0;background:rgba(7,24,18,.24);pointer-events:none; } .premium-hero-copy,.calligraphy-stage { position:relative;z-index:1; } }
+        @media(max-width:560px) { .premium-hero { background-position:62% center; } .premium-hero-copy { padding:18px 12px;border-radius:18px;background:rgba(7,24,18,.52);backdrop-filter:blur(3px); } }
+      `}</style>
       <section className="hero premium-hero">
         <div className="hero-copy premium-hero-copy">
           <div className="eyebrow">A beautiful space for beneficial knowledge</div>
