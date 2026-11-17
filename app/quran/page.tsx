@@ -78,6 +78,7 @@ export default function QuranPage() {
   const [lastRead, setLastRead] = useState<string | null>(null);
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const [tafsirs, setTafsirs] = useState<TafsirResource[]>([]);
+  const [tafsirError, setTafsirError] = useState("");
   const [selectedTafsirs, setSelectedTafsirs] = useState<string[]>([]);
   const [tafsirMode, setTafsirMode] = useState(true);
   const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, TafsirPassage[]>>(new Map());
@@ -203,7 +204,7 @@ export default function QuranPage() {
     let active = true;
     setTafsirs([]);
     setSelectedTafsirs([]);
-    setSearchError("");
+    setTafsirError("");
     fetch(`/api/quran/verse?resources=tafsirs&language=${studyLanguage}`)
       .then((response) => { if (!response.ok) throw new Error("Tafsir resources are not available for this language."); return response.json(); })
       .then((data) => {
@@ -214,7 +215,7 @@ export default function QuranPage() {
         const preferred = languageResources.find((item) => /ibn.?kathir/i.test(item.name)) || languageResources[0];
         if (preferred) setSelectedTafsirs([String(preferred.id)]);
       })
-      .catch(() => { if (active) setSearchError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Translation remains available; Tafsir needs approved Quran Foundation access and resources.`); });
+      .catch(() => { if (active) setTafsirError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Translation remains available; Tafsir needs approved Quran Foundation access and resources.`); });
     return () => { active = false; };
   }, [studyLanguage]);
 
@@ -516,6 +517,7 @@ export default function QuranPage() {
               <span><strong>{edition.name}</strong>{edition.author_name ? <small> — {edition.author_name}</small> : null}</span>
             </label>)}
           </div> : <p className="recitation-note">{studyLanguage === "ur" ? "No Urdu Tafsir resources were returned by the connected provider." : "No English Tafsir resources were returned by the connected provider. You can still read the English translation above."}</p>}
+          {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
           <p id="tafsir-help" className="recitation-note">Choose one or more available editions. Each scholar’s explanation stays separate and is labelled with the provider’s source and author; RHM does not invent or combine Tafsir texts.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
           <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
