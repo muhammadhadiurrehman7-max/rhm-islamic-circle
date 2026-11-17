@@ -146,6 +146,7 @@ export default function DailyDuasPage() {
         <h1>Daily Duas</h1>
         <p>Learn supplications from the Qur'an and the authentic Sunnah, with Arabic, transliteration, Urdu and English meanings, narrators and source references.</p>
       </section>
+      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas" aria-current="page">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
       <section className="quran-reader duas-reader">
         <div className="duas-intro"><strong>Learn one dua at a time.</strong><p>Use the search to find a dua by occasion, Prophet's name, Companion narrator, words or exact reference such as 6312.</p></div>
         <div className="duas-controls">

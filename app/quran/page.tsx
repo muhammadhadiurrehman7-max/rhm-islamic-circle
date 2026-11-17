@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Surah = { number: number; name: string; englishName: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string };
 type Ayah = { number: number; numberInSurah: number; text: string };
@@ -23,6 +23,10 @@ export default function QuranPage() {
   const [selectedTranslation, setSelectedTranslation] = useState("ur.jalandhry");
   const [translationsLoading, setTranslationsLoading] = useState(true);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [autoNextSurah, setAutoNextSurah] = useState(true);
+  const [continueAfterSurah, setContinueAfterSurah] = useState(false);
+  const [playbackStatus, setPlaybackStatus] = useState("");
+  const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const requestedSurah = Number(new URLSearchParams(window.location.search).get("surah"));
@@ -178,6 +182,7 @@ export default function QuranPage() {
         <h1>Read. Reflect. Return.</h1>
         <p>Read every Ayah in Arabic, listen verse by verse, and choose Urdu or another available translation language. Open to everyone, without sign-in.</p>
       </section>
+      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran" aria-current="page">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
       <section className="faith-centre" aria-labelledby="faith-centre-title">
         <div className="faith-centre-heading">
           <span className="eyebrow">RHM Islamic learning</span>
@@ -200,14 +205,14 @@ export default function QuranPage() {
         <div className="faith-resources-heading"><span className="eyebrow">More from RHM</span><h2 id="faith-resources-title">Explore other learning spaces</h2><p>These resources are separate from the Discover Islam guide. Open each one whenever you want to study a different subject.</p></div>
         <div className="faith-resource-grid">
           <a className="faith-resource-card" href="/hadith"><span>📚</span><h3>Hadith Library</h3><p>Explore Hadith collections and translations.</p><strong>Open Hadith ↗</strong></a>
-          <a className="faith-resource-card" href="/hadith#qaida-lessons"><span>ا ب</span><h3>Beginner’s Qaida</h3><p>Learn Arabic letters and basic reading rules.</p><strong>Open Qaida ↗</strong></a>
+          <a className="faith-resource-card" href="/qaida"><span>ا ب</span><h3>Beginner’s Qaida</h3><p>Learn Arabic letters and basic reading rules.</p><strong>Open Qaida ↗</strong></a>
           <a className="faith-resource-card" href="/heritage"><span>🕌</span><h3>Islamic Heritage</h3><p>Discover famous mosques and historic places.</p><strong>Explore heritage ↗</strong></a>
         </div>
       </section>
 <section className="quran-reader" id="quran-reader" aria-label="Quran reader">
         <div className="quran-controls">
           <label htmlFor="surah-select">Choose a Surah</label>
-          <select id="surah-select" value={selected} onChange={(event) => setSelected(Number(event.target.value))}>
+          <select id="surah-select" value={selected} onChange={(event) => { setContinueAfterSurah(false); setPlaybackStatus(""); setSelected(Number(event.target.value)); }}>
             {surahs.map((surah) => <option key={surah.number} value={surah.number}>{surah.number}. {surah.englishName} — {surah.name}</option>)}
           </select>
           {chapter && <span className="quran-count">{chapter.numberOfAyahs} Ayahs</span>}
@@ -231,10 +236,36 @@ export default function QuranPage() {
             {recitersLoading && <option>Loading reciters…</option>}
             {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
-          <audio key={surahAudioUrl} className="surah-audio" controls preload="none" src={surahAudioUrl}>
+          <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
+          <audio key={surahAudioUrl} ref={surahAudioRef} className="surah-audio" controls preload="none" src={surahAudioUrl}
+            onEnded={() => {
+              if (autoNextSurah && selected < 114) {
+                const nextName = surahs.find((surah) => surah.number === selected + 1)?.englishName || "the next Surah";
+                setContinueAfterSurah(true);
+                setPlaybackStatus(`Completed. Loading ${nextName}…`);
+                setSelected((current) => Math.min(114, current + 1));
+              } else if (selected === 114) {
+                setPlaybackStatus("You have reached the end of the Qur’an. May your recitation be accepted.");
+              } else {
+                setPlaybackStatus("Surah completed. Select the next Surah whenever you are ready.");
+              }
+            }}
+            onCanPlay={() => {
+              if (!continueAfterSurah) return;
+              const player = surahAudioRef.current;
+              if (!player) return;
+              player.play().then(() => {
+                setContinueAfterSurah(false);
+                setPlaybackStatus("");
+              }).catch(() => {
+                setContinueAfterSurah(false);
+                setPlaybackStatus("The next Surah is ready. Press Play to continue listening.");
+              });
+            }}>
             Your browser does not support audio playback.
           </audio>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
+          {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
           <p className="recitation-note">Recitations are streamed from AlQuran Cloud. Audio availability may vary by reciter and Surah.</p>
         </section>
         {loading && <p className="quran-status">Loading Quran text…</p>}

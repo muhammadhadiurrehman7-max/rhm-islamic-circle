@@ -30,7 +30,7 @@ export default function DiscoverIslamPage() {
       <div className="discover-separate-note"><strong>Separate learning resources:</strong> Hadith collections, beginner’s Qaida lessons and the Islamic Heritage mosque gallery have their own dedicated areas on RHM Islamic Circle.</div>
       <nav className="discover-resource-links" aria-label="Other learning resources">
         <Link href="/hadith">Hadith Library ↗</Link>
-        <Link href="/hadith#qaida-lessons">Beginner’s Qaida ↗</Link>
+        <Link href="/qaida">Beginner’s Qaida ↗</Link>
         <Link href="/heritage">Islamic Heritage &amp; Mosques ↗</Link>
         <Link href="/quran">Read the Qur’an ↗</Link>
       </nav>

@@ -266,6 +266,7 @@ export default function QaidaPage() {
         </div>
       </section>
 
+      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida" aria-current="page">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
       <section className="qaida-section" id="qaida-lessons" aria-label="Arabic Qaida learning lessons">
         <div className="qaida-lesson-grid">
           {lessons.map((item, index) => (
