@@ -987,3 +987,28 @@ html[data-site-theme="dark"] .site-header .nav-links{background:#172821;border-c
 html[data-site-theme="dark"] .site-header .nav-links a{color:#e7eee8;border-color:#34483e}
 html[data-site-theme="dark"] .mobile-menu-toggle{background:#172821;color:#f0eee4;border-color:#465b4e}
 @media(prefers-reduced-motion:reduce){.skip-to-content{transition:none}}
+
+
+/* RHM Islam 360 — calm Qur'an-inspired global canvas */
+body {
+  background-color: #f7f5ee;
+  background-image:
+    linear-gradient(rgba(250,249,244,.90), rgba(250,249,244,.90)),
+    url('/images/rhm-islam360-quran-hero.webp');
+  background-position: center, center 42%;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
+  background-repeat: no-repeat;
+}
+html[data-site-theme="dark"] body {
+  background-color: #101d19;
+  background-image:
+    linear-gradient(rgba(10,24,19,.92), rgba(10,24,19,.92)),
+    url('/images/rhm-islam360-quran-hero.webp');
+}
+@media (max-width: 700px) {
+  body { background-attachment: scroll, scroll; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body { background-attachment: scroll, scroll; }
+}
