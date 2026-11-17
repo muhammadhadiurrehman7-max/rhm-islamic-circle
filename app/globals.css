@@ -937,3 +937,22 @@ html[data-site-theme="dark"] .sacred-learning-ribbon small { color:#bdc9c0; }
 html[data-site-theme="dark"] .heritage-history-links a,html[data-site-theme="dark"] .heritage-topic-grid article,html[data-site-theme="dark"] .heritage-scholar-grid article,html[data-site-theme="dark"] .heritage-art-grid article { background:#101d19; }
 @media(max-width:850px) { .heritage-history-links { grid-template-columns:repeat(2,minmax(0,1fr)); }.heritage-topic-grid,.heritage-scholar-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.heritage-art-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:560px) { .heritage-history-links,.heritage-topic-grid,.heritage-scholar-grid,.heritage-art-grid { grid-template-columns:1fr; }.heritage-timeline { padding-left:18px; }.heritage-timeline article { grid-template-columns:1fr; gap:5px; }.heritage-timeline article:before { left:-25px; } }
+
+
+/* Bilingual Quran study controls and sourced Tafsir presentation */
+.quran-language-choice{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;padding:.85rem 1rem;border:1px solid var(--line,#d8dfd7);border-radius:14px;background:var(--surface,#fff)}
+.quran-language-label{flex-basis:100%;font-size:.88rem;font-weight:700;color:var(--muted,#617267)}
+.quran-language-choice .reader-tool-button{min-width:112px}
+.quran-language-choice .reader-tool-button.is-selected{background:#174d3b;color:#fff;border-color:#174d3b;box-shadow:0 0 0 2px rgba(23,77,59,.14)}
+.surah-study-overview{margin:1rem 0 1.4rem;padding:1.2rem 1.35rem;border:1px solid var(--line,#d8dfd7);border-radius:18px;background:var(--surface,#fff);color:var(--ink,#173b30)}
+.surah-study-overview h2{margin:.3rem 0;font-size:clamp(1.35rem,3vw,2rem)}
+.surah-study-overview h2 span{display:inline-block;margin-inline-start:.6rem;font-family:serif}
+.surah-study-overview p{margin:.45rem 0;line-height:1.8}
+.tafsir-source-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.55rem;margin:.6rem 0 1rem}
+.tafsir-source-option{display:flex;align-items:flex-start;gap:.65rem;padding:.75rem .85rem;border:1px solid var(--line,#d8dfd7);border-radius:12px;background:var(--surface,#fff);cursor:pointer}
+.tafsir-source-option input{margin-top:.2rem;accent-color:#174d3b}
+.tafsir-source-option span{line-height:1.5}
+.tafsir-source-option small{color:var(--muted,#617267)}
+.ayah-tafsir-english p{direction:ltr;text-align:left;line-height:1.9}
+.ayah-tafsir-urdu p{direction:rtl;text-align:right;line-height:2.15;font-size:1.05em}
+@media(max-width:640px){.quran-language-choice{align-items:stretch}.quran-language-choice .reader-tool-button{flex:1;min-width:0}.surah-study-overview{padding:1rem}}
