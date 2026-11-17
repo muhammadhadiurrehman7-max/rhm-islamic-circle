@@ -204,7 +204,7 @@ export default function QuranPage() {
       .then((data) => {
         if (!active) return;
         const available = (data.tafsirs || data.resources || []) as TafsirResource[];
-        const languageResources = available.filter((item) => item.id && (item.language_name === studyLanguage || (studyLanguage === "ur" && item.language_name === "urdu")));
+        const languageResources = available.filter((item) => item.id && (String(item.language_name || "").toLowerCase() === studyLanguage || (studyLanguage === "ur" && String(item.language_name || "").toLowerCase() === "urdu") || (studyLanguage === "en" && String(item.language_name || "").toLowerCase() === "english")));
         setTafsirs(languageResources);
         const preferred = languageResources.find((item) => /ibn.?kathir/i.test(item.name)) || languageResources[0];
         if (preferred) setSelectedTafsirs([String(preferred.id)]);
@@ -598,9 +598,9 @@ export default function QuranPage() {
                       </div>
                     </>
                   ) : null}
-                  {selectedTafsirs.length > 0 && (tafsirByAyah.get(ayah.numberInSurah) || []).map((passage) => <details className="ayah-tafsir ayah-tafsir-urdu" key={passage.id + "-" + ayah.numberInSurah} open={tafsirMode}>
+                  {selectedTafsirs.length > 0 && (tafsirByAyah.get(ayah.numberInSurah) || []).map((passage) => <details className={`ayah-tafsir ${studyLanguage === "ur" ? "ayah-tafsir-urdu" : "ayah-tafsir-english"}`} key={passage.id + "-" + ayah.numberInSurah} open={tafsirMode}>
                     <summary>{passage.name}{passage.author ? " — " + passage.author : ""} · آیت {ayah.numberInSurah}</summary>
-                    <p lang="ur" dir="rtl">{passage.text}</p>
+                    <p lang={studyLanguage} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>{passage.text}</p>
                   </details>)}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
