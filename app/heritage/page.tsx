@@ -22,6 +22,147 @@ export default function IslamicHeritagePage() {
     <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</Link><div className="quran-top-actions"><Link className="quran-home-link" href="/quran">Back to learning centre</Link></div></header>
     <div className="heritage-wrap">
       <header className="heritage-hero"><span className="eyebrow">Explore Islamic civilisation</span><h1>Islamic Heritage &amp; Famous Mosques</h1><p>Discover remarkable mosques and sacred places across the Muslim world through real photographs and short historical introductions.</p><span className="heritage-arabic" lang="ar" dir="rtl">مساجد ومعالم إسلامية</span></header>
+
+
+      <section className="heritage-history-intro" aria-labelledby="heritage-history-title">
+        <div className="heritage-section-heading">
+          <span className="eyebrow">More than monuments</span>
+          <h2 id="heritage-history-title">A living legacy across centuries</h2>
+          <p>Islamic history is a wide and diverse story: faith and worship, scholarship and libraries, trade and travel, art and architecture, languages and local cultures. Explore it with curiosity and respect for the people and communities who shaped it.</p>
+        </div>
+        <div className="heritage-history-links">
+          <a href="#timeline"><span>01</span><strong>Historical timeline</strong><small>Key eras and turning points</small></a>
+          <a href="#civilisations"><span>02</span><strong>Dynasties & regions</strong><small>From Arabia to Africa and Asia</small></a>
+          <a href="#knowledge"><span>03</span><strong>Knowledge & scholarship</strong><small>Libraries, scholars and learning</small></a>
+          <a href="#arts"><span>04</span><strong>Arts & architecture</strong><small>Design, calligraphy and craft</small></a>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="timeline">
+        <div className="heritage-section-heading"><span className="eyebrow">A brief historical guide</span><h2>Islamic history timeline</h2><p>Dates are approximate where historical conventions differ. This is an introduction, not a complete account of every region or community.</p></div>
+        <div className="heritage-timeline">
+          <article><span className="heritage-date">c. 610 CE</span><div><h3>The beginning of Qur’anic revelation</h3><p>Muslims traditionally date the first revelation to Prophet Muhammad ﷺ to around 610 CE in the Cave of Hira near Makkah.</p></div></article>
+          <article><span className="heritage-date">622 CE</span><div><h3>The Hijrah to Madinah</h3><p>The migration from Makkah to Yathrib, later known as Madinah, marks the beginning of the Islamic Hijri calendar. A new Muslim community took shape there.</p></div></article>
+          <article><span className="heritage-date">632–661 CE</span><div><h3>The Rightly Guided Caliphs</h3><p>The period following the Prophet’s ﷺ death saw the leadership of Abu Bakr, Umar, Uthman and Ali رضي الله عنهم. It was also a period of major political change and expansion.</p></div></article>
+          <article><span className="heritage-date">661–750 CE</span><div><h3>The Umayyad period</h3><p>With its centre in Damascus, the Umayyad caliphate governed a vast territory and left important monuments, including the Dome of the Rock and the Great Mosque of Damascus.</p></div></article>
+          <article><span className="heritage-date">750 CE onward</span><div><h3>The Abbasid era and wider learning networks</h3><p>Baghdad became a major centre of administration, trade, translation and scholarship. Knowledge also flourished in cities across North Africa, Persia, Central Asia and beyond.</p></div></article>
+          <article><span className="heritage-date">8th–15th centuries</span><div><h3>Al-Andalus and the western Islamic world</h3><p>Muslim-ruled parts of the Iberian Peninsula developed distinctive traditions in architecture, agriculture, philosophy, poetry and learning, alongside complex relationships among religious communities.</p></div></article>
+          <article><span className="heritage-date">13th–16th centuries</span><div><h3>New centres across Africa and Asia</h3><p>Important Muslim states, scholarly networks and trading cities developed across the Sahel, East Africa, South Asia and Southeast Asia. Islamic history was never limited to one empire.</p></div></article>
+          <article><span className="heritage-date">c. 1299–1922</span><div><h3>The Ottoman state and empire</h3><p>From north-west Anatolia, the Ottoman state grew into a long-lasting empire with major architectural, artistic, legal and administrative legacies across three continents.</p></div></article>
+          <article><span className="heritage-date">1526–1857</span><div><h3>The Mughal era in South Asia</h3><p>The Mughal dynasty shaped the history of much of South Asia through its courts, gardens, architecture, painting, literature and varied regional relationships.</p></div></article>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="civilisations">
+        <div className="heritage-section-heading"><span className="eyebrow">Many regions, many stories</span><h2>Explore Islamic civilisations</h2><p>These labels are broad starting points. Each region had different rulers, languages, schools of thought and local traditions; none should be treated as a single uniform culture.</p></div>
+        <div className="heritage-topic-grid">
+          <article><span>01 · ARABIA</span><h3>Makkah, Madinah & the early Muslim community</h3><p>Learn about the Prophet’s ﷺ life, the Hijrah, the early community and the places connected with the beginnings of Islam.</p></article>
+          <article><span>02 · WEST ASIA</span><h3>Damascus, Baghdad & the great cities</h3><p>Explore Umayyad and Abbasid history, urban life, libraries, trade routes and the movement of ideas.</p></article>
+          <article><span>03 · AFRICA</span><h3>North Africa, the Sahel & East Africa</h3><p>Discover Kairouan, Cairo, Timbuktu, Swahili coastal cities and the diverse ways Islam became rooted in African societies.</p></article>
+          <article><span>04 · IBERIA</span><h3>Al-Andalus</h3><p>Study the layered history of Muslim-ruled Iberia, including Córdoba, Granada, scholarship, architecture and cultural exchange.</p></article>
+          <article><span>05 · SOUTH ASIA</span><h3>Delhi, Lahore, Agra & beyond</h3><p>Explore Sultanate and Mughal histories, Sufi networks, regional kingdoms, languages, gardens, mosques and forts.</p></article>
+          <article><span>06 · CENTRAL & SOUTHEAST ASIA</span><h3>Samarkand, Bukhara & maritime networks</h3><p>Learn about scholarship along the Silk Roads and the spread and development of Muslim communities across island and mainland Southeast Asia.</p></article>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="knowledge">
+        <div className="heritage-section-heading"><span className="eyebrow">The pursuit of knowledge</span><h2>Scholars, libraries & learning</h2><p>Muslim intellectual history includes religious sciences as well as medicine, mathematics, astronomy, geography, philosophy, literature and the arts. These examples introduce only a few of its many contributors.</p></div>
+        <div className="heritage-scholar-grid">
+          <article><h3>Al-Khwarizmi</h3><span>Mathematics · 9th century</span><p>His mathematical writings helped transmit and develop methods that became foundational to algebra.</p></article>
+          <article><h3>Al-Razi</h3><span>Medicine · 9th–10th century</span><p>A physician and writer whose medical works were read and discussed in later scholarly traditions.</p></article>
+          <article><h3>Ibn al-Haytham</h3><span>Optics · 10th–11th century</span><p>Known for influential work on vision, light and experimental investigation.</p></article>
+          <article><h3>Al-Biruni</h3><span>Science & history · 10th–11th century</span><p>Wrote on astronomy, mathematics, geography and the cultures and traditions of the societies he studied.</p></article>
+          <article><h3>Fatima al-Fihri</h3><span>Education · 9th century</span><p>Tradition associates her patronage with the founding of the Qarawiyyin mosque and learning centre in Fez.</p></article>
+          <article><h3>Ibn Khaldun</h3><span>History & society · 14th century</span><p>His Muqaddimah offered influential analysis of historical change, society, power and economic life.</p></article>
+        </div>
+        <div className="heritage-note">Historical care: scholars worked in different languages, faith communities and intellectual settings. Their work was shaped by exchange across cultures; avoid attributing every later discovery to one person or civilisation.</div>
+      </section>
+
+      <section className="heritage-history-section" id="arts">
+        <div className="heritage-section-heading"><span className="eyebrow">Beauty, craft & devotion</span><h2>Islamic arts & architecture</h2><p>There is no single Islamic architectural style. Regional materials, climates, patrons and artistic traditions created a rich variety of forms.</p></div>
+        <div className="heritage-art-grid">
+          <article><div className="heritage-art-symbol">۞</div><h3>Geometric patterns</h3><p>Interlacing shapes and repeated forms appear in many buildings, tiles, woodwork and manuscripts.</p></article>
+          <article><div className="heritage-art-symbol" lang="ar">اقرأ</div><h3>Arabic calligraphy</h3><p>Calligraphers developed scripts for Qur’anic manuscripts, inscriptions, architecture and works of art.</p></article>
+          <article><div className="heritage-art-symbol">⌂</div><h3>Domes, arches & minarets</h3><p>These features vary widely by place and period, serving structural, visual and community functions.</p></article>
+          <article><div className="heritage-art-symbol">✧</div><h3>Gardens, tiles & craft</h3><p>Water, planting, ceramics, carved plaster, textiles and woodwork shaped many regional artistic traditions.</p></article>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="foundations">
+        <div className="heritage-section-heading"><span className="eyebrow">The foundations of faith</span><h2>Understand the essentials of Islam</h2><p>A beginner-friendly overview of core beliefs and acts of worship. Detailed rulings can differ among recognised schools of Islamic law, so learners should consult qualified teachers for personal religious guidance.</p></div>
+        <div className="heritage-topic-grid">
+          <article><span>THE FIVE PILLARS</span><h3>Shahadah · Declaration of faith</h3><p>To testify that none is worthy of worship except Allah and that Muhammad ﷺ is the Messenger of Allah. This testimony is the foundation of Muslim belief.</p></article>
+          <article><span>THE FIVE PILLARS</span><h3>Salah · Daily prayer</h3><p>Muslims perform five obligatory prayers each day at appointed times, turning toward the Kaaba in Makkah. Prayer joins remembrance, humility and disciplined worship.</p></article>
+          <article><span>THE FIVE PILLARS</span><h3>Zakah · Obligatory giving</h3><p>Zakah is a defined act of worship and social responsibility for Muslims who meet its conditions. Its rules depend on the type of wealth and other details.</p></article>
+          <article><span>THE FIVE PILLARS</span><h3>Sawm · Fasting in Ramadan</h3><p>Adult Muslims who are able are generally required to fast from dawn to sunset during Ramadan, with recognised exemptions and make-up rules.</p></article>
+          <article><span>THE FIVE PILLARS</span><h3>Hajj · Pilgrimage to Makkah</h3><p>Hajj is obligatory once in a lifetime for Muslims who are physically and financially able and meet its conditions.</p></article>
+          <article><span>THE ARTICLES OF FAITH</span><h3>Six foundations of Iman</h3><p>Belief in Allah, His angels, His revealed books, His messengers, the Last Day, and divine decree (Qadar). These are described in the Hadith of Jibril, recorded in Sahih Muslim.</p></article>
+        </div>
+        <div className="heritage-note">Reference points: Qur’an 2:43 (prayer and zakah), 2:183 (fasting), 3:97 (Hajj), and the Hadith of Jibril in Sahih Muslim 8a. The Five Pillars are also set out in Sahih al-Bukhari 8 and Sahih Muslim 16.</div>
+      </section>
+
+      <section className="heritage-history-section" id="seerah">
+        <div className="heritage-section-heading"><span className="eyebrow">The Prophetic biography</span><h2>Seerah: the life of Prophet Muhammad ﷺ</h2><p>Study the Prophet’s life through the Qur’an and reliable Seerah and Hadith scholarship. Dates before the Hijrah are approximate, and reports may differ in detail.</p></div>
+        <div className="heritage-timeline">
+          <article><span className="heritage-date">c. 570 CE</span><div><h3>Birth in Makkah</h3><p>Muhammad ﷺ was born in Makkah in the Year of the Elephant, according to the commonly cited traditional chronology. He belonged to the Quraysh tribe.</p></div></article>
+          <article><span className="heritage-date">610 CE</span><div><h3>The first revelation</h3><p>At the age of about forty, the first verses of Surah Al-‘Alaq were revealed to him in the Cave of Hira. The message called people to worship Allah alone and live with justice and accountability.</p></div></article>
+          <article><span className="heritage-date">Makkah period</span><div><h3>Patience and the early Muslim community</h3><p>The first Muslims faced opposition. The Prophet ﷺ taught belief in one God, prayer, care for the vulnerable, honesty and steadfastness.</p></div></article>
+          <article><span className="heritage-date">622 CE</span><div><h3>The Hijrah to Madinah</h3><p>The migration marked a new chapter. In Madinah, the Muslim community developed institutions of worship, mutual responsibility and public life.</p></div></article>
+          <article><span className="heritage-date">630 CE</span><div><h3>The return to Makkah</h3><p>In the commonly accepted chronology, the Muslims entered Makkah and the Kaaba was restored to the worship of Allah alone. Study the event alongside its historical context and Prophetic teachings on mercy.</p></div></article>
+          <article><span className="heritage-date">632 CE</span><div><h3>The Prophet’s final years</h3><p>After the Farewell Pilgrimage, Prophet Muhammad ﷺ passed away in Madinah. Muslims continue to learn from the Qur’an he conveyed and the Sunnah preserved through Hadith scholarship.</p></div></article>
+        </div>
+        <div className="heritage-note">Qur’anic study references include Surah Al-‘Alaq 96:1–5, Al-Isra 17:1, Al-Ahzab 33:21 and Al-Ma’idah 5:3. Read the verses in context with a trusted translation and tafsir.</div>
+      </section>
+
+      <section className="heritage-history-section" id="prophets">
+        <div className="heritage-section-heading"><span className="eyebrow">Messengers and examples</span><h2>Prophets mentioned in Islam</h2><p>The Qur’an names many prophets and teaches that Allah sent messengers to guide people. These short introductions are starting points for reading their stories directly in the Qur’an.</p></div>
+        <div className="heritage-scholar-grid">
+          <article><h3>Adam عليه السلام</h3><span>Creation and repentance</span><p>The first human and a prophet. His story teaches human dignity, responsibility and turning back to Allah. Qur’an 2:30–39.</p></article>
+          <article><h3>Nuh عليه السلام</h3><span>Perseverance and trust</span><p>Called his people to worship Allah with patience over a long period. His account is told in Surah Nuh and elsewhere.</p></article>
+          <article><h3>Ibrahim عليه السلام</h3><span>Tawhid and devotion</span><p>A central model of sincere faith; Islamic tradition connects him and Isma‘il عليهما السلام with the foundations of the Kaaba. Qur’an 2:124–129.</p></article>
+          <article><h3>Musa عليه السلام</h3><span>Courage and deliverance</span><p>His story includes confronting Pharaoh, receiving revelation and leading the Children of Israel. Qur’an 20 and 28.</p></article>
+          <article><h3>‘Isa عليه السلام</h3><span>Signs and mercy</span><p>Jesus is honoured in Islam as the Messiah and a messenger of Allah, born miraculously to Maryam. Qur’an 3:45–51 and 19.</p></article>
+          <article><h3>Muhammad ﷺ</h3><span>The final messenger</span><p>The Qur’an describes him as the Messenger of Allah and the Seal of the Prophets. Muslims follow his Sunnah. Qur’an 33:40.</p></article>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="companions">
+        <div className="heritage-section-heading"><span className="eyebrow">The first Muslim generations</span><h2>Companions and exemplary Muslim figures</h2><p>Learn about the Sahabah with respect and historical care. Muslims across traditions may differ in how particular events and personalities are interpreted.</p></div>
+        <div className="heritage-scholar-grid">
+          <article><h3>Khadijah bint Khuwaylid رضي الله عنها</h3><span>Faith and steadfast support</span><p>The Prophet’s first wife and the first person to believe in his message. Remembered for her generosity, wisdom and support.</p></article>
+          <article><h3>Abu Bakr al-Siddiq رضي الله عنه</h3><span>Companionship and leadership</span><p>A close companion of the Prophet ﷺ and the first caliph after his passing.</p></article>
+          <article><h3>Umar ibn al-Khattab رضي الله عنه</h3><span>Justice and administration</span><p>The second caliph, associated with major developments in the administration of the early Muslim community.</p></article>
+          <article><h3>Uthman ibn Affan رضي الله عنه</h3><span>Generosity and Qur’an manuscripts</span><p>The third caliph; the standardisation and distribution of the Qur’anic codex is associated with his caliphate.</p></article>
+          <article><h3>Ali ibn Abi Talib رضي الله عنه</h3><span>Knowledge and courage</span><p>The Prophet’s cousin and son-in-law, the fourth caliph in the Sunni sequence and a central figure in Islamic history.</p></article>
+          <article><h3>Bilal ibn Rabah رضي الله عنه</h3><span>Faith and the call to prayer</span><p>Among the earliest Muslims, remembered for steadfast faith and for serving as a muezzin in the Prophet’s community.</p></article>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="character">
+        <div className="heritage-section-heading"><span className="eyebrow">Faith in everyday life</span><h2>Islamic character, worship and good conduct</h2><p>Islamic learning is not only information: it should nurture worship, mercy, honesty, responsibility and good treatment of others.</p></div>
+        <div className="heritage-topic-grid">
+          <article><span>WORSHIP</span><h3>Purification and prayer</h3><p>Learn the principles of Wudu, Ghusl, cleanliness, prayer times, Salah and congregational worship. Check detailed rulings with a qualified teacher.</p></article>
+          <article><span>CHARACTER</span><h3>Truthfulness and trust</h3><p>Practise honesty, keeping promises, fulfilling trusts, speaking kindly and avoiding slander and deception.</p></article>
+          <article><span>FAMILY & COMMUNITY</span><h3>Mercy and good relationships</h3><p>Explore kindness to parents, care for relatives, neighbours and guests, and fairness toward people of every background.</p></article>
+          <article><span>KNOWLEDGE</span><h3>Learning with humility</h3><p>Ask questions, verify quotations, distinguish strong evidence from uncertain reports and acknowledge when you do not know.</p></article>
+          <article><span>CHARITY</span><h3>Service and generosity</h3><p>Support people in need through lawful, dignified and transparent acts of charity and community service.</p></article>
+          <article><span>ENVIRONMENT</span><h3>Care for creation</h3><p>Avoid waste, treat animals with compassion, protect shared resources and act responsibly toward the natural world.</p></article>
+        </div>
+        <div className="heritage-note">For further reading: Qur’an 16:90 (justice and excellence), 17:23–39 (ethical guidance), 49:11–13 (respect and human dignity), and Sahih Muslim 2592c (gentleness).</div>
+      </section>
+
+      <section className="heritage-history-section" id="islamic-sciences">
+        <div className="heritage-section-heading"><span className="eyebrow">How Muslims study their faith</span><h2>Explore the Islamic sciences</h2><p>Each discipline has its own methods, terminology and scholarly tradition. These brief descriptions are educational signposts, not substitutes for a full course.</p></div>
+        <div className="heritage-art-grid">
+          <article><div className="heritage-art-symbol">۞</div><h3>Tajwid</h3><p>Rules and practice for reciting the Qur’an carefully, including articulation points and characteristics of Arabic letters.</p></article>
+          <article><div className="heritage-art-symbol" lang="ar">تفسير</div><h3>Tafsir</h3><p>Scholarly explanation of Qur’anic verses, considering language, context, transmitted reports and recognised methods.</p></article>
+          <article><div className="heritage-art-symbol" lang="ar">حديث</div><h3>Hadith studies</h3><p>Study of Prophetic reports, their chains of transmission, wording, grading and interpretation.</p></article>
+          <article><div className="heritage-art-symbol" lang="ar">فقه</div><h3>Fiqh</h3><p>Human scholarly understanding of practical rulings from the sources, developed through recognised legal methodologies.</p></article>
+          <article><div className="heritage-art-symbol" lang="ar">عقيدة</div><h3>‘Aqidah</h3><p>Study of Islamic beliefs and theological questions, with recognised schools and scholarly approaches.</p></article>
+          <article><div className="heritage-art-symbol" lang="ar">لغة</div><h3>Arabic language</h3><p>Grammar, vocabulary, morphology and rhetoric help learners understand Qur’anic Arabic and classical texts.</p></article>
+        </div>
+      </section>
+
       <div className="heritage-note">Choose a sacred place below to view its photograph and read a short introduction. Start with the Kaaba in Makkah or the Prophet’s Mosque in Madinah. A respectful learning gallery: dates and descriptions are concise introductions. Some sites have complex, layered histories and are sacred to more than one community.</div>
       <section className="heritage-grid" aria-label="Famous mosques and Islamic heritage places">
         {places.map((place) => <article className="heritage-card" id={place.id ?? undefined} key={place.name}>
