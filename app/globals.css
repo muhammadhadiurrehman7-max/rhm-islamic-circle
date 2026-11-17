@@ -956,3 +956,34 @@ html[data-site-theme="dark"] .heritage-history-links a,html[data-site-theme="dar
 .ayah-tafsir-english p{direction:ltr;text-align:left;line-height:1.9}
 .ayah-tafsir-urdu p{direction:rtl;text-align:right;line-height:2.15;font-size:1.05em}
 @media(max-width:640px){.quran-language-choice{align-items:stretch}.quran-language-choice .reader-tool-button{flex:1;min-width:0}.surah-study-overview{padding:1rem}}
+
+
+/* Accessible responsive primary navigation */
+.skip-to-content{position:absolute;z-index:1000;top:8px;left:8px;padding:10px 14px;border-radius:9px;background:#174b3c;color:#fff;font-weight:700;transform:translateY(-160%);transition:transform .18s ease}
+.skip-to-content:focus{transform:translateY(0)}
+.mobile-menu-toggle{display:none;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:9px 13px;border:1px solid #d9e3dc;border-radius:999px;background:#fff;color:#174b3c;font:700 13px "DM Sans",sans-serif}
+.mobile-menu-toggle span:first-child{font-size:18px;line-height:1}
+.site-header{position:relative;z-index:30}
+.site-header a:focus-visible,.site-header button:focus-visible,.btn:focus-visible{outline:3px solid #c59a55;outline-offset:3px}
+@media(max-width:850px){
+  .site-header{flex-wrap:wrap;gap:12px;padding:14px 20px}
+  .mobile-menu-toggle{display:inline-flex;margin-left:auto}
+  .site-header .nav-links{display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;z-index:40;flex-direction:column;align-items:stretch;gap:0;padding:8px 20px 16px;background:#fff;border-bottom:1px solid #e5e9e3;box-shadow:0 16px 28px rgba(20,48,37,.12)}
+  .site-header .nav-links.is-open{display:flex}
+  .site-header .nav-links a{padding:13px 8px;border-bottom:1px solid #edf0eb;font-size:14px}
+  .site-header .nav-links a:last-child{border-bottom:0}
+  .site-header .nav-actions{margin-left:auto}
+}
+@media(max-width:560px){
+  .site-header{padding:12px 14px;gap:9px}
+  .brand{font-size:13px;gap:8px}
+  .brand-mark{width:36px;height:36px}
+  .mobile-menu-toggle{min-height:38px;padding:7px 10px;font-size:12px}
+  .site-header .nav-actions{width:100%;margin:0}
+  .site-header .nav-actions .btn{flex:1;padding:10px 12px;font-size:12px}
+  .site-header .nav-actions .btn-light{display:inline-flex}
+}
+html[data-site-theme="dark"] .site-header .nav-links{background:#172821;border-color:#34483e}
+html[data-site-theme="dark"] .site-header .nav-links a{color:#e7eee8;border-color:#34483e}
+html[data-site-theme="dark"] .mobile-menu-toggle{background:#172821;color:#f0eee4;border-color:#465b4e}
+@media(prefers-reduced-motion:reduce){.skip-to-content{transition:none}}
