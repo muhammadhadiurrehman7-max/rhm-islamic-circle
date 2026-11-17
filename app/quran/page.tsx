@@ -177,6 +177,8 @@ export default function QuranPage() {
   }, []);
 
   useEffect(() => {
+    let active = true;
+    setTranslationsLoading(true);
     fetch("https://api.alquran.cloud/v1/edition?format=text&type=translation")
       .then((response) => {
         if (!response.ok) throw new Error("Could not load translations.");
@@ -184,6 +186,7 @@ export default function QuranPage() {
       })
       .then((data) => {
         const available = (data.data as Translation[]).filter((edition) => edition.language && edition.identifier);
+        if (!active) return;
         setTranslations(available);
         const preferred = studyLanguage === "ur"
           ? available.find((edition) => edition.identifier === "ur.jalandhry") || available.find((edition) => edition.language === "ur")
@@ -191,14 +194,16 @@ export default function QuranPage() {
         if (preferred) setSelectedTranslation(preferred.identifier);
         else setError(studyLanguage === "ur" ? "No Urdu translation is currently listed by the translation provider." : "No English translation is currently listed by the translation provider.");
       })
-      .catch(() => setError("Translation options could not be loaded. Please refresh the page."))
-      .finally(() => setTranslationsLoading(false));
+      .catch(() => { if (active) setError("Translation options could not be loaded. Please refresh the page."); })
+      .finally(() => { if (active) setTranslationsLoading(false); });
+    return () => { active = false; };
   }, [studyLanguage]);
 
   useEffect(() => {
     let active = true;
     setTafsirs([]);
     setSelectedTafsirs([]);
+    setSearchError("");
     fetch(`/api/quran/verse?resources=tafsirs&language=${studyLanguage}`)
       .then((response) => { if (!response.ok) throw new Error("Tafsir resources are not available for this language."); return response.json(); })
       .then((data) => {
@@ -582,7 +587,7 @@ export default function QuranPage() {
                         <strong>{studyLanguage === "ur" ? "Word-by-word meaning · لفظ بہ لفظ معنی" : "Word-by-word meaning"}</strong>
                         <span>{studyLanguage === "ur" ? "Each word is shown with its Urdu meaning and pronunciation." : "Each word is shown with its English meaning and pronunciation."}</span>
                       </div>
-                      <div className="word-study-panel" aria-label={`Word by word study for ${key}`} dir="rtl">
+                      <div className="word-study-panel" aria-label={`Word by word study for ${key}`} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>
                         {wordStudy[key].map((word, index) => {
                           const audioPath = word.audioUrl || word.audio_url;
                           return (
@@ -590,7 +595,7 @@ export default function QuranPage() {
                               <span className="word-study-arabic" lang="ar" dir="rtl">{word.textUthmani || word.text_uthmani || word.textIndopak || word.text_indopak || ""}</span>
                               <small className="word-study-meaning" lang={studyLanguage} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>{word.translation?.text || (studyLanguage === "ur" ? "اردو معنی دستیاب نہیں" : "English meaning unavailable")}</small>
                               <small className="word-study-transliteration" lang="en" dir="ltr">{word.transliteration?.text || ""}</small>
-                              <small className="word-study-index">لفظ {word.position || index + 1}</small>
+                              <small className="word-study-index">{studyLanguage === "ur" ? `لفظ ${word.position || index + 1}` : `Word ${word.position || index + 1}`}</small>
                               <audio controls preload="none" src={"https://audio.qurancdn.com/" + (audioPath || "")} aria-label={"Pronounce word " + (index + 1)}></audio>
                             </div>
                           );
@@ -599,7 +604,7 @@ export default function QuranPage() {
                     </>
                   ) : null}
                   {selectedTafsirs.length > 0 && (tafsirByAyah.get(ayah.numberInSurah) || []).map((passage) => <details className={`ayah-tafsir ${studyLanguage === "ur" ? "ayah-tafsir-urdu" : "ayah-tafsir-english"}`} key={passage.id + "-" + ayah.numberInSurah} open={tafsirMode}>
-                    <summary>{passage.name}{passage.author ? " — " + passage.author : ""} · آیت {ayah.numberInSurah}</summary>
+                    <summary>{passage.name}{passage.author ? " — " + passage.author : ""} · {studyLanguage === "ur" ? `آیت ${ayah.numberInSurah}` : `Ayah ${ayah.numberInSurah}`}</summary>
                     <p lang={studyLanguage} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>{passage.text}</p>
                   </details>)}
                   <div className="ayah-audio-row">
