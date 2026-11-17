@@ -22,6 +22,72 @@ export default function IslamicHeritagePage() {
     <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</Link><div className="quran-top-actions"><Link className="quran-home-link" href="/quran">Back to learning centre</Link></div></header>
     <div className="heritage-wrap">
       <header className="heritage-hero"><span className="eyebrow">Explore Islamic civilisation</span><h1>Islamic Heritage &amp; Famous Mosques</h1><p>Discover remarkable mosques and sacred places across the Muslim world through real photographs and short historical introductions.</p><span className="heritage-arabic" lang="ar" dir="rtl">مساجد ومعالم إسلامية</span></header>
+
+
+      <section className="heritage-history-intro" aria-labelledby="heritage-history-title">
+        <div className="heritage-section-heading">
+          <span className="eyebrow">More than monuments</span>
+          <h2 id="heritage-history-title">A living legacy across centuries</h2>
+          <p>Islamic history is a wide and diverse story: faith and worship, scholarship and libraries, trade and travel, art and architecture, languages and local cultures. Explore it with curiosity and respect for the people and communities who shaped it.</p>
+        </div>
+        <div className="heritage-history-links">
+          <a href="#timeline"><span>01</span><strong>Historical timeline</strong><small>Key eras and turning points</small></a>
+          <a href="#civilisations"><span>02</span><strong>Dynasties & regions</strong><small>From Arabia to Africa and Asia</small></a>
+          <a href="#knowledge"><span>03</span><strong>Knowledge & scholarship</strong><small>Libraries, scholars and learning</small></a>
+          <a href="#arts"><span>04</span><strong>Arts & architecture</strong><small>Design, calligraphy and craft</small></a>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="timeline">
+        <div className="heritage-section-heading"><span className="eyebrow">A brief historical guide</span><h2>Islamic history timeline</h2><p>Dates are approximate where historical conventions differ. This is an introduction, not a complete account of every region or community.</p></div>
+        <div className="heritage-timeline">
+          <article><span className="heritage-date">c. 610 CE</span><div><h3>The beginning of Qur’anic revelation</h3><p>Muslims traditionally date the first revelation to Prophet Muhammad ﷺ to around 610 CE in the Cave of Hira near Makkah.</p></div></article>
+          <article><span className="heritage-date">622 CE</span><div><h3>The Hijrah to Madinah</h3><p>The migration from Makkah to Yathrib, later known as Madinah, marks the beginning of the Islamic Hijri calendar. A new Muslim community took shape there.</p></div></article>
+          <article><span className="heritage-date">632–661 CE</span><div><h3>The Rightly Guided Caliphs</h3><p>The period following the Prophet’s ﷺ death saw the leadership of Abu Bakr, Umar, Uthman and Ali رضي الله عنهم. It was also a period of major political change and expansion.</p></div></article>
+          <article><span className="heritage-date">661–750 CE</span><div><h3>The Umayyad period</h3><p>With its centre in Damascus, the Umayyad caliphate governed a vast territory and left important monuments, including the Dome of the Rock and the Great Mosque of Damascus.</p></div></article>
+          <article><span className="heritage-date">750 CE onward</span><div><h3>The Abbasid era and wider learning networks</h3><p>Baghdad became a major centre of administration, trade, translation and scholarship. Knowledge also flourished in cities across North Africa, Persia, Central Asia and beyond.</p></div></article>
+          <article><span className="heritage-date">8th–15th centuries</span><div><h3>Al-Andalus and the western Islamic world</h3><p>Muslim-ruled parts of the Iberian Peninsula developed distinctive traditions in architecture, agriculture, philosophy, poetry and learning, alongside complex relationships among religious communities.</p></div></article>
+          <article><span className="heritage-date">13th–16th centuries</span><div><h3>New centres across Africa and Asia</h3><p>Important Muslim states, scholarly networks and trading cities developed across the Sahel, East Africa, South Asia and Southeast Asia. Islamic history was never limited to one empire.</p></div></article>
+          <article><span className="heritage-date">c. 1299–1922</span><div><h3>The Ottoman state and empire</h3><p>From north-west Anatolia, the Ottoman state grew into a long-lasting empire with major architectural, artistic, legal and administrative legacies across three continents.</p></div></article>
+          <article><span className="heritage-date">1526–1857</span><div><h3>The Mughal era in South Asia</h3><p>The Mughal dynasty shaped the history of much of South Asia through its courts, gardens, architecture, painting, literature and varied regional relationships.</p></div></article>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="civilisations">
+        <div className="heritage-section-heading"><span className="eyebrow">Many regions, many stories</span><h2>Explore Islamic civilisations</h2><p>These labels are broad starting points. Each region had different rulers, languages, schools of thought and local traditions; none should be treated as a single uniform culture.</p></div>
+        <div className="heritage-topic-grid">
+          <article><span>01 · ARABIA</span><h3>Makkah, Madinah & the early Muslim community</h3><p>Learn about the Prophet’s ﷺ life, the Hijrah, the early community and the places connected with the beginnings of Islam.</p></article>
+          <article><span>02 · WEST ASIA</span><h3>Damascus, Baghdad & the great cities</h3><p>Explore Umayyad and Abbasid history, urban life, libraries, trade routes and the movement of ideas.</p></article>
+          <article><span>03 · AFRICA</span><h3>North Africa, the Sahel & East Africa</h3><p>Discover Kairouan, Cairo, Timbuktu, Swahili coastal cities and the diverse ways Islam became rooted in African societies.</p></article>
+          <article><span>04 · IBERIA</span><h3>Al-Andalus</h3><p>Study the layered history of Muslim-ruled Iberia, including Córdoba, Granada, scholarship, architecture and cultural exchange.</p></article>
+          <article><span>05 · SOUTH ASIA</span><h3>Delhi, Lahore, Agra & beyond</h3><p>Explore Sultanate and Mughal histories, Sufi networks, regional kingdoms, languages, gardens, mosques and forts.</p></article>
+          <article><span>06 · CENTRAL & SOUTHEAST ASIA</span><h3>Samarkand, Bukhara & maritime networks</h3><p>Learn about scholarship along the Silk Roads and the spread and development of Muslim communities across island and mainland Southeast Asia.</p></article>
+        </div>
+      </section>
+
+      <section className="heritage-history-section" id="knowledge">
+        <div className="heritage-section-heading"><span className="eyebrow">The pursuit of knowledge</span><h2>Scholars, libraries & learning</h2><p>Muslim intellectual history includes religious sciences as well as medicine, mathematics, astronomy, geography, philosophy, literature and the arts. These examples introduce only a few of its many contributors.</p></div>
+        <div className="heritage-scholar-grid">
+          <article><h3>Al-Khwarizmi</h3><span>Mathematics · 9th century</span><p>His mathematical writings helped transmit and develop methods that became foundational to algebra.</p></article>
+          <article><h3>Al-Razi</h3><span>Medicine · 9th–10th century</span><p>A physician and writer whose medical works were read and discussed in later scholarly traditions.</p></article>
+          <article><h3>Ibn al-Haytham</h3><span>Optics · 10th–11th century</span><p>Known for influential work on vision, light and experimental investigation.</p></article>
+          <article><h3>Al-Biruni</h3><span>Science & history · 10th–11th century</span><p>Wrote on astronomy, mathematics, geography and the cultures and traditions of the societies he studied.</p></article>
+          <article><h3>Fatima al-Fihri</h3><span>Education · 9th century</span><p>Tradition associates her patronage with the founding of the Qarawiyyin mosque and learning centre in Fez.</p></article>
+          <article><h3>Ibn Khaldun</h3><span>History & society · 14th century</span><p>His Muqaddimah offered influential analysis of historical change, society, power and economic life.</p></article>
+        </div>
+        <div className="heritage-note">Historical care: scholars worked in different languages, faith communities and intellectual settings. Their work was shaped by exchange across cultures; avoid attributing every later discovery to one person or civilisation.</div>
+      </section>
+
+      <section className="heritage-history-section" id="arts">
+        <div className="heritage-section-heading"><span className="eyebrow">Beauty, craft & devotion</span><h2>Islamic arts & architecture</h2><p>There is no single Islamic architectural style. Regional materials, climates, patrons and artistic traditions created a rich variety of forms.</p></div>
+        <div className="heritage-art-grid">
+          <article><div className="heritage-art-symbol">۞</div><h3>Geometric patterns</h3><p>Interlacing shapes and repeated forms appear in many buildings, tiles, woodwork and manuscripts.</p></article>
+          <article><div className="heritage-art-symbol" lang="ar">اقرأ</div><h3>Arabic calligraphy</h3><p>Calligraphers developed scripts for Qur’anic manuscripts, inscriptions, architecture and works of art.</p></article>
+          <article><div className="heritage-art-symbol">⌂</div><h3>Domes, arches & minarets</h3><p>These features vary widely by place and period, serving structural, visual and community functions.</p></article>
+          <article><div className="heritage-art-symbol">✧</div><h3>Gardens, tiles & craft</h3><p>Water, planting, ceramics, carved plaster, textiles and woodwork shaped many regional artistic traditions.</p></article>
+        </div>
+      </section>
+
       <div className="heritage-note">Choose a sacred place below to view its photograph and read a short introduction. Start with the Kaaba in Makkah or the Prophet’s Mosque in Madinah. A respectful learning gallery: dates and descriptions are concise introductions. Some sites have complex, layered histories and are sacred to more than one community.</div>
       <section className="heritage-grid" aria-label="Famous mosques and Islamic heritage places">
         {places.map((place) => <article className="heritage-card" id={place.id ?? undefined} key={place.name}>
