@@ -57,6 +57,7 @@ export default function QuranPage() {
   const [recitersLoading, setRecitersLoading] = useState(true);
   const [audioError, setAudioError] = useState("");
   const [translations, setTranslations] = useState<Translation[]>([]);
+  const [studyLanguage, setStudyLanguage] = useState<"ur" | "en">("ur");
   const [selectedTranslation, setSelectedTranslation] = useState("ur.jalandhry");
   const [translationsLoading, setTranslationsLoading] = useState(true);
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -77,6 +78,7 @@ export default function QuranPage() {
   const [lastRead, setLastRead] = useState<string | null>(null);
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const [tafsirs, setTafsirs] = useState<TafsirResource[]>([]);
+  const [tafsirError, setTafsirError] = useState("");
   const [selectedTafsirs, setSelectedTafsirs] = useState<string[]>([]);
   const [tafsirMode, setTafsirMode] = useState(true);
   const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, TafsirPassage[]>>(new Map());
@@ -176,6 +178,8 @@ export default function QuranPage() {
   }, []);
 
   useEffect(() => {
+    let active = true;
+    setTranslationsLoading(true);
     fetch("https://api.alquran.cloud/v1/edition?format=text&type=translation")
       .then((response) => {
         if (!response.ok) throw new Error("Could not load translations.");
@@ -183,35 +187,44 @@ export default function QuranPage() {
       })
       .then((data) => {
         const available = (data.data as Translation[]).filter((edition) => edition.language && edition.identifier);
+        if (!active) return;
         setTranslations(available);
-        const urdu = available.find((edition) => edition.identifier === "ur.jalandhry")
-          || available.find((edition) => edition.language === "ur");
-        if (urdu) setSelectedTranslation(urdu.identifier);
-        else if (available.length) setSelectedTranslation(available[0].identifier);
+        const preferred = studyLanguage === "ur"
+          ? available.find((edition) => edition.identifier === "ur.jalandhry") || available.find((edition) => edition.language === "ur")
+          : available.find((edition) => edition.identifier === "en.sahih") || available.find((edition) => edition.language === "en");
+        if (preferred) setSelectedTranslation(preferred.identifier);
+        else setError(studyLanguage === "ur" ? "No Urdu translation is currently listed by the translation provider." : "No English translation is currently listed by the translation provider.");
       })
-      .catch(() => setError("Translation options could not be loaded. Please refresh the page."))
-      .finally(() => setTranslationsLoading(false));
-  }, []);
+      .catch(() => { if (active) setError("Translation options could not be loaded. Please refresh the page."); })
+      .finally(() => { if (active) setTranslationsLoading(false); });
+    return () => { active = false; };
+  }, [studyLanguage]);
 
   useEffect(() => {
-    fetch("/api/quran/verse?resources=tafsirs&language=ur")
-      .then((response) => { if (!response.ok) throw new Error("Could not load Urdu Tafsir resources."); return response.json(); })
+    let active = true;
+    setTafsirs([]);
+    setSelectedTafsirs([]);
+    setTafsirError("");
+    fetch(`/api/quran/verse?resources=tafsirs&language=${studyLanguage}`)
+      .then((response) => { if (!response.ok) throw new Error("Tafsir resources are not available for this language."); return response.json(); })
       .then((data) => {
+        if (!active) return;
         const available = (data.tafsirs || data.resources || []) as TafsirResource[];
-        const urdu = available.filter((item) => item.id && (item.language_name === "urdu" || item.language_name === "ur"));
-        setTafsirs(urdu);
-        const preferred = urdu.find((item) => /ibn.?kathir/i.test(item.name)) || urdu[0];
+        const languageResources = available.filter((item) => item.id && (String(item.language_name || "").toLowerCase() === studyLanguage || (studyLanguage === "ur" && String(item.language_name || "").toLowerCase() === "urdu") || (studyLanguage === "en" && String(item.language_name || "").toLowerCase() === "english")));
+        setTafsirs(languageResources);
+        const preferred = languageResources.find((item) => /ibn.?kathir/i.test(item.name)) || languageResources[0];
         if (preferred) setSelectedTafsirs([String(preferred.id)]);
       })
-      .catch(() => setSearchError("Urdu Tafsir choices are temporarily unavailable. Check Quran Foundation API access."));
-  }, []);
+      .catch(() => { if (active) setTafsirError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Translation remains available; Tafsir needs approved Quran Foundation access and resources.`); });
+    return () => { active = false; };
+  }, [studyLanguage]);
 
   useEffect(() => {
     setWordStudy({});
     setWordErrors({});
     setWordLoading(null);
     setTafsirByAyah(new Map());
-  }, [selected, selectedTafsirs.join(",")]);
+  }, [selected, selectedTafsirs.join(","), studyLanguage]);
 
   useEffect(() => {
     let active = true;
@@ -247,6 +260,8 @@ export default function QuranPage() {
     return () => { active = false; };
   }, []);
 
+  const selectedSurah = surahs.find((surah) => surah.number === selected);
+  const languageTranslations = translations.filter((edition) => edition.language === studyLanguage);
   const surahAudioUrl = `https://cdn.islamic.network/quran/audio-surah/${surahAudioBitrates[selectedReciter] || 128}/${selectedReciter}/${selected}.mp3`;
   const translationByAyah = new Map((chapter?.editions[1]?.ayahs ?? []).map((ayah) => [ayah.numberInSurah, ayah.text]));
   const visibleAyahs = (chapter?.editions[0]?.ayahs ?? []).filter((ayah) => {
@@ -463,12 +478,23 @@ export default function QuranPage() {
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.min(114, value + 1))} disabled={selected === 114}>Next Surah →</button>
           <label htmlFor="juz-select">Jump to Juz</label>
           <select id="juz-select" value={selectedJuz} onChange={(event) => { if (event.target.value) void jumpToJuz(Number(event.target.value)); }}><option value="">Choose Juz (1–30)</option>{Array.from({ length: 30 }, (_, index) => <option key={index + 1} value={index + 1}>Juz {index + 1}</option>)}</select>
-          <label htmlFor="translation-select">Translation language</label>
-          <select id="translation-select" value={selectedTranslation} onChange={(event) => setSelectedTranslation(event.target.value)} disabled={translationsLoading || translations.length === 0}>
-            {translationsLoading && <option>Loading languages…</option>}
-            {translations.map((edition) => <option key={edition.identifier} value={edition.identifier}>{edition.language.toUpperCase()} · {edition.englishName || edition.name}</option>)}
+          <div className="quran-language-choice" role="group" aria-label="Choose translation and Tafsir language">
+            <span className="quran-language-label">Study language / مطالعے کی زبان</span>
+            <button type="button" className={studyLanguage === "ur" ? "reader-tool-button is-selected" : "reader-tool-button"} aria-pressed={studyLanguage === "ur"} onClick={() => setStudyLanguage("ur")}>اردو · Urdu</button>
+            <button type="button" className={studyLanguage === "en" ? "reader-tool-button is-selected" : "reader-tool-button"} aria-pressed={studyLanguage === "en"} onClick={() => setStudyLanguage("en")}>English</button>
+          </div>
+          <label htmlFor="translation-select">{studyLanguage === "ur" ? "Urdu translation / ترجمہ" : "English translation"}</label>
+          <select id="translation-select" value={selectedTranslation} onChange={(event) => setSelectedTranslation(event.target.value)} disabled={translationsLoading || languageTranslations.length === 0}>
+            {translationsLoading && <option>Loading translations…</option>}
+            {languageTranslations.map((edition) => <option key={edition.identifier} value={edition.identifier}>{edition.englishName || edition.name} · {edition.identifier}</option>)}
           </select>
         </div>
+        {selectedSurah && <section className="surah-study-overview" aria-label="Surah overview">
+          <div><span className="eyebrow">Surah overview · تعارفِ سورت</span><h2>{selectedSurah.englishName} <span lang="ar" dir="rtl">{selectedSurah.name}</span></h2>
+            <p>{selectedSurah.englishNameTranslation} · {selectedSurah.revelationType} revelation · Surah {selectedSurah.number} · {selectedSurah.numberOfAyahs} Ayahs</p>
+            <p>{studyLanguage === "ur" ? "یہ تعارف سورت کے بنیادی کوائف فراہم کرتا ہے۔ تفصیلی پس منظر، شانِ نزول اور آیات کی تشریح منتخب مستند تفسیر کے متن میں دیکھیے؛ اختلافی روایات کو قطعی حقیقت کے طور پر پیش نہیں کیا جاتا۔" : "This overview gives verified chapter metadata. For detailed context, occasions of revelation and verse explanations, consult the selected sourced Tafsir; reports that differ are not presented as certain facts."}</p>
+          </div>
+        </section>}
         <section className="recitation-panel" aria-label="Quran recitation player">
           <div className="recitation-heading">
             <div>
@@ -484,12 +510,16 @@ export default function QuranPage() {
             {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
-          <label className="reciter-label" htmlFor="tafsir-select">Urdu Tafsir — select one or more scholars (اردو تفاسیر)</label>
-          <select id="tafsir-select" className="reciter-select" multiple size={Math.min(5, Math.max(3, tafsirs.length))} value={selectedTafsirs} onChange={(event) => setSelectedTafsirs(Array.from(event.target.selectedOptions, (option) => option.value))} aria-describedby="tafsir-help">
-            {tafsirs.map((edition) => <option key={edition.id} value={String(edition.id)}>{edition.name}{edition.author_name ? " — " + edition.author_name : ""}</option>)}
-          </select>
-          <p id="tafsir-help" className="recitation-note">Ctrl (Windows) or Command (Mac) lets you select multiple editions. Tafsir appears separately with its source and author.</p>
-          <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> Show selected Urdu Tafsir automatically for each Ayah</label>
+          <label className="reciter-label" htmlFor="tafsir-select">{studyLanguage === "ur" ? "Urdu Tafsir sources / اردو تفاسیر" : "English Tafsir sources"}</label>
+          {tafsirs.length > 0 ? <div id="tafsir-select" className="tafsir-source-options" aria-describedby="tafsir-help">
+            {tafsirs.map((edition) => <label className="tafsir-source-option" key={edition.id}>
+              <input type="checkbox" checked={selectedTafsirs.includes(String(edition.id))} onChange={(event) => setSelectedTafsirs((current) => event.target.checked ? [...current, String(edition.id)] : current.filter((id) => id !== String(edition.id)))} />
+              <span><strong>{edition.name}</strong>{edition.author_name ? <small> — {edition.author_name}</small> : null}</span>
+            </label>)}
+          </div> : <p className="recitation-note">{studyLanguage === "ur" ? "No Urdu Tafsir resources were returned by the connected provider." : "No English Tafsir resources were returned by the connected provider. You can still read the English translation above."}</p>}
+          {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
+          <p id="tafsir-help" className="recitation-note">Choose one or more available editions. Each scholar’s explanation stays separate and is labelled with the provider’s source and author; RHM does not invent or combine Tafsir texts.</p>
+          <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
           <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
@@ -556,18 +586,18 @@ export default function QuranPage() {
                   {wordStudy[key] && (wordStudyMode || wordPanelsOpen[key]) ? (
                     <>
                       <div className="word-study-heading">
-                        <strong>Word-by-word meaning · لفظ بہ لفظ معنی</strong>
-                        <span>Each word is shown separately with its Urdu meaning and pronunciation.</span>
+                        <strong>{studyLanguage === "ur" ? "Word-by-word meaning · لفظ بہ لفظ معنی" : "Word-by-word meaning"}</strong>
+                        <span>{studyLanguage === "ur" ? "Each word is shown with its Urdu meaning and pronunciation." : "Each word is shown with its English meaning and pronunciation."}</span>
                       </div>
-                      <div className="word-study-panel" aria-label={`Word by word study for ${key}`} dir="rtl">
+                      <div className="word-study-panel" aria-label={`Word by word study for ${key}`} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>
                         {wordStudy[key].map((word, index) => {
                           const audioPath = word.audioUrl || word.audio_url;
                           return (
                             <div className="word-study-item" key={word.id || word.position || index}>
                               <span className="word-study-arabic" lang="ar" dir="rtl">{word.textUthmani || word.text_uthmani || word.textIndopak || word.text_indopak || ""}</span>
-                              <small className="word-study-meaning" lang="ur" dir="rtl">{word.translation?.text || "اردو معنی دستیاب نہیں"}</small>
+                              <small className="word-study-meaning" lang={studyLanguage} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>{word.translation?.text || (studyLanguage === "ur" ? "اردو معنی دستیاب نہیں" : "English meaning unavailable")}</small>
                               <small className="word-study-transliteration" lang="en" dir="ltr">{word.transliteration?.text || ""}</small>
-                              <small className="word-study-index">لفظ {word.position || index + 1}</small>
+                              <small className="word-study-index">{studyLanguage === "ur" ? `لفظ ${word.position || index + 1}` : `Word ${word.position || index + 1}`}</small>
                               <audio controls preload="none" src={"https://audio.qurancdn.com/" + (audioPath || "")} aria-label={"Pronounce word " + (index + 1)}></audio>
                             </div>
                           );
@@ -575,9 +605,9 @@ export default function QuranPage() {
                       </div>
                     </>
                   ) : null}
-                  {selectedTafsirs.length > 0 && (tafsirByAyah.get(ayah.numberInSurah) || []).map((passage) => <details className="ayah-tafsir ayah-tafsir-urdu" key={passage.id + "-" + ayah.numberInSurah} open={tafsirMode}>
-                    <summary>{passage.name}{passage.author ? " — " + passage.author : ""} · آیت {ayah.numberInSurah}</summary>
-                    <p lang="ur" dir="rtl">{passage.text}</p>
+                  {selectedTafsirs.length > 0 && (tafsirByAyah.get(ayah.numberInSurah) || []).map((passage) => <details className={`ayah-tafsir ${studyLanguage === "ur" ? "ayah-tafsir-urdu" : "ayah-tafsir-english"}`} key={passage.id + "-" + ayah.numberInSurah} open={tafsirMode}>
+                    <summary>{passage.name}{passage.author ? " — " + passage.author : ""} · {studyLanguage === "ur" ? `آیت ${ayah.numberInSurah}` : `Ayah ${ayah.numberInSurah}`}</summary>
+                    <p lang={studyLanguage} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>{passage.text}</p>
                   </details>)}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
