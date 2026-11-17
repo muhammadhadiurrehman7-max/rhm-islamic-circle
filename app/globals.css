@@ -910,3 +910,30 @@ html[data-site-theme="dark"] .sacred-learning-ribbon a { background:#172821; }
 html[data-site-theme="dark"] .sacred-learning-ribbon a:hover { background:#20382d; }
 html[data-site-theme="dark"] .sacred-learning-ribbon strong { color:#f0eee4; }
 html[data-site-theme="dark"] .sacred-learning-ribbon small { color:#bdc9c0; }
+
+
+/* Expanded Islamic history and civilisation learning sections */
+.heritage-history-intro,.heritage-history-section { margin:42px 0; }
+.heritage-section-heading { max-width:780px; margin:0 auto 24px; text-align:center; }
+.heritage-section-heading h2 { margin:10px 0; color:var(--q-ink); font:600 clamp(26px,4vw,36px)/1.2 "Playfair Display",serif; }
+.heritage-section-heading p { color:var(--q-muted); line-height:1.85; }
+.heritage-history-links { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.heritage-history-links a { display:flex; flex-direction:column; gap:7px; padding:18px; border:1px solid var(--q-border); border-radius:15px; background:var(--q-card); text-decoration:none; }
+.heritage-history-links a span,.heritage-topic-grid article>span { color:var(--q-gold); font-size:11px; font-weight:800; letter-spacing:.1em; }
+.heritage-history-links strong { color:var(--q-ink); font-size:15px; }
+.heritage-history-links small { color:var(--q-muted); font-size:12px; }
+.heritage-timeline { max-width:850px; margin:0 auto; border-left:2px solid var(--q-gold); padding-left:24px; }
+.heritage-timeline article { position:relative; display:grid; grid-template-columns:155px 1fr; gap:18px; padding:0 0 24px; }
+.heritage-timeline article:before { position:absolute; left:-31px; top:5px; width:12px; height:12px; border:2px solid var(--q-gold); border-radius:50%; background:var(--q-bg); content:""; }
+.heritage-date { color:var(--q-gold); font-size:12px; font-weight:800; letter-spacing:.04em; }
+.heritage-timeline h3,.heritage-topic-grid h3,.heritage-scholar-grid h3,.heritage-art-grid h3 { margin:0 0 7px; color:var(--q-ink); font:600 19px/1.35 "Playfair Display",serif; }
+.heritage-timeline p,.heritage-topic-grid p,.heritage-scholar-grid p,.heritage-art-grid p { margin:0; color:var(--q-muted); font-size:13px; line-height:1.85; }
+.heritage-topic-grid,.heritage-scholar-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.heritage-topic-grid article,.heritage-scholar-grid article,.heritage-art-grid article { padding:21px; border:1px solid var(--q-border); border-radius:16px; background:var(--q-card); }
+.heritage-topic-grid h3,.heritage-scholar-grid h3 { margin-top:10px; }
+.heritage-scholar-grid article>span { display:block; margin:0 0 10px; color:var(--q-gold); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
+.heritage-art-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+.heritage-art-symbol { min-height:58px; margin-bottom:12px; color:var(--q-gold); font:700 36px/1.4 "Noto Naskh Arabic",serif; }
+html[data-site-theme="dark"] .heritage-history-links a,html[data-site-theme="dark"] .heritage-topic-grid article,html[data-site-theme="dark"] .heritage-scholar-grid article,html[data-site-theme="dark"] .heritage-art-grid article { background:#101d19; }
+@media(max-width:850px) { .heritage-history-links { grid-template-columns:repeat(2,minmax(0,1fr)); }.heritage-topic-grid,.heritage-scholar-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.heritage-art-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:560px) { .heritage-history-links,.heritage-topic-grid,.heritage-scholar-grid,.heritage-art-grid { grid-template-columns:1fr; }.heritage-timeline { padding-left:18px; }.heritage-timeline article { grid-template-columns:1fr; gap:5px; }.heritage-timeline article:before { left:-25px; } }
