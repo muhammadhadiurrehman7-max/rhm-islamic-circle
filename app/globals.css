@@ -3,7 +3,9 @@
 :root { --ink: #17352d; --muted: #687b73; --green: #174b3c; --mint: #eaf2ed; --gold: #c59a55; --paper: #fbfaf6; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: "DM Sans", sans-serif; }
+body { margin: 0; color: var(--ink); font-family: "DM Sans", sans-serif; background-color:#f7f5ee; background-image:linear-gradient(rgba(250,249,244,.70),rgba(250,249,244,.78)),url('/images/rhm-islam360-quran-hero.webp'); background-size:cover; background-position:center; background-attachment:fixed; }
+html[data-site-theme="dark"] body { background-color:#10231c; background-image:linear-gradient(rgba(10,25,19,.78),rgba(10,25,19,.84)),url('/images/rhm-islam360-quran-hero.webp'); color:#f0eee4; }
+@media(max-width:700px) { body { background-attachment:scroll; background-position:58% center; } }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; }
 .site-header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:20px clamp(20px,6vw,88px); background:#fff; border-bottom:1px solid #e9eee9; }
