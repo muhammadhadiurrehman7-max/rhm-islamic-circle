@@ -25,20 +25,6 @@ const guidanceQuotes = [
     "url": "https://sunnah.com/bukhari:69"
   },
   {
-    "quote": "Prepare for illness during your good health, and prepare for death during your life.",
-    "arabic": "",
-    "by": "Abdullah ibn Umar رضي الله عنهما",
-    "source": "Reported in Sahih al-Bukhari 6416",
-    "url": "https://sunnah.com/bukhari:6416"
-  },
-  {
-    "quote": "Spread knowledge and teach those who do not know, for knowledge does not disappear while it is shared.",
-    "arabic": "",
-    "by": "Umar ibn Abd al-Aziz رحمه الله",
-    "source": "His statement reported in Sahih al-Bukhari, Book of Knowledge, chapter 34",
-    "url": "https://sunnah.com/bukhari/3"
-  },
-  {
     "quote": "My Lord, increase me in knowledge.",
     "arabic": "رَّبِّ زِدْنِي عِلْمًا",
     "by": "Qur'an 20:114",
@@ -209,7 +195,7 @@ export default function Home() {
       </section>
 
       <section className="section" id="quran">
-        <div className="daily"><div><div className="eyebrow">The heart of the journey</div><h2>Make time for the words of Allah.</h2><p>The Quran reading area will bring Surah navigation, translations, recitation, bookmarks, and last-read progress together in one calm space.</p><a className="btn btn-light" href="/quran">Read Quran at RHM Islam 360 ↗</a></div><div className="arabic" lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا<br/><span style={{fontSize:14,color:"#d8e5dd"}}>And say: My Lord, increase me in knowledge. (20:114)</span></div></div>
+        <div className="daily"><div><div className="eyebrow">The heart of the journey</div><h2>Make time for the words of Allah.</h2><p>Read with Surah navigation, Urdu and English translations, available recitation, bookmarks, and saved last-read progress in one calm space.</p><a className="btn btn-light" href="/quran">Read Quran at RHM Islam 360 ↗</a></div><div className="arabic" lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا<br/><span style={{fontSize:14,color:"#d8e5dd"}}>And say: My Lord, increase me in knowledge. (20:114)</span></div></div>
       </section>
 
       <section className="section" id="community">
