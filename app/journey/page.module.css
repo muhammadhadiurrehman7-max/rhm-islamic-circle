@@ -199,3 +199,29 @@
 @media(prefers-reduced-motion:reduce) {
   .task,.progressTrack span { transition:none; }
 }
+
+
+/* Weekly learning rhythm and transparent habit statistics */
+.weekSection{width:min(920px,calc(100% - 36px));margin:-16px auto 38px;padding:22px 24px;border:1px solid #e1e8e0;border-radius:19px;background:linear-gradient(145deg,#fff,#fbfaf4);box-shadow:0 10px 30px rgba(23,53,45,.04)}
+.weekHeading{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:15px}
+.weekHeading h2{margin:7px 0 0;color:#17352d;font:600 23px "Playfair Display",serif}
+.weekHeading>span{color:#718077;font-size:11px;font-weight:700}
+.weekGrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}
+.weekDay{display:flex;min-width:0;flex-direction:column;align-items:center;gap:8px;padding:12px 5px;border:1px solid #e5eae3;border-radius:13px;background:#f8f9f5}
+.weekDay>span{color:#718077;font-size:11px;font-weight:700}
+.weekDay>strong{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e9eee8;color:#7a887e;font-size:14px}
+.weekActive{border-color:#c4d8c7;background:#eff6ef}
+.weekActive>strong{background:#27634d;color:#fff}
+.weekToday{outline:2px solid #c59a55;outline-offset:2px}
+.weekSection>p{margin:14px 0 0;color:#718077;font-size:11px;line-height:1.65}
+.bestStreak{margin-top:9px;padding-top:9px;border-top:1px solid rgba(177,138,75,.2);color:#7b806f;font-size:10px;line-height:1.5}
+:global(html[data-site-theme="dark"]) .weekSection{background:linear-gradient(145deg,#1c3028,#192a23);border-color:#34483e}
+:global(html[data-site-theme="dark"]) .weekHeading h2{color:#f0eee4}
+:global(html[data-site-theme="dark"]) .weekHeading>span,:global(html[data-site-theme="dark"]) .weekSection>p,:global(html[data-site-theme="dark"]) .bestStreak{color:#bdc9c0}
+:global(html[data-site-theme="dark"]) .weekDay{background:#172821;border-color:#34483e}
+:global(html[data-site-theme="dark"]) .weekDay>span{color:#bdc9c0}
+:global(html[data-site-theme="dark"]) .weekDay>strong{background:#263b30;color:#bdc9c0}
+:global(html[data-site-theme="dark"]) .weekActive{background:#203b2e;border-color:#52735c}
+:global(html[data-site-theme="dark"]) .weekActive>strong{background:#d9b878;color:#172821}
+:global(html[data-site-theme="dark"]) .bestStreak{border-color:#465b4e}
+@media(max-width:520px){.weekSection{padding:18px 14px}.weekGrid{gap:5px}.weekDay{padding:10px 2px}.weekDay>strong{width:27px;height:27px}.weekHeading{align-items:flex-start;flex-direction:column}}

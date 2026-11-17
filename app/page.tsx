@@ -25,20 +25,6 @@ const guidanceQuotes = [
     "url": "https://sunnah.com/bukhari:69"
   },
   {
-    "quote": "Prepare for illness during your good health, and prepare for death during your life.",
-    "arabic": "",
-    "by": "Abdullah ibn Umar رضي الله عنهما",
-    "source": "Reported in Sahih al-Bukhari 6416",
-    "url": "https://sunnah.com/bukhari:6416"
-  },
-  {
-    "quote": "Spread knowledge and teach those who do not know, for knowledge does not disappear while it is shared.",
-    "arabic": "",
-    "by": "Umar ibn Abd al-Aziz رحمه الله",
-    "source": "His statement reported in Sahih al-Bukhari, Book of Knowledge, chapter 34",
-    "url": "https://sunnah.com/bukhari/3"
-  },
-  {
     "quote": "My Lord, increase me in knowledge.",
     "arabic": "رَّبِّ زِدْنِي عِلْمًا",
     "by": "Qur'an 20:114",
@@ -58,6 +44,7 @@ const features = [
 
 export default function Home() {
   const [shareMessage, setShareMessage] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   async function shareLearningLink(path: string, title: string) {
     const url = new URL(path, window.location.origin).toString();
     try {
@@ -87,14 +74,17 @@ export default function Home() {
   const guidance = guidanceQuotes[guidanceIndex];
   return (
     <main>
+      <a className="skip-to-content" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islam 360</span></a>
-        <nav className="nav-links" aria-label="Main navigation">
-          <a href="/learn">Discover Islam</a><a href="/heritage">Heritage & History</a><a href="#quran">Quran</a><a href="/hadith">Hadith</a><a href="/duas">Daily Duas</a><a href="/qaida">Qaida</a><a href="/daily-life">Daily Life</a><a href="/journey">My Journey</a><a href="#community">Community</a><a href="#about">About</a>
+        <button className="mobile-menu-toggle" type="button" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen((open) => !open)}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span><span>{mobileMenuOpen ? "Close" : "Menu"}</span></button>
+        <nav id="primary-navigation" className={`nav-links${mobileMenuOpen ? " is-open" : ""}`} aria-label="Main navigation">
+          <a onClick={() => setMobileMenuOpen(false)} href="/learn">Discover Islam</a><a onClick={() => setMobileMenuOpen(false)} href="/heritage">Heritage & History</a><a onClick={() => setMobileMenuOpen(false)} href="#quran">Quran</a><a onClick={() => setMobileMenuOpen(false)} href="/hadith">Hadith</a><a onClick={() => setMobileMenuOpen(false)} href="/duas">Daily Duas</a><a onClick={() => setMobileMenuOpen(false)} href="/qaida">Qaida</a><a onClick={() => setMobileMenuOpen(false)} href="/daily-life">Daily Life</a><a onClick={() => setMobileMenuOpen(false)} href="/journey">My Journey</a><a onClick={() => setMobileMenuOpen(false)} href="#community">Community</a><a onClick={() => setMobileMenuOpen(false)} href="#about">About</a>
         </nav>
         <div className="nav-actions"><a className="btn btn-light" href="#learn">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
 
+      <div id="main-content" tabIndex={-1}>
       <section className="hero premium-hero">
         <div className="hero-copy premium-hero-copy">
           <div className="eyebrow">A beautiful space for beneficial knowledge</div>
@@ -205,7 +195,7 @@ export default function Home() {
       </section>
 
       <section className="section" id="quran">
-        <div className="daily"><div><div className="eyebrow">The heart of the journey</div><h2>Make time for the words of Allah.</h2><p>The Quran reading area will bring Surah navigation, translations, recitation, bookmarks, and last-read progress together in one calm space.</p><a className="btn btn-light" href="/quran">Read Quran at RHM Islam 360 ↗</a></div><div className="arabic" lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا<br/><span style={{fontSize:14,color:"#d8e5dd"}}>And say: My Lord, increase me in knowledge. (20:114)</span></div></div>
+        <div className="daily"><div><div className="eyebrow">The heart of the journey</div><h2>Make time for the words of Allah.</h2><p>Read with Surah navigation, Urdu and English translations, available recitation, bookmarks, and saved last-read progress in one calm space.</p><a className="btn btn-light" href="/quran">Read Quran at RHM Islam 360 ↗</a></div><div className="arabic" lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا<br/><span style={{fontSize:14,color:"#d8e5dd"}}>And say: My Lord, increase me in knowledge. (20:114)</span></div></div>
       </section>
 
       <section className="section" id="community">
@@ -214,6 +204,7 @@ export default function Home() {
       </section>
 
       <footer className="footer" id="about"><span>© {new Date().getFullYear()} RHM Islam 360</span><span>Founded and owned by Mr Muhammad Hadi Ur Rehman</span><span>Built with care for learners everywhere</span></footer>
+      </div>
     </main>
   );
 }

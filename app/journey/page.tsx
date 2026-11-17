@@ -14,6 +14,13 @@ const tasks = [
 
 type History = Record<string, string[]>;
 
+function getDateKey(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function getTodayKey() {
   const now = new Date();
   const year = now.getFullYear();
@@ -43,7 +50,31 @@ export default function DailyJourneyPage() {
 
   const completed = today ? history[today] ?? [] : [];
   const progress = Math.round((completed.length / tasks.length) * 100);
-  const activeDays = Object.values(history).filter((items) => Array.isArray(items) && items.length > 0).length;
+  const activeDateKeys = Object.keys(history).filter((key) => Array.isArray(history[key]) && history[key].length > 0).sort();
+  const activeDays = activeDateKeys.length;
+  const weeklyDays = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (6 - index));
+    const key = getDateKey(date);
+    return { key, label: date.toLocaleDateString(undefined, { weekday: "short" }), active: activeDateKeys.includes(key), isToday: key === today };
+  });
+  let currentStreak = 0;
+  const streakCursor = new Date();
+  if (today && !activeDateKeys.includes(today)) streakCursor.setDate(streakCursor.getDate() - 1);
+  while (activeDateKeys.includes(getDateKey(streakCursor))) {
+    currentStreak += 1;
+    streakCursor.setDate(streakCursor.getDate() - 1);
+  }
+  let bestStreak = 0;
+  let runningStreak = 0;
+  let previousDate: Date | null = null;
+  for (const key of activeDateKeys) {
+    const date = new Date(`${key}T12:00:00`);
+    const difference = previousDate ? Math.round((date.getTime() - previousDate.getTime()) / 86400000) : 0;
+    runningStreak = difference === 1 ? runningStreak + 1 : 1;
+    bestStreak = Math.max(bestStreak, runningStreak);
+    previousDate = date;
+  }
   const dateLabel = useMemo(() => new Date().toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" }), []);
 
   function toggleTask(id: string) {
@@ -86,7 +117,13 @@ export default function DailyJourneyPage() {
           <div className={styles.progressTrack} role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100} aria-label="Today's completed activities"><span style={{ width: `${progress}%` }} /></div>
           <p>{progress === 100 ? "You completed your personal checklist today. Alhamdulillah." : "Every small, consistent effort can help build a lasting habit."}</p>
         </div>
-        <div className={styles.statsCard}><span className={styles.statIcon}>✦</span><strong>{activeDays}</strong><span>days with activity recorded on this device</span></div>
+        <div className={styles.statsCard}><span className={styles.statIcon}>✦</span><strong>{currentStreak}</strong><span>day current learning streak</span><div className={styles.bestStreak}>Best: {bestStreak} {bestStreak === 1 ? "day" : "days"} · {activeDays} active days total</div></div>
+      </section>
+
+      <section className={styles.weekSection} aria-label="Last seven days of learning activity">
+        <div className={styles.weekHeading}><div><span className={styles.eyebrow}>YOUR RHYTHM</span><h2>Last seven days</h2></div><span>{weeklyDays.filter((day) => day.active).length} of 7 days active</span></div>
+        <div className={styles.weekGrid}>{weeklyDays.map((day) => <div className={`${styles.weekDay} ${day.active ? styles.weekActive : ""} ${day.isToday ? styles.weekToday : ""}`} key={day.key}><span>{day.label}</span><strong aria-label={day.active ? `${day.key}: activity recorded` : `${day.key}: no activity recorded`}>{day.active ? "✓" : "·"}</strong></div>)}</div>
+        <p>Only days when you tick at least one activity are counted. A missed day is simply a fresh opportunity to begin again.</p>
       </section>
 
       <section className={styles.tasksSection}>
