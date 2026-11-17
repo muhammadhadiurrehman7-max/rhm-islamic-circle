@@ -654,3 +654,135 @@ html[data-site-theme="dark"] .duas-page .quran-heading { background:linear-gradi
 /* Direct links to the two most requested sacred-place guides */
 .heritage-card[id] { scroll-margin-top:24px; }
 @media(max-width:560px) { .mosque-scene-actions { gap:7px; }.mosque-scene-copy a { padding:9px 11px; font-size:11px; } }
+
+
+/* Dark mode readability: enforce accessible contrast across every site section */
+html[data-site-theme="dark"] body {
+  color-scheme: dark;
+  color: #edf2eb;
+}
+html[data-site-theme="dark"] body :is(h1,h2,h3,h4,h5,h6) {
+  color: #f6f1e5 !important;
+  background-image: none !important;
+  -webkit-text-fill-color: #f6f1e5 !important;
+  text-shadow: none;
+}
+html[data-site-theme="dark"] body :is(p,li,dt,dd,figcaption,blockquote,label,legend,small) {
+  color: #cbd7ce;
+}
+html[data-site-theme="dark"] body :is(strong,b,th) {
+  color: #f0eee4;
+}
+html[data-site-theme="dark"] body a:not(.btn):not(.btn-primary):not([aria-current="page"]):not(.site-theme-toggle) {
+  color: #e4c98f;
+}
+html[data-site-theme="dark"] body :is(input,select,textarea) {
+  color: #f0eee4;
+  background-color: #172821;
+  border-color: #52665a;
+}
+html[data-site-theme="dark"] body :is(input,textarea)::placeholder {
+  color: #aebdb2;
+  opacity: 1;
+}
+html[data-site-theme="dark"] body :is(table,th,td) {
+  color: #edf2eb;
+  border-color: #40564a;
+}
+html[data-site-theme="dark"] body :is(.btn-primary,.site-theme-toggle,.theme-toggle) {
+  -webkit-text-fill-color: currentColor;
+}
+html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card,.discover-topic-card,.faith-card,.faith-resource-card,.islam-info-card,.qaida-lesson,.donation-card,.heritage-card,.learn-content-card,.topic-content-card,.quran-reader,.ayah-card,.learning-space-nav,.dua-card,.hadith-card) {
+  color: #edf2eb;
+  border-color: #40564a;
+}
+html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card,.discover-topic-card,.faith-card,.faith-resource-card,.islam-info-card,.qaida-lesson,.donation-card,.heritage-card,.learn-content-card,.topic-content-card,.quran-reader,.ayah-card,.dua-card,.hadith-card) :is(p,li,small,figcaption) {
+  color: #cbd7ce;
+}
+
+
+/* Quran reader study tools and active listening state */
+.quran-page .reader-tools { display:flex; align-items:center; flex-wrap:wrap; gap:12px; padding:18px 0; margin:8px 0 18px; border-bottom:1px solid var(--q-border); color:var(--q-ink); }
+.quran-page .reader-tools > label { display:flex; align-items:center; gap:8px; color:var(--q-muted); font-size:12px; font-weight:650; }
+.quran-page .reader-tools input[type="search"] { flex:1 1 240px; min-width:180px; padding:11px 13px; border:1px solid var(--q-border); border-radius:11px; color:var(--q-ink); background:var(--q-card); }
+.quran-page .reader-tools select { padding:8px 10px; border:1px solid var(--q-border); border-radius:9px; color:var(--q-ink); background:var(--q-card); }
+.quran-page .reader-tools input[type="range"] { width:88px; accent-color:var(--q-gold); }
+.quran-page .reader-tools input[type="checkbox"] { accent-color:#287354; }
+.quran-page .reader-tool-button,.quran-page .ayah-actions button { padding:9px 12px; border:1px solid var(--q-border); border-radius:10px; color:var(--q-ink); background:var(--q-card); font:600 12px "DM Sans",sans-serif; cursor:pointer; }
+.quran-page .reader-tool-button:disabled { opacity:.4; cursor:not-allowed; }
+.quran-page .reader-tool-button.is-active,.quran-page .ayah-actions button[aria-pressed="true"] { border-color:var(--q-gold); background:color-mix(in srgb,var(--q-gold) 16%,var(--q-card)); }
+.quran-page .ayah-actions { display:flex; flex-wrap:wrap; gap:7px; margin-left:auto; }
+.quran-page .ayah-actions button { padding:7px 10px; }
+.quran-page .ayah-card.is-playing { border-color:var(--q-gold); box-shadow:0 0 0 2px color-mix(in srgb,var(--q-gold) 22%,transparent),0 12px 30px rgba(0,0,0,.06); }
+.quran-page .ayah-note-editor { display:grid; gap:8px; margin-top:15px; padding-top:14px; border-top:1px solid var(--q-border); }
+.quran-page .ayah-note-editor label { color:var(--q-muted); font-size:12px; font-weight:700; }
+.quran-page .ayah-note-editor textarea { width:100%; resize:vertical; padding:12px; border:1px solid var(--q-border); border-radius:11px; color:var(--q-ink); background:var(--q-bg); font:inherit; line-height:1.6; }
+@media(max-width:640px) {
+ .quran-page .reader-tools { align-items:stretch; flex-direction:column; }
+ .quran-page .reader-tools > *,.quran-page .reader-tools input[type="search"] { width:100%; min-width:0; }
+ .quran-page .reader-tools > label { justify-content:space-between; }
+ .quran-page .ayah-card-top { align-items:flex-start; flex-wrap:wrap; gap:9px; }
+ .quran-page .ayah-actions { width:100%; margin-left:0; }
+}
+
+
+/* Quran-wide search and Tafsir study panels */
+.quran-page .quran-search-panel { margin:20px 0 10px; padding:17px; border:1px solid var(--q-border); border-radius:16px; background:var(--q-card); color:var(--q-ink); }
+.quran-page .quran-search-panel form { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.quran-page .quran-search-panel form label { flex:0 0 100%; color:var(--q-muted); font-size:13px; font-weight:700; }
+.quran-page .quran-search-panel form input { flex:1 1 260px; min-width:0; padding:12px 14px; border:1px solid var(--q-border); border-radius:11px; background:var(--q-bg); color:var(--q-ink); }
+.quran-page .quran-search-panel form button { padding:12px 16px; border:0; border-radius:11px; background:#205b45; color:white; font-weight:700; cursor:pointer; }
+.quran-page .quran-search-panel form button:disabled { opacity:.5; cursor:not-allowed; }
+.quran-page .quran-search-panel > p { margin:10px 0 0; color:var(--q-muted); font-size:13px; }
+.quran-page .quran-search-results { display:grid; gap:9px; padding:0; margin:14px 0 0; list-style:none; }
+.quran-page .quran-search-results li { display:grid; gap:5px; padding:11px 0; border-top:1px solid var(--q-border); color:var(--q-muted); font-size:13px; line-height:1.7; }
+.quran-page .quran-search-results li button { justify-self:start; padding:0; border:0; background:none; color:var(--q-gold); font-weight:800; cursor:pointer; }
+.quran-page .ayah-tafsir { margin-top:14px; padding:12px 14px; border:1px solid var(--q-border); border-radius:12px; color:var(--q-ink); background:var(--q-bg); }
+.quran-page .ayah-tafsir summary { color:var(--q-gold); font-size:13px; font-weight:750; cursor:pointer; }
+.quran-page .ayah-tafsir p { margin:10px 0 0; color:var(--q-muted); font-size:14px; line-height:1.85; white-space:pre-wrap; }
+@media(max-width:600px) { .quran-page .quran-search-panel form { align-items:stretch; flex-direction:column; }.quran-page .quran-search-panel form > * { width:100%; } }
+
+
+/* RHM Quran study: high-clarity Urdu word cards and Urdu Tafsir */
+.quran-page .word-study-heading {
+  display:flex; flex-direction:column; gap:5px; margin:20px 0 12px;
+  padding:13px 16px; border:1px solid var(--q-border); border-radius:13px;
+  background:var(--q-surface); color:var(--q-ink);
+}
+.quran-page .word-study-heading strong { font-size:15px; }
+.quran-page .word-study-heading span { color:var(--q-muted); font-size:12px; line-height:1.6; }
+.quran-page .word-study-panel {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:11px; margin:12px 0 18px; direction:rtl;
+}
+.quran-page .word-study-item {
+  display:flex; min-width:0; flex-direction:column; align-items:center; justify-content:flex-start;
+  gap:9px; padding:16px 12px; border:1px solid var(--q-border); border-radius:14px;
+  background:var(--q-card); color:var(--q-ink); text-align:center;
+  box-shadow:0 3px 12px rgba(20,40,30,.045);
+}
+.quran-page .word-study-item .word-study-arabic {
+  display:block; min-height:48px; font:600 clamp(27px,3.4vw,36px)/1.8 "Noto Naskh Arabic","Amiri",serif;
+  color:var(--q-ink);
+}
+.quran-page .word-study-item .word-study-meaning {
+  display:block; width:100%; padding-top:8px; border-top:1px solid var(--q-border);
+  color:var(--q-gold); font:600 17px/1.9 "Noto Nastaliq Urdu","Noto Naskh Arabic",serif;
+}
+.quran-page .word-study-item .word-study-transliteration {
+  color:var(--q-muted); font:12px/1.5 "DM Sans",sans-serif;
+}
+.quran-page .word-study-item .word-study-index { color:var(--q-muted); font-size:10px; }
+.quran-page .word-study-item audio { width:100%; max-width:180px; height:34px; }
+.quran-page .ayah-tafsir-urdu { padding:18px 20px; border-right:4px solid var(--q-gold); }
+.quran-page .ayah-tafsir-urdu summary { text-align:right; font-size:14px; }
+.quran-page .ayah-tafsir-urdu p {
+  color:var(--q-ink); font:17px/2.25 "Noto Nastaliq Urdu","Noto Naskh Arabic",serif;
+  text-align:right; direction:rtl; white-space:pre-wrap;
+}
+@media(max-width:560px) {
+  .quran-page .word-study-panel { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .quran-page .word-study-item { padding:13px 8px; }
+  .quran-page .ayah-tafsir-urdu { padding:14px 13px; }
+  .quran-page .ayah-tafsir-urdu p { font-size:16px; line-height:2.1; }
+}
