@@ -41,7 +41,7 @@ export default function LoginPage() {
   return (
     <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, background: "var(--paper)" }}>
       <section style={{ width: "100%", maxWidth: 440, padding: 32, borderRadius: 24, background: "white", border: "1px solid #e8ede8" }}>
-        <Link href="/" className="eyebrow">← RHM Islamic Circle</Link>
+        <Link href="/" className="eyebrow">← RHM Islam 360</Link>
         <h1 style={{ fontFamily: '"Playfair Display",serif', fontSize: 34, marginBottom: 8 }}>{mode === "signin" ? "Welcome back" : "Create your account"}</h1>
         <p style={{ color: "var(--muted)", lineHeight: 1.6 }}>Save your learning journey and continue from where you left off.</p>
         <form onSubmit={handleSubmit} style={{ display: "grid", gap: 14, marginTop: 24 }}>
