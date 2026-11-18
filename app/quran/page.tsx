@@ -42,17 +42,26 @@ type SearchMatch = { text: string; number: number; numberInSurah: number; surah:
 type WordPart = { id?: number; position?: number; textUthmani?: string; textIndopak?: string; text_uthmani?: string; text_indopak?: string; translation?: { text?: string }; transliteration?: { text?: string }; audioUrl?: string; audio_url?: string };
 type TafsirResource = { id: number; name: string; author_name?: string; slug: string; language_name: string };
 type TafsirPassage = { id: number; name: string; author?: string; text: string };
-type TajweedVerse = { verse_key: string; text_uthmani_tajweed?: string };
-const TAJWEED_RULE_CLASSES = new Set(["ham_wasl", "laam_shamsiyah", "madda_normal", "madda_permissible", "madda_necessary", "madda_obligatory", "qalaqah", "ikhafa", "ikhafa_shafawi", "idgham_shafawi", "iqlab", "idgham_ghunnah", "idgham_wo_ghunnah", "ghunnah", "silent", "slnt"]);
+type TajweedVerse = { numberInSurah: number; text: string };
+const TAJWEED_MARKERS: Record<string, { rule: string; label: string }> = {
+  h: { rule: "ham-wasl", label: "Hamzatul Wasl" }, s: { rule: "silent", label: "Silent letter" }, l: { rule: "laam-shamsiyah", label: "Lam Shamsiyyah" },
+  n: { rule: "madda-normal", label: "Madd Tabee’i — 2 counts" }, p: { rule: "madda-permissible", label: "Madd Ja’iz — 2, 4 or 6 counts" },
+  m: { rule: "madda-necessary", label: "Madd Lazim — 6 counts" }, o: { rule: "madda-obligatory", label: "Madd Wajib — 4–5 counts" },
+  q: { rule: "qalqalah", label: "Qalqalah" }, c: { rule: "ikhafa-shafawi", label: "Ikhfa Shafawi" }, f: { rule: "ikhafa", label: "Ikhfa" },
+  w: { rule: "idgham-shafawi", label: "Idgham Shafawi" }, i: { rule: "iqlab", label: "Iqlab — Tanween or Noon Sakinah before ب" },
+  a: { rule: "idgham-ghunnah", label: "Idgham with Ghunnah" }, u: { rule: "idgham-no-ghunnah", label: "Idgham without Ghunnah" },
+  d: { rule: "idgham-mutajanisayn", label: "Idgham Mutajanisayn" }, b: { rule: "idgham-mutaqaribayn", label: "Idgham Mutaqaribayn" },
+  g: { rule: "ghunnah", label: "Ghunnah — 2 counts" },
+};
 function renderTajweedText(value: string) {
   const parts: ReactNode[] = [];
-  const pattern = /<tajweed class=([a-z_]+)>([\s\S]*?)<\/tajweed>|<span class=end>([\s\S]*?)<\/span>/gi;
-  let cursor = 0;
-  let match: RegExpExecArray | null;
+  const pattern = /\\[([a-z])(?::\\d+)?\\[([^\\]]*)\\]/gi;
+  let cursor = 0; let match: RegExpExecArray | null;
   while ((match = pattern.exec(value))) {
     if (match.index > cursor) parts.push(value.slice(cursor, match.index));
-    if (match[3] !== undefined) parts.push(<span className="tajweed-verse-end" key={"end-" + match.index}>{match[3]}</span>);
-    else { const rule = match[1].toLowerCase(); parts.push(<span className={TAJWEED_RULE_CLASSES.has(rule) ? "tajweed-rule tajweed-" + rule : "tajweed-rule"} key={"rule-" + match.index}>{match[2]}</span>); }
+    const marker = TAJWEED_MARKERS[match[1].toLowerCase()];
+    if (marker) parts.push(<span className={"tajweed-rule tajweed-" + marker.rule} title={marker.label} aria-label={marker.label} key={"rule-" + match.index}>{match[2]}</span>);
+    else parts.push(match[2]);
     cursor = pattern.lastIndex;
   }
   if (cursor < value.length) parts.push(value.slice(cursor));
@@ -414,12 +423,12 @@ useEffect(() => {
   if (!tajweedMode) return;
   let active = true;
   setTajweedLoading(true); setTajweedError(""); setTajweedVerses({});
-  fetch("/api/quran/verse?resources=tajweed&chapter=" + selected)
-    .then(async (response) => { const data = await response.json(); if (!response.ok) throw new Error(data.setupRequired ? "Tajweed colour text needs Quran Foundation API credentials. Add QF_CLIENT_ID and QF_CLIENT_SECRET in the server environment." : data.error || "Tajweed annotations could not be loaded."); return data; })
+  fetch("https://api.alquran.cloud/v1/surah/" + selected + "/quran-tajweed")
+    .then(async (response) => { if (!response.ok) throw new Error("Tajweed annotations could not be loaded."); return response.json(); })
     .then((data) => {
       if (!active) return;
       const mapped: Record<string, string> = {};
-      ((data.verses || []) as TajweedVerse[]).forEach((verse) => { if (verse.verse_key && verse.text_uthmani_tajweed) mapped[verse.verse_key] = verse.text_uthmani_tajweed; });
+      ((data.data?.ayahs || []) as TajweedVerse[]).forEach((verse) => { if (Number.isInteger(verse.numberInSurah) && verse.text) mapped[selected + ":" + verse.numberInSurah] = verse.text; });
       if (!Object.keys(mapped).length) throw new Error("No Tajweed annotations were returned for this Surah.");
       setTajweedVerses(mapped);
     })
@@ -655,7 +664,7 @@ useEffect(() => {
             <span><i className="tajweed-swatch tajweed-swatch-qalqalah" /> Qalqalah</span>
             <span><i className="tajweed-swatch tajweed-swatch-other" /> Hamzatul Wasl &amp; Lam rules</span>
           </div>
-          <p>Colours follow the Quran Foundation’s verse-level Tajweed annotations. Tanween is marked according to the rule it triggers (such as Ikhfa, Idgham or Iqlab), rather than colouring every Tanween mark as one separate rule.</p>
+          <p>Colours follow AlQuran Cloud’s published Tajweed annotations with a reader-friendly palette. Tanween takes the colour of its actual rule (Ikhfa, Idgham or Iqlab); it is not one separate rule.</p>
           {tajweedLoading && <p role="status">Loading verified Tajweed annotations…</p>}
           {tajweedError && <p className="tajweed-error" role="status">{tajweedError}</p>}
         </section>}
