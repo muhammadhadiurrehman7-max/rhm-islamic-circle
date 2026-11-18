@@ -44,6 +44,7 @@ const features = [
 
 export default function Home() {
   const [shareMessage, setShareMessage] = useState("");
+  const [tasbeehCount, setTasbeehCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   async function shareLearningLink(path: string, title: string) {
     const url = new URL(path, window.location.origin).toString();
@@ -217,6 +218,26 @@ export default function Home() {
       <section className="section" id="community">
         <div className="section-heading"><div><div className="eyebrow">Learn together</div><h2>One circle, many journeys.</h2></div><p className="section-intro">Individuals can follow their own learning path. Organisations will be able to create groups and support shared learning while each member keeps personal progress private.</p></div>
         <div className="cards"><article className="feature-card"><div className="feature-icon">♡</div><h3>For individuals</h3><p>Build your own routine, save your place, and follow lessons at a comfortable pace.</p></article><article className="feature-card"><div className="feature-icon">♧</div><h3>For organisations</h3><p>Create learning circles for employees, students, or community members.</p></article><article className="feature-card"><div className="feature-icon">✧</div><h3>For families</h3><p>Encourage children and adults to learn together in a supportive environment.</p></article></div>
+      </section>
+
+      <section className="daily-tools-section" aria-labelledby="daily-tools-title">
+        <div className="daily-tools-heading">
+          <span className="eyebrow">Your daily Islamic companion</span>
+          <h2 id="daily-tools-title">Everything important, one calm place.</h2>
+          <p>Move easily between Qur’an study, Hadith, worship guidance and learning. Start with a tool, then continue at your own pace.</p>
+        </div>
+        <div className="daily-tools-grid">
+          <a className="daily-tool-card daily-tool-primary" href="/quran"><span className="daily-tool-symbol" aria-hidden="true">۞</span><span className="daily-tool-label">QUR’AN STUDY</span><h3>Read, listen & understand</h3><p>Open the Qur’an reader for Arabic, available translations, Tafsir and recitation tools.</p><strong>Open Qur’an study ↗</strong></a>
+          <a className="daily-tool-card" href="/hadith"><span className="daily-tool-symbol" aria-hidden="true">ﷺ</span><span className="daily-tool-label">HADITH & SUNNAH</span><h3>Explore narrations</h3><p>Browse available collections, search narrations and review the references shown with each report.</p><strong>Explore Hadith ↗</strong></a>
+          <a className="daily-tool-card" href="/daily-life#qibla"><span className="daily-tool-symbol" aria-hidden="true">🧭</span><span className="daily-tool-label">QIBLA & DAILY LIFE</span><h3>Find the Qibla</h3><p>Use the Qibla finder and read practical guidance about Wudu, cleanliness and Salah preparation.</p><strong>Open Qibla finder ↗</strong></a>
+          <a className="daily-tool-card" href="/duas"><span className="daily-tool-symbol" aria-hidden="true">🤲</span><span className="daily-tool-label">DUAS & AZKAR</span><h3>Supplications with sources</h3><p>Read Qur’anic and Prophetic supplications with Arabic, transliteration, translations and references.</p><strong>Browse daily duas ↗</strong></a>
+          <a className="daily-tool-card" href="/qaida"><span className="daily-tool-symbol" aria-hidden="true">ا ب</span><span className="daily-tool-label">LEARN TO READ</span><h3>Arabic & Qaida lessons</h3><p>Build reading foundations step by step with beginner-friendly lessons.</p><strong>Start Qaida ↗</strong></a>
+          <a className="daily-tool-card" href="/journey"><span className="daily-tool-symbol" aria-hidden="true">✦</span><span className="daily-tool-label">PERSONAL LEARNING</span><h3>Continue your journey</h3><p>Keep track of your learning routine on this device and return to your goals.</p><strong>View my journey ↗</strong></a>
+        </div>
+        <div className="tasbeeh-mini">
+          <div><span className="eyebrow">A moment for dhikr</span><h3>Digital Tasbeeh</h3><p>Use this simple counter for your personal dhikr. Choose your words and count at your own pace.</p></div>
+          <div className="tasbeeh-counter"><span className="tasbeeh-count" aria-live="polite">{tasbeehCount}</span><div className="tasbeeh-actions"><button type="button" onClick={() => setTasbeehCount((count) => count + 1)}>Count +</button><button type="button" className="tasbeeh-reset" onClick={() => setTasbeehCount(0)}>Reset</button></div></div>
+        </div>
       </section>
 
       <footer className="footer" id="about"><span>© {new Date().getFullYear()} RHM Islam 360</span><span>Founded and owned by Mr Muhammad Hadi Ur Rehman</span><span>Built with care for learners everywhere</span></footer>
