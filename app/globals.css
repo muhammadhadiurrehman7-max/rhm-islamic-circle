@@ -1960,3 +1960,131 @@ html[data-site-theme="dark"] body .discover-islam-page .discover-islam-hero {
     padding: 20px !important;
   }
 }
+
+
+/* Homepage contrast audit: reflection panel, learning cards and section headings. */
+html:not([data-site-theme="dark"]) body main .guidance-section {
+  color: #fffaf0 !important;
+  background: radial-gradient(ellipse at 50% 0%, #315f4d 0%, #174b3c 52%, #102f26 100%) !important;
+  border: 1px solid #426b55;
+}
+html:not([data-site-theme="dark"]) body main .guidance-section .eyebrow {
+  color: #f0d59b !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .guidance-section h2 {
+  color: #fffaf0 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,.22) !important;
+}
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-ornament,
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-arabic,
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-by {
+  color: #f2dfb4 !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-quote blockquote {
+  color: #fffaf0 !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 8px rgba(0,0,0,.18);
+}
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-source {
+  color: #f2dfb4 !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-timer {
+  color: #dce9df !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-dots button {
+  background: #dce9df;
+}
+html:not([data-site-theme="dark"]) body main .guidance-section .guidance-dots button.active {
+  background: #f0d59b;
+}
+
+html:not([data-site-theme="dark"]) body main .share-learning-section {
+  color: #193d2e !important;
+  background: linear-gradient(145deg,#f5f2e9 0%,#eaf0e8 100%) !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-section :is(h2,h3) {
+  color: #123f2e !important;
+  text-shadow: none !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-section :is(p,.eyebrow) {
+  color: #344d40 !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-card {
+  color: #193d2e !important;
+  background: linear-gradient(145deg,#fffefa 0%,#f2eee2 100%) !important;
+  border: 1px solid #c9d5c7 !important;
+  box-shadow: 0 12px 28px rgba(27,55,39,.09) !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-card :is(h3,strong) {
+  color: #123f2e !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-card p {
+  color: #344d40 !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-card .share-card-label,
+html:not([data-site-theme="dark"]) body main .share-learning-card .share-card-mark {
+  color: #805515 !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-card a,
+html:not([data-site-theme="dark"]) body main .share-learning-card button {
+  color: #805515 !important;
+  font-weight: 800 !important;
+}
+html:not([data-site-theme="dark"]) body main .share-learning-status {
+  color: #344d40 !important;
+}
+
+html:not([data-site-theme="dark"]) body main .section-heading :is(h2,p),
+html:not([data-site-theme="dark"]) body main .section-intro {
+  color: #263f32 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html:not([data-site-theme="dark"]) body main .section-heading .eyebrow {
+  color: #805515 !important;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .feature-card :is(h3,p,.feature-icon,.hadith-card-link) {
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body main .feature-card h3 {
+  color: #123f2e !important;
+}
+html:not([data-site-theme="dark"]) body main .feature-card p {
+  color: #344d40 !important;
+}
+html:not([data-site-theme="dark"]) body main .feature-card .feature-icon {
+  color: #805515 !important;
+}
+html:not([data-site-theme="dark"]) body main .feature-card .hadith-card-link {
+  color: #805515 !important;
+  font-weight: 800 !important;
+}
+
+html[data-site-theme="dark"] body main .guidance-section {
+  color: #fffaf0 !important;
+  background: radial-gradient(ellipse at 50% 0%,#294d3e 0%,#142f25 56%,#091b14 100%) !important;
+}
+html[data-site-theme="dark"] body main .guidance-section :is(h2,blockquote) { color: #fffaf0 !important; }
+html[data-site-theme="dark"] body main .guidance-section :is(.eyebrow,.guidance-arabic,.guidance-by,.guidance-source,.guidance-ornament) { color: #f0d59b !important; }
+html[data-site-theme="dark"] body main .guidance-section .guidance-timer { color: #dce9df !important; }
+html[data-site-theme="dark"] body main .share-learning-section { color: #f5edda !important; background: linear-gradient(145deg,#172820,#102019) !important; }
+html[data-site-theme="dark"] body main .share-learning-section :is(h2,h3) { color: #f5edda !important; }
+html[data-site-theme="dark"] body main .share-learning-section p { color: #c8d4ca !important; }
+html[data-site-theme="dark"] body main .share-learning-card { color: #f5edda !important; background: linear-gradient(145deg,#20372b,#172a21) !important; border-color: #526b58 !important; }
+html[data-site-theme="dark"] body main .share-learning-card :is(h3,p,.share-card-label,.share-card-mark,a,button) { color: #f2dfb4 !important; opacity: 1 !important; }
+html[data-site-theme="dark"] body main .section-heading :is(h2,p), html[data-site-theme="dark"] body main .section-intro { color: #e8e4d8 !important; }
+@media(max-width:600px) {
+  html body main .guidance-section { padding: 54px 18px; }
+  html body main .guidance-section .guidance-quote { min-height: 0; }
+  html body main .share-learning-card { padding: 22px !important; }
+}
