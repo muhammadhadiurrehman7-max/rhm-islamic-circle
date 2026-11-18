@@ -581,7 +581,7 @@ useEffect(() => {
         {selectedSurah && <section className="surah-study-overview" aria-label="Surah overview">
           <div><span className="eyebrow">Surah overview · تعارفِ سورت</span><h2>{selectedSurah.englishName} <span lang="ar" dir="rtl">{selectedSurah.name}</span></h2>
             <p>{selectedSurah.englishNameTranslation} · {selectedSurah.revelationType} revelation · Surah {selectedSurah.number} · {selectedSurah.numberOfAyahs} Ayahs</p>
-            <p>{studyLanguage === "ur" ? "یہ تعارف سورت کے بنیادی کوائف فراہم کرتا ہے۔ تفصیلی پس منظر، شانِ نزول اور آیات کی تشریح منتخب مستند تفسیر کے متن میں دیکھیے؛ اختلافی روایات کو قطعی حقیقت کے طور پر پیش نہیں کیا جاتا۔" : "This overview gives verified chapter metadata. For detailed context, occasions of revelation and verse explanations, consult the selected sourced Tafsir; reports that differ are not presented as certain facts."}</p>
+            <p>{studyLanguage === "ur" ? "یہ تعارف سورت کے بنیادی کوائف فراہم کرتا ہے۔ تفصیلی پس منظر، شانِ نزول اور آیات کی تشریح منتخب تفسیر کے متن میں دیکھیے؛ اختلافی روایات کو قطعی حقیقت کے طور پر پیش نہیں کیا جاتا۔" : "This overview gives basic chapter details supplied by the connected Qur’an data source. For detailed context, occasions of revelation and verse explanations, consult the selected Tafsir edition; reports that differ are not presented as certain facts."}</p>
           </div>
         </section>}
         <section className="recitation-panel" aria-label="Quran recitation player">
@@ -677,7 +677,7 @@ useEffect(() => {
             <span><i className="tajweed-swatch tajweed-swatch-other" /> Hamzatul Wasl &amp; Lam rules</span>
           </div>
           <p>Colours follow AlQuran Cloud’s published Tajweed annotations with a reader-friendly palette. Tanween takes the colour of its actual rule (Ikhfa, Idgham or Iqlab); it is not one separate rule.</p>
-          {tajweedLoading && <p role="status">Loading verified Tajweed annotations…</p>}
+          {tajweedLoading && <p role="status">Loading Tajweed annotations…</p>}
           {tajweedError && <p className="tajweed-error" role="status">{tajweedError}</p>}
         </section>}
         {loading && <p className="quran-status">Loading Quran text…</p>}
