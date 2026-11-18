@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "You are offline | RHM Islamic Circle",
+  title: "You are offline | RHM Islam 360",
   robots: { index: false, follow: false },
 };
 
