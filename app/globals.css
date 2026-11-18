@@ -1478,3 +1478,326 @@ html[data-site-theme="dark"] .quran-page .hadith-card {
 @media (prefers-reduced-motion: reduce) {
   .quran-page, .quran-page * { scroll-behavior: auto; }
 }
+
+
+/* RHM Islam 360 — calm shaded reading surfaces and accessible theme contrast.
+   Replaces busy decorative page textures with quiet tonal depth. */
+:root {
+  --rhm-reading-light: #fffdf8;
+  --rhm-reading-light-soft: #f5f1e7;
+  --rhm-reading-ink: #24372e;
+  --rhm-reading-muted: #53665b;
+  --rhm-reading-border: #ded6c5;
+  --rhm-reading-dark: #17251f;
+  --rhm-reading-dark-soft: #1d3028;
+  --rhm-reading-dark-ink: #f4f1e8;
+  --rhm-reading-dark-muted: #d0d8d0;
+  --rhm-reading-dark-border: #40564a;
+}
+html, body { min-height: 100%; }
+body {
+  background: #f1eee5 !important;
+  color: var(--rhm-reading-ink);
+}
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(210, 190, 145, .24), transparent 42rem),
+    radial-gradient(ellipse at 92% 28%, rgba(130, 157, 130, .12), transparent 38rem),
+    linear-gradient(145deg, #f7f4ec 0%, #eeeadf 52%, #f5f1e8 100%);
+}
+main, .page-shell, .page-container, .content-shell {
+  color: var(--rhm-reading-ink);
+}
+.quran-page {
+  color: var(--rhm-reading-ink);
+  background: linear-gradient(145deg, rgba(247,244,236,.94), rgba(237,233,222,.96) 55%, rgba(246,242,232,.96)) !important;
+  background-image: none !important;
+}
+.quran-page::before { content: none !important; }
+.quran-page .quran-topbar,
+.quran-page .quran-heading,
+.quran-page .quran-reader,
+.quran-page .hadith-hero,
+.quran-page .heritage-hero,
+.quran-page .quran-status,
+.quran-page .quran-error,
+.quran-page .hadith-card,
+.quran-page .dua-card,
+.quran-page .ayah-card,
+.quran-page .heritage-card,
+.quran-page .learning-section-card,
+.quran-page .faith-card,
+.quran-page .islam-info-card {
+  color: var(--rhm-reading-ink);
+  background: rgba(255,253,248,.96) !important;
+  background-image: none !important;
+  border: 1px solid var(--rhm-reading-border);
+  box-shadow: 0 12px 34px rgba(53, 54, 39, .07);
+  backdrop-filter: none;
+}
+.quran-page .quran-heading,
+.quran-page .hadith-hero,
+.quran-page .heritage-hero {
+  background: linear-gradient(135deg, #fdfbf5 0%, #f0eadb 100%) !important;
+}
+.quran-page .quran-reader {
+  background: linear-gradient(160deg, #fffefa 0%, #f7f3e9 100%) !important;
+  padding: clamp(18px, 3vw, 34px);
+}
+.quran-page .ayah-card,
+.quran-page .hadith-card,
+.quran-page .dua-card,
+.quran-page .heritage-card {
+  border-radius: 16px;
+  padding: clamp(16px, 2.4vw, 26px);
+  margin-block: 14px;
+}
+.quran-page :where(p, li, label, small, .quran-source, .hadith-meta, .ayah-reference, .quran-count, .section-intro) {
+  color: var(--rhm-reading-muted);
+  line-height: 1.8;
+}
+.quran-page :where(h1, h2, h3, h4, strong, .quran-brand, .ayah-number, .eyebrow) {
+  color: #263d31;
+}
+.quran-page :where(.ayah-arabic, .hadith-arabic, .dua-arabic) {
+  color: #24392e;
+  line-height: 2.15;
+}
+.quran-page :where(.ayah-translation, .hadith-translation, .dua-translation) {
+  color: #35483d;
+  line-height: 1.95;
+  background: rgba(239, 235, 224, .72);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.quran-page :where(input, textarea, select, button) {
+  border-color: #cfc5b1;
+}
+.quran-page :where(input, textarea, select) {
+  color: #26382f;
+  background: #fffefa;
+}
+.quran-page :where(button, a):focus-visible,
+:where(input, textarea, select):focus-visible {
+  outline: 3px solid #a77d36;
+  outline-offset: 3px;
+}
+
+/* Dark mode: solid deep-green reading panels with warm, high-contrast text. */
+html[data-site-theme="dark"] body {
+  color: var(--rhm-reading-dark-ink);
+  background: #101a16 !important;
+}
+html[data-site-theme="dark"] body::before {
+  background:
+    radial-gradient(ellipse at 14% 0%, rgba(130, 116, 75, .13), transparent 40rem),
+    radial-gradient(ellipse at 90% 30%, rgba(65, 111, 83, .13), transparent 38rem),
+    linear-gradient(145deg, #111d18 0%, #0e1915 55%, #14221b 100%);
+}
+html[data-site-theme="dark"] .quran-page,
+.quran-page[data-theme="dark"] {
+  color: var(--rhm-reading-dark-ink);
+  background: linear-gradient(145deg, #17251f 0%, #14211b 58%, #192920 100%) !important;
+  background-image: none !important;
+}
+html[data-site-theme="dark"] .quran-page .quran-topbar,
+html[data-site-theme="dark"] .quran-page .quran-heading,
+html[data-site-theme="dark"] .quran-page .quran-reader,
+html[data-site-theme="dark"] .quran-page .hadith-hero,
+html[data-site-theme="dark"] .quran-page .heritage-hero,
+html[data-site-theme="dark"] .quran-page .quran-status,
+html[data-site-theme="dark"] .quran-page .quran-error,
+html[data-site-theme="dark"] .quran-page .hadith-card,
+html[data-site-theme="dark"] .quran-page .dua-card,
+html[data-site-theme="dark"] .quran-page .ayah-card,
+html[data-site-theme="dark"] .quran-page .heritage-card,
+html[data-site-theme="dark"] .quran-page .learning-section-card,
+html[data-site-theme="dark"] .quran-page .faith-card,
+html[data-site-theme="dark"] .quran-page .islam-info-card,
+.quran-page[data-theme="dark"] .quran-topbar,
+.quran-page[data-theme="dark"] .quran-heading,
+.quran-page[data-theme="dark"] .quran-reader,
+.quran-page[data-theme="dark"] .hadith-card,
+.quran-page[data-theme="dark"] .dua-card,
+.quran-page[data-theme="dark"] .ayah-card,
+.quran-page[data-theme="dark"] .heritage-card {
+  color: var(--rhm-reading-dark-ink);
+  background: rgba(25, 42, 34, .98) !important;
+  background-image: none !important;
+  border-color: var(--rhm-reading-dark-border);
+  box-shadow: 0 14px 38px rgba(0,0,0,.22);
+}
+html[data-site-theme="dark"] .quran-page .quran-heading,
+html[data-site-theme="dark"] .quran-page .hadith-hero,
+html[data-site-theme="dark"] .quran-page .heritage-hero,
+.quran-page[data-theme="dark"] .quran-heading {
+  background: linear-gradient(135deg, #24392e 0%, #1a2c23 100%) !important;
+}
+html[data-site-theme="dark"] .quran-page :where(p, li, label, small, .quran-source, .hadith-meta, .ayah-reference, .quran-count, .section-intro),
+.quran-page[data-theme="dark"] :where(p, li, label, small, .quran-source, .hadith-meta, .ayah-reference, .quran-count) {
+  color: var(--rhm-reading-dark-muted);
+  line-height: 1.85;
+}
+html[data-site-theme="dark"] .quran-page :where(h1, h2, h3, h4, strong, .quran-brand, .ayah-number, .eyebrow),
+.quran-page[data-theme="dark"] :where(h1, h2, h3, h4, strong, .quran-brand, .ayah-number, .eyebrow) {
+  color: #f5edda;
+}
+html[data-site-theme="dark"] .quran-page :where(.ayah-arabic, .hadith-arabic, .dua-arabic),
+.quran-page[data-theme="dark"] :where(.ayah-arabic, .hadith-arabic, .dua-arabic) {
+  color: #fff8e9;
+  line-height: 2.2;
+}
+html[data-site-theme="dark"] .quran-page :where(.ayah-translation, .hadith-translation, .dua-translation),
+.quran-page[data-theme="dark"] :where(.ayah-translation, .hadith-translation, .dua-translation) {
+  color: #f0eee5;
+  background: rgba(12, 25, 19, .72);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+html[data-site-theme="dark"] .quran-page :where(input, textarea, select),
+.quran-page[data-theme="dark"] :where(input, textarea, select) {
+  color: #f5f1e8;
+  background: #14251d;
+  border-color: #52695a;
+}
+html[data-site-theme="dark"] .quran-page :where(button, a):focus-visible,
+.quran-page[data-theme="dark"] :where(button, a):focus-visible {
+  outline-color: #e0bd75;
+}
+:where(body, main) :where(p, li) { text-wrap: pretty; }
+@media (max-width: 700px) {
+  .quran-page .quran-reader { padding: 14px; }
+  .quran-page .ayah-card, .quran-page .hadith-card, .quran-page .dua-card { padding: 15px; }
+}
+
+
+/* Extend the same calm shaded reading system to EVERY other area of the site. */
+main:not(.quran-page) {
+  color: var(--rhm-reading-ink);
+}
+main:not(.quran-page) > :where(section, article, .prayer-hero, .prayer-location, .prayer-note, .prayer-related, .donate-heading, .donation-options) {
+  border-color: var(--rhm-reading-border);
+}
+.prayer-page, .donate-page {
+  min-height: 100vh;
+  color: var(--rhm-reading-ink);
+  background: linear-gradient(145deg, rgba(247,244,236,.97), rgba(237,233,222,.98) 58%, rgba(246,242,232,.98)) !important;
+}
+.prayer-page :where(.prayer-hero, .prayer-location, .prayer-note, .prayer-related, .prayer-time-card),
+.donate-page :where(.donate-heading, .donation-options, .donation-card, .donation-note) {
+  color: var(--rhm-reading-ink);
+  background: rgba(255,253,248,.96) !important;
+  border: 1px solid var(--rhm-reading-border);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(53,54,39,.06);
+}
+.prayer-page :where(p, small, label), .donate-page :where(p, small) {
+  color: var(--rhm-reading-muted);
+  line-height: 1.85;
+}
+.prayer-page :where(h1,h2,h3,strong), .donate-page :where(h1,h2,h3,strong) { color: #263d31; }
+.prayer-page :where(input,select), .donate-page :where(input,select) {
+  color: #26382f; background: #fffefa; border: 1px solid #cfc5b1;
+}
+.prayer-page .prayer-time-card.is-next {
+  background: linear-gradient(145deg,#e9efdf,#f8f5e9) !important;
+  border-color: #a9b994;
+}
+.prayer-page .prayer-time-card strong { color: #244a38; }
+.prayer-page .prayer-related a { color: #315c46; }
+
+/* Homepage: quiet shaded sections and readable cards, while retaining the hero artwork. */
+body:not([data-site-theme="dark"]) .site-header,
+body:not([data-site-theme="dark"]) .feature-card,
+body:not([data-site-theme="dark"]) .faith-entry-section,
+body:not([data-site-theme="dark"]) .share-learning-section,
+body:not([data-site-theme="dark"]) .guidance-section,
+body:not([data-site-theme="dark"]) .daily-tools-section,
+body:not([data-site-theme="dark"]) .section:not(.premium-hero) {
+  color: var(--rhm-reading-ink);
+}
+body:not([data-site-theme="dark"]) .feature-card {
+  background: rgba(255,253,248,.96) !important;
+  border-color: var(--rhm-reading-border);
+  box-shadow: 0 10px 28px rgba(53,54,39,.06);
+}
+body:not([data-site-theme="dark"]) .section:not(.premium-hero) {
+  background-color: rgba(247,244,236,.78);
+}
+body:not([data-site-theme="dark"]) .feature-card :where(p,small),
+body:not([data-site-theme="dark"]) .section:not(.premium-hero) :where(p,li) {
+  color: var(--rhm-reading-muted);
+  line-height: 1.85;
+}
+
+/* The remaining CSS-module pages use a consistent surface and type contrast too. */
+:where(main) :where(.hero, .dashboard, .weekSection, .tasksSection, .progressCard, .statsCard, .task, .lesson, .note, .contentGrid, .qiblaCard) {
+  border-color: var(--rhm-reading-border);
+}
+:where(main) :where(.progressCard, .statsCard, .task, .lesson, .note) {
+  background: rgba(255,253,248,.96);
+  box-shadow: 0 10px 28px rgba(53,54,39,.06);
+}
+:where(main) :where(.lesson p, .lesson li, .note p, .hero p, .task small, .statsCard p) {
+  color: var(--rhm-reading-muted);
+  line-height: 1.85;
+}
+
+/* Dark theme across homepage, prayer tools, donations and CSS-module learning pages. */
+html[data-site-theme="dark"] .prayer-page,
+html[data-site-theme="dark"] .donate-page {
+  color: var(--rhm-reading-dark-ink);
+  background: linear-gradient(145deg,#17251f 0%,#14211b 58%,#192920 100%) !important;
+}
+html[data-site-theme="dark"] .prayer-page :where(.prayer-hero,.prayer-location,.prayer-note,.prayer-related,.prayer-time-card),
+html[data-site-theme="dark"] .donate-page :where(.donate-heading,.donation-options,.donation-card,.donation-note) {
+  color: var(--rhm-reading-dark-ink);
+  background: rgba(25,42,34,.98) !important;
+  border-color: var(--rhm-reading-dark-border);
+  box-shadow: 0 14px 38px rgba(0,0,0,.2);
+}
+html[data-site-theme="dark"] .prayer-page :where(p,small,label),
+html[data-site-theme="dark"] .donate-page :where(p,small) {
+  color: var(--rhm-reading-dark-muted);
+  line-height: 1.85;
+}
+html[data-site-theme="dark"] .prayer-page :where(h1,h2,h3,strong),
+html[data-site-theme="dark"] .donate-page :where(h1,h2,h3,strong) { color: #f5edda; }
+html[data-site-theme="dark"] .prayer-page :where(input,select) {
+  color: #f5f1e8; background: #14251d; border-color: #52695a;
+}
+html[data-site-theme="dark"] .prayer-page .prayer-time-card.is-next {
+  background: linear-gradient(145deg,#294333,#1b3025) !important;
+  border-color: #718b70;
+}
+html[data-site-theme="dark"] .prayer-page .prayer-time-card strong { color: #f1dfb8; }
+html[data-site-theme="dark"] .site-header,
+html[data-site-theme="dark"] .feature-card,
+html[data-site-theme="dark"] .faith-entry-section,
+html[data-site-theme="dark"] .share-learning-section,
+html[data-site-theme="dark"] .guidance-section,
+html[data-site-theme="dark"] .daily-tools-section,
+html[data-site-theme="dark"] .section:not(.premium-hero) {
+  color: var(--rhm-reading-dark-ink);
+  background-color: rgba(20,33,27,.9);
+  border-color: var(--rhm-reading-dark-border);
+}
+html[data-site-theme="dark"] .feature-card,
+html[data-site-theme="dark"] :where(main) :where(.progressCard,.statsCard,.task,.lesson,.note) {
+  background: rgba(25,42,34,.98) !important;
+  border-color: var(--rhm-reading-dark-border);
+  box-shadow: 0 12px 34px rgba(0,0,0,.2);
+}
+html[data-site-theme="dark"] :where(main) :where(.lesson p,.lesson li,.note p,.hero p,.task small,.statsCard p,.feature-card p,.section p,.section li) {
+  color: var(--rhm-reading-dark-muted);
+  line-height: 1.85;
+}
+html[data-site-theme="dark"] :where(main) :where(h1,h2,h3,h4,strong) { color: #f5edda; }
+html[data-site-theme="dark"] :where(main) :where(input,textarea,select) {
+  color: #f5f1e8; background: #14251d; border-color: #52695a;
+}
