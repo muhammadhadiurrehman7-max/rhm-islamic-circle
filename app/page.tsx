@@ -77,7 +77,7 @@ export default function Home() {
     <main>
       <a className="skip-to-content" href="#main-content">Skip to main content</a>
       <header className="site-header">
-        <a className="brand" href="#"><span className="brand-mark">ر</span><span>RHM Islam 360</span></a>
+        <a className="brand" href="#" aria-label="RHM Islam 360 — Rehmat, Hidayat and Ma’rifat"><span className="brand-mark">ر</span><span className="brand-copy"><strong>RHM Islam 360</strong><small>Rehmat • Hidayat • Ma’rifat</small></span></a>
         <button className="mobile-menu-toggle" type="button" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen((open) => !open)}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span><span>{mobileMenuOpen ? "Close" : "Menu"}</span></button>
         <nav id="primary-navigation" className={`nav-links${mobileMenuOpen ? " is-open" : ""}`} aria-label="Main navigation">
           <a onClick={() => setMobileMenuOpen(false)} href="/academy">Learning Academy</a><a onClick={() => setMobileMenuOpen(false)} href="/learn">Discover Islam</a><a onClick={() => setMobileMenuOpen(false)} href="/heritage">Heritage & History</a><a onClick={() => setMobileMenuOpen(false)} href="#quran">Quran</a><a onClick={() => setMobileMenuOpen(false)} href="/hadith">Hadith</a><a onClick={() => setMobileMenuOpen(false)} href="/duas">Daily Duas</a><a onClick={() => setMobileMenuOpen(false)} href="/qaida">Qaida</a><a onClick={() => setMobileMenuOpen(false)} href="/daily-life">Daily Life</a><a onClick={() => setMobileMenuOpen(false)} href="/journey">My Journey</a><a onClick={() => setMobileMenuOpen(false)} href="#community">Community</a><a onClick={() => setMobileMenuOpen(false)} href="#about">About</a>
@@ -252,7 +252,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="footer" id="about"><span>© {new Date().getFullYear()} RHM Islam 360</span><span>Founded and owned by Mr Muhammad Hadi Ur Rehman</span><span>Built with care for learners everywhere</span></footer>
+      <footer className="footer" id="about"><span>© {new Date().getFullYear()} RHM Islam 360</span><span><strong>RHM means Rehmat, Hidayat &amp; Ma’rifat</strong><small>A journey of mercy, guidance and understanding.</small></span><span>Founded and owned by Mr Muhammad Hadi Ur Rehman</span></footer>
       </div>
     </main>
   );
