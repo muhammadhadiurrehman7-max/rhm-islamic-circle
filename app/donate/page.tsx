@@ -1,30 +1,3 @@
-"use client";
-
-import { useState } from "react";
-
-function CopyValue({ value, label }: { value: string; label: string }) {
-  const [copied, setCopied] = useState(false);
-
-  async function copy() {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      setCopied(false);
-    }
-  }
-
-  return (
-    <div className="donation-value-row">
-      <span className="donation-value">{value}</span>
-      <button className="donation-copy" type="button" onClick={copy} aria-label={`Copy ${label}`}>
-        {copied ? "Copied" : "Copy"}
-      </button>
-    </div>
-  );
-}
-
 export default function DonatePage() {
   return (
     <main className="donate-page">
@@ -35,33 +8,20 @@ export default function DonatePage() {
       <section className="donate-heading">
         <div className="eyebrow">Support RHM Islam 360</div>
         <h1>Support Islamic learning</h1>
-        <p>If you wish to support RHM Islam 360, you can make a voluntary contribution using one of the payment details below. Bank and wallet transfers are sent directly to the recipient account you select; they are not processed by the website.</p>
+        <p>RHM Islam 360 aims to make reliable Islamic learning resources freely accessible. Donation facilities are being prepared and are not currently accepting contributions.</p>
       </section>
-      <section className="donation-options" aria-label="Donation payment details">
+      <section className="donation-options" aria-label="Donation availability">
         <article className="donation-card">
-          <div className="donation-method-icon">E</div>
-          <h2>EasyPaisa</h2>
-          <p>Mobile account number</p>
-          <CopyValue value="03148431837" label="EasyPaisa number" />
-        </article>
-        <article className="donation-card">
-          <div className="donation-method-icon">S</div>
-          <h2>SadaPay</h2>
-          <p>Account number / mobile number</p>
-          <CopyValue value="03148431837" label="SadaPay number" />
-        </article>
-        <article className="donation-card">
-          <div className="donation-method-icon">SB</div>
-          <h2>Soneri Bank</h2>
-          <p>Bank account number</p>
-          <CopyValue value="000882001645812" label="Soneri Bank account number" />
+          <div className="donation-method-icon" aria-hidden="true">♡</div>
+          <h2>Donation facilities are being prepared</h2>
+          <p>Please check back later. No bank, wallet, or personal payment details are published on this page at this time.</p>
         </article>
       </section>
       <section className="donate-heading">
-        <h2>How contributions support the project</h2>
-        <p>Voluntary contributions can help with website hosting, app development, accessibility, and creating free Islamic learning resources. No payment is required to access the basic learning content.</p>
+        <h2>How contributions may support the project</h2>
+        <p>If donation facilities are introduced in the future, contributions may help with website hosting, app development, accessibility, and creating free Islamic learning resources. No payment is required to access the basic learning content.</p>
       </section>
-      <p className="donation-note">Before sending money, verify the recipient account title and details in your own banking or wallet app. Keep your transfer receipt. Never share your PIN, password, or one-time verification code. Donations are voluntary and are not represented as tax-deductible.</p>
+      <p className="donation-note">Please do not send money to any account claiming to represent RHM Islam 360 unless official recipient details are published here and independently verified. Never share your PIN, password, or one-time verification code.</p>
       <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
     </main>
   );
