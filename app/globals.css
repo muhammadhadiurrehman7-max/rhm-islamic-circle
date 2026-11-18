@@ -1674,3 +1674,130 @@ html[data-site-theme="dark"] .quran-page :where(button, a):focus-visible,
   .quran-page .quran-reader { padding: 14px; }
   .quran-page .ayah-card, .quran-page .hadith-card, .quran-page .dua-card { padding: 15px; }
 }
+
+
+/* Extend the same calm shaded reading system to EVERY other area of the site. */
+main:not(.quran-page) {
+  color: var(--rhm-reading-ink);
+}
+main:not(.quran-page) > :where(section, article, .prayer-hero, .prayer-location, .prayer-note, .prayer-related, .donate-heading, .donation-options) {
+  border-color: var(--rhm-reading-border);
+}
+.prayer-page, .donate-page {
+  min-height: 100vh;
+  color: var(--rhm-reading-ink);
+  background: linear-gradient(145deg, rgba(247,244,236,.97), rgba(237,233,222,.98) 58%, rgba(246,242,232,.98)) !important;
+}
+.prayer-page :where(.prayer-hero, .prayer-location, .prayer-note, .prayer-related, .prayer-time-card),
+.donate-page :where(.donate-heading, .donation-options, .donation-card, .donation-note) {
+  color: var(--rhm-reading-ink);
+  background: rgba(255,253,248,.96) !important;
+  border: 1px solid var(--rhm-reading-border);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(53,54,39,.06);
+}
+.prayer-page :where(p, small, label), .donate-page :where(p, small) {
+  color: var(--rhm-reading-muted);
+  line-height: 1.85;
+}
+.prayer-page :where(h1,h2,h3,strong), .donate-page :where(h1,h2,h3,strong) { color: #263d31; }
+.prayer-page :where(input,select), .donate-page :where(input,select) {
+  color: #26382f; background: #fffefa; border: 1px solid #cfc5b1;
+}
+.prayer-page .prayer-time-card.is-next {
+  background: linear-gradient(145deg,#e9efdf,#f8f5e9) !important;
+  border-color: #a9b994;
+}
+.prayer-page .prayer-time-card strong { color: #244a38; }
+.prayer-page .prayer-related a { color: #315c46; }
+
+/* Homepage: quiet shaded sections and readable cards, while retaining the hero artwork. */
+body:not([data-site-theme="dark"]) .site-header,
+body:not([data-site-theme="dark"]) .feature-card,
+body:not([data-site-theme="dark"]) .faith-entry-section,
+body:not([data-site-theme="dark"]) .share-learning-section,
+body:not([data-site-theme="dark"]) .guidance-section,
+body:not([data-site-theme="dark"]) .daily-tools-section,
+body:not([data-site-theme="dark"]) .section:not(.premium-hero) {
+  color: var(--rhm-reading-ink);
+}
+body:not([data-site-theme="dark"]) .feature-card {
+  background: rgba(255,253,248,.96) !important;
+  border-color: var(--rhm-reading-border);
+  box-shadow: 0 10px 28px rgba(53,54,39,.06);
+}
+body:not([data-site-theme="dark"]) .section:not(.premium-hero) {
+  background-color: rgba(247,244,236,.78);
+}
+body:not([data-site-theme="dark"]) .feature-card :where(p,small),
+body:not([data-site-theme="dark"]) .section:not(.premium-hero) :where(p,li) {
+  color: var(--rhm-reading-muted);
+  line-height: 1.85;
+}
+
+/* The remaining CSS-module pages use a consistent surface and type contrast too. */
+:where(main) :where(.hero, .dashboard, .weekSection, .tasksSection, .progressCard, .statsCard, .task, .lesson, .note, .contentGrid, .qiblaCard) {
+  border-color: var(--rhm-reading-border);
+}
+:where(main) :where(.progressCard, .statsCard, .task, .lesson, .note) {
+  background: rgba(255,253,248,.96);
+  box-shadow: 0 10px 28px rgba(53,54,39,.06);
+}
+:where(main) :where(.lesson p, .lesson li, .note p, .hero p, .task small, .statsCard p) {
+  color: var(--rhm-reading-muted);
+  line-height: 1.85;
+}
+
+/* Dark theme across homepage, prayer tools, donations and CSS-module learning pages. */
+html[data-site-theme="dark"] .prayer-page,
+html[data-site-theme="dark"] .donate-page {
+  color: var(--rhm-reading-dark-ink);
+  background: linear-gradient(145deg,#17251f 0%,#14211b 58%,#192920 100%) !important;
+}
+html[data-site-theme="dark"] .prayer-page :where(.prayer-hero,.prayer-location,.prayer-note,.prayer-related,.prayer-time-card),
+html[data-site-theme="dark"] .donate-page :where(.donate-heading,.donation-options,.donation-card,.donation-note) {
+  color: var(--rhm-reading-dark-ink);
+  background: rgba(25,42,34,.98) !important;
+  border-color: var(--rhm-reading-dark-border);
+  box-shadow: 0 14px 38px rgba(0,0,0,.2);
+}
+html[data-site-theme="dark"] .prayer-page :where(p,small,label),
+html[data-site-theme="dark"] .donate-page :where(p,small) {
+  color: var(--rhm-reading-dark-muted);
+  line-height: 1.85;
+}
+html[data-site-theme="dark"] .prayer-page :where(h1,h2,h3,strong),
+html[data-site-theme="dark"] .donate-page :where(h1,h2,h3,strong) { color: #f5edda; }
+html[data-site-theme="dark"] .prayer-page :where(input,select) {
+  color: #f5f1e8; background: #14251d; border-color: #52695a;
+}
+html[data-site-theme="dark"] .prayer-page .prayer-time-card.is-next {
+  background: linear-gradient(145deg,#294333,#1b3025) !important;
+  border-color: #718b70;
+}
+html[data-site-theme="dark"] .prayer-page .prayer-time-card strong { color: #f1dfb8; }
+html[data-site-theme="dark"] .site-header,
+html[data-site-theme="dark"] .feature-card,
+html[data-site-theme="dark"] .faith-entry-section,
+html[data-site-theme="dark"] .share-learning-section,
+html[data-site-theme="dark"] .guidance-section,
+html[data-site-theme="dark"] .daily-tools-section,
+html[data-site-theme="dark"] .section:not(.premium-hero) {
+  color: var(--rhm-reading-dark-ink);
+  background-color: rgba(20,33,27,.9);
+  border-color: var(--rhm-reading-dark-border);
+}
+html[data-site-theme="dark"] .feature-card,
+html[data-site-theme="dark"] :where(main) :where(.progressCard,.statsCard,.task,.lesson,.note) {
+  background: rgba(25,42,34,.98) !important;
+  border-color: var(--rhm-reading-dark-border);
+  box-shadow: 0 12px 34px rgba(0,0,0,.2);
+}
+html[data-site-theme="dark"] :where(main) :where(.lesson p,.lesson li,.note p,.hero p,.task small,.statsCard p,.feature-card p,.section p,.section li) {
+  color: var(--rhm-reading-dark-muted);
+  line-height: 1.85;
+}
+html[data-site-theme="dark"] :where(main) :where(h1,h2,h3,h4,strong) { color: #f5edda; }
+html[data-site-theme="dark"] :where(main) :where(input,textarea,select) {
+  color: #f5f1e8; background: #14251d; border-color: #52695a;
+}
