@@ -285,9 +285,6 @@ export default function QuranPage() {
       } else {
         setPlaybackStatus("The additional full-Surah reciter catalogue is temporarily unavailable. The original Ayah reciters are still available.");
       }
-      if (indexResult.status === "rejected") {
-        setPlaybackStatus("Audio quality information is temporarily unavailable. Standard 128 kbps playback will be used; some reciters or individual Ayahs may vary.");
-      }
     };
 
     loadAudioCatalogues()
@@ -592,7 +589,6 @@ export default function QuranPage() {
           </audio>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
-          <p className="recitation-note">Sources: MP3Quran.net full-Surah recitation catalogue and AlQuran Cloud Ayah-by-Ayah audio catalogue. Each reciter is shown only with the Surahs listed as available by its provider. Audio files are streamed from their respective providers.</p>
         </section>
         <section className="quran-search-panel" aria-label="Search the Quran">
           <form onSubmit={(event) => { event.preventDefault(); void runGlobalSearch(); }}><label htmlFor="quran-global-search">Search the entire Quran</label><input id="quran-global-search" type="search" value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search a word or phrase in the selected translation"/><button type="submit" disabled={searching || !globalSearch.trim()}>{searching ? "Searching…" : "Search Quran"}</button></form>
