@@ -12,7 +12,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="section" style={{ minHeight: "100vh" }}>
-      <Link href="/" className="eyebrow">← RHM Islamic Circle</Link>
+      <Link href="/" className="eyebrow">← RHM Islam 360</Link>
       <div style={{ marginTop: 32 }}>
         <div className="eyebrow">Your learning space</div>
         <h1 style={{ font: '600 clamp(34px,5vw,54px) "Playfair Display",serif' }}>Assalamu Alaikum</h1>
