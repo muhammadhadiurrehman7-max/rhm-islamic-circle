@@ -23,7 +23,7 @@ export default function HadithPage() {
   const arabicByNumber=useMemo(()=>new Map(arabic.map((entry,i)=>[String(entry.hadithnumber??i+1),entry.text||""])),[arabic]);
   const bookName=books.find(b=>b.id===book)?.name||book;
   return <main className="quran-page hadith-page" data-theme={theme}>
-    <header className="quran-topbar"><a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</a><div className="quran-top-actions"><button className="theme-toggle" onClick={()=>setTheme(theme==="light"?"dark":"light")}>{theme==="light"?"☾ Dark mode":"☀ Light mode"}</button><a className="quran-home-link" href="/">Back to home</a></div></header>
+    <header className="quran-topbar"><a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</a><div className="quran-top-actions"><button className="theme-toggle" onClick={()=>setTheme(theme==="light"?"dark":"light")}>{theme==="light"?"☾ Dark mode":"☀ Light mode"}</button><a className="quran-home-link" href="/">Back to home</a></div></header>
     <section className="quran-heading hadith-hero"><div className="eyebrow">Hadith & Sunnah Library</div><h1>Explore the Hadith.</h1><p>Read narrations from major Hadith collections in Arabic, Urdu, or English. Search by words or the number used in the selected edition; numbering can differ between Arabic and translated editions.</p></section>
     <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran">Qur’an</a><a href="/hadith" aria-current="page">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
     <section className="quran-reader hadith-reader" id="hadith-reader"><div className="hadith-controls">
@@ -36,6 +36,6 @@ export default function HadithPage() {
     {!loading&&!error&&filtered.length===0&&<p className="quran-status">No matching narrations found.</p>}
     {!loading&&!error&&filtered.length>limit&&<button className="hadith-more" onClick={()=>setLimit(n=>n+50)}>Load 50 more Hadiths</button>}
     <p className="quran-source">Source: fawazahmed0 Hadith API. Text, numbering, and grading are shown as supplied by the source. Numbering can differ between Arabic and translated editions. Not every narration includes a grade. Consult qualified scholars and recognised printed editions for religious rulings.</p></section>
-    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
   </main>;
 }
