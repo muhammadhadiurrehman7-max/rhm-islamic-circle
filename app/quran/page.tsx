@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type Surah = { number: number; name: string; englishName: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string };
 type Ayah = { number: number; numberInSurah: number; text: string; juz?: number; page?: number };
@@ -45,7 +45,7 @@ type TafsirPassage = { id: number; name: string; author?: string; text: string }
 type TajweedVerse = { verse_key: string; text_uthmani_tajweed?: string };
 const TAJWEED_RULE_CLASSES = new Set(["ham_wasl", "laam_shamsiyah", "madda_normal", "madda_permissible", "madda_necessary", "madda_obligatory", "qalaqah", "ikhafa", "ikhafa_shafawi", "idgham_shafawi", "iqlab", "idgham_ghunnah", "idgham_wo_ghunnah", "ghunnah", "silent", "slnt"]);
 function renderTajweedText(value: string) {
-  const parts: React.ReactNode[] = [];
+  const parts: ReactNode[] = [];
   const pattern = /<tajweed class=([a-z_]+)>([\s\S]*?)<\/tajweed>|<span class=end>([\s\S]*?)<\/span>/gi;
   let cursor = 0;
   let match: RegExpExecArray | null;
