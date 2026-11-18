@@ -10,6 +10,12 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; }
 .site-header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:20px clamp(20px,6vw,88px); background:#fff; border-bottom:1px solid #e9eee9; }
 .brand { display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:-.03em; }
+.brand-copy { display:grid; gap:3px; }
+.brand-copy strong { font-size:15px; line-height:1.15; }
+.brand-copy small { color:#9a7a45; font-size:9px; font-weight:700; letter-spacing:.08em; line-height:1.2; }
+html[data-site-theme="dark"] .brand-copy small { color:#e3c98f; }
+.footer span strong,.footer span small { display:block; }
+.footer span small { margin-top:5px; color:#d5c7a6; font-size:11px; }
 .brand-mark { display:grid; place-items:center; width:42px; height:42px; border-radius:14px; color:#fff; background:var(--green); font-family:"Playfair Display",serif; font-size:21px; }
 .nav-links { display:flex; align-items:center; gap:26px; color:#53675e; font-size:14px; }
 .nav-actions { display:flex; gap:10px; align-items:center; }
