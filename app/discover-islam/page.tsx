@@ -10,7 +10,7 @@ const topics = [
 
 export default function DiscoverIslamPage() {
   return <main className="quran-page discover-islam-page">
-    <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</Link><Link className="quran-home-link" href="/">Back to home</Link></header>
+    <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</Link><Link className="quran-home-link" href="/">Back to home</Link></header>
     <div className="discover-islam-wrap">
       <header className="discover-islam-hero">
         <span className="eyebrow">A guide to the faith</span>
@@ -27,7 +27,7 @@ export default function DiscoverIslamPage() {
           <Link href={topic.href}>Explore this topic <span aria-hidden="true">→</span></Link>
         </article>)}
       </section>
-      <div className="discover-separate-note"><strong>Separate learning resources:</strong> Hadith collections, beginner’s Qaida lessons and the Islamic Heritage mosque gallery have their own dedicated areas on RHM Islamic Circle.</div>
+      <div className="discover-separate-note"><strong>Separate learning resources:</strong> Hadith collections, beginner’s Qaida lessons and the Islamic Heritage mosque gallery have their own dedicated areas on RHM Islam 360.</div>
       <nav className="discover-resource-links" aria-label="Other learning resources">
         <Link href="/hadith">Hadith Library ↗</Link>
         <Link href="/qaida">Beginner’s Qaida ↗</Link>
@@ -36,6 +36,6 @@ export default function DiscoverIslamPage() {
       </nav>
       <p className="discover-learning-note">These pages provide introductory educational information. For detailed Tafsir, hadith verification and personal religious rulings, consult qualified and trusted scholars.</p>
     </div>
-    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
   </main>;
 }
