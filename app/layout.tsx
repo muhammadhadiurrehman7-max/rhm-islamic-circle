@@ -27,7 +27,6 @@ export const metadata: Metadata = {
     "Hadith library", "Daily duas", "Islamic supplications", "Arabic Qaida lessons", "Islamic history", "famous mosques",
     "Quran Urdu translation"
   ],
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: siteUrl,
@@ -35,13 +34,13 @@ export const metadata: Metadata = {
     title: "RHM Islam 360 | Quran, Islamic Learning & Hadith",
     description: "A welcoming online space to read the Quran, explore Islamic beliefs, learn Hadith and Arabic basics, and discover Islamic heritage.",
     locale: "en_US",
-    images: ["/icon.jpg"]
+    images: ["/images/rhm-islam360-quran-hero.webp"]
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "RHM Islam 360 | Quran & Islamic Learning",
     description: "Read the Quran and explore Islamic learning, Hadith, Qaida and Islamic heritage.",
-    images: ["/icon.jpg"]
+    images: ["/images/rhm-islam360-quran-hero.webp"]
   },
   robots: {
     index: true,
