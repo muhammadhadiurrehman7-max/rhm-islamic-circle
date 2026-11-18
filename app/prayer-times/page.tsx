@@ -14,9 +14,14 @@ function dateForApi(date: Date, timeZone?: string) {
   return [values.day, values.month, values.year].join("-");
 }
 function minutesInTimeZone(timeZone?: string) {
-  const parts = new Intl.DateTimeFormat("en-GB", { ...(timeZone ? { timeZone } : {}), hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
-  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
-  return Number(values.hour) * 60 + Number(values.minute);
+  try {
+    const parts = new Intl.DateTimeFormat("en-GB", { ...(timeZone ? { timeZone } : {}), hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
+    const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+    return Number(values.hour) * 60 + Number(values.minute);
+  } catch {
+    const now = new Date();
+    return now.getHours() * 60 + now.getMinutes();
+  }
 }
 function minutesFromTime(value: string) {
   const [h,m] = timeOnly(value).split(":").map(Number);
