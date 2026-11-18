@@ -72,7 +72,7 @@ export default function LearningTopicPage() {
   }
   return (
     <main className="quran-page learning-page">
-      <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</Link><div className="quran-top-actions"><Link className="quran-home-link" href="/quran">Back to learning centre</Link></div></header>
+      <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</Link><div className="quran-top-actions"><Link className="quran-home-link" href="/quran">Back to learning centre</Link></div></header>
       <div className="learning-detail-wrap">
         <Link className="learning-back" href="/quran">← All learning topics</Link>
         <header className="learning-detail-heading"><span className="eyebrow">RHM Islamic learning</span><h1>{lesson.title}</h1><p>{lesson.subtitle}</p><div className="learning-intro">{lesson.intro}</div></header>
@@ -84,7 +84,7 @@ export default function LearningTopicPage() {
         <p className="faith-note"><strong>Learning note:</strong> This page provides introductory educational information, not a personal religious ruling or a complete Tafsir. For detailed rulings and individual circumstances, consult a qualified, trusted scholar.</p>
         <footer className="learning-detail-footer"><Link href="/quran">← Return to RHM Islamic learning</Link></footer>
       </div>
-      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
     </main>
   );
 }
