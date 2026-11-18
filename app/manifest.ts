@@ -8,14 +8,16 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#071b16", theme_color: "#0b3028",
     categories: ["education", "books", "lifestyle"],
     icons: [
-      { src: "/icon.jpg", sizes: "96x96", type: "image/jpeg", purpose: "any" },
-      { src: "/icon.jpg", sizes: "96x96", type: "image/jpeg", purpose: "maskable" }
+      { src: "/icon-192.svg", sizes: "192x192", type: "image/svg+xml", purpose: "any" },
+      { src: "/icon-512.svg", sizes: "512x512", type: "image/svg+xml", purpose: "maskable" }
     ],
     shortcuts: [
       { name: "Read the Quran", short_name: "Quran", url: "/quran" },
       { name: "Explore Hadith", short_name: "Hadith", url: "/hadith" },
       { name: "Learn Qaida", short_name: "Qaida", url: "/qaida" },
-      { name: "Discover Islam", short_name: "Discover", url: "/learn" }
+      { name: "Discover Islam", short_name: "Discover", url: "/learn" },
+      { name: "Prayer Times", short_name: "Prayer", url: "/prayer-times" },
+      { name: "99 Names of Allah", short_name: "Asma ul Husna", url: "/names-of-allah" }
     ]
   };
 }

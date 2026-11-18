@@ -19,7 +19,7 @@ const places = [
 
 export default function IslamicHeritagePage() {
   return <main className="quran-page heritage-page">
-    <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</Link><div className="quran-top-actions"><Link className="quran-home-link" href="/quran">Back to learning centre</Link></div></header>
+    <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</Link><div className="quran-top-actions"><Link className="quran-home-link" href="/quran">Back to learning centre</Link></div></header>
     <div className="heritage-wrap">
       <header className="heritage-hero"><span className="eyebrow">Explore Islamic civilisation</span><h1>Islamic Heritage &amp; Famous Mosques</h1><p>Discover remarkable mosques and sacred places across the Muslim world through real photographs and short historical introductions.</p><span className="heritage-arabic" lang="ar" dir="rtl">مساجد ومعالم إسلامية</span></header>
 
@@ -175,6 +175,6 @@ export default function IslamicHeritagePage() {
       <p className="heritage-disclaimer">Photographs are linked from Wikimedia Commons. Each photo-source link leads to its file or category page, where the photographer and licence information can be checked. Availability of individual image files may change.</p>
       <div className="heritage-return"><Link href="/quran">← Return to RHM Islamic learning centre</Link></div>
     </div>
-    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
   </main>;
 }

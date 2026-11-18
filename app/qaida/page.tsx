@@ -245,7 +245,7 @@ export default function QaidaPage() {
   return (
     <main className="quran-page qaida-page" lang={language === "ar" ? "ar" : language === "ur" ? "ur" : "en"} dir={language === "ar" || language === "ur" ? "rtl" : "ltr"}>
       <header className="quran-topbar">
-        <a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</a>
+        <a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</a>
         <div className="quran-top-actions">
           <a className="quran-home-link" href="/hadith">{t.hadith}</a>
           <a className="quran-home-link" href="/">{t.home}</a>
@@ -293,7 +293,7 @@ export default function QaidaPage() {
         <div className="qaida-practice"><div><strong>{t.practice}</strong><p>{t.practiceText}</p></div><a href="/quran#quran-reader">{t.openQuran} →</a></div>
         <p className="qaida-disclaimer">{t.footer}</p>
       </section>
-      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
     </main>
   );
 }

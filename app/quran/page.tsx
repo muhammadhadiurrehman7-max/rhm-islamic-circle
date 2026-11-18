@@ -419,7 +419,7 @@ export default function QuranPage() {
   return (
     <main className="quran-page" data-theme={theme}>
       <header className="quran-topbar">
-        <a className="quran-brand" href="/"> <span className="brand-mark">ر</span> RHM Islamic Circle</a>
+        <a className="quran-brand" href="/"> <span className="brand-mark">ر</span> RHM Islam 360</a>
         <div className="quran-top-actions">
           <button className="theme-toggle" type="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={theme === "light" ? "Switch to dark theme" : "Switch to light theme"}>
             <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span> {theme === "light" ? "Dark mode" : "Light mode"}
@@ -445,7 +445,7 @@ export default function QuranPage() {
         <div className="faith-centre-heading">
           <span className="eyebrow">RHM Islamic learning</span>
           <h2 id="faith-centre-title">Explore the foundations of Islam</h2>
-          <p>Learn the essentials, read the Qur’an, and explore Hadith and beginner Arabic lessons — all within RHM Islamic Circle.</p>
+          <p>Learn the essentials, read the Qur’an, and explore Hadith and beginner Arabic lessons — all within RHM Islam 360.</p>
         </div>
         <div className="faith-card-grid">
           <article className="faith-card"><span className="faith-icon">☪</span><h3>What is Islam?</h3><p>Explore Tawheed, faith, worship, mercy and the purpose of Islam.</p><a href="/learn/what-is-islam">Open full lesson →</a></article>
@@ -651,7 +651,7 @@ export default function QuranPage() {
         )}
         <p className="quran-source">Arabic Quran text, translations, and Ayah-by-Ayah recitations are streamed through AlQuran Cloud. Translation names and contributors are shown where supplied by the source. Translation is not a substitute for Tafsir or scholarly explanation.</p>
       </section>
-      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+      <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
     </main>
   );
 }

@@ -10,7 +10,7 @@ const topics = [
 
 export default function DiscoverIslamPage() {
   return <main className="quran-page discover-islam-page">
-    <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islamic Circle</Link><Link className="quran-home-link" href="/">Back to home</Link></header>
+    <header className="quran-topbar"><Link className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</Link><Link className="quran-home-link" href="/">Back to home</Link></header>
     <div className="discover-islam-wrap">
       <header className="discover-islam-hero">
         <span className="eyebrow">A guide to the faith</span>
@@ -33,6 +33,6 @@ export default function DiscoverIslamPage() {
       </div></div>
       <p className="discover-islam-note">These pages offer introductory educational information, not personal religious rulings or a complete Tafsir. For detailed explanations and individual circumstances, consult a qualified, trusted scholar.</p>
     </div>
-    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islamic Circle · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
+    <footer className="quran-footer">© {new Date().getFullYear()} RHM Islam 360 · Founded and owned by Mr Muhammad Hadi Ur Rehman</footer>
   </main>;
 }
