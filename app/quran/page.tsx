@@ -80,6 +80,8 @@ export default function QuranPage() {
   const [reciters, setReciters] = useState<Reciter[]>([]);
   const [chapterReciters, setChapterReciters] = useState<ChapterReciter[]>([]);
   const [selectedChapterReciter, setSelectedChapterReciter] = useState("");
+  const [fullSurahReciterSearch, setFullSurahReciterSearch] = useState("");
+  const [ayahReciterSearch, setAyahReciterSearch] = useState("");
   const [surahAudioBitrates, setSurahAudioBitrates] = useState<Record<string, number>>({});
   const [selectedReciter, setSelectedReciter] = useState("ar.alafasy");
   const [recitersLoading, setRecitersLoading] = useState(true);
@@ -327,6 +329,8 @@ export default function QuranPage() {
   const selectedSurah = surahs.find((surah) => surah.number === selected);
   const languageTranslations = translations.filter((edition) => edition.language === studyLanguage);
   const activeChapterReciter = chapterReciters.find((reader) => String(reader.id) === selectedChapterReciter);
+  const filteredChapterReciters = chapterReciters.filter((reader) => `${reader.name} ${reader.moshafName}`.toLocaleLowerCase().includes(fullSurahReciterSearch.trim().toLocaleLowerCase()));
+  const filteredAyahReciters = reciters.filter((reader) => `${reader.englishName || ""} ${reader.name || ""} ${reader.identifier}`.toLocaleLowerCase().includes(ayahReciterSearch.trim().toLocaleLowerCase()));
   const surahIsAvailableForChapterReciter = !!activeChapterReciter?.surahs.includes(selected);
   const surahAudioUrl = activeChapterReciter
     ? surahIsAvailableForChapterReciter ? `${activeChapterReciter.server}${String(selected).padStart(3, "0")}.mp3` : ""
@@ -589,18 +593,26 @@ useEffect(() => {
             </div>
             <span className="recitation-symbol" aria-hidden="true">♫</span>
           </div>
+          <label className="reciter-label" htmlFor="full-surah-reciter-search">Find a full-Surah reciter</label>
+          <input id="full-surah-reciter-search" className="reciter-select" type="search" value={fullSurahReciterSearch} onChange={(event) => setFullSurahReciterSearch(event.target.value)} placeholder="Search Qari or recitation style…" aria-controls="full-surah-reciter-select" disabled={recitersLoading || chapterReciters.length === 0} />
           <label className="reciter-label" htmlFor="full-surah-reciter-select">Full-Surah reciter · Expanded catalogue</label>
           <select id="full-surah-reciter-select" className="reciter-select" value={selectedChapterReciter} onChange={(event) => { setSelectedChapterReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || chapterReciters.length === 0}>
             {recitersLoading && <option value="">Loading full-Surah reciters…</option>}
             {!recitersLoading && chapterReciters.length === 0 && <option value="">Additional reciters are temporarily unavailable</option>}
-            {chapterReciters.map((reciter) => <option key={reciter.id} value={String(reciter.id)}>{reciter.name} — {reciter.moshafName} ({reciter.surahs.length} Surahs)</option>)}
+            {!recitersLoading && chapterReciters.length > 0 && filteredChapterReciters.length === 0 && <option value="">No matching reciters found</option>}
+            {filteredChapterReciters.map((reciter) => <option key={reciter.id} value={String(reciter.id)}>{reciter.name} — {reciter.moshafName} ({reciter.surahs.length} Surahs)</option>)}
           </select>
+          {!recitersLoading && chapterReciters.length > 0 && <p className="recitation-note" role="status">Showing {filteredChapterReciters.length} of {chapterReciters.length} full-Surah reciters.</p>}
           {activeChapterReciter && !surahIsAvailableForChapterReciter && <p className="recitation-note" role="status">This reciter does not have Surah {selected} in the provider catalogue. Please choose another reciter or a Surah they have recorded.</p>}
+          <label className="reciter-label" htmlFor="ayah-reciter-search">Find an Ayah-by-Ayah reciter</label>
+          <input id="ayah-reciter-search" className="reciter-select" type="search" value={ayahReciterSearch} onChange={(event) => setAyahReciterSearch(event.target.value)} placeholder="Search reciter name…" aria-controls="reciter-select" disabled={recitersLoading || reciters.length === 0} />
           <label className="reciter-label" htmlFor="reciter-select">Ayah-by-Ayah reciter</label>
           <select id="reciter-select" className="reciter-select" value={selectedReciter} onChange={(event) => { setSelectedReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || reciters.length === 0}>
             {recitersLoading && <option>Loading Ayah reciters…</option>}
-            {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
+            {!recitersLoading && reciters.length > 0 && filteredAyahReciters.length === 0 && <option value="">No matching reciters found</option>}
+            {filteredAyahReciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
+          {!recitersLoading && reciters.length > 0 && <p className="recitation-note" role="status">Showing {filteredAyahReciters.length} of {reciters.length} Ayah-by-Ayah reciters.</p>}
           <p className="recitation-note">The full-Surah catalogue includes additional Qaris and recitation styles. Ayah-by-Ayah playback uses the separate AlQuran Cloud catalogue.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
           <label className="reciter-label" htmlFor="tafsir-select">{studyLanguage === "ur" ? "Urdu Tafsir sources / اردو تفاسیر" : "English Tafsir sources"}</label>
