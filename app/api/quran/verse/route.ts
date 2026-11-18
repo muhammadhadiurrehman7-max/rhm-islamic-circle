@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   const resources = searchParams.get("resources");
   const chapterNumber = searchParams.get("chapter");
 
-  if (resources === "tajweed" && (!chapterNumber || !/^(?:[1-9]|[1-9][0-9]|1[01][0-4])$/.test(chapterNumber))) {
+  if (resources === "tajweed" && (!chapterNumber || !Number.isInteger(Number(chapterNumber)) || Number(chapterNumber) < 1 || Number(chapterNumber) > 114)) {
     return NextResponse.json({ error: "Provide a valid Surah number for Tajweed text." }, { status: 400 });
   }
   if (resources !== "tafsirs" && resources !== "tajweed" && (!verseKey || !/^([1-9]|[1-9][0-9]|1[01][0-9]|11[0-4]):[1-9][0-9]{0,2}$/.test(verseKey))) {
