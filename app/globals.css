@@ -2088,3 +2088,29 @@ html[data-site-theme="dark"] body main .section-heading :is(h2,p), html[data-sit
   html body main .guidance-section .guidance-quote { min-height: 0; }
   html body main .share-learning-card { padding: 22px !important; }
 }
+
+/* Verified, verse-level Tajweed highlighting */
+.quran-page .tajweed-guide { margin:18px 0 22px; padding:18px 20px; border:1px solid var(--q-border); border-radius:16px; background:var(--q-surface); color:var(--q-ink); }
+.quran-page .tajweed-guide > strong { display:block; margin-bottom:12px; font-size:15px; }
+.quran-page .tajweed-guide p { margin:12px 0 0; color:var(--q-muted); font-size:12px; line-height:1.7; }
+.quran-page .tajweed-legend { display:flex; flex-wrap:wrap; gap:10px 16px; }
+.quran-page .tajweed-legend span { display:inline-flex; align-items:center; gap:7px; color:var(--q-muted); font-size:12px; }
+.quran-page .tajweed-swatch { width:10px; height:10px; display:inline-block; border-radius:50%; background:#777; }
+.quran-page .tajweed-swatch-ghunnah { background:#d633a6; }
+.quran-page .tajweed-swatch-ikhafa { background:#8b45b5; }
+.quran-page .tajweed-swatch-idgham { background:#17845b; }
+.quran-page .tajweed-swatch-iqlab { background:#d62828; }
+.quran-page .tajweed-swatch-madd { background:#315fd4; }
+.quran-page .tajweed-swatch-qalqalah { background:#c26b19; }
+.quran-page .tajweed-swatch-other { background:#929292; }
+.quran-page .ayah-arabic-tajweed .tajweed-rule { font-weight:600; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:5px; text-decoration-color:currentColor; }
+.quran-page .tajweed-ghunnah { color:#d633a6; }
+.quran-page .tajweed-ikhafa,.quran-page .tajweed-ikhafa_shafawi { color:#8b45b5; }
+.quran-page .tajweed-idgham_ghunnah,.quran-page .tajweed-idgham_wo_ghunnah,.quran-page .tajweed-idgham_shafawi { color:#17845b; }
+.quran-page .tajweed-iqlab { color:#d62828; }
+.quran-page .tajweed-madda_normal,.quran-page .tajweed-madda_permissible,.quran-page .tajweed-madda_necessary,.quran-page .tajweed-madda_obligatory { color:#315fd4; }
+.quran-page .tajweed-qalaqah { color:#c26b19; }
+.quran-page .tajweed-ham_wasl,.quran-page .tajweed-laam_shamsiyah,.quran-page .tajweed-silent,.quran-page .tajweed-slnt { color:#929292; }
+.quran-page .tajweed-verse-end { display:inline-block; margin-inline:8px; color:var(--q-gold); font-size:.72em; }
+.quran-page .tajweed-error { color:#a23a32 !important; }
+@media(prefers-reduced-motion:reduce){.quran-page .tajweed-rule{text-decoration:none}}
