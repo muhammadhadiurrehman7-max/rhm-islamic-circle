@@ -87,6 +87,10 @@ export default function Home() {
 
       <div id="main-content" tabIndex={-1}>
       <style jsx global>{`
+        .academy-home-promo{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:28px;margin:34px auto;padding:clamp(28px,5vw,56px);width:min(1240px,calc(100% - 40px));border:1px solid #d8e6d9;border-radius:26px;background:linear-gradient(115deg,#f7f4e8 0%,#e7f2e8 55%,#dcefe5 100%);box-shadow:0 16px 42px rgba(22,66,47,.08)}
+        .academy-promo-copy{position:relative;z-index:1;max-width:780px}.academy-promo-copy h2{margin:10px 0 12px;color:#173d31;font:600 clamp(27px,4vw,42px)/1.15 "Playfair Display",Georgia,serif}.academy-promo-copy p{max-width:720px;margin:0 0 22px;color:#526b60;line-height:1.8}.academy-promo-emblem{position:absolute;right:5%;top:50%;transform:translateY(-50%);font-size:clamp(110px,18vw,220px);line-height:1;color:rgba(24,103,73,.10);pointer-events:none}
+        html[data-site-theme="dark"] .academy-home-promo{border-color:#355b49;background:linear-gradient(115deg,#17392e,#203f32 55%,#294b3a)}html[data-site-theme="dark"] .academy-promo-copy h2{color:#f4ecd8}html[data-site-theme="dark"] .academy-promo-copy p{color:#d1dfd5}
+        @media(max-width:560px){.academy-home-promo{margin:24px auto;padding:26px 22px;width:calc(100% - 28px)}.academy-promo-emblem{right:-8%;font-size:130px}}
         .premium-hero {
           position: relative;
           background-image: linear-gradient(90deg,rgba(8,25,20,.94) 0%,rgba(8,25,20,.82) 42%,rgba(8,25,20,.30) 72%,rgba(8,25,20,.18) 100%),url('/images/rhm-islam360-quran-hero.webp');
@@ -110,7 +114,7 @@ export default function Home() {
           <p>Read the Qur’an with care, listen to beautiful recitation, understand authentic teachings, and learn Islam step by step — in a calm space made for learners everywhere.</p>
           <div className="hero-actions">
             <a className="btn btn-primary" href="/quran">Begin with the Qur’an <span aria-hidden="true">↗</span></a>
-            <a className="btn btn-light" href="/learn">Explore Islamic learning</a>
+            <a className="btn btn-light" href="/academy">Explore Learning Academy</a>
           </div>
           <div className="hero-note">Free learning resources · Arabic, Urdu and English · Learn at your own pace</div>
         </div>
@@ -136,6 +140,11 @@ export default function Home() {
         <a href="/heritage#kaaba"><span className="ribbon-symbol">⌂</span><span><strong>Makkah Al-Mukarramah</strong><small>Explore the Holy Kaaba</small></span><span className="ribbon-arrow">↗</span></a>
         <a href="/heritage#masjid-nabawi"><span className="ribbon-symbol">۞</span><span><strong>Al-Madinah Al-Munawwarah</strong><small>Discover Al-Masjid an-Nabawi</small></span><span className="ribbon-arrow">↗</span></a>
         <a href="/quran"><span className="ribbon-symbol">۩</span><span><strong>Qur’an & reflection</strong><small>Read, listen and understand</small></span><span className="ribbon-arrow">↗</span></a>
+      </section>
+
+      <section className="academy-home-promo" aria-labelledby="academy-home-title">
+        <div className="academy-promo-emblem" aria-hidden="true">۞</div>
+        <div className="academy-promo-copy"><span className="eyebrow">Your learning journey, all in one place</span><h2 id="academy-home-title">Explore the RHM Islam 360 Learning Academy</h2><p>Follow guided pathways through Qur’an, Tajweed, Arabic, Hadith, Duas, worship and Islamic heritage — all within RHM Islam 360.</p><a className="btn btn-primary" href="/academy">Enter the Learning Academy ↗</a></div>
       </section>
 
       <section className="faith-entry-section" aria-labelledby="faith-entry-title">
