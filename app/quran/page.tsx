@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type Surah = { number: number; name: string; englishName: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string };
 type Ayah = { number: number; numberInSurah: number; text: string; juz?: number; page?: number };
 type Reciter = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
+type ChapterReciter = { id: number; name: string; moshafName: string; server: string; surahs: number[] };
 function readSurahAudioIndex(value: unknown): Record<string, number> {
   const found: Record<string, number> = {};
   const visit = (node: unknown, key = "") => {
@@ -41,6 +42,31 @@ type SearchMatch = { text: string; number: number; numberInSurah: number; surah:
 type WordPart = { id?: number; position?: number; textUthmani?: string; textIndopak?: string; text_uthmani?: string; text_indopak?: string; translation?: { text?: string }; transliteration?: { text?: string }; audioUrl?: string; audio_url?: string };
 type TafsirResource = { id: number; name: string; author_name?: string; slug: string; language_name: string };
 type TafsirPassage = { id: number; name: string; author?: string; text: string };
+type TajweedVerse = { numberInSurah: number; text: string };
+const TAJWEED_MARKERS: Record<string, { rule: string; label: string }> = {
+  h: { rule: "ham-wasl", label: "Hamzatul Wasl" }, s: { rule: "silent", label: "Silent letter" }, l: { rule: "laam-shamsiyah", label: "Lam Shamsiyyah" },
+  n: { rule: "madda-normal", label: "Madd Tabee’i — 2 counts" }, p: { rule: "madda-permissible", label: "Madd Ja’iz — 2, 4 or 6 counts" },
+  m: { rule: "madda-necessary", label: "Madd Lazim — 6 counts" }, o: { rule: "madda-obligatory", label: "Madd Wajib — 4–5 counts" },
+  q: { rule: "qalqalah", label: "Qalqalah" }, c: { rule: "ikhafa-shafawi", label: "Ikhfa Shafawi" }, f: { rule: "ikhafa", label: "Ikhfa" },
+  w: { rule: "idgham-shafawi", label: "Idgham Shafawi" }, i: { rule: "iqlab", label: "Iqlab — Tanween or Noon Sakinah before ب" },
+  a: { rule: "idgham-ghunnah", label: "Idgham with Ghunnah" }, u: { rule: "idgham-no-ghunnah", label: "Idgham without Ghunnah" },
+  d: { rule: "idgham-mutajanisayn", label: "Idgham Mutajanisayn" }, b: { rule: "idgham-mutaqaribayn", label: "Idgham Mutaqaribayn" },
+  g: { rule: "ghunnah", label: "Ghunnah — 2 counts" },
+};
+function renderTajweedText(value: string) {
+  const parts: ReactNode[] = [];
+  const pattern = /\x5b([a-z])(?::\d+)?\x5b([^\x5d]*)\x5d/gi;
+  let cursor = 0; let match: RegExpExecArray | null;
+  while ((match = pattern.exec(value))) {
+    if (match.index > cursor) parts.push(value.slice(cursor, match.index));
+    const marker = TAJWEED_MARKERS[match[1].toLowerCase()];
+    if (marker) parts.push(<span className={"tajweed-rule tajweed-" + marker.rule} title={marker.label} aria-label={marker.label} key={"rule-" + match.index}>{match[2]}</span>);
+    else parts.push(match[2]);
+    cursor = pattern.lastIndex;
+  }
+  if (cursor < value.length) parts.push(value.slice(cursor));
+  return parts;
+}
 function cleanTafsirText(value: string) {
   return value.replace(/<\/(p|div|h[1-6]|li|br)\s*>/gi, "\n\n").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
 }
@@ -52,6 +78,8 @@ export default function QuranPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reciters, setReciters] = useState<Reciter[]>([]);
+  const [chapterReciters, setChapterReciters] = useState<ChapterReciter[]>([]);
+  const [selectedChapterReciter, setSelectedChapterReciter] = useState("");
   const [surahAudioBitrates, setSurahAudioBitrates] = useState<Record<string, number>>({});
   const [selectedReciter, setSelectedReciter] = useState("ar.alafasy");
   const [recitersLoading, setRecitersLoading] = useState(true);
@@ -92,6 +120,10 @@ export default function QuranPage() {
   const [wordErrors, setWordErrors] = useState<Record<string, string>>({});
   const [wordStudyMode, setWordStudyMode] = useState(false);
   const [wordPanelsOpen, setWordPanelsOpen] = useState<Record<string, boolean>>({});
+  const [tajweedMode, setTajweedMode] = useState(false);
+  const [tajweedVerses, setTajweedVerses] = useState<Record<string, string>>({});
+  const [tajweedLoading, setTajweedLoading] = useState(false);
+  const [tajweedError, setTajweedError] = useState("");
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -229,7 +261,7 @@ export default function QuranPage() {
   useEffect(() => {
     let active = true;
     const loadAudioCatalogues = async () => {
-      const [editionResult, indexResult] = await Promise.allSettled([
+      const [editionResult, indexResult, chapterResult] = await Promise.allSettled([
         fetch("https://api.alquran.cloud/v1/edition/format/audio").then((response) => {
           if (!response.ok) throw new Error("The Ayah reciter catalogue could not be loaded.");
           return response.json();
@@ -238,19 +270,24 @@ export default function QuranPage() {
           if (!response.ok) throw new Error("The full-Surah audio availability catalogue could not be loaded.");
           return response.json();
         }),
+        fetch("https://mp3quran.net/api/v3/reciters?language=eng").then((response) => {
+          if (!response.ok) throw new Error("The additional full-Surah reciter catalogue could not be loaded.");
+          return response.json();
+        }),
       ]);
       if (!active) return;
-      if (editionResult.status === "rejected") {
-        throw editionResult.reason instanceof Error
-          ? editionResult.reason
-          : new Error("The reciter catalogue is temporarily unavailable.");
-      }
-
-      const editions = ((editionResult.value.data || []) as Reciter[]).filter((edition) =>
-        edition.identifier.startsWith("ar.") && edition.language === "ar"
-      );
-      if (!editions.length) {
-        throw new Error("The provider returned no Arabic reciters. Please try again shortly.");
+      const editions = editionResult.status === "fulfilled"
+        ? ((editionResult.value.data || []) as Reciter[]).filter((edition) =>
+            edition.identifier.startsWith("ar.") && edition.language === "ar"
+          )
+        : [];
+      if (editions.length) {
+        setReciters(editions);
+        if (!editions.some((edition) => edition.identifier === selectedReciter)) {
+          setSelectedReciter(editions[0].identifier);
+        }
+      } else {
+        setAudioError("The Ayah-by-Ayah reciter catalogue is temporarily unavailable.");
       }
 
       // The CDN index is an optional quality hint, not a prerequisite for listing
@@ -259,12 +296,23 @@ export default function QuranPage() {
         ? readSurahAudioIndex(indexResult.value)
         : {};
       setSurahAudioBitrates(bitrates);
-      setReciters(editions);
-      if (!editions.some((edition) => edition.identifier === selectedReciter)) {
-        setSelectedReciter(editions[0].identifier);
-      }
-      if (indexResult.status === "rejected") {
-        setPlaybackStatus("Audio quality information is temporarily unavailable. Standard 128 kbps playback will be used; some reciters or individual Ayahs may vary.");
+      if (chapterResult.status === "fulfilled") {
+        const sourceReciters = Array.isArray(chapterResult.value.reciters) ? chapterResult.value.reciters : [];
+        const availableChapterReciters: ChapterReciter[] = sourceReciters.flatMap((reader: { name?: string; moshaf?: Array<{ id?: number; name?: string; server?: string; surah_list?: string; surah_total?: number }> }) =>
+          (reader.moshaf || []).flatMap((edition) => {
+            if (!Number.isInteger(edition.id) || !edition.server || !edition.server.startsWith("https://")) return [];
+            const surahs = typeof edition.surah_list === "string"
+              ? edition.surah_list.split(",").map(Number).filter((number) => Number.isInteger(number) && number >= 1 && number <= 114)
+              : edition.surah_total === 114 ? Array.from({ length: 114 }, (_, index) => index + 1) : [];
+            if (!surahs.length) return [];
+            return [{ id: edition.id as number, name: reader.name || "Qari", moshafName: edition.name || "Quran recitation", server: edition.server, surahs }];
+          })
+        );
+        const uniqueChapterReciters = Array.from(new Map(availableChapterReciters.map((reader) => [reader.id, reader])).values());
+        setChapterReciters(uniqueChapterReciters);
+        if (uniqueChapterReciters.length) setSelectedChapterReciter(String(uniqueChapterReciters[0].id));
+      } else {
+        setPlaybackStatus("The additional full-Surah reciter catalogue is temporarily unavailable. The original Ayah reciters are still available.");
       }
     };
 
@@ -278,7 +326,11 @@ export default function QuranPage() {
 
   const selectedSurah = surahs.find((surah) => surah.number === selected);
   const languageTranslations = translations.filter((edition) => edition.language === studyLanguage);
-  const surahAudioUrl = `https://cdn.islamic.network/quran/audio-surah/${surahAudioBitrates[selectedReciter] || 128}/${selectedReciter}/${selected}.mp3`;
+  const activeChapterReciter = chapterReciters.find((reader) => String(reader.id) === selectedChapterReciter);
+  const surahIsAvailableForChapterReciter = !!activeChapterReciter?.surahs.includes(selected);
+  const surahAudioUrl = activeChapterReciter
+    ? surahIsAvailableForChapterReciter ? `${activeChapterReciter.server}${String(selected).padStart(3, "0")}.mp3` : ""
+    : reciters.length ? `https://cdn.islamic.network/quran/audio-surah/${surahAudioBitrates[selectedReciter] || 128}/${selectedReciter}/${selected}.mp3` : "";
   const translationByAyah = new Map((chapter?.editions[1]?.ayahs ?? []).map((ayah) => [ayah.numberInSurah, ayah.text]));
   const visibleAyahs = (chapter?.editions[0]?.ayahs ?? []).filter((ayah) => {
     const key = `${selected}:${ayah.numberInSurah}`;
@@ -367,6 +419,23 @@ export default function QuranPage() {
     return () => observer.disconnect();
   }, [wordStudyMode, selectedTafsirs.join(","), chapter, loading, wordStudy, wordLoading, wordErrors, selected]);
 
+useEffect(() => {
+  if (!tajweedMode) return;
+  let active = true;
+  setTajweedLoading(true); setTajweedError(""); setTajweedVerses({});
+  fetch("https://api.alquran.cloud/v1/surah/" + selected + "/quran-tajweed")
+    .then(async (response) => { if (!response.ok) throw new Error("Tajweed annotations could not be loaded."); return response.json(); })
+    .then((data) => {
+      if (!active) return;
+      const mapped: Record<string, string> = {};
+      ((data.data?.ayahs || []) as TajweedVerse[]).forEach((verse) => { if (Number.isInteger(verse.numberInSurah) && verse.text) mapped[selected + ":" + verse.numberInSurah] = verse.text; });
+      if (!Object.keys(mapped).length) throw new Error("No Tajweed annotations were returned for this Surah.");
+      setTajweedVerses(mapped);
+    })
+    .catch((reason) => { if (active) setTajweedError(reason instanceof Error ? reason.message : "Tajweed annotations are unavailable."); })
+    .finally(() => { if (active) setTajweedLoading(false); });
+  return () => { active = false; };
+}, [selected, tajweedMode]);
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -520,11 +589,19 @@ export default function QuranPage() {
             </div>
             <span className="recitation-symbol" aria-hidden="true">♫</span>
           </div>
-          <label className="reciter-label" htmlFor="reciter-select">Reciter</label>
+          <label className="reciter-label" htmlFor="full-surah-reciter-select">Full-Surah reciter · Expanded catalogue</label>
+          <select id="full-surah-reciter-select" className="reciter-select" value={selectedChapterReciter} onChange={(event) => { setSelectedChapterReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || chapterReciters.length === 0}>
+            {recitersLoading && <option value="">Loading full-Surah reciters…</option>}
+            {!recitersLoading && chapterReciters.length === 0 && <option value="">Additional reciters are temporarily unavailable</option>}
+            {chapterReciters.map((reciter) => <option key={reciter.id} value={String(reciter.id)}>{reciter.name} — {reciter.moshafName} ({reciter.surahs.length} Surahs)</option>)}
+          </select>
+          {activeChapterReciter && !surahIsAvailableForChapterReciter && <p className="recitation-note" role="status">This reciter does not have Surah {selected} in the provider catalogue. Please choose another reciter or a Surah they have recorded.</p>}
+          <label className="reciter-label" htmlFor="reciter-select">Ayah-by-Ayah reciter</label>
           <select id="reciter-select" className="reciter-select" value={selectedReciter} onChange={(event) => { setSelectedReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || reciters.length === 0}>
-            {recitersLoading && <option>Loading reciters…</option>}
+            {recitersLoading && <option>Loading Ayah reciters…</option>}
             {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
+          <p className="recitation-note">The full-Surah catalogue includes additional Qaris and recitation styles. Ayah-by-Ayah playback uses the separate AlQuran Cloud catalogue.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
           <label className="reciter-label" htmlFor="tafsir-select">{studyLanguage === "ur" ? "Urdu Tafsir sources / اردو تفاسیر" : "English Tafsir sources"}</label>
           {tafsirs.length > 0 ? <div id="tafsir-select" className="tafsir-source-options" aria-describedby="tafsir-help">
@@ -536,7 +613,7 @@ export default function QuranPage() {
           {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
           <p id="tafsir-help" className="recitation-note">Choose one or more available editions. Each scholar’s explanation stays separate and is labelled with the provider’s source and author; RHM does not invent or combine Tafsir texts.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
-          <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
+          <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
               if (autoNextSurah && selected < 114) {
@@ -558,7 +635,6 @@ export default function QuranPage() {
           </audio>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
-          <p className="recitation-note">Source: AlQuran Cloud audio-edition catalogue and its full-Surah CDN index. The selected bitrate is chosen from the provider’s published availability data. Some individual Ayah files may have different availability.</p>
         </section>
         <section className="quran-search-panel" aria-label="Search the Quran">
           <form onSubmit={(event) => { event.preventDefault(); void runGlobalSearch(); }}><label htmlFor="quran-global-search">Search the entire Quran</label><input id="quran-global-search" type="search" value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search a word or phrase in the selected translation"/><button type="submit" disabled={searching || !globalSearch.trim()}>{searching ? "Searching…" : "Search Quran"}</button></form>
@@ -570,12 +646,28 @@ export default function QuranPage() {
           <input id="quran-search" type="search" value={readerQuery} onChange={(event) => setReaderQuery(event.target.value)} placeholder="Search Arabic, translation or reference (e.g. 2:5)" />
           <button type="button" className={`reader-tool-button ${showBookmarksOnly ? "is-active" : ""}`} onClick={() => setShowBookmarksOnly((value) => !value)}>{showBookmarksOnly ? "Show all Ayahs" : `Bookmarks (${bookmarks.length})`}</button>
           <button type="button" className={`reader-tool-button ${wordStudyMode ? "is-active" : ""}`} aria-pressed={wordStudyMode} onClick={() => setWordStudyMode((enabled) => !enabled)}>{wordStudyMode ? "Word-by-word mode: On" : "Word-by-word mode: Off"}</button>
+          <button type="button" className={`reader-tool-button ${tajweedMode ? "is-active" : ""}`} aria-pressed={tajweedMode} onClick={() => setTajweedMode((enabled) => !enabled)}>{tajweedMode ? "Tajweed colours: On" : "Show Tajweed colours"}</button>
           <label>Arabic size <input aria-label="Arabic text size" type="range" min="0.8" max="1.6" step="0.05" value={fontScale} onChange={(event) => setFontScale(Number(event.target.value))} /></label>
           <label>Repeat Ayah <select value={repeatCount} onChange={(event) => setRepeatCount(Number(event.target.value))}><option value={1}>Off</option><option value={2}>2 times</option><option value={3}>3 times</option><option value={5}>5 times</option><option value={10}>10 times</option></select></label>
           <label>Playback speed <select value={playbackRate} onChange={(event) => setPlaybackRate(Number(event.target.value))}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option><option value={2}>2×</option></select></label>
           <label><input type="checkbox" checked={autoNextAyah} onChange={(event) => setAutoNextAyah(event.target.checked)} /> Auto-play next Ayah</label>
           {lastRead && <button type="button" className="reader-tool-button" onClick={() => { const [surahNo, ayahNo] = lastRead.split(":").map(Number); setSelected(surahNo); window.setTimeout(() => document.getElementById(`ayah-${surahNo}-${ayahNo}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 650); }}>Resume {lastRead}</button>}
         </div>
+        {tajweedMode && <section className="tajweed-guide" aria-label="Tajweed colour guide">
+          <strong>Tajweed colour guide · أحكام التجويد</strong>
+          <div className="tajweed-legend">
+            <span><i className="tajweed-swatch tajweed-swatch-ghunnah" /> Ghunnah / nasal sound</span>
+            <span><i className="tajweed-swatch tajweed-swatch-ikhafa" /> Ikhfa &amp; Ikhfa Shafawi</span>
+            <span><i className="tajweed-swatch tajweed-swatch-idgham" /> Idgham</span>
+            <span><i className="tajweed-swatch tajweed-swatch-iqlab" /> Iqlab · Tanween before ب</span>
+            <span><i className="tajweed-swatch tajweed-swatch-madd" /> Madd / prolongation</span>
+            <span><i className="tajweed-swatch tajweed-swatch-qalqalah" /> Qalqalah</span>
+            <span><i className="tajweed-swatch tajweed-swatch-other" /> Hamzatul Wasl &amp; Lam rules</span>
+          </div>
+          <p>Colours follow AlQuran Cloud’s published Tajweed annotations with a reader-friendly palette. Tanween takes the colour of its actual rule (Ikhfa, Idgham or Iqlab); it is not one separate rule.</p>
+          {tajweedLoading && <p role="status">Loading verified Tajweed annotations…</p>}
+          {tajweedError && <p className="tajweed-error" role="status">{tajweedError}</p>}
+        </section>}
         {loading && <p className="quran-status">Loading Quran text…</p>}
         {error && <div className="quran-error" role="alert">{error}</div>}
         {!loading && chapter && !error && (
@@ -596,7 +688,7 @@ export default function QuranPage() {
                     <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
                     <div className="ayah-actions"><button type="button" aria-expanded={wordStudyMode || !!wordPanelsOpen[key]} onClick={() => { setWordPanelsOpen((current) => ({ ...current, [key]: !current[key] })); if (!wordStudy[key] && wordLoading !== key) void loadWordStudy(key); }}>{wordStudyMode || wordPanelsOpen[key] ? "Hide words" : wordLoading === key ? "Loading…" : "Show words"}</button><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
                   </div>
-                  <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
+                  <p className={"ayah-arabic" + (tajweedMode && tajweedVerses[key] ? " ayah-arabic-tajweed" : "")} lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{tajweedMode && tajweedVerses[key] ? renderTajweedText(tajweedVerses[key]) : ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   {wordErrors[key] && <p className="word-study-error" role="status">{wordErrors[key]}</p>}
                   {wordStudy[key] && (wordStudyMode || wordPanelsOpen[key]) ? (
