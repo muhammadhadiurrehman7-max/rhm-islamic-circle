@@ -1,0 +1,36 @@
+"use client";
+import { useEffect, useMemo, useState } from "react";
+import styles from "./page.module.css";
+
+const pathways = [
+ {n:"01",icon:"۞",tone:"emerald",title:"Qur’an study",desc:"Read the Arabic text, explore available translations and Tafsir, listen to recitation and practise with the Tajweed colour guide.",links:[["Qur’an reader","/quran"],["Beginner’s Qaida","/qaida"]]},
+ {n:"02",icon:"✦",tone:"blue",title:"Hadith & Sunnah",desc:"Explore the Hadith library and check collection, narration reference and grading wherever the source provides them.",links:[["Hadith library","/hadith"],["Discover Islam","/learn"]]},
+ {n:"03",icon:"☾",tone:"gold",title:"Worship & daily practice",desc:"Build understanding of prayer, purification, daily manners, prayer times and personal worship routines.",links:[["Daily life guide","/daily-life"],["Prayer times","/prayer-times"],["Worship tracker","/worship-tracker"]]},
+ {n:"04",icon:"🤲",tone:"rose",title:"Duas & remembrance",desc:"Read daily supplications with Arabic, translations and references where available. Learn the Names of Allah.",links:[["Daily Duas","/duas"],["99 Names of Allah","/names-of-allah"]]},
+ {n:"05",icon:"⌂",tone:"violet",title:"Seerah & Islamic heritage",desc:"Explore Islamic heritage, historic places and introductory learning about the faith, with source notes.",links:[["Heritage & history","/heritage"],["Discover Islam","/learn"]]},
+ {n:"06",icon:"ا",tone:"teal",title:"Arabic foundations",desc:"Begin with Arabic letters and Qaida foundations, then practise reading slowly and clearly.",links:[["Begin Qaida","/qaida"],["Qur’an reading","/quran"]]}
+];
+const plan=[
+ ["day1","Day 1","Begin with intention","Read a short Qur’an passage and explore its available translation.","/quran","Open Qur’an"],
+ ["day2","Day 2","Practise Arabic reading","Revise a Qaida lesson and focus on clear pronunciation.","/qaida","Open Qaida"],
+ ["day3","Day 3","Learn one Hadith","Read a narration and check its displayed source details.","/hadith","Open Hadith"],
+ ["day4","Day 4","Learn a daily Dua","Read its Arabic, meaning and reference; practise remembering it.","/duas","Open Duas"],
+ ["day5","Day 5","Review worship essentials","Study guidance on purification and preparing for Salah.","/daily-life","Open daily guide"],
+ ["day6","Day 6","Discover Islamic heritage","Explore a historic place or topic and read its context.","/heritage","Explore heritage"],
+ ["day7","Day 7","Reflect and review","Choose one topic to revisit and continue your learning journey.","/journey","My journey"]
+];
+export default function AcademyPage(){
+ const [done,setDone]=useState<string[]>([]); const [ready,setReady]=useState(false);
+ useEffect(()=>{try{const raw=localStorage.getItem("rhm-academy-plan-v1");if(raw){const v:unknown=JSON.parse(raw);if(Array.isArray(v)&&v.every(x=>typeof x==="string"))setDone(v.filter(x=>plan.some(p=>p[0]===x)));}}catch{/* Storage is optional. */}setReady(true);},[]);
+ const progress=useMemo(()=>Math.round(done.length/7*100),[done]);
+ function toggle(id:string){setDone(current=>{const next=current.includes(id)?current.filter(x=>x!==id):[...current,id];try{localStorage.setItem("rhm-academy-plan-v1",JSON.stringify(next));}catch{/* Keep in-memory progress. */}return next;});}
+ return <main className={styles.page}>
+  <header className={styles.topbar}><a className={styles.brand} href="/"><span className={styles.brandMark}>ر</span>RHM Islam 360</a><nav aria-label="Academy navigation"><a href="/">Home</a><a href="/quran">Qur’an</a><a href="/learn">Discover Islam</a></nav></header>
+  <section className={styles.hero}><div className={styles.ornament} aria-hidden="true">۞</div><span className={styles.eyebrow}>A guided path to beneficial knowledge</span><h1>Welcome to the <em>Islamic Learning Academy</em></h1><p>Learn at your own pace through clear pathways for Qur’an, Arabic, Hadith, worship, duas and Islamic heritage. Start with one small lesson and build a steady habit.</p><div className={styles.actions}><a className={styles.primary} href="/quran">Begin with the Qur’an ↗</a><a className={styles.secondary} href="#weekly-plan">View the 7-day plan</a></div><div className={styles.note}>Free learning resources · English and Urdu on supported pages · Learn at your own pace</div></section>
+  <section className={styles.pathways}><div className={styles.heading}><div><span className={styles.eyebrow}>Choose your next step</span><h2>Explore learning pathways</h2></div><p>Each pathway opens an existing RHM learning space. Content availability and language options may differ by section.</p></div><div className={styles.grid}>{pathways.map(item=><article className={styles.card} data-tone={item.tone} key={item.n}><div className={styles.cardTop}><span className={styles.icon}>{item.icon}</span><span className={styles.number}>{item.n}</span></div><h3>{item.title}</h3><p>{item.desc}</p><div className={styles.links}>{item.links.map(link=><a key={link[1]+link[0]} href={link[1]}>{link[0]} ↗</a>)}</div></article>)}</div></section>
+  <section className={styles.planSection} id="weekly-plan"><div className={styles.planIntro}><span className={styles.eyebrow}>A gentle start</span><h2>Your 7-day learning plan</h2><p>A suggested routine, not a test or religious obligation. Complete a step after studying it. Change the order or repeat any lesson.</p><div className={styles.progressCard}><div className={styles.progressLabel}><strong>Your progress</strong><span>{ready?done.length+" of 7 completed":"Loading progress…"}</span></div><div className={styles.track} role="progressbar" aria-label="Weekly learning plan progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={ready?progress:0}><span style={{width:(ready?progress:0)+"%"}}/></div><small>{ready?progress+"% complete · Saved in this browser on this device.":"Your saved progress will appear here."}</small></div></div>
+  <div className={styles.planList}>{plan.map(step=><article className={done.includes(step[0])?styles.completed:styles.planItem} key={step[0]}><label className={styles.check}><input type="checkbox" checked={done.includes(step[0])} onChange={()=>toggle(step[0])} disabled={!ready}/><span aria-hidden="true">{done.includes(step[0])?"✓":step[1].slice(-1)}</span><span className={styles.srOnly}>Mark {step[2]} as completed</span></label><div className={styles.planCopy}><span className={styles.day}>{step[1]}</span><h3>{step[2]}</h3><p>{step[3]}</p><a href={step[4]}>{step[5]} ↗</a></div></article>)}</div></section>
+  <section className={styles.guidance}><span className={styles.guidanceIcon} aria-hidden="true">۞</span><div><span className={styles.eyebrow}>Learning with care</span><h2>Reliable sources matter</h2><p>Qur’an text, Hadith, translations, Tafsir and religious guidance should be studied with source details and scholarly context. A translation or introductory lesson is not a substitute for the original text or a qualified scholar’s advice. Where a source or grading is not available, it should not be guessed.</p><a href="/learn">Read the introductory learning guide ↗</a></div></section>
+  <footer className={styles.footer}><a href="/">RHM Islam 360</a><span>Learn gently. Reflect thoughtfully. Share beneficial knowledge.</span><a href="/journey">My learning journey ↗</a></footer>
+ </main>;
+}
