@@ -1055,3 +1055,42 @@ html[data-site-theme="dark"] .tasbeeh-actions .tasbeeh-reset{color:#f0eee4;borde
 @media(max-width:900px){.daily-tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.daily-tools-section{padding:54px 18px}.daily-tools-grid{grid-template-columns:1fr}.daily-tool-card{min-height:195px}.tasbeeh-mini{align-items:flex-start;flex-direction:column;padding:22px}.tasbeeh-counter{width:100%;justify-content:space-between}.tasbeeh-actions button{padding:10px 15px}}
 @media(prefers-reduced-motion:reduce){.daily-tool-card{transition:none}.daily-tool-card:hover{transform:none}}
+
+
+/* Prayer times dashboard */
+.prayer-page{max-width:1120px;margin:0 auto;padding:64px 24px 88px}
+.prayer-hero{text-align:center;padding:52px 24px 36px;border-radius:28px;background:linear-gradient(135deg,rgba(19,65,50,.96),rgba(34,91,68,.92));color:#fff}
+.prayer-hero .eyebrow{color:#e4c58b;letter-spacing:.16em;font-size:11px;font-weight:800}
+.prayer-hero h1{margin:13px 0;font:600 clamp(38px,6vw,62px)/1.1 "Playfair Display",serif}
+.prayer-hero p{max-width:650px;margin:0 auto;color:#e1ebe4;line-height:1.8}
+.prayer-date{margin-top:20px;color:#f0d7a4;font-size:14px}
+.prayer-location{margin:24px 0;padding:22px;border:1px solid rgba(30,78,59,.15);border-radius:20px;background:rgba(255,255,255,.9)}
+.prayer-location-fields{display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+.prayer-location-fields label{display:grid;gap:6px;flex:1;min-width:160px;color:#52675d;font-size:12px;font-weight:700}
+.prayer-location-fields input{width:100%;min-height:44px;padding:10px 12px;border:1px solid #d7e0d9;border-radius:10px;background:#fff;color:#193b30;font:inherit}
+.prayer-location-fields button,.prayer-error button{min-height:44px;padding:10px 17px;border:1px solid #174b3c;border-radius:999px;background:#174b3c;color:#fff;font-weight:700}
+.prayer-location-fields button:disabled{opacity:.55}
+.prayer-location-fields .prayer-gps{background:transparent;color:#174b3c}
+.prayer-current-location{margin:13px 0 0;color:#687b73;font-size:13px}
+.prayer-times-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.prayer-time-card{position:relative;display:flex;min-height:176px;flex-direction:column;align-items:center;justify-content:center;padding:22px;border:1px solid rgba(30,78,59,.13);border-radius:20px;background:rgba(255,255,255,.94);box-shadow:0 10px 25px rgba(23,53,45,.04)}
+.prayer-time-card>span{color:#a17c43;font-size:10px;font-weight:800;letter-spacing:.14em}
+.prayer-time-card h2{margin:10px 0 4px;color:#1a4033;font:600 22px "Playfair Display",serif}
+.prayer-time-card strong{color:#183e31;font-size:30px;font-variant-numeric:tabular-nums}
+.prayer-time-card small{margin-top:8px;color:#98713a;font-size:11px;font-weight:700}
+.prayer-time-card.is-next{border:2px solid #c49a56;background:linear-gradient(145deg,#fffdf6,#f4edda)}
+.prayer-time-card.prayer-sunrise{background:rgba(245,246,239,.9)}
+.prayer-note{margin-top:24px;padding:24px 26px;border-left:3px solid #c49a56;border-radius:0 16px 16px 0;background:rgba(255,255,255,.82)}
+.prayer-note h2{margin:0 0 8px;color:#1a4033;font:600 22px "Playfair Display",serif}
+.prayer-note p{margin:7px 0;color:#64776d;font-size:13px;line-height:1.8}
+.prayer-related{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px}
+.prayer-related a{color:#174b3c;font-size:13px;font-weight:700;text-decoration:none}
+.prayer-feedback,.prayer-error{padding:18px;border-radius:14px;background:rgba(255,255,255,.9);color:#52675d}
+.prayer-error{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#8a3d32}
+html[data-site-theme="dark"] .prayer-location,html[data-site-theme="dark"] .prayer-time-card,html[data-site-theme="dark"] .prayer-note,html[data-site-theme="dark"] .prayer-feedback,html[data-site-theme="dark"] .prayer-error{background:#1b3027;border-color:#3a5145}
+html[data-site-theme="dark"] .prayer-location-fields label,html[data-site-theme="dark"] .prayer-current-location,html[data-site-theme="dark"] .prayer-note p{color:#c2cec5}
+html[data-site-theme="dark"] .prayer-location-fields input{background:#12231c;border-color:#42584b;color:#f0eee4}
+html[data-site-theme="dark"] .prayer-time-card h2,html[data-site-theme="dark"] .prayer-time-card strong,html[data-site-theme="dark"] .prayer-note h2{color:#f0eee4}
+html[data-site-theme="dark"] .prayer-time-card.is-next{background:#29392c;border-color:#b48b4e}
+html[data-site-theme="dark"] .prayer-related a{color:#e8cc94}
+@media(max-width:650px){.prayer-page{padding:28px 14px 60px}.prayer-hero{padding:38px 18px 28px}.prayer-times-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.prayer-time-card{min-height:150px;padding:15px}.prayer-time-card strong{font-size:26px}.prayer-location-fields button{flex:1}.prayer-note{padding:20px}}
