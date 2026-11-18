@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 type Surah = { number: number; name: string; englishName: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string };
 type Ayah = { number: number; numberInSurah: number; text: string; juz?: number; page?: number };
 type Reciter = { identifier: string; name: string; englishName: string; language: string; format: string; type: string };
+type ChapterReciter = { id: number; name: string; moshafName: string; server: string; surahs: number[] };
 function readSurahAudioIndex(value: unknown): Record<string, number> {
   const found: Record<string, number> = {};
   const visit = (node: unknown, key = "") => {
@@ -52,6 +53,8 @@ export default function QuranPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reciters, setReciters] = useState<Reciter[]>([]);
+  const [chapterReciters, setChapterReciters] = useState<ChapterReciter[]>([]);
+  const [selectedChapterReciter, setSelectedChapterReciter] = useState("");
   const [surahAudioBitrates, setSurahAudioBitrates] = useState<Record<string, number>>({});
   const [selectedReciter, setSelectedReciter] = useState("ar.alafasy");
   const [recitersLoading, setRecitersLoading] = useState(true);
@@ -229,13 +232,17 @@ export default function QuranPage() {
   useEffect(() => {
     let active = true;
     const loadAudioCatalogues = async () => {
-      const [editionResult, indexResult] = await Promise.allSettled([
+      const [editionResult, indexResult, chapterResult] = await Promise.allSettled([
         fetch("https://api.alquran.cloud/v1/edition/format/audio").then((response) => {
           if (!response.ok) throw new Error("The Ayah reciter catalogue could not be loaded.");
           return response.json();
         }),
         fetch("https://cdn.islamic.network/quran/info/by-surah/info.json").then((response) => {
           if (!response.ok) throw new Error("The full-Surah audio availability catalogue could not be loaded.");
+          return response.json();
+        }),
+        fetch("https://mp3quran.net/api/v3/reciters?language=eng").then((response) => {
+          if (!response.ok) throw new Error("The additional full-Surah reciter catalogue could not be loaded.");
           return response.json();
         }),
       ]);
@@ -260,6 +267,24 @@ export default function QuranPage() {
         : {};
       setSurahAudioBitrates(bitrates);
       setReciters(editions);
+      if (chapterResult.status === "fulfilled") {
+        const sourceReciters = Array.isArray(chapterResult.value.reciters) ? chapterResult.value.reciters : [];
+        const availableChapterReciters: ChapterReciter[] = sourceReciters.flatMap((reader: { name?: string; moshaf?: Array<{ id?: number; name?: string; server?: string; surah_list?: string; surah_total?: number }> }) =>
+          (reader.moshaf || []).flatMap((edition) => {
+            if (!Number.isInteger(edition.id) || !edition.server || !edition.server.startsWith("https://")) return [];
+            const surahs = typeof edition.surah_list === "string"
+              ? edition.surah_list.split(",").map(Number).filter((number) => Number.isInteger(number) && number >= 1 && number <= 114)
+              : edition.surah_total === 114 ? Array.from({ length: 114 }, (_, index) => index + 1) : [];
+            if (!surahs.length) return [];
+            return [{ id: edition.id as number, name: reader.name || "Qari", moshafName: edition.name || "Quran recitation", server: edition.server, surahs }];
+          })
+        );
+        const uniqueChapterReciters = Array.from(new Map(availableChapterReciters.map((reader) => [reader.id, reader])).values());
+        setChapterReciters(uniqueChapterReciters);
+        if (uniqueChapterReciters.length) setSelectedChapterReciter(String(uniqueChapterReciters[0].id));
+      } else {
+        setPlaybackStatus("The additional full-Surah reciter catalogue is temporarily unavailable. The original Ayah reciters are still available.");
+      }
       if (!editions.some((edition) => edition.identifier === selectedReciter)) {
         setSelectedReciter(editions[0].identifier);
       }
@@ -278,7 +303,11 @@ export default function QuranPage() {
 
   const selectedSurah = surahs.find((surah) => surah.number === selected);
   const languageTranslations = translations.filter((edition) => edition.language === studyLanguage);
-  const surahAudioUrl = `https://cdn.islamic.network/quran/audio-surah/${surahAudioBitrates[selectedReciter] || 128}/${selectedReciter}/${selected}.mp3`;
+  const activeChapterReciter = chapterReciters.find((reader) => String(reader.id) === selectedChapterReciter);
+  const surahIsAvailableForChapterReciter = !!activeChapterReciter?.surahs.includes(selected);
+  const surahAudioUrl = activeChapterReciter && surahIsAvailableForChapterReciter
+    ? `${activeChapterReciter.server}${String(selected).padStart(3, "0")}.mp3`
+    : "";
   const translationByAyah = new Map((chapter?.editions[1]?.ayahs ?? []).map((ayah) => [ayah.numberInSurah, ayah.text]));
   const visibleAyahs = (chapter?.editions[0]?.ayahs ?? []).filter((ayah) => {
     const key = `${selected}:${ayah.numberInSurah}`;
@@ -520,11 +549,19 @@ export default function QuranPage() {
             </div>
             <span className="recitation-symbol" aria-hidden="true">♫</span>
           </div>
-          <label className="reciter-label" htmlFor="reciter-select">Reciter</label>
+          <label className="reciter-label" htmlFor="full-surah-reciter-select">Full-Surah reciter · Expanded catalogue</label>
+          <select id="full-surah-reciter-select" className="reciter-select" value={selectedChapterReciter} onChange={(event) => { setSelectedChapterReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || chapterReciters.length === 0}>
+            {recitersLoading && <option value="">Loading full-Surah reciters…</option>}
+            {!recitersLoading && chapterReciters.length === 0 && <option value="">Additional reciters are temporarily unavailable</option>}
+            {chapterReciters.map((reciter) => <option key={reciter.id} value={String(reciter.id)}>{reciter.name} — {reciter.moshafName} ({reciter.surahs.length} Surahs)</option>)}
+          </select>
+          {activeChapterReciter && !surahIsAvailableForChapterReciter && <p className="recitation-note" role="status">This reciter does not have Surah {selected} in the provider catalogue. Please choose another reciter or a Surah they have recorded.</p>}
+          <label className="reciter-label" htmlFor="reciter-select">Ayah-by-Ayah reciter</label>
           <select id="reciter-select" className="reciter-select" value={selectedReciter} onChange={(event) => { setSelectedReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || reciters.length === 0}>
-            {recitersLoading && <option>Loading reciters…</option>}
+            {recitersLoading && <option>Loading Ayah reciters…</option>}
             {reciters.map((reciter) => <option key={reciter.identifier} value={reciter.identifier}>{reciter.englishName || reciter.name}</option>)}
           </select>
+          <p className="recitation-note">The full-Surah catalogue includes additional Qaris and recitation styles. Ayah-by-Ayah playback uses the separate AlQuran Cloud catalogue.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
           <label className="reciter-label" htmlFor="tafsir-select">{studyLanguage === "ur" ? "Urdu Tafsir sources / اردو تفاسیر" : "English Tafsir sources"}</label>
           {tafsirs.length > 0 ? <div id="tafsir-select" className="tafsir-source-options" aria-describedby="tafsir-help">
@@ -536,7 +573,7 @@ export default function QuranPage() {
           {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
           <p id="tafsir-help" className="recitation-note">Choose one or more available editions. Each scholar’s explanation stays separate and is labelled with the provider’s source and author; RHM does not invent or combine Tafsir texts.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
-          <audio key={surahAudioUrl} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl}
+          <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined} disabled={!surahAudioUrl}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
               if (autoNextSurah && selected < 114) {
@@ -558,7 +595,7 @@ export default function QuranPage() {
           </audio>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
-          <p className="recitation-note">Source: AlQuran Cloud audio-edition catalogue and its full-Surah CDN index. The selected bitrate is chosen from the provider’s published availability data. Some individual Ayah files may have different availability.</p>
+          <p className="recitation-note">Sources: MP3Quran.net full-Surah recitation catalogue and AlQuran Cloud Ayah-by-Ayah audio catalogue. Each reciter is shown only with the Surahs listed as available by its provider. Audio files are streamed from their respective providers.</p>
         </section>
         <section className="quran-search-panel" aria-label="Search the Quran">
           <form onSubmit={(event) => { event.preventDefault(); void runGlobalSearch(); }}><label htmlFor="quran-global-search">Search the entire Quran</label><input id="quran-global-search" type="search" value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search a word or phrase in the selected translation"/><button type="submit" disabled={searching || !globalSearch.trim()}>{searching ? "Searching…" : "Search Quran"}</button></form>
