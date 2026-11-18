@@ -1264,3 +1264,217 @@ html[data-site-theme="dark"] .site-theme-toggle {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+
+/* RHM Islam 360 — section-specific Islamic heritage atmosphere.
+   Decorative CSS only: no text/image obstruction, no external asset dependency. */
+:root {
+  --rhm-ornament-light: rgba(158, 123, 65, .105);
+  --rhm-ornament-dark: rgba(218, 188, 126, .10);
+}
+.quran-page {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--q-bg);
+  background-image:
+    radial-gradient(ellipse at 8% 7%, color-mix(in srgb, var(--q-gold) 13%, transparent), transparent 28rem),
+    radial-gradient(ellipse at 92% 22%, rgba(70, 111, 86, .10), transparent 30rem),
+    repeating-linear-gradient(45deg, transparent 0 46px, var(--rhm-ornament-light) 47px 48px, transparent 49px 94px),
+    repeating-linear-gradient(-45deg, transparent 0 46px, var(--rhm-ornament-light) 47px 48px, transparent 49px 94px);
+}
+.quran-page::before {
+  content: "✦   ۞   ✧";
+  position: absolute;
+  z-index: -1;
+  top: 210px;
+  right: clamp(12px, 3vw, 42px);
+  color: var(--q-gold);
+  opacity: .16;
+  font: 700 clamp(24px, 4vw, 46px)/2 Georgia, serif;
+  letter-spacing: .45em;
+  writing-mode: vertical-rl;
+  pointer-events: none;
+}
+.quran-page .quran-heading,
+.quran-page .heritage-hero,
+.quran-page .learning-detail-heading,
+.quran-page .discover-islam-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--q-surface);
+  background-image:
+    radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--q-gold) 17%, transparent) 0 2px, transparent 3px),
+    radial-gradient(circle at 88% 78%, color-mix(in srgb, var(--q-gold) 15%, transparent) 0 2px, transparent 3px),
+    linear-gradient(135deg, color-mix(in srgb, var(--q-surface) 94%, var(--q-gold)), var(--q-bg));
+  background-size: 34px 34px, 42px 42px, auto;
+}
+.quran-page .quran-reader {
+  background-color: color-mix(in srgb, var(--q-card) 96%, var(--q-gold));
+  background-image:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--q-gold) 9%, transparent), transparent 19rem),
+    linear-gradient(135deg, transparent 0 48%, color-mix(in srgb, var(--q-gold) 3%, transparent) 49% 51%, transparent 52%);
+  box-shadow: 0 18px 48px rgba(30, 49, 37, .075);
+}
+.quran-page .ayah-card,
+.quran-page .hadith-card,
+.quran-page .dua-card,
+.quran-page .learning-section-card,
+.quran-page .faith-card,
+.quran-page .islam-info-card {
+  position: relative;
+  overflow: hidden;
+  background-image:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--q-gold) 8%, transparent), transparent 14rem);
+}
+.quran-page .ayah-card::after,
+.quran-page .hadith-card::after,
+.quran-page .dua-card::after {
+  content: "✧";
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  color: var(--q-gold);
+  opacity: .23;
+  font: 22px Georgia, serif;
+  pointer-events: none;
+}
+.quran-page .ayah-arabic,
+.quran-page .hadith-arabic,
+.quran-page .dua-arabic {
+  position: relative;
+  z-index: 1;
+}
+
+/* Qur’an: quiet manuscript-paper and illuminated-margin feel. */
+.quran-page:not(.duas-page):not(.hadith-page):not(.heritage-page) {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--q-gold) 15%, transparent), transparent 32rem),
+    repeating-linear-gradient(90deg, transparent 0 68px, var(--rhm-ornament-light) 69px 70px, transparent 71px 138px),
+    repeating-linear-gradient(0deg, transparent 0 68px, var(--rhm-ornament-light) 69px 70px, transparent 71px 138px);
+}
+.quran-page:not(.duas-page):not(.hadith-page):not(.heritage-page) .surah-title {
+  border-top: 1px solid color-mix(in srgb, var(--q-gold) 40%, var(--q-border));
+  border-bottom: 1px solid color-mix(in srgb, var(--q-gold) 40%, var(--q-border));
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--q-gold) 7%, var(--q-card)), transparent);
+}
+
+/* Duas: gentle botanical/floral ornament, kept away from the supplication text. */
+.quran-page.duas-page {
+  background-image:
+    radial-gradient(ellipse at 0% 12%, rgba(104, 143, 102, .15), transparent 25rem),
+    radial-gradient(ellipse at 100% 35%, color-mix(in srgb, var(--q-gold) 15%, transparent), transparent 27rem),
+    radial-gradient(circle at 18px 18px, var(--rhm-ornament-light) 1.5px, transparent 2px),
+    radial-gradient(circle at 0 0, transparent 0 18px, var(--rhm-ornament-light) 19px 20px, transparent 21px);
+  background-size: auto, auto, 38px 38px, 76px 76px;
+}
+.quran-page.duas-page .quran-heading::after {
+  content: "❀   ✿   ❀";
+  display: block;
+  margin: 20px auto 0;
+  color: var(--q-gold);
+  opacity: .68;
+  font: 26px Georgia, serif;
+  letter-spacing: .45em;
+}
+.quran-page.duas-page .quran-reader {
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgba(105, 145, 100, .10), transparent 18rem),
+    radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--q-gold) 10%, transparent), transparent 18rem);
+}
+
+/* Hadith: scholarly library mood, geometric star lattice and arch-like framing. */
+.quran-page.hadith-page {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--q-gold) 16%, transparent), transparent 30rem),
+    repeating-conic-gradient(from 22.5deg at 24px 24px, transparent 0deg 43deg, var(--rhm-ornament-light) 44deg 45deg, transparent 46deg 90deg);
+  background-size: auto, 48px 48px;
+}
+.quran-page.hadith-page .hadith-hero {
+  border-bottom: 1px solid color-mix(in srgb, var(--q-gold) 42%, var(--q-border));
+}
+.quran-page.hadith-page .hadith-reader {
+  border-top: 3px double color-mix(in srgb, var(--q-gold) 55%, var(--q-border));
+}
+.quran-page.hadith-page .hadith-card {
+  border-radius: 8px 20px 8px 20px;
+  box-shadow: 0 10px 28px rgba(31, 48, 37, .055);
+}
+
+/* Heritage: richer architectural geometry; photography remains the main focus. */
+.quran-page.heritage-page {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--q-gold) 18%, transparent), transparent 34rem),
+    repeating-linear-gradient(45deg, transparent 0 28px, var(--rhm-ornament-light) 29px 30px, transparent 31px 58px),
+    repeating-linear-gradient(-45deg, transparent 0 28px, var(--rhm-ornament-light) 29px 30px, transparent 31px 58px);
+}
+.quran-page.heritage-page .heritage-hero {
+  border-top: 4px double color-mix(in srgb, var(--q-gold) 58%, var(--q-border));
+}
+.quran-page.heritage-page .heritage-card {
+  box-shadow: 0 14px 34px rgba(23, 45, 34, .10);
+}
+
+/* The same visual language extends to homepage learning sections. */
+.hero,
+.section,
+.faith-entry-section,
+.faith-resources,
+.guidance-section,
+.daily {
+  position: relative;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(197, 154, 85, .10) 0 2px, transparent 3px),
+    radial-gradient(circle at 88% 82%, rgba(85, 125, 91, .09) 0 2px, transparent 3px);
+  background-size: 42px 42px, 56px 56px;
+}
+.feature-card,
+.faith-entry-card,
+.faith-resource-card,
+.discover-topic-card,
+.discover-other-grid a {
+  background-image: radial-gradient(circle at 100% 0%, rgba(197, 154, 85, .10), transparent 9rem);
+}
+html[data-site-theme="dark"] body {
+  background-image:
+    linear-gradient(rgba(10, 23, 18, .88), rgba(10, 23, 18, .91)),
+    url('/images/rhm-islam360-quran-hero.webp');
+}
+html[data-site-theme="dark"] .quran-page {
+  background-image:
+    radial-gradient(ellipse at 8% 7%, rgba(217, 184, 120, .10), transparent 28rem),
+    radial-gradient(ellipse at 92% 22%, rgba(70, 111, 86, .12), transparent 30rem),
+    repeating-linear-gradient(45deg, transparent 0 46px, var(--rhm-ornament-dark) 47px 48px, transparent 49px 94px),
+    repeating-linear-gradient(-45deg, transparent 0 46px, var(--rhm-ornament-dark) 47px 48px, transparent 49px 94px);
+}
+html[data-site-theme="dark"] .quran-page:not(.duas-page):not(.hadith-page):not(.heritage-page) {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(217, 184, 120, .12), transparent 32rem),
+    repeating-linear-gradient(90deg, transparent 0 68px, var(--rhm-ornament-dark) 69px 70px, transparent 71px 138px),
+    repeating-linear-gradient(0deg, transparent 0 68px, var(--rhm-ornament-dark) 69px 70px, transparent 71px 138px);
+}
+html[data-site-theme="dark"] .quran-page.duas-page {
+  background-image:
+    radial-gradient(ellipse at 0% 12%, rgba(104, 143, 102, .13), transparent 25rem),
+    radial-gradient(ellipse at 100% 35%, rgba(217, 184, 120, .11), transparent 27rem),
+    radial-gradient(circle at 18px 18px, var(--rhm-ornament-dark) 1.5px, transparent 2px),
+    radial-gradient(circle at 0 0, transparent 0 18px, var(--rhm-ornament-dark) 19px 20px, transparent 21px);
+}
+html[data-site-theme="dark"] .quran-page.hadith-page,
+html[data-site-theme="dark"] .quran-page.heritage-page {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(217, 184, 120, .12), transparent 30rem),
+    repeating-linear-gradient(45deg, transparent 0 34px, var(--rhm-ornament-dark) 35px 36px, transparent 37px 68px),
+    repeating-linear-gradient(-45deg, transparent 0 34px, var(--rhm-ornament-dark) 35px 36px, transparent 37px 68px);
+}
+html[data-site-theme="dark"] .quran-page .quran-reader,
+html[data-site-theme="dark"] .quran-page .ayah-card,
+html[data-site-theme="dark"] .quran-page .hadith-card {
+  box-shadow: 0 16px 42px rgba(0, 0, 0, .22);
+}
+@media (max-width: 700px) {
+  .quran-page::before { top: 150px; right: 8px; opacity: .10; font-size: 22px; }
+  .quran-page .quran-reader { width: calc(100% - 22px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quran-page, .quran-page * { scroll-behavior: auto; }
+}
