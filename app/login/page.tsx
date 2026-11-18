@@ -43,7 +43,7 @@ export default function LoginPage() {
       <section style={{ width: "100%", maxWidth: 440, padding: 32, borderRadius: 24, background: "white", border: "1px solid #e8ede8" }}>
         <Link href="/" className="eyebrow">← RHM Islam 360</Link>
         <h1 style={{ fontFamily: '"Playfair Display",serif', fontSize: 34, marginBottom: 8 }}>{mode === "signin" ? "Welcome back" : "Create your account"}</h1>
-        <p style={{ color: "var(--muted)", lineHeight: 1.6 }}>Save your learning journey and continue from where you left off.</p>
+        <p style={{ color: "var(--muted)", lineHeight: 1.6 }}>Sign in to your RHM Islam 360 account. Reader bookmarks and daily checklists currently stay in the browser on the device where you use them; they are not yet synced to your account.</p>
         <form onSubmit={handleSubmit} style={{ display: "grid", gap: 14, marginTop: 24 }}>
           <label style={{ display: "grid", gap: 7, fontSize: 14 }}>Email address
             <input required type="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} style={fieldStyle} />
