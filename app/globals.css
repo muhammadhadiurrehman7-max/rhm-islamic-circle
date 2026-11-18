@@ -2110,7 +2110,7 @@ html[data-site-theme="dark"] body main .section-heading :is(h2,p), html[data-sit
 .quran-page .tajweed-iqlab { color:#d62828; }
 .quran-page .tajweed-madda-normal,.quran-page .tajweed-madda-permissible,.quran-page .tajweed-madda-necessary,.quran-page .tajweed-madda-obligatory { color:#315fd4; }
 .quran-page .tajweed-qalaqah { color:#c26b19; }
-.quran-page .tajweed-ham_wasl,.quran-page .tajweed-laam_shamsiyah,.quran-page .tajweed-silent,.quran-page .tajweed-slnt { color:#929292; }
+.quran-page .tajweed-ham-wasl,.quran-page .tajweed-laam-shamsiyah,.quran-page .tajweed-silent,.quran-page .tajweed-slnt { color:#929292; }
 .quran-page .tajweed-verse-end { display:inline-block; margin-inline:8px; color:var(--q-gold); font-size:.72em; }
 .quran-page .tajweed-error { color:#a23a32 !important; }
 @media(prefers-reduced-motion:reduce){.quran-page .tajweed-rule{text-decoration:none}}
