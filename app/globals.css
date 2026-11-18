@@ -2490,3 +2490,74 @@ html[data-site-theme="dark"] body :is(a,button):focus-visible {
   html { scroll-behavior:auto; }
   *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
+
+
+/* Theme contrast corrections: branded dark hero must stay light-on-dark in light mode */
+html[data-site-theme="light"] body .premium-hero {
+  color:#fff6e4;
+  background-color:#10251d;
+  background-image:linear-gradient(90deg,rgba(8,25,20,.96) 0%,rgba(8,25,20,.88) 46%,rgba(8,25,20,.46) 100%),url('/images/rhm-islam360-quran-hero.webp');
+}
+html[data-site-theme="light"] body .premium-hero :is(h1,h2,h3,h4,h5,h6) {
+  color:#fff8e9 !important;
+  -webkit-text-fill-color:#fff8e9 !important;
+  text-shadow:0 2px 18px rgba(0,0,0,.34);
+}
+html[data-site-theme="light"] body .premium-hero :is(p,li,small,span,figcaption) {
+  color:#f1e8d7;
+}
+html[data-site-theme="light"] body .premium-hero .hero-arabic-kicker,
+html[data-site-theme="light"] body .premium-hero .eyebrow,
+html[data-site-theme="light"] body .premium-hero .hero-note {
+  color:#f0ce82;
+}
+html[data-site-theme="light"] body .premium-hero .btn-light {
+  color:#fff8e9;
+  background:rgba(255,255,255,.12);
+  border-color:rgba(240,206,130,.72);
+}
+html[data-site-theme="light"] body .premium-hero .btn-primary {
+  color:#21190c;
+  background:#e5c477;
+  border-color:#e5c477;
+}
+html[data-site-theme="dark"] body .premium-hero {
+  color:#fff6e4;
+}
+html[data-site-theme="dark"] body .premium-hero :is(h1,h2,h3,h4,h5,h6) {
+  color:#fff8e9 !important;
+  -webkit-text-fill-color:#fff8e9 !important;
+}
+html[data-site-theme="dark"] body .premium-hero :is(p,li,small,span,figcaption) {
+  color:#f1e8d7;
+}
+html[data-site-theme="dark"] body .premium-hero .hero-arabic-kicker,
+html[data-site-theme="dark"] body .premium-hero .eyebrow,
+html[data-site-theme="dark"] body .premium-hero .hero-note {
+  color:#f0ce82;
+}
+
+/* Keep readable foregrounds on intentionally dark feature panels in either theme */
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel) {
+  color:#fff6e4;
+}
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel) :is(p,li,dt,dd,figcaption,blockquote,label,legend,small) {
+  color:#f1e8d7;
+}
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel) :is(h1,h2,h3,h4,h5,h6,strong,b) {
+  color:#fff8e9 !important;
+  -webkit-text-fill-color:#fff8e9 !important;
+}
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel) a:not(.btn) {
+  color:#f2d48e;
+}
+
+/* Visible keyboard focus and selected controls in both themes */
+html[data-site-theme="light"] body :is(input,select,textarea):focus-visible,
+html[data-site-theme="dark"] body :is(input,select,textarea):focus-visible {
+  outline:3px solid #c59a55;
+  outline-offset:2px;
+}
+html[data-site-theme="light"] body :is(.btn-primary,.site-theme-toggle,.theme-toggle) {
+  text-shadow:none;
+}
