@@ -55,7 +55,7 @@ const TAJWEED_MARKERS: Record<string, { rule: string; label: string }> = {
 };
 function renderTajweedText(value: string) {
   const parts: ReactNode[] = [];
-  const pattern = /\\[([a-z])(?::\\d+)?\\[([^\\]]*)\\]/gi;
+  const pattern = /\x5b([a-z])(?::\d+)?\x5b([^\x5d]*)\x5d/gi;
   let cursor = 0; let match: RegExpExecArray | null;
   while ((match = pattern.exec(value))) {
     if (match.index > cursor) parts.push(value.slice(cursor, match.index));
