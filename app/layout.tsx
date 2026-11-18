@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: "RHM Islam 360 | Quran, Hadith & Complete Islamic Learning",
     template: "%s | RHM Islam 360",
   },
-  description: "Explore the Holy Quran, learn Islam, study the Five Pillars and Articles of Iman, read Hadith, learn daily duas with references, begin Arabic Qaida lessons, and discover famous mosques with RHM Islam 360.",
+  description: "RHM means Rehmat, Hidayat and Ma’rifat — a free Islamic learning space to explore the Holy Quran, Hadith, daily duas, Arabic Qaida and Islamic heritage with care and clear references.",
   applicationName: "RHM Islam 360",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "RHM Islam 360", statusBarStyle: "default" },
@@ -32,14 +32,14 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "RHM Islam 360",
     title: "RHM Islam 360 | Quran, Islamic Learning & Hadith",
-    description: "A welcoming online space to read the Quran, explore Islamic beliefs, learn Hadith and Arabic basics, and discover Islamic heritage.",
+    description: "A journey of Rehmat, Hidayat and Ma’rifat: read the Quran, explore Islamic beliefs, learn Hadith and Arabic basics, and discover Islamic heritage.",
     locale: "en_US",
     images: ["/images/rhm-islam360-quran-hero.webp"]
   },
   twitter: {
     card: "summary_large_image",
     title: "RHM Islam 360 | Quran & Islamic Learning",
-    description: "Read the Quran and explore Islamic learning, Hadith, Qaida and Islamic heritage.",
+    description: "Rehmat, Hidayat & Ma’rifat — read the Quran and explore Islamic learning, Hadith, Qaida and Islamic heritage.",
     images: ["/images/rhm-islam360-quran-hero.webp"]
   },
   robots: {
