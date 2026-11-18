@@ -110,7 +110,7 @@ export default function DailyLifePage() {
   return (
     <main className={styles.page}>
       <header className={styles.topbar}>
-        <a href="/" className={styles.brand}>RHM Islamic Circle</a>
+        <a href="/" className={styles.brand}>RHM Islam 360</a>
         <nav><a href="/">Home</a><a href="/learn">Discover Islam</a><a href="/quran">Qur’an</a></nav>
       </header>
 
@@ -201,7 +201,7 @@ export default function DailyLifePage() {
         <h2>{t.note}</h2>
         <p>This page is an educational starting point, not a fatwa. Some details of Wudu, Ghusl, Tayammum and prayer differ among recognised schools of Islamic law. We will label differences, cite source texts and seek qualified review before publishing detailed rulings. Never treat a compass reading as infallible: magnetic interference, sensor calibration and device limitations can affect it.</p>
       </section>
-      <footer className={styles.footer}><a href="/">RHM Islamic Circle</a><span>Learn with care. Verify religious guidance. Ask qualified scholars when needed.</span></footer>
+      <footer className={styles.footer}><a href="/">RHM Islam 360</a><span>Learn with care. Verify religious guidance. Ask qualified scholars when needed.</span></footer>
     </main>
   );
 }
