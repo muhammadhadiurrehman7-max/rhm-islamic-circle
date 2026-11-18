@@ -111,7 +111,7 @@ export default function Home() {
           <div className="eyebrow">A beautiful space for beneficial knowledge</div>
           <p className="hero-arabic-kicker" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
           <h1>Let the light of knowledge illuminate your journey.</h1>
-          <p>Read the Qur’an with care, listen to beautiful recitation, understand authentic teachings, and learn Islam step by step — in a calm space made for learners everywhere.</p>
+          <p>Read the Qur’an with care, listen to beautiful recitation, study Islamic teachings with clear source references, and learn step by step — in a calm space made for learners everywhere.</p>
           <div className="hero-actions">
             <a className="btn btn-primary" href="/quran">Begin with the Qur’an <span aria-hidden="true">↗</span></a>
             <a className="btn btn-light" href="/academy">Explore Learning Academy</a>
@@ -184,7 +184,7 @@ export default function Home() {
           </article>
           <article className="share-learning-card">
             <span className="share-card-mark">۞</span><span className="share-card-label">HADITH & SUNNAH</span>
-            <h3>Learn from authentic sources</h3><p>Explore narrations with available Arabic text, translations and references.</p>
+            <h3>Explore source-labelled narrations</h3><p>Explore narrations with available Arabic text, translations and references.</p>
             <div className="share-card-actions"><a href="/hadith">Explore Hadith <span>↗</span></a><button type="button" onClick={() => shareLearningLink("/hadith", "RHM Islam 360 — Hadith")}>Share lesson ↗</button></div>
           </article>
           <article className="share-learning-card">
