@@ -1801,3 +1801,162 @@ html[data-site-theme="dark"] :where(main) :where(h1,h2,h3,h4,strong) { color: #f
 html[data-site-theme="dark"] :where(main) :where(input,textarea,select) {
   color: #f5f1e8; background: #14251d; border-color: #52695a;
 }
+
+
+/* Explicit contrast correction for Discover Islam cards and all learning sections.
+   These selectors intentionally outrank older page-specific colour declarations. */
+html:not([data-site-theme="dark"]) body .faith-entry-section {
+  background: linear-gradient(145deg,#f4f1e7 0%,#e8efe7 52%,#f7f3e9 100%) !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-heading :is(h2,p,.eyebrow) {
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-heading h2 {
+  color: #123f2e !important;
+  font-weight: 800 !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-heading p {
+  color: #344d40 !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-card {
+  background: linear-gradient(145deg,#fffefa 0%,#f2eee2 100%) !important;
+  color: #193d2e !important;
+  border: 1px solid #c9d5c7 !important;
+  box-shadow: 0 12px 28px rgba(27,55,39,.10) !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-card.faith-entry-main {
+  background: linear-gradient(135deg,#e7efdf 0%,#f8f1df 100%) !important;
+  color: #163e2d !important;
+  border: 2px solid #a88746 !important;
+  box-shadow: 0 14px 32px rgba(65,75,44,.15) !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-card .faith-entry-label {
+  color: #795014 !important;
+  font-weight: 900 !important;
+  background: rgba(255,255,255,.72);
+  padding: 5px 9px;
+  border-radius: 999px;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-card h3 {
+  color: #123f2e !important;
+  font-weight: 800 !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-card p {
+  color: #344d40 !important;
+  font-weight: 500 !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-card strong {
+  color: #805515 !important;
+  font-weight: 900 !important;
+}
+html:not([data-site-theme="dark"]) body .faith-entry-card .faith-entry-icon {
+  background: #dce9dc !important;
+  color: #174b36 !important;
+  border: 1px solid #b9cbb9;
+}
+
+/* Discover Islam page: make every title, description, topic and action readable. */
+html:not([data-site-theme="dark"]) body .discover-islam-page {
+  color: #263d31 !important;
+  background: linear-gradient(145deg,#f3f0e6 0%,#e9efe7 55%,#f7f3e9 100%) !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-islam-hero {
+  background: linear-gradient(135deg,#fffdf5 0%,#e6eee3 100%) !important;
+  border: 2px solid #c5b17d !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-islam-hero h1,
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-other-resources h2 {
+  color: #123f2e !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-islam-hero p,
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-islam-reference,
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-islam-note {
+  color: #344d40 !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-topic-card,
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-other-grid a {
+  background: linear-gradient(145deg,#fffefa 0%,#f1eee3 100%) !important;
+  color: #193d2e !important;
+  border: 1px solid #c9d5c7 !important;
+  box-shadow: 0 10px 26px rgba(27,55,39,.09) !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-topic-card h2,
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-other-grid strong {
+  color: #123f2e !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-topic-card p,
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-other-grid span {
+  color: #344d40 !important;
+  font-weight: 500 !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-topic-card a {
+  color: #805515 !important;
+  font-weight: 900 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-topic-number,
+html:not([data-site-theme="dark"]) body .discover-islam-page .eyebrow {
+  color: #805515 !important;
+  font-weight: 900 !important;
+}
+html:not([data-site-theme="dark"]) body .discover-islam-page .discover-topic-icon {
+  color: #174b36 !important;
+  background: #dce9dc !important;
+  border: 1px solid #b9cbb9;
+}
+
+/* Improve contrast on the other learning cards and their descriptions in light mode. */
+html:not([data-site-theme="dark"]) body :is(.feature-card,.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card) {
+  color: #193d2e !important;
+  border-color: #c9d5c7;
+}
+html:not([data-site-theme="dark"]) body :is(.feature-card,.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card) :is(h2,h3,h4,strong) {
+  color: #123f2e !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+}
+html:not([data-site-theme="dark"]) body :is(.feature-card,.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card) :is(p,li,small,span) {
+  color: #344d40;
+  opacity: 1 !important;
+}
+html:not([data-site-theme="dark"]) body :is(.feature-card,.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card) a {
+  color: #805515 !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+
+/* Dark mode retains its own strong gold/ivory contrast for the same blocks. */
+html[data-site-theme="dark"] body .faith-entry-card,
+html[data-site-theme="dark"] body .discover-islam-page .discover-topic-card,
+html[data-site-theme="dark"] body .discover-islam-page .discover-other-grid a {
+  background: linear-gradient(145deg,#1c3028 0%,#223a2e 100%) !important;
+  color: #f5edda !important;
+  border-color: #647b60 !important;
+}
+html[data-site-theme="dark"] body .faith-entry-card.faith-entry-main {
+  background: linear-gradient(135deg,#294635,#1b3025) !important;
+  border: 2px solid #c7a45d !important;
+}
+html[data-site-theme="dark"] body .faith-entry-card :is(h3,p,strong,.faith-entry-label),
+html[data-site-theme="dark"] body .discover-islam-page .discover-topic-card :is(h2,p,a),
+html[data-site-theme="dark"] body .discover-islam-page .discover-other-grid :is(strong,span) {
+  color: #f4e8c9 !important;
+  opacity: 1 !important;
+}
+html[data-site-theme="dark"] body .discover-islam-page .discover-islam-hero {
+  background: linear-gradient(135deg,#1c3028,#14251d) !important;
+  border-color: #647b60 !important;
+}
+@media(max-width:700px) {
+  html body .faith-entry-card,
+  html body .discover-islam-page .discover-topic-card,
+  html body .discover-islam-page .discover-other-grid a {
+    padding: 20px !important;
+  }
+}
