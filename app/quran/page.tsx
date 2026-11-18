@@ -42,6 +42,22 @@ type SearchMatch = { text: string; number: number; numberInSurah: number; surah:
 type WordPart = { id?: number; position?: number; textUthmani?: string; textIndopak?: string; text_uthmani?: string; text_indopak?: string; translation?: { text?: string }; transliteration?: { text?: string }; audioUrl?: string; audio_url?: string };
 type TafsirResource = { id: number; name: string; author_name?: string; slug: string; language_name: string };
 type TafsirPassage = { id: number; name: string; author?: string; text: string };
+type TajweedVerse = { verse_key: string; text_uthmani_tajweed?: string };
+const TAJWEED_RULE_CLASSES = new Set(["ham_wasl", "laam_shamsiyah", "madda_normal", "madda_permissible", "madda_necessary", "madda_obligatory", "qalaqah", "ikhafa", "ikhafa_shafawi", "idgham_shafawi", "iqlab", "idgham_ghunnah", "idgham_wo_ghunnah", "ghunnah", "silent", "slnt"]);
+function renderTajweedText(value: string) {
+  const parts: React.ReactNode[] = [];
+  const pattern = /<tajweed class=([a-z_]+)>([\s\S]*?)<\/tajweed>|<span class=end>([\s\S]*?)<\/span>/gi;
+  let cursor = 0;
+  let match: RegExpExecArray | null;
+  while ((match = pattern.exec(value))) {
+    if (match.index > cursor) parts.push(value.slice(cursor, match.index));
+    if (match[3] !== undefined) parts.push(<span className="tajweed-verse-end" key={"end-" + match.index}>{match[3]}</span>);
+    else { const rule = match[1].toLowerCase(); parts.push(<span className={TAJWEED_RULE_CLASSES.has(rule) ? "tajweed-rule tajweed-" + rule : "tajweed-rule"} key={"rule-" + match.index}>{match[2]}</span>); }
+    cursor = pattern.lastIndex;
+  }
+  if (cursor < value.length) parts.push(value.slice(cursor));
+  return parts;
+}
 function cleanTafsirText(value: string) {
   return value.replace(/<\/(p|div|h[1-6]|li|br)\s*>/gi, "\n\n").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
 }
@@ -95,6 +111,10 @@ export default function QuranPage() {
   const [wordErrors, setWordErrors] = useState<Record<string, string>>({});
   const [wordStudyMode, setWordStudyMode] = useState(false);
   const [wordPanelsOpen, setWordPanelsOpen] = useState<Record<string, boolean>>({});
+  const [tajweedMode, setTajweedMode] = useState(false);
+  const [tajweedVerses, setTajweedVerses] = useState<Record<string, string>>({});
+  const [tajweedLoading, setTajweedLoading] = useState(false);
+  const [tajweedError, setTajweedError] = useState("");
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -390,6 +410,23 @@ export default function QuranPage() {
     return () => observer.disconnect();
   }, [wordStudyMode, selectedTafsirs.join(","), chapter, loading, wordStudy, wordLoading, wordErrors, selected]);
 
+useEffect(() => {
+  if (!tajweedMode) return;
+  let active = true;
+  setTajweedLoading(true); setTajweedError(""); setTajweedVerses({});
+  fetch("/api/quran/verse?resources=tajweed&chapter=" + selected)
+    .then(async (response) => { const data = await response.json(); if (!response.ok) throw new Error(data.setupRequired ? "Tajweed colour text needs Quran Foundation API credentials. Add QF_CLIENT_ID and QF_CLIENT_SECRET in the server environment." : data.error || "Tajweed annotations could not be loaded."); return data; })
+    .then((data) => {
+      if (!active) return;
+      const mapped: Record<string, string> = {};
+      ((data.verses || []) as TajweedVerse[]).forEach((verse) => { if (verse.verse_key && verse.text_uthmani_tajweed) mapped[verse.verse_key] = verse.text_uthmani_tajweed; });
+      if (!Object.keys(mapped).length) throw new Error("No Tajweed annotations were returned for this Surah.");
+      setTajweedVerses(mapped);
+    })
+    .catch((reason) => { if (active) setTajweedError(reason instanceof Error ? reason.message : "Tajweed annotations are unavailable."); })
+    .finally(() => { if (active) setTajweedLoading(false); });
+  return () => { active = false; };
+}, [selected, tajweedMode]);
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -600,12 +637,28 @@ export default function QuranPage() {
           <input id="quran-search" type="search" value={readerQuery} onChange={(event) => setReaderQuery(event.target.value)} placeholder="Search Arabic, translation or reference (e.g. 2:5)" />
           <button type="button" className={`reader-tool-button ${showBookmarksOnly ? "is-active" : ""}`} onClick={() => setShowBookmarksOnly((value) => !value)}>{showBookmarksOnly ? "Show all Ayahs" : `Bookmarks (${bookmarks.length})`}</button>
           <button type="button" className={`reader-tool-button ${wordStudyMode ? "is-active" : ""}`} aria-pressed={wordStudyMode} onClick={() => setWordStudyMode((enabled) => !enabled)}>{wordStudyMode ? "Word-by-word mode: On" : "Word-by-word mode: Off"}</button>
+          <button type="button" className={`reader-tool-button ${tajweedMode ? "is-active" : ""}`} aria-pressed={tajweedMode} onClick={() => setTajweedMode((enabled) => !enabled)}>{tajweedMode ? "Tajweed colours: On" : "Show Tajweed colours"}</button>
           <label>Arabic size <input aria-label="Arabic text size" type="range" min="0.8" max="1.6" step="0.05" value={fontScale} onChange={(event) => setFontScale(Number(event.target.value))} /></label>
           <label>Repeat Ayah <select value={repeatCount} onChange={(event) => setRepeatCount(Number(event.target.value))}><option value={1}>Off</option><option value={2}>2 times</option><option value={3}>3 times</option><option value={5}>5 times</option><option value={10}>10 times</option></select></label>
           <label>Playback speed <select value={playbackRate} onChange={(event) => setPlaybackRate(Number(event.target.value))}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option><option value={2}>2×</option></select></label>
           <label><input type="checkbox" checked={autoNextAyah} onChange={(event) => setAutoNextAyah(event.target.checked)} /> Auto-play next Ayah</label>
           {lastRead && <button type="button" className="reader-tool-button" onClick={() => { const [surahNo, ayahNo] = lastRead.split(":").map(Number); setSelected(surahNo); window.setTimeout(() => document.getElementById(`ayah-${surahNo}-${ayahNo}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 650); }}>Resume {lastRead}</button>}
         </div>
+        {tajweedMode && <section className="tajweed-guide" aria-label="Tajweed colour guide">
+          <strong>Tajweed colour guide · أحكام التجويد</strong>
+          <div className="tajweed-legend">
+            <span><i className="tajweed-swatch tajweed-swatch-ghunnah" /> Ghunnah / nasal sound</span>
+            <span><i className="tajweed-swatch tajweed-swatch-ikhafa" /> Ikhfa &amp; Ikhfa Shafawi</span>
+            <span><i className="tajweed-swatch tajweed-swatch-idgham" /> Idgham</span>
+            <span><i className="tajweed-swatch tajweed-swatch-iqlab" /> Iqlab</span>
+            <span><i className="tajweed-swatch tajweed-swatch-madd" /> Madd / prolongation</span>
+            <span><i className="tajweed-swatch tajweed-swatch-qalqalah" /> Qalqalah</span>
+            <span><i className="tajweed-swatch tajweed-swatch-other" /> Hamzatul Wasl &amp; Lam rules</span>
+          </div>
+          <p>Colours follow the Quran Foundation’s verse-level Tajweed annotations. Tanween is marked according to the rule it triggers (such as Ikhfa, Idgham or Iqlab), rather than colouring every Tanween mark as one separate rule.</p>
+          {tajweedLoading && <p role="status">Loading verified Tajweed annotations…</p>}
+          {tajweedError && <p className="tajweed-error" role="status">{tajweedError}</p>}
+        </section>}
         {loading && <p className="quran-status">Loading Quran text…</p>}
         {error && <div className="quran-error" role="alert">{error}</div>}
         {!loading && chapter && !error && (
@@ -626,7 +679,7 @@ export default function QuranPage() {
                     <span className="ayah-reference">{selected}:{ayah.numberInSurah}</span>
                     <div className="ayah-actions"><button type="button" aria-expanded={wordStudyMode || !!wordPanelsOpen[key]} onClick={() => { setWordPanelsOpen((current) => ({ ...current, [key]: !current[key] })); if (!wordStudy[key] && wordLoading !== key) void loadWordStudy(key); }}>{wordStudyMode || wordPanelsOpen[key] ? "Hide words" : wordLoading === key ? "Loading…" : "Show words"}</button><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
                   </div>
-                  <p className="ayah-arabic" lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{ayah.text.replace(/^\uFEFF/, "")}</p>
+                  <p className={"ayah-arabic" + (tajweedMode && tajweedVerses[key] ? " ayah-arabic-tajweed" : "")} lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{tajweedMode && tajweedVerses[key] ? renderTajweedText(tajweedVerses[key]) : ayah.text.replace(/^\uFEFF/, "")}</p>
                   <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
                   {wordErrors[key] && <p className="word-study-error" role="status">{wordErrors[key]}</p>}
                   {wordStudy[key] && (wordStudyMode || wordPanelsOpen[key]) ? (
