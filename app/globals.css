@@ -1099,3 +1099,168 @@ html[data-site-theme="dark"] .prayer-related a{color:#e8cc94}
 .names-reader{max-width:1100px}.names-toolbar{display:grid;gap:9px;max-width:560px;margin:0 auto 12px}.names-toolbar label{font-size:13px;font-weight:700;color:#53675e}.names-toolbar input{width:100%;padding:13px 15px;border:1px solid #d9e3dc;border-radius:12px;background:#fff;color:#17352d;font:inherit}.names-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}.name-card{min-width:0;padding:20px;border:1px solid #e8ede8;border-radius:18px;background:linear-gradient(145deg,#fff,#f8faf6)}.name-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.name-number{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#eaf2ed;color:#174b3c;font-size:12px;font-weight:700}.name-save{border:1px solid #dce6de;border-radius:999px;padding:7px 11px;background:#fff;color:#53675e;font-size:12px}.name-save.is-saved{background:#f7efd9;border-color:#d9bd7c;color:#785c24}.name-arabic{margin:18px 0 10px;color:#174b3c;font:38px/1.7 "Noto Naskh Arabic",serif;text-align:center}.name-card h2{margin:0;color:#17352d;font:600 19px "Playfair Display",serif;text-align:center}.name-meaning{min-height:42px;margin:9px 0 0;color:#687b73;font-size:13px;line-height:1.6;text-align:center}.worship-reader{max-width:850px}.worship-summary{padding:22px;border-radius:18px;background:#edf4ee}.worship-summary>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.worship-summary strong{color:#174b3c;font:600 34px "Playfair Display",serif}.worship-summary>div:first-child>span:last-child{color:#687b73;font-size:12px}.worship-progress{height:9px;margin:18px 0 10px;overflow:hidden;border-radius:99px;background:#dce8dd}.worship-progress span{display:block;height:100%;border-radius:inherit;background:#39785b;transition:width .2s ease}.worship-summary p{margin:0;color:#53675e;font-size:13px}.worship-group{margin-top:28px}.worship-group h2{margin:0 0 12px;color:#17352d;font:600 24px "Playfair Display",serif}.worship-list{display:grid;gap:9px}.worship-item{display:flex;align-items:center;gap:13px;padding:15px;border:1px solid #e8ede8;border-radius:14px;background:#fff;cursor:pointer}.worship-item input{position:absolute;opacity:0;width:1px;height:1px}.worship-check{display:grid;place-items:center;flex:none;width:25px;height:25px;border:1.5px solid #b9c9bc;border-radius:8px;color:#fff;font-weight:700}.worship-item.is-checked{border-color:#9fbea7;background:#f4f8f3}.worship-item.is-checked .worship-check{border-color:#276348;background:#276348}.worship-item:focus-within{outline:3px solid rgba(52,111,79,.25);outline-offset:2px}.worship-item-copy{display:grid;gap:3px}.worship-item-copy strong{color:#17352d;font-size:15px}.worship-item-copy small{color:#687b73;font-size:12px}.worship-actions{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px}.worship-actions button,.worship-actions a{border:1px solid #d9e3dc;border-radius:999px;padding:11px 16px;background:#fff;color:#174b3c;font-size:13px;font-weight:700}
 @media(max-width:760px){.names-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){.names-grid{grid-template-columns:1fr}.name-meaning{min-height:0}.worship-summary{padding:17px}}
 html[data-site-theme="dark"] .name-card,html[data-site-theme="dark"] .worship-item,html[data-site-theme="dark"] .names-toolbar input,html[data-site-theme="dark"] .name-save,html[data-site-theme="dark"] .worship-actions button,html[data-site-theme="dark"] .worship-actions a{background:#172e25;border-color:#345244;color:#e8eee8}html[data-site-theme="dark"] .name-arabic,html[data-site-theme="dark"] .name-card h2,html[data-site-theme="dark"] .worship-group h2,html[data-site-theme="dark"] .worship-item-copy strong{color:#f0e8d5}html[data-site-theme="dark"] .worship-summary{background:#1c392c}html[data-site-theme="dark"] .worship-summary strong{color:#f0d89f}html[data-site-theme="dark"] .worship-summary p,html[data-site-theme="dark"] .worship-item-copy small,html[data-site-theme="dark"] .name-meaning{color:#c3d1c7}
+
+
+/* RHM Islam 360 — unified heritage atmosphere and readable global themes */
+:root {
+  --rhm-paper: #f7f4eb;
+  --rhm-paper-glass: rgba(255, 253, 247, .91);
+  --rhm-ink: #20382f;
+  --rhm-muted: #5e7067;
+  --rhm-line: rgba(104, 120, 105, .22);
+  --rhm-night: #101d19;
+  --rhm-night-glass: rgba(20, 39, 31, .94);
+  --rhm-night-ink: #f1eee3;
+  --rhm-night-muted: #c2cbbf;
+}
+/* Keep the original Qur'an-inspired photograph visible on every route,
+   with a quiet parchment wash in light mode and deep forest wash in dark mode. */
+html, body { min-height: 100%; }
+body {
+  position: relative;
+  isolation: isolate;
+  color: var(--rhm-ink);
+  background: transparent !important;
+}
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(250,248,239,.84), rgba(247,244,235,.91)),
+    url("/images/rhm-islam360-quran-hero.webp") center / cover no-repeat;
+  transform: translateZ(0);
+}
+html[data-site-theme="dark"] body { color: var(--rhm-night-ink); }
+html[data-site-theme="dark"] body::before {
+  background:
+    linear-gradient(180deg, rgba(9,22,17,.88), rgba(12,27,21,.94)),
+    url("/images/rhm-islam360-quran-hero.webp") center / cover no-repeat;
+}
+/* Shared page shells stay softly translucent so the historic background is
+   present without competing with Qur'an text, lessons, or controls. */
+main, .page-shell, .page-container, .content-shell, .learn-page, .heritage-page,
+.daily-life-page, .hadith-page, .duas-page, .qaida-page, .journey-page,
+.prayer-times-page, .names-page, .worship-page, .dashboard-page,
+.discover-page, .offline-page, .login-page, .auth-page {
+  background-color: transparent;
+}
+.site-header, .quran-topbar {
+  background: var(--rhm-paper-glass);
+  border-color: var(--rhm-line);
+  backdrop-filter: blur(14px);
+}
+.hero, .quran-heading, .donate-heading {
+  background-color: rgba(248,247,239,.84);
+  backdrop-filter: blur(8px);
+}
+.feature-card, .quran-reader, .ayah-card, .donation-card,
+.panel, .content-card, .lesson-card, .hadith-card, .dua-card,
+.tool-card, .heritage-card, .prayer-card, .tracker-card,
+.learn-card, .surface-card {
+  background-color: var(--rhm-paper-glass);
+  border-color: var(--rhm-line);
+  backdrop-filter: blur(10px);
+}
+input, textarea, select {
+  color: var(--rhm-ink);
+  background-color: rgba(255,253,247,.96);
+  border-color: var(--rhm-line);
+}
+p, li { text-wrap: pretty; }
+:where(p, li, .section-intro, .feature-card p, .hero p) {
+  line-height: 1.75;
+}
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(184, 145, 76, .72);
+  outline-offset: 3px;
+}
+html[data-site-theme="dark"] {
+  color-scheme: dark;
+  background: var(--rhm-night);
+}
+html[data-site-theme="dark"] body { color: var(--rhm-night-ink); }
+html[data-site-theme="dark"] .site-header,
+html[data-site-theme="dark"] .quran-topbar {
+  color: var(--rhm-night-ink);
+  background: rgba(17, 34, 27, .94);
+  border-color: rgba(211, 195, 151, .18);
+}
+html[data-site-theme="dark"] .nav-links,
+html[data-site-theme="dark"] .quran-home-link { color: var(--rhm-night-muted); }
+html[data-site-theme="dark"] .hero,
+html[data-site-theme="dark"] .quran-heading,
+html[data-site-theme="dark"] .donate-heading {
+  color: var(--rhm-night-ink);
+  background: linear-gradient(135deg, rgba(19,40,31,.92), rgba(14,29,23,.88));
+}
+html[data-site-theme="dark"] .hero h1,
+html[data-site-theme="dark"] .section h2,
+html[data-site-theme="dark"] .quran-heading h1,
+html[data-site-theme="dark"] .donate-heading h1,
+html[data-site-theme="dark"] .feature-card h3,
+html[data-site-theme="dark"] .quran-brand,
+html[data-site-theme="dark"] .surah-title h2 {
+  color: var(--rhm-night-ink);
+}
+html[data-site-theme="dark"] .hero p,
+html[data-site-theme="dark"] .section-intro,
+html[data-site-theme="dark"] .feature-card p,
+html[data-site-theme="dark"] .donate-heading p {
+  color: var(--rhm-night-muted);
+}
+html[data-site-theme="dark"] .feature-card,
+html[data-site-theme="dark"] .quran-reader,
+html[data-site-theme="dark"] .ayah-card,
+html[data-site-theme="dark"] .donation-card,
+html[data-site-theme="dark"] .panel,
+html[data-site-theme="dark"] .content-card,
+html[data-site-theme="dark"] .lesson-card,
+html[data-site-theme="dark"] .hadith-card,
+html[data-site-theme="dark"] .dua-card,
+html[data-site-theme="dark"] .tool-card,
+html[data-site-theme="dark"] .heritage-card,
+html[data-site-theme="dark"] .prayer-card,
+html[data-site-theme="dark"] .tracker-card,
+html[data-site-theme="dark"] .learn-card,
+html[data-site-theme="dark"] .surface-card {
+  color: var(--rhm-night-ink);
+  background: var(--rhm-night-glass);
+  border-color: rgba(211, 195, 151, .2);
+}
+html[data-site-theme="dark"] input,
+html[data-site-theme="dark"] textarea,
+html[data-site-theme="dark"] select {
+  color: var(--rhm-night-ink);
+  background: #14271f;
+  border-color: rgba(211, 195, 151, .28);
+}
+html[data-site-theme="dark"] input::placeholder,
+html[data-site-theme="dark"] textarea::placeholder { color: #aebcaf; }
+html[data-site-theme="dark"] .ayah-arabic,
+html[data-site-theme="dark"] .ayah-translation,
+html[data-site-theme="dark"] .quran-count,
+html[data-site-theme="dark"] .quran-source,
+html[data-site-theme="dark"] .surah-title p { color: var(--rhm-night-ink); }
+html[data-site-theme="dark"] .ayah-translation {
+  background: rgba(9, 22, 17, .72);
+}
+html[data-site-theme="dark"] .site-theme-toggle {
+  color: var(--rhm-night-ink);
+  background: #19372b;
+  border-color: rgba(211,195,151,.35);
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+.site-theme-toggle {
+  z-index: 50;
+  backdrop-filter: blur(12px);
+}
+@media (max-width: 700px) {
+  body::before { background-attachment: scroll; background-position: 56% center; }
+  html[data-site-theme="dark"] body::before { background-position: 56% center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
