@@ -247,17 +247,18 @@ export default function QuranPage() {
         }),
       ]);
       if (!active) return;
-      if (editionResult.status === "rejected") {
-        throw editionResult.reason instanceof Error
-          ? editionResult.reason
-          : new Error("The reciter catalogue is temporarily unavailable.");
-      }
-
-      const editions = ((editionResult.value.data || []) as Reciter[]).filter((edition) =>
-        edition.identifier.startsWith("ar.") && edition.language === "ar"
-      );
-      if (!editions.length) {
-        throw new Error("The provider returned no Arabic reciters. Please try again shortly.");
+      const editions = editionResult.status === "fulfilled"
+        ? ((editionResult.value.data || []) as Reciter[]).filter((edition) =>
+            edition.identifier.startsWith("ar.") && edition.language === "ar"
+          )
+        : [];
+      if (editions.length) {
+        setReciters(editions);
+        if (!editions.some((edition) => edition.identifier === selectedReciter)) {
+          setSelectedReciter(editions[0].identifier);
+        }
+      } else {
+        setAudioError("The Ayah-by-Ayah reciter catalogue is temporarily unavailable.");
       }
 
       // The CDN index is an optional quality hint, not a prerequisite for listing
@@ -266,7 +267,6 @@ export default function QuranPage() {
         ? readSurahAudioIndex(indexResult.value)
         : {};
       setSurahAudioBitrates(bitrates);
-      setReciters(editions);
       if (chapterResult.status === "fulfilled") {
         const sourceReciters = Array.isArray(chapterResult.value.reciters) ? chapterResult.value.reciters : [];
         const availableChapterReciters: ChapterReciter[] = sourceReciters.flatMap((reader: { name?: string; moshaf?: Array<{ id?: number; name?: string; server?: string; surah_list?: string; surah_total?: number }> }) =>
@@ -285,9 +285,6 @@ export default function QuranPage() {
       } else {
         setPlaybackStatus("The additional full-Surah reciter catalogue is temporarily unavailable. The original Ayah reciters are still available.");
       }
-      if (!editions.some((edition) => edition.identifier === selectedReciter)) {
-        setSelectedReciter(editions[0].identifier);
-      }
       if (indexResult.status === "rejected") {
         setPlaybackStatus("Audio quality information is temporarily unavailable. Standard 128 kbps playback will be used; some reciters or individual Ayahs may vary.");
       }
@@ -305,9 +302,9 @@ export default function QuranPage() {
   const languageTranslations = translations.filter((edition) => edition.language === studyLanguage);
   const activeChapterReciter = chapterReciters.find((reader) => String(reader.id) === selectedChapterReciter);
   const surahIsAvailableForChapterReciter = !!activeChapterReciter?.surahs.includes(selected);
-  const surahAudioUrl = activeChapterReciter && surahIsAvailableForChapterReciter
-    ? `${activeChapterReciter.server}${String(selected).padStart(3, "0")}.mp3`
-    : "";
+  const surahAudioUrl = activeChapterReciter
+    ? surahIsAvailableForChapterReciter ? `${activeChapterReciter.server}${String(selected).padStart(3, "0")}.mp3` : ""
+    : reciters.length ? `https://cdn.islamic.network/quran/audio-surah/${surahAudioBitrates[selectedReciter] || 128}/${selectedReciter}/${selected}.mp3` : "";
   const translationByAyah = new Map((chapter?.editions[1]?.ayahs ?? []).map((ayah) => [ayah.numberInSurah, ayah.text]));
   const visibleAyahs = (chapter?.editions[0]?.ayahs ?? []).filter((ayah) => {
     const key = `${selected}:${ayah.numberInSurah}`;
@@ -573,7 +570,7 @@ export default function QuranPage() {
           {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
           <p id="tafsir-help" className="recitation-note">Choose one or more available editions. Each scholar’s explanation stays separate and is labelled with the provider’s source and author; RHM does not invent or combine Tafsir texts.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
-          <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined} disabled={!surahAudioUrl}
+          <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
               if (autoNextSurah && selected < 114) {
