@@ -228,33 +228,49 @@ export default function QuranPage() {
 
   useEffect(() => {
     let active = true;
-    Promise.all([
-      fetch("https://api.alquran.cloud/v1/edition/format/audio").then((response) => {
-        if (!response.ok) throw new Error("The Ayah reciter catalogue could not be loaded.");
-        return response.json();
-      }),
-      fetch("https://cdn.islamic.network/quran/info/by-surah/info.json").then((response) => {
-        if (!response.ok) throw new Error("The full-Surah audio availability catalogue could not be loaded.");
-        return response.json();
-      }),
-    ])
-      .then(([editionData, surahIndex]) => {
-        if (!active) return;
-        const bitrates = readSurahAudioIndex(surahIndex);
-        setSurahAudioBitrates(bitrates);
-        const editions = (editionData.data as Reciter[]).filter((edition) =>
-          edition.identifier.startsWith("ar.") && edition.language === "ar"
-        );
-        // Only list reciters that the CDN explicitly indexes for complete-Surah audio.
-        const available = editions.filter((edition) => bitrates[edition.identifier]);
-        setReciters(available);
-        if (available.length && !available.some((edition) => edition.identifier === selectedReciter)) {
-          setSelectedReciter(available[0].identifier);
-        }
-        if (!available.length) setAudioError("The provider did not return any matching full-Surah reciters. Ayah audio availability may still differ.");
-      })
+    const loadAudioCatalogues = async () => {
+      const [editionResult, indexResult] = await Promise.allSettled([
+        fetch("https://api.alquran.cloud/v1/edition/format/audio").then((response) => {
+          if (!response.ok) throw new Error("The Ayah reciter catalogue could not be loaded.");
+          return response.json();
+        }),
+        fetch("https://cdn.islamic.network/quran/info/by-surah/info.json").then((response) => {
+          if (!response.ok) throw new Error("The full-Surah audio availability catalogue could not be loaded.");
+          return response.json();
+        }),
+      ]);
+      if (!active) return;
+      if (editionResult.status === "rejected") {
+        throw editionResult.reason instanceof Error
+          ? editionResult.reason
+          : new Error("The reciter catalogue is temporarily unavailable.");
+      }
+
+      const editions = ((editionResult.value.data || []) as Reciter[]).filter((edition) =>
+        edition.identifier.startsWith("ar.") && edition.language === "ar"
+      );
+      if (!editions.length) {
+        throw new Error("The provider returned no Arabic reciters. Please try again shortly.");
+      }
+
+      // The CDN index is an optional quality hint, not a prerequisite for listing
+      // reciters or playing audio. Fall back to the provider's standard 128 kbps path.
+      const bitrates = indexResult.status === "fulfilled"
+        ? readSurahAudioIndex(indexResult.value)
+        : {};
+      setSurahAudioBitrates(bitrates);
+      setReciters(editions);
+      if (!editions.some((edition) => edition.identifier === selectedReciter)) {
+        setSelectedReciter(editions[0].identifier);
+      }
+      if (indexResult.status === "rejected") {
+        setPlaybackStatus("Audio quality information is temporarily unavailable. Standard 128 kbps playback will be used; some reciters or individual Ayahs may vary.");
+      }
+    };
+
+    loadAudioCatalogues()
       .catch((error) => {
-        if (active) setAudioError(error instanceof Error ? error.message : "The reciter availability list is temporarily unavailable.");
+        if (active) setAudioError(error instanceof Error ? error.message : "The reciter catalogue is temporarily unavailable.");
       })
       .finally(() => { if (active) setRecitersLoading(false); });
     return () => { active = false; };
