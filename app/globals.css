@@ -2105,10 +2105,10 @@ html[data-site-theme="dark"] body main .section-heading :is(h2,p), html[data-sit
 .quran-page .tajweed-swatch-other { background:#929292; }
 .quran-page .ayah-arabic-tajweed .tajweed-rule { font-weight:600; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:5px; text-decoration-color:currentColor; }
 .quran-page .tajweed-ghunnah { color:#d633a6; }
-.quran-page .tajweed-ikhafa,.quran-page .tajweed-ikhafa_shafawi { color:#8b45b5; }
-.quran-page .tajweed-idgham_ghunnah,.quran-page .tajweed-idgham_wo_ghunnah,.quran-page .tajweed-idgham_shafawi { color:#17845b; }
+.quran-page .tajweed-ikhafa,.quran-page .tajweed-ikhafa-shafawi { color:#8b45b5; }
+.quran-page .tajweed-idgham-ghunnah,.quran-page .tajweed-idgham-no-ghunnah,.quran-page .tajweed-idgham-shafawi { color:#17845b; }
 .quran-page .tajweed-iqlab { color:#d62828; }
-.quran-page .tajweed-madda_normal,.quran-page .tajweed-madda_permissible,.quran-page .tajweed-madda_necessary,.quran-page .tajweed-madda_obligatory { color:#315fd4; }
+.quran-page .tajweed-madda-normal,.quran-page .tajweed-madda-permissible,.quran-page .tajweed-madda-necessary,.quran-page .tajweed-madda-obligatory { color:#315fd4; }
 .quran-page .tajweed-qalaqah { color:#c26b19; }
 .quran-page .tajweed-ham_wasl,.quran-page .tajweed-laam_shamsiyah,.quran-page .tajweed-silent,.quran-page .tajweed-slnt { color:#929292; }
 .quran-page .tajweed-verse-end { display:inline-block; margin-inline:8px; color:var(--q-gold); font-size:.72em; }
