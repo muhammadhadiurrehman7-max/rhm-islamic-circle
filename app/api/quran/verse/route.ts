@@ -30,11 +30,15 @@ export async function GET(request: Request) {
   const language = searchParams.get("language") || "ur";
   const tafsirs = searchParams.get("tafsirs");
   const resources = searchParams.get("resources");
+  const chapterNumber = searchParams.get("chapter");
 
-  if (resources !== "tafsirs" && (!verseKey || !/^([1-9]|[1-9][0-9]|1[01][0-9]|11[0-4]):[1-9][0-9]{0,2}$/.test(verseKey))) {
+  if (resources === "tajweed" && (!chapterNumber || !/^(?:[1-9]|[1-9][0-9]|1[01][0-4])$/.test(chapterNumber))) {
+    return NextResponse.json({ error: "Provide a valid Surah number for Tajweed text." }, { status: 400 });
+  }
+  if (resources !== "tafsirs" && resources !== "tajweed" && (!verseKey || !/^([1-9]|[1-9][0-9]|1[01][0-9]|11[0-4]):[1-9][0-9]{0,2}$/.test(verseKey))) {
     return NextResponse.json({ error: "Provide a valid verse reference such as 2:255." }, { status: 400 });
   }
-  if (resources && resources !== "tafsirs") {
+  if (resources && resources !== "tafsirs" && resources !== "tajweed") {
     return NextResponse.json({ error: "Unsupported resource request." }, { status: 400 });
   }
   if (!/^[a-z]{2}$/.test(language)) {
@@ -61,7 +65,9 @@ export async function GET(request: Request) {
     const token = await getContentToken(clientId, clientSecret, authBase, scope);
     const endpoint = resources === "tafsirs"
       ? `${apiBase}/content/api/v4/resources/tafsirs?language=${encodeURIComponent(language)}`
-      : `${apiBase}/content/api/v4/verses/by_key/${verseKey}?${new URLSearchParams({ words: "true", language, ...(tafsirs ? { tafsirs } : {}) }).toString()}`;
+      : resources === "tajweed"
+        ? `${apiBase}/content/api/v4/quran/verses/uthmani_tajweed?chapter_number=${encodeURIComponent(chapterNumber || "")}`
+        : `${apiBase}/content/api/v4/verses/by_key/${verseKey}?${new URLSearchParams({ words: "true", language, ...(tafsirs ? { tafsirs } : {}) }).toString()}`;
     const response = await fetch(endpoint, {
       headers: { "x-auth-token": token, "x-client-id": clientId },
       next: { revalidate: 3600 },
