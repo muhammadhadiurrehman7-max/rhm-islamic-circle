@@ -89,6 +89,7 @@ export default function OfflineQuranPage() {
   const [selected, setSelected] = useState(1);
   const [active, setActive] = useState<StoredSurah | null>(null);
   const [query, setQuery] = useState("");
+  const [offlineSearch, setOfflineSearch] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -122,6 +123,7 @@ export default function OfflineQuranPage() {
   const filteredCatalogue = useMemo(() => catalogue.filter((item) => `${item.number} ${item.name} ${item.englishName}`.toLowerCase().includes(query.toLowerCase())), [catalogue, query]);
   const totalSavedBytes = useMemo(() => saved.reduce((sum, item) => sum + new Blob([JSON.stringify(item)]).size, 0) + audioSaved.reduce((sum, item) => sum + item.blob.size, 0), [saved, audioSaved]);
   const savedIds = new Set(saved.map((item) => item.id));
+  const offlineMatches = useMemo(() => { const term = offlineSearch.trim().toLocaleLowerCase(); if (term.length < 2) return []; return saved.flatMap((surah) => surah.ayahs.flatMap((ayah, index) => { const translation = surah.translation[index]?.text || ""; return ayah.text.toLocaleLowerCase().includes(term) || translation.toLocaleLowerCase().includes(term) ? [{ surah, ayah, translation }] : []; })).slice(0, 80); }, [saved, offlineSearch]);
   const audioId = (surah: number, reader: string) => `${surah}:${reader}`;
 
   async function downloadSurah(number: number) {
@@ -247,6 +249,12 @@ export default function OfflineQuranPage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className={styles.panel}>
+        <div className={styles.sectionHeading}><div><h2>Search your downloaded Qur'an</h2><p>Search only the Arabic and translation text stored on this device. Results remain available offline.</p></div></div>
+        <input className={styles.search} value={offlineSearch} onChange={(event) => setOfflineSearch(event.target.value)} placeholder="Search downloaded Arabic or translation (2+ characters)…" aria-label="Search downloaded Qur'an text"/>
+        {offlineSearch.trim().length >= 2 && <div className={styles.downloadList}>{offlineMatches.map(({ surah, ayah, translation }) => <button key={surah.id + ":" + ayah.numberInSurah} className={styles.searchResult} onClick={() => { setActive(surah); setSelected(surah.id); setTimeout(() => document.getElementById(`offline-ayah-${ayah.numberInSurah}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 100); }}><strong>{surah.englishName} · Ayah {ayah.numberInSurah}</strong><span dir="rtl">{ayah.text}</span><span>{translation}</span></button>)}{offlineMatches.length === 0 && <p>No matching Ayahs in your downloaded Surahs.</p>}</div>}
       </section>
 
       <section className={styles.panel}>
