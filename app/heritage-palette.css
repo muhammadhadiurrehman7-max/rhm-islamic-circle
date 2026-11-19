@@ -108,3 +108,84 @@ html[data-site-theme="dark"] body :is(.site-theme-toggle,.theme-toggle) {
   background:#20382b;
   border-color:#b58a3b;
 }
+
+
+/* Header contrast repair: the header is a light surface in light mode,
+   not a dark callout. Explicitly set every interactive/header text colour. */
+html[data-site-theme="light"] body .site-header {
+  color:#173f30 !important;
+  background:linear-gradient(105deg,#fffdf8 0%,#f0f4ec 100%) !important;
+  border-bottom:2px solid #b58a3b !important;
+}
+html[data-site-theme="light"] body .site-header .brand,
+html[data-site-theme="light"] body .site-header .brand-copy strong {
+  color:#173f30 !important;
+  -webkit-text-fill-color:#173f30 !important;
+}
+html[data-site-theme="light"] body .site-header .brand-copy small {
+  color:#66502a !important;
+  -webkit-text-fill-color:#66502a !important;
+  opacity:1 !important;
+}
+html[data-site-theme="light"] body .site-header .nav-links,
+html[data-site-theme="light"] body .site-header .nav-links a {
+  color:#234d3b !important;
+  -webkit-text-fill-color:#234d3b !important;
+}
+html[data-site-theme="light"] body .site-header .mobile-menu-toggle {
+  color:#174b3c !important;
+  -webkit-text-fill-color:#174b3c !important;
+  background:#fffdf8 !important;
+  border:1px solid #b8c9bb !important;
+}
+html[data-site-theme="light"] body .site-header .nav-actions .btn-light {
+  color:#174b3c !important;
+  -webkit-text-fill-color:#174b3c !important;
+  background:#f8f2e5 !important;
+  border:1px solid #c4a66a !important;
+}
+html[data-site-theme="light"] body .site-header .nav-actions .btn-primary {
+  color:#fffdf5 !important;
+  -webkit-text-fill-color:#fffdf5 !important;
+  background:linear-gradient(120deg,#14543f,#1d6a50) !important;
+  border:1px solid #b58a3b !important;
+}
+html[data-site-theme="light"] body .site-header .nav-links a:hover,
+html[data-site-theme="light"] body .site-header .nav-actions .btn-light:hover {
+  color:#0d382a !important;
+  -webkit-text-fill-color:#0d382a !important;
+  background-color:#e4eee5 !important;
+}
+html[data-site-theme="dark"] body .site-header {
+  color:#f6f0e2 !important;
+  background:linear-gradient(105deg,#101a14 0%,#1b2920 100%) !important;
+  border-bottom:2px solid #b58a3b !important;
+}
+html[data-site-theme="dark"] body .site-header .brand,
+html[data-site-theme="dark"] body .site-header .brand-copy strong,
+html[data-site-theme="dark"] body .site-header .nav-links,
+html[data-site-theme="dark"] body .site-header .nav-links a,
+html[data-site-theme="dark"] body .site-header .mobile-menu-toggle {
+  color:#f3ecda !important;
+  -webkit-text-fill-color:#f3ecda !important;
+}
+html[data-site-theme="dark"] body .site-header .brand-copy small {
+  color:#e6c887 !important;
+  -webkit-text-fill-color:#e6c887 !important;
+}
+html[data-site-theme="dark"] body .site-header .mobile-menu-toggle {
+  background:#20382b !important;
+  border:1px solid #8b7040 !important;
+}
+html[data-site-theme="dark"] body .site-header .nav-actions .btn-light {
+  color:#f3ecda !important;
+  -webkit-text-fill-color:#f3ecda !important;
+  background:#20382b !important;
+  border:1px solid #8b7040 !important;
+}
+html[data-site-theme="dark"] body .site-header .nav-actions .btn-primary {
+  color:#171713 !important;
+  -webkit-text-fill-color:#171713 !important;
+  background:linear-gradient(120deg,#e8d7ae,#c49a50) !important;
+  border:1px solid #e8d7ae !important;
+}
