@@ -525,7 +525,7 @@ useEffect(() => {
           <button className="theme-toggle" type="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={theme === "light" ? "Switch to dark theme" : "Switch to light theme"}>
             <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span> {theme === "light" ? "Dark mode" : "Light mode"}
           </button>
-          <button className="quran-home-link" type="button" onClick={() => { if (window.history.length > 1 && document.referrer && new URL(document.referrer).origin === window.location.origin) window.history.back(); else window.location.assign("/"); }} aria-label="Go back to the previous page">← Back</button>
+          <button className="quran-home-link" type="button" onClick={() => { const hasInAppHistory = typeof window.history.state?.idx === "number" && window.history.state.idx > 0; const cameFromThisSite = Boolean(document.referrer) && new URL(document.referrer).origin === window.location.origin; if (hasInAppHistory || cameFromThisSite) window.history.back(); else window.location.assign("/"); }} aria-label="Go back to the previous page">← Back</button>
         </div>
       </header>
       <section className="sacred-places" aria-label="Photographs of the holy mosques">
