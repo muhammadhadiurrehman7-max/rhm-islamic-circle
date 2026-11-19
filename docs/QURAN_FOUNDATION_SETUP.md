@@ -43,3 +43,10 @@ Open any Surah in the Quran reader and select **Word by word** and one or more *
 - [Quran Foundation Content API quickstart](https://api-docs.quran.com/docs/quickstart/)
 - [Verses API and word-level data](https://api-docs.quran.com/docs/sdk/javascript/verses/)
 - [Quran Foundation API reference](https://api-docs.quran.com/docs/api-reference/)
+
+
+## 7. Trilingual Tafsir Library
+
+RHM provides a dedicated `/tafsir` study page with Urdu (`ur`), English (`en`), and Arabic (`ar`) catalogue tabs. It retrieves the language-specific catalogue from the existing server-side Quran Foundation route, allows users to search editions and select up to three independent works, and loads passages by Surah/Ayah reference. The Arabic Ayah is displayed separately from the Tafsir passage. Every passage retains its edition/author attribution and provider notice. The page does not generate, paraphrase, translate, merge, or fabricate Tafsir.
+
+The library is catalogue-driven: it displays only editions returned by the connected provider for the selected language. A language tab is not evidence that every classical or modern work is available. Full coverage depends on production API access, the approved `content.tafsirs.read` permission, and the provider's licensed dataset. Do not bundle or redistribute third-party Tafsir files unless RHM has confirmed the required rights. The Quran Foundation quickstart documents the backend-only credentials flow and notes that pre-live data is limited to Al-Fatihah and Al-Baqarah: https://api-docs.quran.com/docs/quickstart/.
