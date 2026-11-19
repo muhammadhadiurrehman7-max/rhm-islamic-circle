@@ -72,15 +72,39 @@ function cleanTafsirText(value: string) {
 }
 
 function recommendedTafsirIds(resources: TafsirResource[], language: "ur" | "en") {
+  // Match only editions actually returned by the provider; never create placeholder scholars or texts.
   const priorities = language === "ur"
-    ? [/ibn.?kathir|ibn.?e.?kaseer/i, /bayan.?ul.?quran/i, /sa.?adi/i, /fi.?zilal/i, /tazkir/i]
-    : [/ibn.?kathir/i, /maarif|ma.?arif/i, /jalalayn/i, /mukhtasar/i, /tazkir/i];
+    ? [
+        /ibn.?kathir|ibn.?e.?kaseer/i,
+        /maariful.?quran|ma.?arif.?ul.?quran/i,
+        /bayan.?ul.?quran/i,
+        /tafheem.?ul.?quran|tafhim.?ul.?quran/i,
+        /tadabbur.?e.?quran|tadabbur.?quran/i,
+        /tafseer.?e.?usmani|tafsir.?usmani/i,
+        /ahsan.?ul.?bayan/i,
+        /fi.?zilal/i,
+        /sa.?adi/i,
+        /tazkir.?ul.?quran/i,
+      ]
+    : [
+        /ibn.?kathir/i,
+        /maariful.?quran|ma.?arif.?ul.?quran/i,
+        /jalalayn/i,
+        /sa.?di/i,
+        /muyassar/i,
+        /tabari/i,
+        /qurtubi/i,
+        /baghawi/i,
+        /ibn.?ashur/i,
+        /fi.?zilal/i,
+        /mukhtasar/i,
+      ];
   const selected = priorities
     .map((pattern) => resources.find((resource) => pattern.test(`${resource.name} ${resource.author_name || ""}`)))
     .filter((resource): resource is TafsirResource => Boolean(resource))
     .map((resource) => String(resource.id));
-  const unique = Array.from(new Set(selected)).slice(0, 3);
-  return unique.length ? unique : resources.slice(0, 2).map((resource) => String(resource.id));
+  const unique = Array.from(new Set(selected)).slice(0, 6);
+  return unique.length ? unique : resources.slice(0, Math.min(6, resources.length)).map((resource) => String(resource.id));
 }
 
 export default function QuranPage() {
@@ -653,7 +677,7 @@ useEffect(() => {
               <label className="reciter-label" htmlFor="tafsir-search">Find a scholar or Tafsir book</label>
               <input id="tafsir-search" className="tafsir-search" type="search" value={tafsirSearchQuery} onChange={(event) => setTafsirSearchQuery(event.target.value)} placeholder="Search Ibn Kathir, Bayan ul Quran…" />
               <div className="tafsir-library-actions">
-                <button type="button" className="reader-tool-button" onClick={() => setSelectedTafsirs(recommendedTafsirIds(tafsirs, studyLanguage))}>Select recommended editions</button>
+                <button type="button" className="reader-tool-button" onClick={() => setSelectedTafsirs(recommendedTafsirIds(tafsirs, studyLanguage))}>Select up to 6 recommended editions</button>
                 <button type="button" className="reader-tool-button" onClick={() => setSelectedTafsirs([])} disabled={!selectedTafsirs.length}>Clear selection</button>
               </div>
               <div id="tafsir-select" className="tafsir-source-options" aria-describedby="tafsir-help">
@@ -665,7 +689,7 @@ useEffect(() => {
               </div>
             </> : <p className="recitation-note">{studyLanguage === "ur" ? "No Urdu Tafsir resources were returned by the connected provider." : "No English Tafsir resources were returned by the connected provider. You can still read the English translation above."}</p>}
             {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
-            <p id="tafsir-help" className="recitation-note">Choose one or more editions. Recommended editions are preselected where available; you can compare each scholar’s text separately. Source: Quran Foundation Content API. RHM does not rewrite, merge or generate Tafsir.</p>
+            <p id="tafsir-help" className="recitation-note">Choose one or more editions. Up to six recommended editions are preselected when the provider supplies them; the searchable list still includes every edition returned for this language. You can compare each scholar’s text separately. Source: Quran Foundation Content API. RHM does not rewrite, merge or generate Tafsir.</p>
             <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
           </section>
           <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined}
