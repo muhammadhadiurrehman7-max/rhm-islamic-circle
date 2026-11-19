@@ -50,8 +50,14 @@ export default function MuslimCompanionPage() {
   const [investments, setInvestments] = useState("");
   const [business, setBusiness] = useState("");
   const [debts, setDebts] = useState("");
+  const [calendarLabels, setCalendarLabels] = useState({ gregorian: "", hijri: "" });
 
   useEffect(() => {
+    const now = new Date();
+    const gregorian = now.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+    let hijri = "Hijri date is not supported by this browser";
+    try { hijri = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", { dateStyle: "full" }).format(now); } catch { /* Keep the explanatory fallback. */ }
+    setCalendarLabels({ gregorian, hijri });
     try {
       const saved = Number(localStorage.getItem("rhm-companion-tasbeeh-v1"));
       if (Number.isFinite(saved) && saved >= 0) setCount(saved);
@@ -65,10 +71,6 @@ export default function MuslimCompanionPage() {
   }
 
   const filteredWords = useMemo(() => words.filter(([en, ar, meaning]) => [en, ar, meaning].some((part) => part.toLowerCase().includes(query.trim().toLowerCase()))), [query]);
-  const hijriDate = useMemo(() => {
-    try { return new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", { dateStyle: "full" }).format(new Date()); }
-    catch { return "Hijri date is not supported by this browser"; }
-  }, []);
   const totalAssets = [cash, gold, silver, investments, business].reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0);
   const netAssets = Math.max(0, totalAssets - Math.max(0, Number(debts) || 0));
   const nisabValue = Number(nisab);
@@ -88,7 +90,7 @@ export default function MuslimCompanionPage() {
         <h1>RHM Muslim Companion</h1>
         <p>Bring your worship tools, learning resources and personal reminders together in one calm place. Use each tool as an aid to learning and consult qualified scholars for religious rulings.</p>
         <div className={styles.heroActions}><a href="/quran">Continue with Qur’an ↗</a><a href="/prayer-times">Open prayer centre ↗</a></div>
-        <div className={styles.datePanel}><span>Today’s date</span><strong>{new Date().toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</strong><span>Hijri calendar (browser calculation)</span><strong>{hijriDate}</strong></div>
+        <div className={styles.datePanel}><span>Today’s date</span><strong>{calendarLabels.gregorian || "Loading local date…"}</strong><span>Hijri calendar (browser calculation)</span><strong>{calendarLabels.hijri || "Loading Hijri date…"}</strong></div>
       </section>
 
       <section className={styles.section}>
