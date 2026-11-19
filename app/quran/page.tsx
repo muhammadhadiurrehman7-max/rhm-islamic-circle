@@ -96,6 +96,7 @@ export default function QuranPage() {
   const [continueAfterSurah, setContinueAfterSurah] = useState(false);
   const [playbackStatus, setPlaybackStatus] = useState("");
   const [readerQuery, setReaderQuery] = useState("");
+  const [surahSearchQuery, setSurahSearchQuery] = useState("");
   const [fontScale, setFontScale] = useState(1);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [notes, setNotes] = useState<Record<string, string>>({});
@@ -524,7 +525,7 @@ useEffect(() => {
           <button className="theme-toggle" type="button" onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={theme === "light" ? "Switch to dark theme" : "Switch to light theme"}>
             <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span> {theme === "light" ? "Dark mode" : "Light mode"}
           </button>
-          <a className="quran-home-link" href="/">Back to home</a>
+          <button className="quran-home-link" type="button" onClick={() => { if (window.history.length > 1 && document.referrer && new URL(document.referrer).origin === window.location.origin) window.history.back(); else window.location.assign("/"); }} aria-label="Go back to the previous page">← Back</button>
         </div>
       </header>
       <section className="sacred-places" aria-label="Photographs of the holy mosques">
@@ -569,10 +570,13 @@ useEffect(() => {
       </section>
 <section className="quran-reader" id="quran-reader" aria-label="Quran reader">
         <div className="quran-controls">
+          <label htmlFor="surah-search">Search Surah by name or number</label>
+          <input id="surah-search" type="search" value={surahSearchQuery} onChange={(event) => setSurahSearchQuery(event.target.value)} placeholder="Search e.g. Al-Fatihah, Yaseen or 36…" autoComplete="off" />
           <label htmlFor="surah-select">Choose a Surah</label>
           <select id="surah-select" value={selected} onChange={(event) => { setContinueAfterSurah(false); setPlaybackStatus(""); setSelected(Number(event.target.value)); }}>
-            {surahs.map((surah) => <option key={surah.number} value={surah.number}>{surah.number}. {surah.englishName} — {surah.name}</option>)}
+            {surahs.filter((surah) => { const query = surahSearchQuery.trim().toLocaleLowerCase(); return !query || String(surah.number) === query || surah.englishName.toLocaleLowerCase().includes(query) || surah.name.toLocaleLowerCase().includes(query) || surah.englishNameTranslation.toLocaleLowerCase().includes(query); }).map((surah) => <option key={surah.number} value={surah.number}>{surah.number}. {surah.englishName} — {surah.name}</option>)}
           </select>
+          {surahSearchQuery.trim() && !surahs.some((surah) => { const query = surahSearchQuery.trim().toLocaleLowerCase(); return String(surah.number) === query || surah.englishName.toLocaleLowerCase().includes(query) || surah.name.toLocaleLowerCase().includes(query) || surah.englishNameTranslation.toLocaleLowerCase().includes(query); }) && <span className="quran-count" role="status">No Surah found. Try another name or number.</span>}
           {chapter && <span className="quran-count">{chapter.numberOfAyahs} Ayahs</span>}
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.max(1, value - 1))} disabled={selected === 1}>← Previous Surah</button>
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.min(114, value + 1))} disabled={selected === 114}>Next Surah →</button>
