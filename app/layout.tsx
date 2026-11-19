@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ThemeProvider from "../components/theme-provider";
 import PwaRegister from "../components/pwa-register";
+import QuranOfflineShortcut from "../components/quran-offline-shortcut";
 
 const siteUrl = "https://rhm-islamic-circle.vercel.app";
 const organizationSchema = {
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ThemeProvider>
           {children}
           <PwaRegister />
+          <QuranOfflineShortcut />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([organizationSchema, websiteSchema]).replace(/</g, "\\u003c") }} />
         </ThemeProvider>
       </body>

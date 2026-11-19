@@ -46,7 +46,13 @@ self.addEventListener("fetch", (event) => {
 
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request).catch(async () => {
+      fetch(request).then(async (response) => {
+        if (response.ok && ["/quran", "/quran/offline", OFFLINE_URL].includes(url.pathname)) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(request, response.clone());
+        }
+        return response;
+      }).catch(async () => {
         const offlinePage = await caches.match(OFFLINE_URL);
         return offlinePage || new Response("You are offline. Please reconnect and try again.", {
           status: 503,
