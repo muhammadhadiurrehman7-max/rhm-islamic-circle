@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./readability.css";
 import "./heritage-palette.css";
+import "./visual-polish.css";
 import ThemeProvider from "../components/theme-provider";
 import PwaRegister from "../components/pwa-register";
 import QuranOfflineShortcut from "../components/quran-offline-shortcut";
