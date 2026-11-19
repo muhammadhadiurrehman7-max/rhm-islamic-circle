@@ -2567,3 +2567,13 @@ html[data-site-theme="dark"] body :is(input,select,textarea):focus-visible {
 html[data-site-theme="light"] body :is(.btn-primary,.site-theme-toggle,.theme-toggle) {
   text-shadow:none;
 }
+
+/* Compact primary navigation cards on the homepage */
+.home-primary-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:1050px;gap:14px}
+.home-primary-grid .faith-entry-card{min-height:205px;padding:22px}
+.home-explore-link{display:flex;justify-content:center;margin:24px auto 0}
+.home-explore-link .btn{min-width:190px}
+@media(max-width:560px){.home-primary-grid{grid-template-columns:1fr}.home-primary-grid .faith-entry-card{min-height:unset}}
+html[data-site-theme="dark"] .home-primary-grid .faith-entry-card:not(.faith-entry-main){background:#1b3026;border-color:#385344;color:#f0ead8}
+html[data-site-theme="dark"] .home-primary-grid .faith-entry-card:not(.faith-entry-main) p{color:#c1c9bb}
+html[data-site-theme="dark"] .faith-entry-section{background:linear-gradient(180deg,#15271f,#101e18)}
