@@ -13,3 +13,19 @@
 .passageNav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.passageNav button{padding:10px 14px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink);font-weight:700;cursor:pointer}.passageNav button:disabled{opacity:.4;cursor:not-allowed}.footer{max-width:1180px;margin:26px auto 0;padding:0 24px;color:var(--muted);font-size:12px}
 @media(max-width:800px){.layout{grid-template-columns:1fr}.editionList{max-height:320px}.hero{padding-top:36px}.topbar{height:auto;min-height:64px;gap:12px}.topbar nav{gap:12px}.referenceControls{grid-template-columns:minmax(0,1fr) 88px}.loadButton{grid-column:1/-1;width:100%}}
 @media(max-width:460px){.topbar{align-items:flex-start;padding-top:15px;padding-bottom:15px;flex-direction:column}.catalogue,.reader{padding:16px}.layout{padding:0 14px}.hero{padding-left:16px;padding-right:16px}.passageText{padding:16px;font-size:15px}}
+
+.directory{margin-top:20px;padding-top:17px;border-top:1px solid var(--line)}
+.directoryHeading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.directoryHeading h3{font-size:15px;line-height:1.35;margin:0}
+.directoryHeading>span{font-size:10px;color:var(--muted);white-space:nowrap}
+.directoryList{display:grid;gap:7px;margin-top:10px}
+.directoryItem{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid var(--line);border-radius:10px;min-width:0}
+.directoryMark{color:var(--accent);font-size:14px;flex:0 0 auto}
+.directoryText{min-width:0;flex:1}
+.directoryText strong,.directoryText small{display:block;overflow-wrap:anywhere}
+.directoryText strong{font-size:12px;line-height:1.4}
+.directoryText small{font-size:10px;color:var(--muted);line-height:1.45;margin-top:3px}
+.availableTag,.unavailableTag{font-size:9px;font-weight:750;border-radius:999px;padding:5px 7px;white-space:nowrap}
+.availableTag{color:var(--accent);background:var(--accent-soft)}
+.unavailableTag{color:var(--muted);background:var(--bg);border:1px solid var(--line)}
+.directoryNote{font-size:10px;line-height:1.55;color:var(--muted);margin:10px 0 0}
