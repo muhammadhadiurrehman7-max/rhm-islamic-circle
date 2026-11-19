@@ -91,6 +91,7 @@ export default function QuranPage() {
   const [selectedTranslation, setSelectedTranslation] = useState("ur.jalandhry");
   const [translationsLoading, setTranslationsLoading] = useState(true);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [themeReady, setThemeReady] = useState(false);
   const [autoNextSurah, setAutoNextSurah] = useState(true);
   const [continueAfterSurah, setContinueAfterSurah] = useState(false);
   const [playbackStatus, setPlaybackStatus] = useState("");
@@ -195,6 +196,7 @@ export default function QuranPage() {
     const syncTheme = () => {
       const savedTheme = window.localStorage.getItem("rhm-site-theme") ?? window.localStorage.getItem("rhm-quran-theme");
       if (savedTheme === "dark" || savedTheme === "light") setTheme(savedTheme);
+      setThemeReady(true);
     };
     syncTheme();
     window.addEventListener("rhm-theme-change", syncTheme);
@@ -202,12 +204,13 @@ export default function QuranPage() {
   }, []);
 
   useEffect(() => {
+    if (!themeReady) return;
     document.documentElement.dataset.siteTheme = theme;
     document.documentElement.dataset.quranTheme = theme;
     window.localStorage.setItem("rhm-site-theme", theme);
     window.localStorage.setItem("rhm-quran-theme", theme);
     window.dispatchEvent(new CustomEvent("rhm-theme-change", { detail: theme }));
-  }, [theme]);
+  }, [theme, themeReady]);
 
   useEffect(() => {
     fetch("https://api.alquran.cloud/v1/surah")
