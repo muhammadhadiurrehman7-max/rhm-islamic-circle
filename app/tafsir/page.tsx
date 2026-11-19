@@ -40,7 +40,7 @@ const SCHOLAR_WORKS: Record<Language, ScholarWork[]> = {
 };
 
 function normalise(value: string) {
-  return value.toLowerCase().normalize("NFKD").replace(/[’']/g, "").replace(/[^\\p{L}\\p{N}]+/gu, " ").trim();
+  return value.toLowerCase().normalize("NFKD").replace(/[’']/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 }
 
 const LANGUAGES: { id: Language; label: string; native: string }[] = [
