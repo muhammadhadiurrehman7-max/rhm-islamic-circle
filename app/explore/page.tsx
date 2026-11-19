@@ -38,6 +38,7 @@ const groups: Group[] = [
     intro: "Find practical tools for Salah, remembrance and everyday Muslim life.",
     features: [
       { title: "Prayer centre", description: "Check local prayer times, set Azan reminders and use Qibla guidance.", href: "/prayer-times", label: "Daily worship" },
+      { title: "Islamic calendar", description: "View Hijri months alongside Gregorian dates using Pakistan local time, with moon-sighting guidance.", href: "/islamic-calendar", label: "Hijri dates" },
       { title: "Duas & Azkar", description: "Read supplications with Arabic, meanings and available source references.", href: "/duas" },
       { title: "Daily Muslim life", description: "Learn about Wudu, cleanliness, prayer preparation and everyday guidance.", href: "/daily-life" },
       { title: "Worship tracker", description: "Use a private daily checklist to reflect on your routine.", href: "/worship-tracker" },
