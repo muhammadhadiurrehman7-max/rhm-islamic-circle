@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 const TIME_ZONE = "Asia/Karachi";
@@ -14,17 +14,16 @@ const gregorianFormatter = new Intl.DateTimeFormat("en-PK", {
   timeZone: TIME_ZONE, day: "numeric", month: "short", year: "numeric",
 });
 const weekdayFormatter = new Intl.DateTimeFormat("en", { timeZone: TIME_ZONE, weekday: "short" });
-const todayParts = new Intl.DateTimeFormat("en-CA", {
-  timeZone: TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit",
-}).formatToParts(new Date());
-
 function part(parts: Intl.DateTimeFormatPart[], type: string) {
   return parts.find((item) => item.type === type)?.value ?? "";
 }
 function dateInPakistan() {
-  const year = Number(part(todayParts, "year"));
-  const month = Number(part(todayParts, "month"));
-  const day = Number(part(todayParts, "day"));
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TIME_ZONE, year: "numeric", month: "2-digit", day: "2-digit",
+  }).formatToParts(new Date());
+  const year = Number(part(parts, "year"));
+  const month = Number(part(parts, "month"));
+  const day = Number(part(parts, "day"));
   return new Date(Date.UTC(year, month - 1, day, 12));
 }
 function addDays(date: Date, amount: number) {
@@ -46,9 +45,18 @@ function getMonthStart(anchor: Date) {
 }
 
 export default function IslamicCalendarPage() {
-  const today = useMemo(() => dateInPakistan(), []);
-  const [monthAnchor, setMonthAnchor] = useState(today);
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [today, setToday] = useState<Date | null>(null);
+  const [monthAnchor, setMonthAnchor] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  useEffect(() => {
+    const current = dateInPakistan();
+    setToday(current);
+    setMonthAnchor(current);
+    setSelectedDate(current);
+  }, []);
+  if (!today || !monthAnchor || !selectedDate) {
+    return <main className={styles.page}><section className={styles.hero}><h1>Islamic Calendar</h1><p>Preparing the Hijri calendar…</p></section></main>;
+  }
   const hijriMonth = getHijri(monthAnchor);
   const monthStart = getMonthStart(monthAnchor);
   const calendarStart = addDays(monthStart, -monthStart.getUTCDay());
