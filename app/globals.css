@@ -2626,3 +2626,26 @@ html[data-site-theme="dark"] body main .faith-entry-card.faith-entry-main .faith
   color: #f4e8c9 !important;
   -webkit-text-fill-color: #f4e8c9 !important;
 }
+
+
+/* Tafsir library: searchable, clearly attributed, and readable in both themes */
+.quran-page .tafsir-library{margin:1rem 0;padding:1rem;border:1px solid var(--line,#d8dfd7);border-radius:16px;background:var(--surface,#fff);color:var(--ink,#173b30)}
+.quran-page .tafsir-library-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.quran-page .tafsir-library-heading h3{margin:.25rem 0;font-size:1.12rem;color:var(--ink,#173b30)}
+.quran-page .tafsir-count{font-size:.82rem;font-weight:700;color:var(--muted,#617267)}
+.quran-page .tafsir-search{width:100%;min-height:44px;margin:.35rem 0 .7rem;padding:.7rem .85rem;border:1px solid var(--line,#d8dfd7);border-radius:10px;background:var(--surface,#fff);color:var(--ink,#173b30);font:inherit}
+.quran-page .tafsir-library-actions{display:flex;gap:.55rem;flex-wrap:wrap}
+.quran-page .tafsir-source-option{color:var(--ink,#173b30)}
+.quran-page .tafsir-source-option strong{display:block;color:var(--ink,#173b30)}
+.quran-page .tafsir-source-option small{display:block;margin-top:.15rem;color:var(--muted,#617267)}
+.quran-page .ayah-tafsir-source{display:block;margin-top:.65rem;color:var(--muted,#617267);font-size:.76rem;line-height:1.5}
+html[data-site-theme="dark"] .quran-page .tafsir-library{--surface:#142b43;--ink:#f1f5fb;--muted:#c3d0df;--line:#35516b;background:#142b43;color:#f1f5fb}
+html[data-site-theme="dark"] .quran-page .tafsir-library h3,
+html[data-site-theme="dark"] .quran-page .tafsir-source-option,
+html[data-site-theme="dark"] .quran-page .tafsir-source-option strong{color:#f1f5fb}
+html[data-site-theme="dark"] .quran-page .tafsir-search{background:#0d2034;color:#f1f5fb;border-color:#49647d}
+html[data-site-theme="dark"] .quran-page .tafsir-source-option{background:#19334e;border-color:#49647d}
+html[data-site-theme="dark"] .quran-page .tafsir-source-option small,
+html[data-site-theme="dark"] .quran-page .tafsir-count,
+html[data-site-theme="dark"] .quran-page .ayah-tafsir-source{color:#c3d0df}
+@media(max-width:640px){.quran-page .tafsir-library{padding:.8rem}.quran-page .tafsir-library-actions .reader-tool-button{flex:1}}
