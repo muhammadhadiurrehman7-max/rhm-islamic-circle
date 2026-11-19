@@ -97,6 +97,7 @@ export default function OfflineQuranPage() {
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [lastRead, setLastRead] = useState("");
   const [storageEstimate, setStorageEstimate] = useState<{ usage?: number; quota?: number } | null>(null);
+  const [audioObjectUrl, setAudioObjectUrl] = useState("");
   const cancelRef = useRef(false);
 
   async function refreshLibrary() {
@@ -196,6 +197,7 @@ export default function OfflineQuranPage() {
     setLastRead(key); localStorage.setItem("rhm-quran-last-read", key);
   }
   const selectedAudio = audioSaved.find((item) => item.surah === selected && item.reciter === reciter);
+  useEffect(() => { if (!selectedAudio) { setAudioObjectUrl(""); return; } const url = URL.createObjectURL(selectedAudio.blob); setAudioObjectUrl(url); return () => URL.revokeObjectURL(url); }, [selectedAudio]);
   const selectedSurahMeta = catalogue.find((item) => item.number === selected);
 
   return (
@@ -262,7 +264,7 @@ export default function OfflineQuranPage() {
           </label>
           <button className={styles.primary} disabled={busy || !online || !catalogue.length || !!selectedAudio} onClick={() => downloadAudio(selected)}>{selectedAudio ? "Audio saved on this device" : "Download selected audio"}</button>
         </div>
-        {selectedAudio && <audio className={styles.audio} controls preload="metadata" src={URL.createObjectURL(selectedAudio.blob)} />}
+        {selectedAudio && <audio className={styles.audio} controls preload="metadata" src={audioObjectUrl} />}
         {!!audioSaved.length && <div className={styles.downloadList}>{audioSaved.map((item) => <div key={item.id}><span>Surah {item.surah} · {AUDIO_RECITERS.find((reader) => reader.id === item.reciter)?.name || item.reciter} · {formatBytes(item.blob.size)}</span><button className={styles.textButton} onClick={() => removeAudio(item)}>Remove</button></div>)}</div>}
       </section>
 
@@ -271,10 +273,10 @@ export default function OfflineQuranPage() {
         {active.ayahs.map((ayah, index) => {
           const translation = active.translation[index];
           const key = `${active.id}:${ayah.numberInSurah}`;
-          return <article className={styles.ayah} key={ayah.number}>
+          return <article className={styles.ayah} id={`offline-ayah-${ayah.numberInSurah}`} key={ayah.number}>
             <div className={styles.ayahTop}><span>Ayah {ayah.numberInSurah}</span><div><button className={styles.textButton} onClick={() => saveBookmark(ayah.numberInSurah)}>{bookmarks.includes(key) ? "★ Bookmarked" : "☆ Bookmark"}</button><button className={styles.textButton} onClick={() => setReadingPosition(ayah.numberInSurah)}>Last read</button></div></div>
             <p className={styles.arabic} lang="ar" dir="rtl">{ayah.text}</p>
-            <p className={styles.translation} dir={language === "ur" ? "rtl" : "ltr"} lang={language}>{translation?.text || "Translation not available in this saved edition."}</p>
+            <p className={styles.translation} dir={active.translationId.startsWith("ur.") ? "rtl" : "ltr"} lang={active.translationId.startsWith("ur.") ? "ur" : "en"}>{translation?.text || "Translation not available in this saved edition."}</p>
           </article>;
         })}
       </section>}
