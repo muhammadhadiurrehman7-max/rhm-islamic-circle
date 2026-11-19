@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Dua = {
   id: string;
@@ -136,7 +136,7 @@ export default function DailyDuasPage() {
   }, [query, category]);
 
   return (
-    <main className="quran-page duas-page" data-theme="light">
+    <main className="quran-page duas-page" data-theme={theme}>
       <header className="quran-topbar">
         <a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</a>
         <div className="quran-top-actions"><a className="quran-home-link" href="/hadith">Hadith library</a><a className="quran-home-link" href="/">Home</a></div>
