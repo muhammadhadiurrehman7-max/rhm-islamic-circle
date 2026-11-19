@@ -49,14 +49,17 @@ html[data-site-theme="dark"] .brand-copy small { color:#e3c98f; }
 .quran-page { min-height:100vh; background:#fbfaf6; }
 .quran-topbar { display:flex; align-items:center; justify-content:space-between; padding:18px clamp(20px,6vw,88px); background:#fff; border-bottom:1px solid #e9eee9; }
 .quran-brand { display:flex; align-items:center; gap:12px; font-weight:700; }
-.quran-home-link { color:#53675e; font-size:14px; }
+.quran-home-link { color:#53675e; font-size:14px; text-decoration:none; background:transparent; border:0; padding:6px 2px; cursor:pointer; font:inherit; }
+.quran-home-link:hover { color:#9b783e; text-decoration:underline; }
 .quran-heading { text-align:center; padding:58px 20px 34px; background:linear-gradient(135deg,#f8f8f1,#edf3ed); }
 .quran-heading h1 { margin:12px 0; font:600 clamp(34px,5vw,54px)/1.12 "Playfair Display",serif; color:#17352d; }
 .quran-heading p { max-width:620px; margin:0 auto; color:#62756c; line-height:1.7; }
 .quran-reader { width:min(900px,calc(100% - 32px)); margin:30px auto 60px; padding:clamp(18px,4vw,34px); background:#fff; border:1px solid #e8ede8; border-radius:22px; box-shadow:0 12px 40px rgba(23,53,45,.05); }
 .quran-controls { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding-bottom:22px; border-bottom:1px solid #edf0ec; }
 .quran-controls label { font-size:14px; font-weight:700; }
-.quran-controls select { flex:1; min-width:220px; padding:12px 14px; border:1px solid #d9e3dc; border-radius:12px; background:#fff; color:#17352d; font:inherit; }
+.quran-controls select,.quran-controls input[type="search"] { flex:1; min-width:220px; padding:12px 14px; border:1px solid #d9e3dc; border-radius:12px; background:#fff; color:#17352d; font:inherit; }
+.quran-controls input[type="search"]::placeholder { color:#718078; opacity:1; }
+.quran-controls input[type="search"]:focus,.quran-controls select:focus { outline:3px solid rgba(181,138,59,.25); border-color:#9b783e; }
 .quran-count { color:#687b73; font-size:13px; }
 .quran-status,.quran-error { padding:28px 10px; text-align:center; color:#687b73; }
 .quran-error { color:#9b3c32; }
