@@ -579,7 +579,7 @@ useEffect(() => {
         <h1>Read. Reflect. Return.</h1>
         <p>Read every Ayah in Arabic, listen verse by verse, and choose Urdu or another available translation language. Open to everyone, without sign-in.</p>
       </section>
-      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran" aria-current="page">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
+      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran" aria-current="page">Qur’an</a><a href="/tafsir">Tafsir Library</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
       <section className="faith-centre" aria-labelledby="faith-centre-title">
         <div className="faith-centre-heading">
           <span className="eyebrow">RHM Islamic learning</span>
