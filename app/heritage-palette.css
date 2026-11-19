@@ -189,3 +189,171 @@ html[data-site-theme="dark"] body .site-header .nav-actions .btn-primary {
   background:linear-gradient(120deg,#e8d7ae,#c49a50) !important;
   border:1px solid #e8d7ae !important;
 }
+
+
+/* RHM blue-and-gold identity — replaces the former emerald interface accents.
+   Keep gold for sacred/heritage emphasis and preserve natural photographic colours. */
+:root {
+  --green: #174b7a;
+  --mint: #e8f1f8;
+  --ink: #172b3d;
+  --muted: #536b7e;
+  --rhm-light-ink: #172b3d;
+  --rhm-light-muted: #4d6275;
+  --rhm-light-link: #185f99;
+  --rhm-light-border: #cbd9e5;
+  --rhm-light-surface: #fbfdff;
+  --rhm-dark-ink: #f1f6fb;
+  --rhm-dark-muted: #c4d2df;
+  --rhm-dark-link: #9bc9f0;
+  --rhm-dark-border: #40566b;
+  --rhm-dark-surface: #1b2b3a;
+  --rhm-madinah-green: #173f62;
+  --rhm-madinah-emerald: #2878b8;
+  --rhm-madinah-sage: #e7f0f8;
+}
+html[data-site-theme="light"] body {
+  background-color: #f3f7fb;
+  color: #172b3d;
+}
+html[data-site-theme="light"] body::before {
+  background:
+    linear-gradient(135deg,rgba(246,250,254,.96),rgba(231,240,248,.94)),
+    repeating-linear-gradient(45deg,transparent 0 54px,rgba(40,120,184,.025) 55px 56px,transparent 57px 110px);
+}
+html[data-site-theme="dark"] body {
+  background-color: #101d2a;
+  color: #f1f6fb;
+}
+html[data-site-theme="dark"] body::before {
+  background:
+    linear-gradient(135deg,rgba(12,23,35,.97),rgba(20,35,50,.97)),
+    repeating-linear-gradient(45deg,transparent 0 54px,rgba(211,177,112,.045) 55px 56px,transparent 57px 110px);
+}
+/* Shared navigation and identity marks */
+html[data-site-theme="light"] body :is(.site-header,.quran-topbar,.topbar,.header) {
+  background:linear-gradient(105deg,#fbfdff 0%,#eaf2f9 100%);
+  border-bottom:2px solid #b58a3b;
+}
+html[data-site-theme="dark"] body :is(.site-header,.quran-topbar,.topbar,.header) {
+  background:linear-gradient(105deg,#101d2a 0%,#1b3044 100%);
+  border-bottom:2px solid #b58a3b;
+}
+html[data-site-theme="light"] body .brand-mark {
+  color:#fff;
+  background:linear-gradient(145deg,#173f62,#102d49);
+  box-shadow:0 3px 12px rgba(23,63,98,.2);
+}
+html[data-site-theme="dark"] body .brand-mark {
+  color:#fff7e4;
+  background:linear-gradient(145deg,#2878b8,#173f62);
+  border:1px solid #c49a50;
+}
+html[data-site-theme="light"] body .nav-links,
+html[data-site-theme="light"] body .nav-links a { color:#244d70; }
+html[data-site-theme="dark"] body .nav-links,
+html[data-site-theme="dark"] body .nav-links a { color:#e2edf7; }
+
+/* Primary actions, selected states and interactive controls */
+html[data-site-theme="light"] body :is(.btn-primary,.home-explore-link .btn) {
+  color:#fff !important;
+  background:linear-gradient(120deg,#173f62,#2878b8) !important;
+  border-color:#b58a3b !important;
+}
+html[data-site-theme="dark"] body :is(.btn-primary,.home-explore-link .btn) {
+  color:#102033 !important;
+  background:linear-gradient(120deg,#e8d7ae,#c49a50) !important;
+  border-color:#e8d7ae !important;
+}
+html[data-site-theme="light"] body :is(.feature-icon,.faith-entry-icon,.discover-topic-icon,.donation-method-icon) {
+  color:#174b7a !important;
+  background:#e8f1f8 !important;
+  border-color:#bfd2e2 !important;
+}
+html[data-site-theme="dark"] body :is(.feature-icon,.faith-entry-icon,.discover-topic-icon,.donation-method-icon) {
+  color:#dceeff !important;
+  background:#203d57 !important;
+  border-color:#6686a3 !important;
+}
+html[data-site-theme="light"] body :is(.site-theme-toggle,.theme-toggle) {
+  color:#173f62 !important;
+  background:#eaf2f9 !important;
+  border-color:#b58a3b !important;
+}
+html[data-site-theme="dark"] body :is(.site-theme-toggle,.theme-toggle) {
+  color:#f5eddb !important;
+  background:#20384d !important;
+  border-color:#b58a3b !important;
+}
+html[data-site-theme="light"] body :is(.eyebrow,.section-kicker,.hero-note,.quran-count) { color:#76531e; }
+html[data-site-theme="dark"] body :is(.eyebrow,.section-kicker,.hero-note,.quran-count) { color:#e6c887; }
+
+/* Replace green feature panels and hero callouts without recolouring photographs. */
+html[data-site-theme="light"] body :is(.daily,.daily-tool-primary,.faith-entry-main,.prayer-hero,.dark-panel,.guidance-section,.share-learning-section) {
+  background:linear-gradient(135deg,#173f62,#1d5c8c 68%,#2878b8) !important;
+  border-color:#b58a3b !important;
+}
+html[data-site-theme="dark"] body :is(.daily,.daily-tool-primary,.faith-entry-main,.prayer-hero,.dark-panel,.guidance-section,.share-learning-section) {
+  background:linear-gradient(135deg,#102337,#173f62 68%,#1d5c8c) !important;
+  border-color:#b58a3b !important;
+}
+html[data-site-theme="light"] body :is(.faith-entry-section,.faith-entry-main) { border-color:#c5d6e5; }
+html[data-site-theme="dark"] body :is(.faith-entry-section,.faith-entry-main) { border-color:#405d76; }
+
+/* Learning-space navigation and active links */
+html[data-site-theme="light"] body .learning-space-nav {
+  background:rgba(248,251,254,.97);
+  border-color:#cbd9e5;
+}
+html[data-site-theme="light"] body .learning-space-nav a { color:#294e6c; }
+html[data-site-theme="light"] body .learning-space-nav a[aria-current="page"] {
+  color:#fff;
+  background:#173f62;
+}
+html[data-site-theme="dark"] body .learning-space-nav {
+  background:rgba(20,36,51,.97);
+  border-color:#40566b;
+}
+html[data-site-theme="dark"] body .learning-space-nav a { color:#d9e8f5; }
+html[data-site-theme="dark"] body .learning-space-nav a[aria-current="page"] {
+  color:#102033;
+  background:#e8d7ae;
+}
+
+/* Qur'an reader has its own local theme state; align it with the site palette. */
+.quran-page {
+  --q-bg:#f3f7fb;
+  --q-surface:#eaf2f9;
+  --q-card:#fbfdff;
+  --q-ink:#172b3d;
+  --q-muted:#536b7e;
+  --q-border:#cbd9e5;
+  --q-gold:#b58a3b;
+}
+.quran-page[data-theme="dark"] {
+  --q-bg:#101d2a;
+  --q-surface:#17283a;
+  --q-card:#1b2b3a;
+  --q-ink:#f1f6fb;
+  --q-muted:#c4d2df;
+  --q-border:#40566b;
+  --q-gold:#d9b878;
+}
+.quran-page .quran-footer { background:#102d49; }
+.quran-page .quran-controls input[type="search"]:focus,
+.quran-page .quran-controls select:focus { outline-color:rgba(40,120,184,.28); border-color:#2878b8; }
+.quran-page .ayah-number { background:#e8f1f8; color:#174b7a; }
+.quran-page[data-theme="dark"] .ayah-number { background:#203d57; color:#e4f1fc; }
+
+/* Common link colour: blue in light mode, pale blue in dark mode; gold remains decorative. */
+html[data-site-theme="light"] body a:not(.btn):not(.site-theme-toggle) { text-decoration-color:rgba(24,95,153,.35); }
+html[data-site-theme="dark"] body a:not(.btn):not(.site-theme-toggle) { text-decoration-color:rgba(155,201,240,.4); }
+html[data-site-theme="light"] body :is(.quran-home-link,.quran-page .quran-home-link) { color:#315d80; }
+html[data-site-theme="dark"] body :is(.quran-home-link,.quran-page .quran-home-link) { color:#c6def2; }
+
+/* Preserve warm gold as a secondary heritage accent and keep focus rings visible. */
+html[data-site-theme="light"] body :is(a,button,input,select,textarea):focus-visible,
+html[data-site-theme="dark"] body :is(a,button,input,select,textarea):focus-visible {
+  outline:3px solid #c49a50;
+  outline-offset:3px;
+}
