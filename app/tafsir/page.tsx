@@ -15,7 +15,7 @@ const LANGUAGES: { id: Language; label: string; native: string }[] = [
 ];
 
 function cleanText(value: string) {
-  return value.replace(/<\\/(p|div|h[1-6]|li|br)\\s*>/gi, "\\n\\n").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
+  return value.replace(/<\/(p|div|h[1-6]|li|br)\\s*>/gi, "\n\n").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
 }
 
 export default function TafsirLibraryPage() {
@@ -137,6 +137,7 @@ export default function TafsirLibraryPage() {
     if (!selectedSurah || next < 1 || next > selectedSurah.numberOfAyahs) return;
     setAyah(next);
     setPassages([]);
+    setArabicAyah("");
     setPassageError("");
   }
 
