@@ -121,7 +121,9 @@ export default function OfflineQuranPage() {
   }, []);
 
   const filteredCatalogue = useMemo(() => catalogue.filter((item) => `${item.number} ${item.name} ${item.englishName}`.toLowerCase().includes(query.toLowerCase())), [catalogue, query]);
-  const totalSavedBytes = useMemo(() => saved.reduce((sum, item) => sum + new Blob([JSON.stringify(item)]).size, 0) + audioSaved.reduce((sum, item) => sum + item.blob.size, 0), [saved, audioSaved]);
+  const savedTextBytes = useMemo(() => saved.reduce((sum, item) => sum + new Blob([JSON.stringify(item)]).size, 0), [saved]);
+  const savedAudioBytes = useMemo(() => audioSaved.reduce((sum, item) => sum + item.blob.size, 0), [audioSaved]);
+  const totalSavedBytes = savedTextBytes + savedAudioBytes;
   const selectedTranslationId = TRANSLATIONS[language].id;
   const savedForSelectedTranslation = saved.filter((item) => item.translationId === selectedTranslationId);
   const savedIds = new Set(savedForSelectedTranslation.map((item) => item.id));
@@ -298,11 +300,22 @@ export default function OfflineQuranPage() {
         {lastRead && <button className={styles.secondary} onClick={() => { const [surah, ayah] = lastRead.split(":").map(Number); openSaved(surah).then(() => setTimeout(() => document.getElementById(`offline-ayah-${ayah}`)?.scrollIntoView({ behavior: "smooth" }), 100)); }}>Continue from last read</button>}
       </section>
 
-      <section className={styles.panel}>
-        <div className={styles.sectionHeading}><div><h2>Storage & download management</h2><p>Remove saved text or audio when you need device space.</p></div></div>
-        <p>Browser storage estimate: {storageEstimate?.usage ? formatBytes(storageEstimate.usage) : "Not available"} used of {storageEstimate?.quota ? formatBytes(storageEstimate.quota) : "unknown quota"}. This includes other website data where the browser reports it.</p>
-        <div className={styles.downloadList}>{saved.map((item) => <div key={item.id}><span>Surah {item.id} · {item.englishName} · {item.ayahs.length} Ayahs</span><button className={styles.textButton} onClick={() => removeSurah(item.id)}>Remove</button></div>)}</div>
-        <p className={styles.note}>Keep this browser's site data to retain downloads. Clearing browser data, using private browsing, or switching devices may remove access to this offline library. Downloaded translations and audio are for personal use; source availability and reuse permissions can differ.</p>
+      <section className={styles.panel} id="offline-download-management">
+        <div className={styles.sectionHeading}><div><h2>Storage & download management</h2><p>See exactly what RHM has saved on this device. Remove individual downloads whenever you need space.</p></div></div>
+        <div className={styles.stats}>
+          <div><strong>{saved.length}</strong><span>Qur'an text Surahs saved</span></div>
+          <div><strong>{audioSaved.length}</strong><span>Recitation audio files saved</span></div>
+          <div><strong>{formatBytes(totalSavedBytes)}</strong><span>Total RHM offline library</span></div>
+        </div>
+        <div className={styles.stats}>
+          <div><strong>{formatBytes(savedTextBytes)}</strong><span>Saved Arabic text and translation</span></div>
+          <div><strong>{formatBytes(savedAudioBytes)}</strong><span>Saved recitation audio</span></div>
+        </div>
+        <h3>Manage saved Qur'an text</h3>
+        {saved.length ? <div className={styles.downloadList}>{saved.map((item) => <div key={item.id}><span>Surah {item.id} · {item.englishName} · {item.ayahs.length} Ayahs · {formatBytes(new Blob([JSON.stringify(item)]).size)}</span><button className={styles.textButton} onClick={() => removeSurah(item.id)}>Remove</button></div>)}</div> : <p className={styles.note}>No Qur'an text downloads are stored on this device yet.</p>}
+        <p className={styles.note}>Your saved audio files can be managed in the Offline recitation audio section above. Removing a download only removes that selected file from this device; it does not affect the original Qur'an source.</p>
+        <p className={styles.note}>Browser storage information (not RHM-only): {storageEstimate?.usage ? formatBytes(storageEstimate.usage) : "Not available"} used of {storageEstimate?.quota ? formatBytes(storageEstimate.quota) : "an unknown limit"}. This estimate may include data from other websites, so it is different from the RHM library size shown above.</p>
+        <p className={styles.note}>Keep this browser's site data to retain offline downloads. Clearing browser data, using private browsing, or switching devices may remove access to this library. Downloaded translations and audio are intended for personal offline use; source availability and reuse permissions may differ.</p>
       </section>
 
       {(status || error) && <div role="status" className={error ? styles.error : styles.status}>{error || status}</div>}
