@@ -59,7 +59,7 @@ export default function Home() {
         <nav id="primary-navigation" className={`nav-links${mobileMenuOpen ? " is-open" : ""}`} aria-label="Main navigation">
           <a onClick={() => setMobileMenuOpen(false)} href="/">Home</a><a onClick={() => setMobileMenuOpen(false)} href="/quran">Qur’an</a><a onClick={() => setMobileMenuOpen(false)} href="/academy">Learn</a><a onClick={() => setMobileMenuOpen(false)} href="/explore#practice">Practice</a><a onClick={() => setMobileMenuOpen(false)} href="/my-rhm">My RHM</a><a onClick={() => setMobileMenuOpen(false)} href="/explore">Explore all</a>
         </nav>
-        <div className="nav-actions"><a className="btn btn-light" href="/explore">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
+        <div className="nav-actions"><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
 
       <div id="main-content" tabIndex={-1}>
@@ -119,10 +119,7 @@ export default function Home() {
         <a href="/quran"><span className="ribbon-symbol">۩</span><span><strong>Qur’an & reflection</strong><small>Read, listen and understand</small></span><span className="ribbon-arrow">↗</span></a>
       </section>
 
-      <section className="academy-home-promo" aria-labelledby="academy-home-title" hidden>
-        <div className="academy-promo-emblem" aria-hidden="true">۞</div>
-        <div className="academy-promo-copy"><span className="eyebrow">Your learning journey, all in one place</span><h2 id="academy-home-title">Explore the RHM Islam 360 Learning Academy</h2><p>Follow guided pathways through Qur’an, Tajweed, Arabic, Hadith, Duas, worship and Islamic heritage — all within RHM Islam 360.</p><a className="btn btn-primary" href="/academy">Enter the Learning Academy ↗</a></div>
-      </section>
+
 
       <section className="faith-entry-section" aria-labelledby="faith-entry-title">
         <div className="faith-entry-heading">
