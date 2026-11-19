@@ -189,3 +189,99 @@ html[data-site-theme="dark"] body .site-header .nav-actions .btn-primary {
   background:linear-gradient(120deg,#e8d7ae,#c49a50) !important;
   border:1px solid #e8d7ae !important;
 }
+
+
+/* Qur'an page: "More from RHM" section — explicit contrast in both themes. */
+html[data-site-theme="light"] body .faith-resources {
+  background:linear-gradient(180deg,#f2f5ed 0%,#fbf8ef 100%) !important;
+  color:#20392e !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resources-heading .eyebrow {
+  color:#79551e !important;
+  -webkit-text-fill-color:#79551e !important;
+  opacity:1 !important;
+  font-weight:800 !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resources-heading h2 {
+  color:#173f30 !important;
+  -webkit-text-fill-color:#173f30 !important;
+  opacity:1 !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resources-heading p {
+  color:#40594b !important;
+  -webkit-text-fill-color:#40594b !important;
+  opacity:1 !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resource-card {
+  background:#fffdf8 !important;
+  color:#243c30 !important;
+  border:1px solid #c9d8c8 !important;
+  box-shadow:0 8px 22px rgba(25,62,44,.08) !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resource-card h3 {
+  color:#173f30 !important;
+  -webkit-text-fill-color:#173f30 !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resource-card p {
+  color:#40594b !important;
+  -webkit-text-fill-color:#40594b !important;
+  opacity:1 !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resource-card strong {
+  color:#765016 !important;
+  -webkit-text-fill-color:#765016 !important;
+  opacity:1 !important;
+  font-weight:800 !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resource-card > span {
+  color:#14543f !important;
+  -webkit-text-fill-color:#14543f !important;
+}
+html[data-site-theme="dark"] body .faith-resources {
+  background:linear-gradient(180deg,#111d16 0%,#17251c 100%) !important;
+  color:#f4eddf !important;
+}
+html[data-site-theme="dark"] body .faith-resources .faith-resources-heading .eyebrow {
+  color:#e5c98c !important;
+  -webkit-text-fill-color:#e5c98c !important;
+  opacity:1 !important;
+}
+html[data-site-theme="dark"] body .faith-resources .faith-resources-heading h2 {
+  color:#f7f0e2 !important;
+  -webkit-text-fill-color:#f7f0e2 !important;
+  opacity:1 !important;
+}
+html[data-site-theme="dark"] body .faith-resources .faith-resources-heading p {
+  color:#d6dfd5 !important;
+  -webkit-text-fill-color:#d6dfd5 !important;
+  opacity:1 !important;
+}
+html[data-site-theme="dark"] body .faith-resources .faith-resource-card {
+  background:linear-gradient(145deg,#20382b,#192b21) !important;
+  color:#f4eddf !important;
+  border:1px solid #637d67 !important;
+  box-shadow:0 10px 25px rgba(0,0,0,.22) !important;
+}
+html[data-site-theme="dark"] body .faith-resources .faith-resource-card h3 {
+  color:#fff5df !important;
+  -webkit-text-fill-color:#fff5df !important;
+}
+html[data-site-theme="dark"] body .faith-resources .faith-resource-card p {
+  color:#e0e8dc !important;
+  -webkit-text-fill-color:#e0e8dc !important;
+  opacity:1 !important;
+}
+html[data-site-theme="dark"] body .faith-resources .faith-resource-card strong,
+html[data-site-theme="dark"] body .faith-resources .faith-resource-card > span {
+  color:#e8cf98 !important;
+  -webkit-text-fill-color:#e8cf98 !important;
+  opacity:1 !important;
+}
+html[data-site-theme="light"] body .faith-resources .faith-resource-card:focus-visible,
+html[data-site-theme="dark"] body .faith-resources .faith-resource-card:focus-visible {
+  outline:3px solid #c49a50 !important;
+  outline-offset:3px !important;
+}
+@media(max-width:720px) {
+  .faith-resource-grid { grid-template-columns:1fr !important; }
+}
