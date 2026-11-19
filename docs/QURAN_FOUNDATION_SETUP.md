@@ -16,7 +16,7 @@ In the Vercel project `rhm-islamic-circle`, open Settings → Environment Variab
 - `QF_CLIENT_ID` — the app client ID
 - `QF_CLIENT_SECRET` — the private app secret
 - `QF_ENV` — `production` after production access is approved, or `prelive` while testing
-- `QF_SCOPE` — optional; defaults to `content`, but use approved granular scopes if your app requires them
+- `QF_SCOPE` — optional; defaults to `content` for existing credentials. For a new backend app using granular permissions, use the approved scopes required by the endpoints (for the Tafsir catalogue and verse passages, normally `content.tafsirs.read content.quran.read`)
 
 Apply to Preview and Production as appropriate, then redeploy. Do not paste the secret into GitHub or ChatGPT.
 
