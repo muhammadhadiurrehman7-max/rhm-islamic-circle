@@ -122,7 +122,9 @@ export default function OfflineQuranPage() {
 
   const filteredCatalogue = useMemo(() => catalogue.filter((item) => `${item.number} ${item.name} ${item.englishName}`.toLowerCase().includes(query.toLowerCase())), [catalogue, query]);
   const totalSavedBytes = useMemo(() => saved.reduce((sum, item) => sum + new Blob([JSON.stringify(item)]).size, 0) + audioSaved.reduce((sum, item) => sum + item.blob.size, 0), [saved, audioSaved]);
-  const savedIds = new Set(saved.map((item) => item.id));
+  const selectedTranslationId = TRANSLATIONS[language].id;
+  const savedForSelectedTranslation = saved.filter((item) => item.translationId === selectedTranslationId);
+  const savedIds = new Set(savedForSelectedTranslation.map((item) => item.id));
   const offlineMatches = useMemo(() => { const term = offlineSearch.trim().toLocaleLowerCase(); if (term.length < 2) return []; return saved.flatMap((surah) => surah.ayahs.flatMap((ayah, index) => { const translation = surah.translation[index]?.text || ""; return ayah.text.toLocaleLowerCase().includes(term) || translation.toLocaleLowerCase().includes(term) ? [{ surah, ayah, translation }] : []; })).slice(0, 80); }, [saved, offlineSearch]);
   const audioId = (surah: number, reader: string) => `${surah}:${reader}`;
 
@@ -214,7 +216,7 @@ export default function OfflineQuranPage() {
         <h1>Your Qur'an library, even without internet</h1>
         <p>Download Arabic Qur'an text with one chosen translation to this device. Once saved, open and read those Surahs without a connection. Downloads stay in this browser and are not automatically synced to another device.</p>
         <div className={styles.stats}>
-          <div><strong>{saved.length}/114</strong><span>Surahs saved</span></div>
+          <div><strong>{savedForSelectedTranslation.length}/114</strong><span>Surahs saved in selected translation</span></div>
           <div><strong>{audioSaved.length}</strong><span>Audio files saved</span></div>
           <div><strong>{formatBytes(totalSavedBytes)}</strong><span>Estimated library size</span></div>
         </div>
@@ -229,7 +231,7 @@ export default function OfflineQuranPage() {
               <option value="en">English — Saheeh International</option>
             </select>
           </label>
-          <button className={styles.primary} disabled={busy || !catalogue.length || saved.length === 114} onClick={downloadAll}>{busy ? "Working…" : saved.length === 114 ? "All 114 Surahs saved" : "Download complete Qur'an text"}</button>
+          <button className={styles.primary} disabled={busy || !catalogue.length || savedForSelectedTranslation.length === 114} onClick={downloadAll}>{busy ? "Working…" : saved.length === 114 ? "All 114 Surahs saved" : "Download complete Qur'an text"}</button>
           {busy && progress.total > 0 && <button className={styles.secondary} onClick={() => { cancelRef.current = true; }}>Pause after current Surah</button>}
         </div>
         {progress.total > 0 && <div className={styles.progressWrap}><div className={styles.progressText}><span>{progress.label}</span><strong>{progress.done}/{progress.total}</strong></div><progress value={progress.done} max={progress.total}/></div>}
