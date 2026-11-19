@@ -57,7 +57,7 @@ export default function Home() {
         <a className="brand" href="/" aria-label="RHM Islam 360 — Rehmat, Hidayat and Ma’rifat"><span className="brand-mark">ر</span><span className="brand-copy"><strong>RHM Islam 360</strong><small>Rehmat • Hidayat • Ma’rifat</small></span></a>
         <button className="mobile-menu-toggle" type="button" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen((open) => !open)}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span><span>{mobileMenuOpen ? "Close" : "Menu"}</span></button>
         <nav id="primary-navigation" className={`nav-links${mobileMenuOpen ? " is-open" : ""}`} aria-label="Main navigation">
-          <a onClick={() => setMobileMenuOpen(false)} href="/">Home</a><a onClick={() => setMobileMenuOpen(false)} href="/quran">Qur’an</a><a onClick={() => setMobileMenuOpen(false)} href="/explore">Explore</a><a onClick={() => setMobileMenuOpen(false)} href="/academy">Academy</a><a onClick={() => setMobileMenuOpen(false)} href="/my-rhm">My RHM</a><a onClick={() => setMobileMenuOpen(false)} href="/companion">Companion</a>
+          <a onClick={() => setMobileMenuOpen(false)} href="/">Home</a><a onClick={() => setMobileMenuOpen(false)} href="/quran">Qur’an</a><a onClick={() => setMobileMenuOpen(false)} href="/academy">Learn</a><a onClick={() => setMobileMenuOpen(false)} href="/explore#practice">Practice</a><a onClick={() => setMobileMenuOpen(false)} href="/my-rhm">My RHM</a><a onClick={() => setMobileMenuOpen(false)} href="/explore">Explore all</a>
         </nav>
         <div className="nav-actions"><a className="btn btn-light" href="/explore">Explore</a><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
@@ -119,7 +119,7 @@ export default function Home() {
         <a href="/quran"><span className="ribbon-symbol">۩</span><span><strong>Qur’an & reflection</strong><small>Read, listen and understand</small></span><span className="ribbon-arrow">↗</span></a>
       </section>
 
-      <section className="academy-home-promo" aria-labelledby="academy-home-title">
+      <section className="academy-home-promo" aria-labelledby="academy-home-title" hidden>
         <div className="academy-promo-emblem" aria-hidden="true">۞</div>
         <div className="academy-promo-copy"><span className="eyebrow">Your learning journey, all in one place</span><h2 id="academy-home-title">Explore the RHM Islam 360 Learning Academy</h2><p>Follow guided pathways through Qur’an, Tajweed, Arabic, Hadith, Duas, worship and Islamic heritage — all within RHM Islam 360.</p><a className="btn btn-primary" href="/academy">Enter the Learning Academy ↗</a></div>
       </section>
@@ -132,9 +132,9 @@ export default function Home() {
         </div>
         <div className="faith-entry-grid home-primary-grid">
           <a className="faith-entry-card faith-entry-main" href="/quran"><span className="faith-entry-icon">۩</span><span className="faith-entry-label">THE HEART OF RHM</span><h3>Qur’an & Study</h3><p>Read, listen, explore translations and Tafsir, study Tajweed, search reciters and access offline downloads.</p><strong>Open Qur’an study ↗</strong></a>
-          <a className="faith-entry-card" href="/explore#knowledge"><span className="faith-entry-icon">۞</span><h3>Islamic Knowledge</h3><p>Explore Hadith, Duas, the Beautiful Names of Allah, Seerah, heritage and foundations of Islam.</p><strong>Explore knowledge ↗</strong></a>
-          <a className="faith-entry-card" href="/explore#worship"><span className="faith-entry-icon">☾</span><h3>Worship & Daily Life</h3><p>Find prayer times, Qibla, worship guidance, Tasbeeh, Zakat tools and everyday learning.</p><strong>Open worship tools ↗</strong></a>
-          <a className="faith-entry-card" href="/explore#learning"><span className="faith-entry-icon">ا ب</span><h3>Learning & Progress</h3><p>Follow Academy lessons, Qaida, personal learning goals and your own Islamic journey.</p><strong>Continue learning ↗</strong></a>
+          <a className="faith-entry-card" href="/explore#learn"><span className="faith-entry-icon">۞</span><h3>Islamic Knowledge</h3><p>Explore Hadith, Duas, the Beautiful Names of Allah, Seerah, heritage and foundations of Islam.</p><strong>Explore knowledge ↗</strong></a>
+          <a className="faith-entry-card" href="/explore#practice"><span className="faith-entry-icon">☾</span><h3>Worship & Daily Life</h3><p>Find prayer times, Qibla, worship guidance, Tasbeeh, Zakat tools and everyday learning.</p><strong>Open worship tools ↗</strong></a>
+          <a className="faith-entry-card" href="/my-rhm"><span className="faith-entry-icon">ا ب</span><h3>My RHM & Progress</h3><p>Continue your personal learning journey and review the progress saved on this device.</p><strong>Open my dashboard ↗</strong></a>
         </div>
         <div className="home-explore-link"><a className="btn btn-primary" href="/explore">View all RHM features ↗</a></div>
       </section>
