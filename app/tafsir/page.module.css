@@ -29,3 +29,7 @@
 .availableTag{color:var(--accent);background:var(--accent-soft)}
 .unavailableTag{color:var(--muted);background:var(--bg);border:1px solid var(--line)}
 .directoryNote{font-size:10px;line-height:1.55;color:var(--muted);margin:10px 0 0}
+
+.directorySelect{display:flex;align-items:center;gap:5px;color:var(--accent);font-size:10px;font-weight:750;white-space:nowrap;cursor:pointer}
+.directorySelect input{accent-color:var(--accent);margin:0}
+.directorySelect input:disabled{opacity:.4;cursor:not-allowed}
