@@ -50,7 +50,6 @@ export default function MuslimCompanionPage() {
   const [investments, setInvestments] = useState("");
   const [business, setBusiness] = useState("");
   const [debts, setDebts] = useState("");
-  const [language, setLanguage] = useState<"en" | "ur">("en");
 
   useEffect(() => {
     try {
