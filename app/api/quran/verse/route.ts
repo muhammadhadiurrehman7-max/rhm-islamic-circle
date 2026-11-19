@@ -82,7 +82,7 @@ export async function GET(request: Request) {
   if (!/^[a-z]{2}$/.test(language)) {
     return NextResponse.json({ error: "Language must be a two-letter code." }, { status: 400 });
   }
-  if (tafsirs && !/^\\d+(,\\d+)*$/.test(tafsirs)) {
+  if (tafsirs && !/^\d+(,\d+)*$/.test(tafsirs)) {
     return NextResponse.json({ error: "Tafsir resource IDs must be comma-separated numbers." }, { status: 400 });
   }
 
