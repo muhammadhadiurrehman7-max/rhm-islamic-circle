@@ -192,13 +192,21 @@ export default function QuranPage() {
   useEffect(() => { if (preferencesLoaded) window.localStorage.setItem("rhm-quran-font-scale", String(fontScale)); }, [fontScale, preferencesLoaded]);
 
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem("rhm-quran-theme");
-    if (savedTheme === "dark" || savedTheme === "light") setTheme(savedTheme);
+    const syncTheme = () => {
+      const savedTheme = window.localStorage.getItem("rhm-site-theme") ?? window.localStorage.getItem("rhm-quran-theme");
+      if (savedTheme === "dark" || savedTheme === "light") setTheme(savedTheme);
+    };
+    syncTheme();
+    window.addEventListener("rhm-theme-change", syncTheme);
+    return () => window.removeEventListener("rhm-theme-change", syncTheme);
   }, []);
 
   useEffect(() => {
+    document.documentElement.dataset.siteTheme = theme;
     document.documentElement.dataset.quranTheme = theme;
+    window.localStorage.setItem("rhm-site-theme", theme);
     window.localStorage.setItem("rhm-quran-theme", theme);
+    window.dispatchEvent(new CustomEvent("rhm-theme-change", { detail: theme }));
   }, [theme]);
 
   useEffect(() => {
