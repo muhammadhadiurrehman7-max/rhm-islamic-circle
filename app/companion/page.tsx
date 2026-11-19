@@ -7,6 +7,7 @@ const links = [
   { title: "My RHM dashboard", description: "See your saved learning and worship checklist progress in one private place.", href: "/my-rhm", tag: "Personal" },
   { title: "Qur’an & reciters", description: "Read, listen, compare translations and continue your Qur’an study.", href: "/quran", tag: "Worship" },
   { title: "Prayer times & Qibla", description: "Open the prayer centre for local prayer guidance and direction.", href: "/prayer-times", tag: "Worship" },
+  { title: "Islamic calendar", description: "Browse Hijri months and Gregorian dates using Pakistan local time.", href: "/islamic-calendar", tag: "Calendar" },
   { title: "Daily Duas & Azkar", description: "Explore supplications with Arabic, meanings and references.", href: "/duas", tag: "Worship" },
   { title: "Hadith library", description: "Search recognised collections and inspect the source edition.", href: "/hadith", tag: "Knowledge" },
   { title: "Learning Academy", description: "Follow structured Islamic learning and guided lessons.", href: "/academy", tag: "Learning" },
