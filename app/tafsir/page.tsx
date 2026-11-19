@@ -223,7 +223,7 @@ export default function TafsirLibraryPage() {
               {scholarDirectory.map((work) => <div className={styles.directoryItem} key={work.title}>
                 <span className={styles.directoryMark} aria-hidden="true">✦</span>
                 <span className={styles.directoryText}><strong>{work.title}</strong><small>{work.author}</small></span>
-                <span className={work.resource ? styles.availableTag : styles.unavailableTag}>{work.resource ? "Available above" : "Catalogue only"}</span>
+                {work.resource ? <label className={styles.directorySelect}><input type="checkbox" checked={selectedIds.includes(String(work.resource.id))} onChange={() => toggleEdition(String(work.resource!.id))} disabled={!selectedIds.includes(String(work.resource!.id)) && selectedIds.length >= 3} /> Select</label> : <span className={styles.unavailableTag}>Catalogue only</span>}
               </div>)}
               {!scholarDirectory.length && <p className={styles.status}>No scholar or work matches this search.</p>}
             </div>
