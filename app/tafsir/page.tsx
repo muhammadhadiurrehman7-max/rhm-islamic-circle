@@ -176,7 +176,7 @@ export default function TafsirLibraryPage() {
         <section className={styles.reader} aria-labelledby="reader-title">
           <div className={styles.sectionHead}><div><span className={styles.eyebrow}>READ BY REFERENCE</span><h2 id="reader-title">Open a Tafsir passage</h2></div></div>
           <div className={styles.referenceControls}>
-            <label>Surah<select value={surah} onChange={(event) => { setSurah(Number(event.target.value)); setAyah(1); setPassages([]); setPassageError(""); }}>
+            <label>Surah<select value={surah} onChange={(event) => { setSurah(Number(event.target.value)); setAyah(1); setPassages([]); setArabicAyah(""); setPassageError(""); }}>
               {surahs.map((item) => <option key={item.number} value={item.number}>{item.number}. {item.englishName} — {item.name}</option>)}
             </select></label>
             <label>Ayah<input type="number" min="1" max={selectedSurah?.numberOfAyahs || 286} value={ayah} onChange={(event) => setAyah(Math.max(1, Math.min(selectedSurah?.numberOfAyahs || 286, Number(event.target.value) || 1)))} /></label>
