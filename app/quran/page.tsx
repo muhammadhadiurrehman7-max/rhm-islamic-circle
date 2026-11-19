@@ -71,6 +71,18 @@ function cleanTafsirText(value: string) {
   return value.replace(/<\/(p|div|h[1-6]|li|br)\s*>/gi, "\n\n").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
 }
 
+function recommendedTafsirIds(resources: TafsirResource[], language: "ur" | "en") {
+  const priorities = language === "ur"
+    ? [/ibn.?kathir|ibn.?e.?kaseer/i, /bayan.?ul.?quran/i, /sa.?adi/i, /fi.?zilal/i, /tazkir/i]
+    : [/ibn.?kathir/i, /maarif|ma.?arif/i, /jalalayn/i, /mukhtasar/i, /tazkir/i];
+  const selected = priorities
+    .map((pattern) => resources.find((resource) => pattern.test(`${resource.name} ${resource.author_name || ""}`)))
+    .filter((resource): resource is TafsirResource => Boolean(resource))
+    .map((resource) => String(resource.id));
+  const unique = Array.from(new Set(selected)).slice(0, 3);
+  return unique.length ? unique : resources.slice(0, 2).map((resource) => String(resource.id));
+}
+
 export default function QuranPage() {
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [selected, setSelected] = useState(1);
@@ -111,6 +123,7 @@ export default function QuranPage() {
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const [tafsirs, setTafsirs] = useState<TafsirResource[]>([]);
   const [tafsirError, setTafsirError] = useState("");
+  const [tafsirSearchQuery, setTafsirSearchQuery] = useState("");
   const [selectedTafsirs, setSelectedTafsirs] = useState<string[]>([]);
   const [tafsirMode, setTafsirMode] = useState(true);
   const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, TafsirPassage[]>>(new Map());
@@ -258,10 +271,10 @@ export default function QuranPage() {
         const available = (data.tafsirs || data.resources || []) as TafsirResource[];
         const languageResources = available.filter((item) => item.id && (String(item.language_name || "").toLowerCase() === studyLanguage || (studyLanguage === "ur" && String(item.language_name || "").toLowerCase() === "urdu") || (studyLanguage === "en" && String(item.language_name || "").toLowerCase() === "english")));
         setTafsirs(languageResources);
-        const preferred = languageResources.find((item) => /ibn.?kathir/i.test(item.name)) || languageResources[0];
-        if (preferred) setSelectedTafsirs([String(preferred.id)]);
+        const recommended = recommendedTafsirIds(languageResources, studyLanguage);
+        setSelectedTafsirs(recommended.length ? recommended : languageResources.slice(0, 2).map((item) => String(item.id)));
       })
-      .catch(() => { if (active) setTafsirError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Translation remains available; Tafsir needs approved Quran Foundation access and resources.`); });
+      .catch(() => { if (active) setTafsirError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Confirm that the Quran Foundation app has the content.tafsirs.read permission and that the selected environment has valid credentials.`); });
     return () => { active = false; };
   }, [studyLanguage]);
 
@@ -343,6 +356,7 @@ export default function QuranPage() {
   const activeChapterReciter = chapterReciters.find((reader) => String(reader.id) === selectedChapterReciter);
   const filteredChapterReciters = chapterReciters.filter((reader) => `${reader.name} ${reader.moshafName}`.toLocaleLowerCase().includes(fullSurahReciterSearch.trim().toLocaleLowerCase()));
   const filteredAyahReciters = reciters.filter((reader) => `${reader.englishName || ""} ${reader.name || ""} ${reader.identifier}`.toLocaleLowerCase().includes(ayahReciterSearch.trim().toLocaleLowerCase()));
+  const filteredTafsirs = tafsirs.filter((edition) => `${edition.name} ${edition.author_name || ""}`.toLocaleLowerCase().includes(tafsirSearchQuery.trim().toLocaleLowerCase()));
   const surahIsAvailableForChapterReciter = !!activeChapterReciter?.surahs.includes(selected);
   const surahAudioUrl = activeChapterReciter
     ? surahIsAvailableForChapterReciter ? `${activeChapterReciter.server}${String(selected).padStart(3, "0")}.mp3` : ""
@@ -630,16 +644,30 @@ useEffect(() => {
           {!recitersLoading && reciters.length > 0 && <p className="recitation-note" role="status">Showing {filteredAyahReciters.length} of {reciters.length} Ayah-by-Ayah reciters.</p>}
           <p className="recitation-note">The full-Surah catalogue includes additional Qaris and recitation styles. Ayah-by-Ayah playback uses the separate AlQuran Cloud catalogue.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
-          <label className="reciter-label" htmlFor="tafsir-select">{studyLanguage === "ur" ? "Urdu Tafsir sources / اردو تفاسیر" : "English Tafsir sources"}</label>
-          {tafsirs.length > 0 ? <div id="tafsir-select" className="tafsir-source-options" aria-describedby="tafsir-help">
-            {tafsirs.map((edition) => <label className="tafsir-source-option" key={edition.id}>
-              <input type="checkbox" checked={selectedTafsirs.includes(String(edition.id))} onChange={(event) => setSelectedTafsirs((current) => event.target.checked ? [...current, String(edition.id)] : current.filter((id) => id !== String(edition.id)))} />
-              <span><strong>{edition.name}</strong>{edition.author_name ? <small> — {edition.author_name}</small> : null}</span>
-            </label>)}
-          </div> : <p className="recitation-note">{studyLanguage === "ur" ? "No Urdu Tafsir resources were returned by the connected provider." : "No English Tafsir resources were returned by the connected provider. You can still read the English translation above."}</p>}
-          {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
-          <p id="tafsir-help" className="recitation-note">Choose one or more available editions. Each scholar’s explanation stays separate and is labelled with the provider’s source and author; RHM does not invent or combine Tafsir texts.</p>
-          <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
+          <section className="tafsir-library" aria-labelledby="tafsir-library-title">
+            <div className="tafsir-library-heading">
+              <div><span className="eyebrow">Scholarly explanations</span><h3 id="tafsir-library-title">{studyLanguage === "ur" ? "Choose Urdu Tafsir editions / تفاسیر منتخب کریں" : "Choose English Tafsir editions"}</h3></div>
+              <span className="tafsir-count">{tafsirs.length} available · {selectedTafsirs.length} selected</span>
+            </div>
+            {tafsirs.length > 0 ? <>
+              <label className="reciter-label" htmlFor="tafsir-search">Find a scholar or Tafsir book</label>
+              <input id="tafsir-search" className="tafsir-search" type="search" value={tafsirSearchQuery} onChange={(event) => setTafsirSearchQuery(event.target.value)} placeholder="Search Ibn Kathir, Bayan ul Quran…" />
+              <div className="tafsir-library-actions">
+                <button type="button" className="reader-tool-button" onClick={() => setSelectedTafsirs(recommendedTafsirIds(tafsirs, studyLanguage))}>Select recommended editions</button>
+                <button type="button" className="reader-tool-button" onClick={() => setSelectedTafsirs([])} disabled={!selectedTafsirs.length}>Clear selection</button>
+              </div>
+              <div id="tafsir-select" className="tafsir-source-options" aria-describedby="tafsir-help">
+                {filteredTafsirs.map((edition) => <label className="tafsir-source-option" key={edition.id}>
+                  <input type="checkbox" checked={selectedTafsirs.includes(String(edition.id))} onChange={(event) => setSelectedTafsirs((current) => event.target.checked ? [...current, String(edition.id)] : current.filter((id) => id !== String(edition.id)))} />
+                  <span><strong>{edition.name}</strong>{edition.author_name ? <small>{edition.author_name}</small> : null}</span>
+                </label>)}
+                {filteredTafsirs.length === 0 && <p className="recitation-note">No Tafsir edition matches that search.</p>}
+              </div>
+            </> : <p className="recitation-note">{studyLanguage === "ur" ? "No Urdu Tafsir resources were returned by the connected provider." : "No English Tafsir resources were returned by the connected provider. You can still read the English translation above."}</p>}
+            {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
+            <p id="tafsir-help" className="recitation-note">Choose one or more editions. Recommended editions are preselected where available; you can compare each scholar’s text separately. Source: Quran Foundation Content API. RHM does not rewrite, merge or generate Tafsir.</p>
+            <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
+          </section>
           <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
@@ -743,6 +771,7 @@ useEffect(() => {
                   {selectedTafsirs.length > 0 && (tafsirByAyah.get(ayah.numberInSurah) || []).map((passage) => <details className={`ayah-tafsir ${studyLanguage === "ur" ? "ayah-tafsir-urdu" : "ayah-tafsir-english"}`} key={passage.id + "-" + ayah.numberInSurah} open={tafsirMode}>
                     <summary>{passage.name}{passage.author ? " — " + passage.author : ""} · {studyLanguage === "ur" ? `آیت ${ayah.numberInSurah}` : `Ayah ${ayah.numberInSurah}`}</summary>
                     <p lang={studyLanguage} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>{passage.text}</p>
+                    <small className="ayah-tafsir-source">Text supplied by Quran Foundation Content API · Edition and author are shown above.</small>
                   </details>)}
                   <div className="ayah-audio-row">
                     <span>Listen to Ayah {ayah.numberInSurah}</span>
