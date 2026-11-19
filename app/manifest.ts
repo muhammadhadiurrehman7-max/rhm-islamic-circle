@@ -5,11 +5,11 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Rehmat, Hidayat & Ma’rifat — a free Islamic learning space for the Quran, Hadith, Arabic Qaida and Islamic knowledge.",
     lang: "en", start_url: "/", scope: "/", display: "standalone",
     display_override: ["standalone", "minimal-ui"], orientation: "portrait-primary",
-    background_color: "#071b16", theme_color: "#0b3028",
+    background_color: "#111111", theme_color: "#111111",
     categories: ["education", "books", "lifestyle"],
     icons: [
       { src: "/icon-192.svg", sizes: "192x192", type: "image/svg+xml", purpose: "any" },
-      { src: "/icon-512.svg", sizes: "512x512", type: "image/svg+xml", purpose: "maskable" }
+      { src: "/icon-512.svg", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
     ],
     shortcuts: [
       { name: "Read the Quran", short_name: "Quran", url: "/quran" },
