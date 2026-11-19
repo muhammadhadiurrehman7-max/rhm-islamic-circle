@@ -2649,3 +2649,48 @@ html[data-site-theme="dark"] .quran-page .tafsir-source-option small,
 html[data-site-theme="dark"] .quran-page .tafsir-count,
 html[data-site-theme="dark"] .quran-page .ayah-tafsir-source{color:#c3d0df}
 @media(max-width:640px){.quran-page .tafsir-library{padding:.8rem}.quran-page .tafsir-library-actions .reader-tool-button{flex:1}}
+
+
+/* Consistent in-site back navigation, available on every route */
+.rhm-global-back {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 10000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 17px;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 999px;
+  background: #145b70;
+  color: #fff;
+  box-shadow: 0 5px 20px rgba(9,35,44,.24);
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.rhm-global-back:hover {
+  background: #0e485b;
+  box-shadow: 0 7px 24px rgba(9,35,44,.3);
+  transform: translateY(-2px);
+}
+.rhm-global-back:focus-visible {
+  outline: 3px solid #d4a94f;
+  outline-offset: 3px;
+}
+.rhm-global-back span:first-child {
+  font-size: 21px;
+  line-height: 1;
+}
+@media (max-width: 560px) {
+  .rhm-global-back {
+    left: max(12px, env(safe-area-inset-left));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    min-height: 44px;
+    padding: 0 15px;
+  }
+}
