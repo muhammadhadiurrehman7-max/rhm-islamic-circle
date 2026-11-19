@@ -79,7 +79,8 @@ function recommendedTafsirIds(resources: TafsirResource[], language: "ur" | "en"
     .map((pattern) => resources.find((resource) => pattern.test(`${resource.name} ${resource.author_name || ""}`)))
     .filter((resource): resource is TafsirResource => Boolean(resource))
     .map((resource) => String(resource.id));
-  return Array.from(new Set(selected)).slice(0, 3);
+  const unique = Array.from(new Set(selected)).slice(0, 3);
+  return unique.length ? unique : resources.slice(0, 2).map((resource) => String(resource.id));
 }
 
 export default function QuranPage() {
