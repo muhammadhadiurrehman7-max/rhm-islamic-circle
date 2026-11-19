@@ -82,7 +82,7 @@ export default function MuslimCompanionPage() {
     <main className={styles.page}>
       <header className={styles.header}>
         <a className={styles.brand} href="/"><span className={styles.mark}>ر</span><span><strong>RHM Islam 360</strong><small>Rehmat • Hidayat • Ma’rifat</small></span></a>
-        <nav aria-label="Companion navigation"><a href="/">Home</a><a href="/quran">Qur’an</a><a href="/prayer-times">Prayer centre</a><a href="/academy">Academy</a></nav>
+        <nav aria-label="Main navigation"><a href="/">Home</a><a href="/quran">Qur’an</a><a href="/academy">Learn</a><a href="/explore#practice">Practice</a><a href="/my-rhm">My RHM</a><a href="/explore">Explore all</a></nav>
       </header>
 
       <section className={styles.hero}>

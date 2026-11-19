@@ -10,49 +10,48 @@ const groups: Group[] = [
   {
     id: "quran",
     number: "01",
-    title: "Qur’an & recitation",
-    intro: "Begin with the Qur’an. Reading, listening and study tools stay together in one dedicated space.",
+    title: "Qur’an",
+    intro: "Start here to read, listen, search and save Qur’an content for offline study.",
     features: [
-      { title: "Qur’an reader", description: "114 Surahs, Arabic text, translations, Ayah navigation and recitation.", href: "/quran", label: "Main experience" },
-      { title: "Offline Qur’an library", description: "Save Arabic text and a selected Urdu or English translation to this device.", href: "/quran/offline", label: "Download for offline" },
+      { title: "Qur’an reader", description: "Read all 114 Surahs, search by Surah, explore available translations and listen to recitation.", href: "/quran", label: "Start here" },
+      { title: "Offline Qur’an library", description: "Save supported Arabic text, translations and recitation audio on this device.", href: "/quran/offline", label: "Without internet" },
     ],
   },
   {
-    id: "knowledge",
+    id: "learn",
     number: "02",
-    title: "Islamic knowledge",
-    intro: "Explore foundational knowledge and source-labelled resources at your own pace.",
+    title: "Learn & understand",
+    intro: "Follow guided lessons and explore Islamic knowledge in a clear learning order.",
     features: [
-      { title: "Hadith library", description: "Browse available collections, search narrations and check their displayed references.", href: "/hadith" },
-      { title: "Duas & Azkar", description: "Read supplications with Arabic, meanings and source references.", href: "/duas" },
-      { title: "Discover Islam", description: "Learn about belief, worship, the Qur’an, Sunnah and Islamic character.", href: "/learn" },
-      { title: "Names of Allah", description: "Explore the Beautiful Names with Arabic, transliteration and meanings.", href: "/names-of-allah" },
-      { title: "Seerah & Islamic heritage", description: "Explore the Prophet’s ﷺ life, Islamic history, places and heritage.", href: "/heritage" },
+      { title: "Learning Academy", description: "Follow structured pathways and a gentle seven-day starter plan.", href: "/academy", label: "Guided learning" },
+      { title: "Qaida & Arabic foundations", description: "Begin with Arabic letters and build confidence in Qur’an reading.", href: "/qaida" },
+      { title: "Hadith library", description: "Browse available collections and check narration references and grading where provided.", href: "/hadith" },
+      { title: "Discover Islam", description: "Explore introductory topics about belief, worship, the Qur’an and Sunnah.", href: "/learn" },
+      { title: "Seerah & Islamic heritage", description: "Discover the Prophet’s ﷺ life, Islamic history and historic places.", href: "/heritage" },
+      { title: "Names of Allah", description: "Study the Beautiful Names with Arabic, transliteration and meanings.", href: "/names-of-allah" },
     ],
   },
   {
-    id: "worship",
+    id: "practice",
     number: "03",
-    title: "Worship & daily life",
-    intro: "Practical tools for worship and everyday Muslim life, grouped away from the main reading experience.",
+    title: "Practice & daily worship",
+    intro: "Find practical tools for Salah, remembrance and everyday Muslim life.",
     features: [
-      { title: "Prayer times", description: "View the prayer schedule for your selected location.", href: "/prayer-times" },
-      { title: "Daily Muslim life", description: "Explore Qibla, Wudu, cleanliness, prayer preparation and daily guidance.", href: "/daily-life" },
-      { title: "Tasbeeh, Zakat & Islamic glossary", description: "Open the Companion for its personal worship and learning tools.", href: "/companion" },
+      { title: "Prayer centre", description: "Check local prayer times, set Azan reminders and use Qibla guidance.", href: "/prayer-times", label: "Daily worship" },
+      { title: "Duas & Azkar", description: "Read supplications with Arabic, meanings and available source references.", href: "/duas" },
+      { title: "Daily Muslim life", description: "Learn about Wudu, cleanliness, prayer preparation and everyday guidance.", href: "/daily-life" },
       { title: "Worship tracker", description: "Use a private daily checklist to reflect on your routine.", href: "/worship-tracker" },
+      { title: "Muslim Companion", description: "Open Tasbeeh, Zakat tools, calendar information and the Islamic glossary.", href: "/companion" },
     ],
   },
   {
-    id: "learning",
+    id: "personal",
     number: "04",
-    title: "Learning & personal growth",
-    intro: "Build knowledge gradually with structured lessons and personal progress tools.",
+    title: "My RHM — personal space",
+    intro: "Return to your own dashboard, continue your goals and review progress saved in this browser.",
     features: [
-      { title: "Learning Academy", description: "Explore structured learning pathways and available lessons.", href: "/academy", label: "Guided learning" },
-      { title: "My RHM dashboard", description: "See your saved learning and worship checklist progress in one private place.", href: "/my-rhm", label: "Personal dashboard" },
-      { title: "Qaida & Arabic foundations", description: "Start with Arabic letters and the foundations of Qur’an reading.", href: "/qaida" },
-      { title: "My Islamic journey", description: "Keep your personal learning goals and progress in one place.", href: "/journey" },
-      { title: "Muslim Companion", description: "Access personal tools, calendar information, glossary and daily support.", href: "/companion" },
+      { title: "My RHM dashboard", description: "See your learning and worship checklist summaries in one place.", href: "/my-rhm", label: "Your dashboard" },
+      { title: "My Islamic Journey", description: "Set personal learning goals and continue at your own pace.", href: "/journey" },
     ],
   },
 ];
@@ -69,16 +68,16 @@ export default function ExplorePage() {
     <main className={styles.page}>
       <header className={styles.header}>
         <a className={styles.brand} href="/" aria-label="RHM Islam 360 home"><span className={styles.mark}>ر</span><span><strong>RHM Islam 360</strong><small>Rehmat • Hidayat • Ma’rifat</small></span></a>
-        <nav aria-label="Main navigation"><a href="/">Home</a><a href="/quran">Qur’an</a><a className={styles.active} href="/explore">Explore</a><a href="/academy">Academy</a><a href="/companion">Companion</a></nav>
+        <nav aria-label="Main navigation"><a href="/">Home</a><a href="/quran">Qur’an</a><a href="/academy">Learn</a><a href="/explore#practice">Practice</a><a href="/my-rhm">My RHM</a><a className={styles.active} href="/explore">Explore all</a></nav>
         <a className={styles.login} href="/login">Sign in</a>
       </header>
 
       <section className={styles.hero}>
         <span className={styles.eyebrow}>One platform · Clear pathways</span>
         <h1>Explore RHM Islam 360</h1>
-        <p>All the learning and worship resources, thoughtfully arranged. Choose what you need without having to navigate a crowded homepage.</p>
+        <p>Choose one of four clear areas: Qur’an, learning, daily practice or your personal RHM space. Each card opens the right tool.</p>
         <label className={styles.searchLabel} htmlFor="feature-search">Find a feature</label>
-        <input id="feature-search" className={styles.search} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search Qur’an, Hadith, prayer, Qaida…" />
+        <input id="feature-search" className={styles.search} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search Qur’an, lessons, prayer, duas…" />
         <div className={styles.heroLinks}><a href="/quran">Start with the Qur’an ↗</a><a href="/quran/offline">Offline library ↗</a></div>
       </section>
 
