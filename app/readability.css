@@ -1,0 +1,235 @@
+/* RHM site-wide readability pass — shared by every route.
+   Keep decorative artwork behind content; never sacrifice text contrast for texture. */
+:root {
+  --rhm-body-size: 16px;
+  --rhm-body-leading: 1.78;
+  --rhm-light-ink: #292b24;
+  --rhm-light-muted: #4d554b;
+  --rhm-light-link: #76531e;
+  --rhm-light-border: #d8cfbb;
+  --rhm-light-surface: #fffdf8;
+  --rhm-dark-ink: #f6f0e2;
+  --rhm-dark-muted: #d5ddd4;
+  --rhm-dark-link: #e6c887;
+  --rhm-dark-border: #526354;
+  --rhm-dark-surface: #202b24;
+}
+html { font-size: 16px; }
+body { font-size: var(--rhm-body-size); line-height: var(--rhm-body-leading); }
+body :where(p, li, dd, dt, blockquote, figcaption) {
+  font-size: max(14px, 1em);
+  line-height: var(--rhm-body-leading);
+  overflow-wrap: anywhere;
+}
+body :where(label, small, .eyebrow, .caption, .helper-text, .field-hint) {
+  line-height: 1.6;
+}
+body :where(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+body :where(button, .btn, input, select, textarea) {
+  font: inherit;
+  min-height: 42px;
+}
+body :where(input, select, textarea) {
+  font-size: 15px;
+  line-height: 1.5;
+}
+body :where(input, textarea)::placeholder { opacity: 1; }
+body :where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #b48a43;
+  outline-offset: 3px;
+}
+body :where(a, button) { -webkit-tap-highlight-color: transparent; }
+body :where(.arabic, .ayah-arabic, .hadith-arabic, .dua-arabic, .surah-arabic-name, .arabicSmall, [lang="ar"], [dir="rtl"]) {
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-wrap: pretty;
+}
+body :where(.ayah-arabic, .hadith-arabic, .dua-arabic) {
+  font-size: clamp(27px, 3.1vw, 38px);
+  line-height: 2.15;
+}
+body :where(.ayah-translation-urdu, [lang="ur"], .urdu-text) {
+  line-height: 2.15;
+  overflow-wrap: anywhere;
+}
+body :where(.site-header, .quran-topbar, .topbar, .header) a,
+body :where(nav) a { text-underline-offset: 4px; }
+body :where(.feature-card, .faith-entry-card, .faith-resource-card, .discover-topic-card,
+  .discover-other-grid a, .learning-section-card, .faith-card, .islam-info-card,
+  .heritage-card, .qaida-lesson, .hadith-card, .dua-card, .name-card, .worship-item,
+  .content-card, .surface-card, .daily-tool-card, .prayer-time-card, .prayer-note,
+  .prayer-location, .tasbeeh-mini, .donation-card, .linkCard, .toolCard, .lesson,
+  .note, .progressCard, .statsCard, .task, .card, .ayah-card, .recitation-panel,
+  .quran-search-panel, .word-study-item) {
+  border-width: 1px;
+}
+body :where(.feature-card, .faith-entry-card, .faith-resource-card, .discover-topic-card,
+  .discover-other-grid a, .learning-section-card, .faith-card, .islam-info-card,
+  .heritage-card, .qaida-lesson, .hadith-card, .dua-card, .name-card, .worship-item,
+  .content-card, .surface-card, .daily-tool-card, .prayer-time-card, .prayer-note,
+  .prayer-location, .tasbeeh-mini, .donation-card, .linkCard, .toolCard, .lesson,
+  .note, .progressCard, .statsCard, .task, .card, .ayah-card, .recitation-panel,
+  .quran-search-panel, .word-study-item) {
+  box-shadow: 0 8px 24px rgba(35, 31, 20, .055);
+}
+html[data-site-theme="light"] body {
+  color: var(--rhm-light-ink);
+  color-scheme: light;
+}
+html[data-site-theme="light"] body :where(p, li, dd, dt, blockquote, figcaption, label, small) {
+  color: var(--rhm-light-muted);
+  opacity: 1;
+}
+html[data-site-theme="light"] body :where(h1, h2, h3, h4, h5, h6) {
+  -webkit-text-fill-color: currentColor;
+  text-shadow: none;
+}
+html[data-site-theme="light"] body :where(input, select, textarea) {
+  color: var(--rhm-light-ink);
+  background-color: #fffdf8;
+  border-color: #c9bea6;
+}
+html[data-site-theme="light"] body :where(input, textarea)::placeholder { color: #6a6559; }
+html[data-site-theme="light"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .discover-other-grid a, .learning-section-card, .faith-card,
+  .islam-info-card, .heritage-card, .qaida-lesson, .hadith-card, .dua-card, .name-card,
+  .worship-item, .content-card, .surface-card, .daily-tool-card, .prayer-time-card,
+  .prayer-note, .prayer-location, .tasbeeh-mini, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card, .recitation-panel,
+  .quran-search-panel, .word-study-item) {
+  color: var(--rhm-light-ink);
+  background-color: var(--rhm-light-surface);
+  border-color: var(--rhm-light-border);
+}
+html[data-site-theme="light"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .discover-other-grid a, .learning-section-card, .faith-card,
+  .islam-info-card, .heritage-card, .qaida-lesson, .hadith-card, .dua-card, .name-card,
+  .worship-item, .content-card, .surface-card, .daily-tool-card, .prayer-time-card,
+  .prayer-note, .prayer-location, .tasbeeh-mini, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card, .recitation-panel,
+  .quran-search-panel, .word-study-item) :where(p, li, small, label, span, figcaption) {
+  color: var(--rhm-light-muted);
+  opacity: 1;
+}
+html[data-site-theme="light"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .learning-section-card, .faith-card, .islam-info-card, .heritage-card,
+  .qaida-lesson, .hadith-card, .dua-card, .name-card, .worship-item, .content-card,
+  .surface-card, .daily-tool-card, .prayer-time-card, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card) :where(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: #292b24;
+  -webkit-text-fill-color: #292b24;
+}
+html[data-site-theme="light"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .learning-section-card, .faith-card, .islam-info-card, .heritage-card,
+  .qaida-lesson, .hadith-card, .dua-card, .name-card, .worship-item, .content-card,
+  .surface-card, .daily-tool-card, .prayer-time-card, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card) a {
+  color: #76531e;
+  text-decoration-thickness: 1px;
+}
+html[data-site-theme="dark"] body {
+  color: var(--rhm-dark-ink);
+  color-scheme: dark;
+}
+html[data-site-theme="dark"] body :where(p, li, dd, dt, blockquote, figcaption, label, small) {
+  color: var(--rhm-dark-muted);
+  opacity: 1;
+}
+html[data-site-theme="dark"] body :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--rhm-dark-ink);
+  -webkit-text-fill-color: var(--rhm-dark-ink);
+  text-shadow: none;
+}
+html[data-site-theme="dark"] body :where(strong, b, th) { color: #fff7e8; }
+html[data-site-theme="dark"] body :where(a) { color: var(--rhm-dark-link); }
+html[data-site-theme="dark"] body :where(input, select, textarea) {
+  color: var(--rhm-dark-ink);
+  background-color: #17231c;
+  border-color: #596b5c;
+}
+html[data-site-theme="dark"] body :where(input, textarea)::placeholder { color: #c0cbbf; }
+html[data-site-theme="dark"] body :where(.page) {
+  color: var(--rhm-dark-ink);
+}
+html[data-site-theme="dark"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .discover-other-grid a, .learning-section-card, .faith-card,
+  .islam-info-card, .heritage-card, .qaida-lesson, .hadith-card, .dua-card, .name-card,
+  .worship-item, .content-card, .surface-card, .daily-tool-card, .prayer-time-card,
+  .prayer-note, .prayer-location, .tasbeeh-mini, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card, .recitation-panel,
+  .quran-search-panel, .word-study-item) {
+  color: var(--rhm-dark-ink);
+  background-color: var(--rhm-dark-surface);
+  border-color: var(--rhm-dark-border);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+}
+html[data-site-theme="dark"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .discover-other-grid a, .learning-section-card, .faith-card,
+  .islam-info-card, .heritage-card, .qaida-lesson, .hadith-card, .dua-card, .name-card,
+  .worship-item, .content-card, .surface-card, .daily-tool-card, .prayer-time-card,
+  .prayer-note, .prayer-location, .tasbeeh-mini, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card, .recitation-panel,
+  .quran-search-panel, .word-study-item) :where(p, li, small, label, span, figcaption) {
+  color: var(--rhm-dark-muted);
+  opacity: 1;
+}
+html[data-site-theme="dark"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .learning-section-card, .faith-card, .islam-info-card, .heritage-card,
+  .qaida-lesson, .hadith-card, .dua-card, .name-card, .worship-item, .content-card,
+  .surface-card, .daily-tool-card, .prayer-time-card, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card) :where(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: var(--rhm-dark-ink);
+  -webkit-text-fill-color: var(--rhm-dark-ink);
+}
+html[data-site-theme="dark"] body :where(.feature-card, .faith-entry-card, .faith-resource-card,
+  .discover-topic-card, .learning-section-card, .faith-card, .islam-info-card, .heritage-card,
+  .qaida-lesson, .hadith-card, .dua-card, .name-card, .worship-item, .content-card,
+  .surface-card, .daily-tool-card, .prayer-time-card, .donation-card, .linkCard, .toolCard,
+  .lesson, .note, .progressCard, .statsCard, .task, .card, .ayah-card) a {
+  color: var(--rhm-dark-link);
+}
+html[data-site-theme="dark"] body :where(.site-header, .quran-topbar, .topbar, .footer, .quran-footer) {
+  color: var(--rhm-dark-ink);
+  border-color: rgba(211,177,112,.34);
+}
+html[data-site-theme="dark"] body :where(.site-header, .quran-topbar, .topbar, .footer, .quran-footer) :where(p, small, span, a) {
+  color: #e8ddc5;
+}
+html[data-site-theme="dark"] body :where(.site-theme-toggle, .theme-toggle) {
+  color: #fff2d7;
+  background: #29372d;
+  border-color: #9a7a43;
+}
+html[data-site-theme="light"] body :where(.site-theme-toggle, .theme-toggle) {
+  color: #342b1c;
+  background: #f4ead2;
+  border-color: #b99a62;
+}
+/* The Academy's first panel is intentionally dark even while the page is in light mode. */
+html[data-site-theme="light"] body .page:has(.siteNav) .hero :where(h1,h2,h3,p,.eyebrow) {
+  color: #fff7e8;
+  -webkit-text-fill-color: #fff7e8;
+}
+html[data-site-theme="light"] body .page:has(.siteNav) .hero .eyebrow { color: #f2d18a; }
+/* Keep intentional dark callouts readable in either theme. */
+html[data-site-theme="light"] body :where(.guidance-section,.share-learning-section,.daily,.daily-tool-primary,.faith-entry-main,.prayer-hero,.dark-panel) :where(h1,h2,h3,p,li,strong,small,span) {
+  color: #fff7e8;
+  -webkit-text-fill-color: #fff7e8;
+}
+html[data-site-theme="dark"] body :where(.guidance-section,.share-learning-section,.daily,.daily-tool-primary,.faith-entry-main,.prayer-hero,.dark-panel) :where(h1,h2,h3,p,li,strong,small,span) {
+  color: #fff7e8;
+  -webkit-text-fill-color: #fff7e8;
+}
+@media (max-width: 700px) {
+  body { font-size: 15px; }
+  body :where(p, li, dd, dt, blockquote) { line-height: 1.82; }
+  body :where(button, .btn, input, select, textarea) { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
