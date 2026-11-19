@@ -49,6 +49,7 @@ const groups: Group[] = [
     intro: "Build knowledge gradually with structured lessons and personal progress tools.",
     features: [
       { title: "Learning Academy", description: "Explore structured learning pathways and available lessons.", href: "/academy", label: "Guided learning" },
+      { title: "My RHM dashboard", description: "See your saved learning and worship checklist progress in one private place.", href: "/my-rhm", label: "Personal dashboard" },
       { title: "Qaida & Arabic foundations", description: "Start with Arabic letters and the foundations of Qur’an reading.", href: "/qaida" },
       { title: "My Islamic journey", description: "Keep your personal learning goals and progress in one place.", href: "/journey" },
       { title: "Muslim Companion", description: "Access personal tools, calendar information, glossary and daily support.", href: "/companion" },

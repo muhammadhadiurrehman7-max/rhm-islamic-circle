@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./page.module.css";
 
 const links = [
+  { title: "My RHM dashboard", description: "See your saved learning and worship checklist progress in one private place.", href: "/my-rhm", tag: "Personal" },
   { title: "Qur’an & reciters", description: "Read, listen, compare translations and continue your Qur’an study.", href: "/quran", tag: "Worship" },
   { title: "Prayer times & Qibla", description: "Open the prayer centre for local prayer guidance and direction.", href: "/prayer-times", tag: "Worship" },
   { title: "Daily Duas & Azkar", description: "Explore supplications with Arabic, meanings and references.", href: "/duas", tag: "Worship" },
