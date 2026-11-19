@@ -2577,3 +2577,49 @@ html[data-site-theme="light"] body :is(.btn-primary,.site-theme-toggle,.theme-to
 html[data-site-theme="dark"] .home-primary-grid .faith-entry-card:not(.faith-entry-main){background:#1b3026;border-color:#385344;color:#f0ead8}
 html[data-site-theme="dark"] .home-primary-grid .faith-entry-card:not(.faith-entry-main) p{color:#c1c9bb}
 html[data-site-theme="dark"] .faith-entry-section{background:linear-gradient(180deg,#15271f,#101e18)}
+
+
+/* Final homepage feature-card contrast correction.
+   The Qur'an card is intentionally highlighted, but it must remain readable
+   in light mode. Earlier legacy rules styled this card as a dark panel. */
+html[data-site-theme="light"] body main .faith-entry-card.faith-entry-main {
+  color: #193d2e !important;
+  background: linear-gradient(135deg, #f2f0e4 0%, #e5eddf 58%, #f7f0df 100%) !important;
+  border: 2px solid #a88746 !important;
+  box-shadow: 0 14px 32px rgba(65,75,44,.13) !important;
+}
+html[data-site-theme="light"] body main .faith-entry-card.faith-entry-main :is(.faith-entry-label,h3,p,strong) {
+  color: #193d2e !important;
+  -webkit-text-fill-color: #193d2e !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-site-theme="light"] body main .faith-entry-card.faith-entry-main .faith-entry-label {
+  color: #795014 !important;
+  -webkit-text-fill-color: #795014 !important;
+  background: rgba(255,255,255,.82) !important;
+}
+html[data-site-theme="light"] body main .faith-entry-card.faith-entry-main strong {
+  color: #805515 !important;
+  -webkit-text-fill-color: #805515 !important;
+}
+html[data-site-theme="light"] body main .faith-entry-card.faith-entry-main .faith-entry-icon {
+  color: #174b36 !important;
+  -webkit-text-fill-color: #174b36 !important;
+  background: #dce9dc !important;
+  border-color: #b9cbb9 !important;
+}
+html[data-site-theme="dark"] body main .faith-entry-card.faith-entry-main {
+  color: #f5edda !important;
+  background: linear-gradient(135deg,#294635,#1b3025) !important;
+  border: 2px solid #c7a45d !important;
+}
+html[data-site-theme="dark"] body main .faith-entry-card.faith-entry-main :is(.faith-entry-label,h3,p,strong) {
+  color: #f4e8c9 !important;
+  -webkit-text-fill-color: #f4e8c9 !important;
+  opacity: 1 !important;
+}
+html[data-site-theme="dark"] body main .faith-entry-card.faith-entry-main .faith-entry-icon {
+  color: #f4e8c9 !important;
+  -webkit-text-fill-color: #f4e8c9 !important;
+}
