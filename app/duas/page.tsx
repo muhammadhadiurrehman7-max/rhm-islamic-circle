@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Dua = {
   id: string;
@@ -126,6 +126,28 @@ export default function DailyDuasPage() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [language, setLanguage] = useState<"both" | "en" | "ur">("both");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [themeReady, setThemeReady] = useState(false);
+
+  useEffect(() => {
+    const syncTheme = () => {
+      const saved = window.localStorage.getItem("rhm-site-theme") ?? window.localStorage.getItem("rhm-quran-theme");
+      if (saved === "light" || saved === "dark") setTheme(saved);
+      setThemeReady(true);
+    };
+    syncTheme();
+    window.addEventListener("rhm-theme-change", syncTheme);
+    return () => window.removeEventListener("rhm-theme-change", syncTheme);
+  }, []);
+
+  useEffect(() => {
+    if (!themeReady) return;
+    document.documentElement.dataset.siteTheme = theme;
+    document.documentElement.dataset.quranTheme = theme;
+    window.localStorage.setItem("rhm-site-theme", theme);
+    window.localStorage.setItem("rhm-quran-theme", theme);
+    window.dispatchEvent(new CustomEvent("rhm-theme-change", { detail: theme }));
+  }, [theme, themeReady]);
   const filtered = useMemo(() => {
     const q = query.trim().toLocaleLowerCase();
     return duas.filter((dua) => {
@@ -136,7 +158,7 @@ export default function DailyDuasPage() {
   }, [query, category]);
 
   return (
-    <main className="quran-page duas-page" data-theme="light">
+    <main className="quran-page duas-page" data-theme={theme}>
       <header className="quran-topbar">
         <a className="quran-brand" href="/"><span className="brand-mark">ر</span> RHM Islam 360</a>
         <div className="quran-top-actions"><a className="quran-home-link" href="/hadith">Hadith library</a><a className="quran-home-link" href="/">Home</a></div>

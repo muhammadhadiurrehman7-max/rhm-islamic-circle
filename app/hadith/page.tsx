@@ -10,9 +10,17 @@ async function edition(id:string) {
 }
 export default function HadithPage() {
   const [book,setBook]=useState("bukhari"),[lang,setLang]=useState("urd"),[items,setItems]=useState<H[]>([]);
-  const [query,setQuery]=useState(""),[limit,setLimit]=useState(50),[loading,setLoading]=useState(true),[error,setError]=useState(""),[theme,setTheme]=useState<"light"|"dark">("light");
-  useEffect(()=>{if(localStorage.getItem("rhm-quran-theme")==="dark")setTheme("dark");},[]);
-  useEffect(()=>{localStorage.setItem("rhm-quran-theme",theme);},[theme]);
+  const [query,setQuery]=useState(""),[limit,setLimit]=useState(50),[loading,setLoading]=useState(true),[error,setError]=useState(""),[theme,setTheme]=useState<"light"|"dark">("light"),[themeReady,setThemeReady]=useState(false);
+  useEffect(()=>{
+    const syncTheme=()=>{const saved=localStorage.getItem("rhm-site-theme")??localStorage.getItem("rhm-quran-theme");if(saved==="light"||saved==="dark")setTheme(saved);setThemeReady(true);};
+    syncTheme();window.addEventListener("rhm-theme-change",syncTheme);return()=>window.removeEventListener("rhm-theme-change",syncTheme);
+  },[]);
+  useEffect(()=>{
+    if(!themeReady)return;
+    document.documentElement.dataset.siteTheme=theme;document.documentElement.dataset.quranTheme=theme;
+    localStorage.setItem("rhm-site-theme",theme);localStorage.setItem("rhm-quran-theme",theme);
+    window.dispatchEvent(new CustomEvent("rhm-theme-change",{detail:theme}));
+  },[theme,themeReady]);
   useEffect(()=>{let live=true;setLoading(true);setError("");setLimit(50);
     edition((lang==="ara"?"ara":lang)+"-"+book)
     .then((translated)=>{if(!live)return;setItems(translated.hadiths||[]);if(!translated.hadiths?.length)setError("No narrations were returned for this edition.");})
