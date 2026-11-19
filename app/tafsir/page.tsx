@@ -7,6 +7,41 @@ type Language = "ur" | "en" | "ar";
 type Surah = { number: number; name: string; englishName: string; numberOfAyahs: number };
 type TafsirResource = { id: number; name: string; author_name?: string; language_name?: string; slug?: string };
 type Passage = { id: number; name: string; author?: string; text: string };
+type ScholarWork = { title: string; author: string; aliases: string[] };
+
+const SCHOLAR_WORKS: Record<Language, ScholarWork[]> = {
+  ur: [
+    { title: "Maariful Qur’an", author: "Mufti Muhammad Shafi", aliases: ["maariful quran", "ma'ariful quran", "معارف القرآن"] },
+    { title: "Tafheem-ul-Qur’an", author: "Abul A’la Maududi", aliases: ["tafheem ul quran", "tafheem-ul-quran", "تفہیم القرآن"] },
+    { title: "Tafsir-e-Usmani", author: "Shabbir Ahmad Usmani", aliases: ["tafsir usmani", "tafseer usmani", "تفسیر عثمانی"] },
+    { title: "Tadabbur-e-Qur’an", author: "Amin Ahsan Islahi", aliases: ["tadabbur quran", "tadabbur-e-quran", "تدبر قرآن"] },
+    { title: "Ahsan-ul-Bayan", author: "Salahuddin Yusuf", aliases: ["ahsan ul bayan", "احسن البيان"] },
+    { title: "Bayan-ul-Qur’an", author: "Dr Israr Ahmad", aliases: ["bayan ul quran", "bayan-ul-quran", "بیان القرآن"] },
+    { title: "Tafsir Ibn Kathir (Urdu)", author: "Hafiz Ibn Kathir", aliases: ["ibn kathir", "ابن کثیر"] },
+  ],
+  en: [
+    { title: "Tafsir Ibn Kathir (English)", author: "Hafiz Ibn Kathir", aliases: ["ibn kathir", "tafsir ibn kathir"] },
+    { title: "Ma’ariful Qur’an (English)", author: "Mufti Muhammad Shafi", aliases: ["maariful quran", "ma'ariful quran"] },
+    { title: "Tafsir al-Jalalayn", author: "Jalal al-Din al-Mahalli and Jalal al-Din al-Suyuti", aliases: ["jalalayn", "al-jalalayn"] },
+    { title: "Tafsir al-Sa’di", author: "Abd al-Rahman al-Sa’di", aliases: ["sa'di", "as-sa'di", "al-sa'di"] },
+    { title: "Tafsir al-Muyassar", author: "Prepared by the King Fahd Complex", aliases: ["al-muyassar", "muyassar"] },
+    { title: "Jami’ al-Bayan", author: "Muhammad ibn Jarir al-Tabari", aliases: ["al-tabari", "tabari", "jami al-bayan"] },
+    { title: "Al-Jami’ li-Ahkam al-Qur’an", author: "Abu Abdullah al-Qurtubi", aliases: ["al-qurtubi", "qurtubi"] },
+  ],
+  ar: [
+    { title: "جامع البيان عن تأويل آي القرآن", author: "محمد بن جرير الطبري", aliases: ["al-tabari", "الطبري", "جامع البيان"] },
+    { title: "تفسير القرآن العظيم", author: "إسماعيل بن عمر ابن كثير", aliases: ["ibn kathir", "ابن كثير", "تفسير ابن كثير"] },
+    { title: "الجامع لأحكام القرآن", author: "أبو عبد الله القرطبي", aliases: ["al-qurtubi", "القرطبي"] },
+    { title: "تفسير الجلالين", author: "جلال الدين المحلي وجلال الدين السيوطي", aliases: ["al-jalalayn", "الجلالين"] },
+    { title: "تيسير الكريم الرحمن", author: "عبد الرحمن السعدي", aliases: ["al-sa'di", "السعدي", "تفسير السعدي"] },
+    { title: "معالم التنزيل", author: "الحسين بن مسعود البغوي", aliases: ["al-baghawi", "البغوي"] },
+    { title: "التفسير الميسر", author: "مجمع الملك فهد لطباعة المصحف الشريف", aliases: ["al-muyassar", "الميسر"] },
+  ],
+};
+
+function normalise(value: string) {
+  return value.toLowerCase().normalize("NFKD").replace(/[’']/g, "").replace(/[^\\p{L}\\p{N}]+/gu, " ").trim();
+}
 
 const LANGUAGES: { id: Language; label: string; native: string }[] = [
   { id: "ur", label: "Urdu", native: "اردو" },
@@ -84,10 +119,21 @@ export default function TafsirLibraryPage() {
 
   const selectedSurah = surahs.find((item) => item.number === surah);
   const filteredResources = useMemo(() => {
-    const term = query.trim().toLowerCase();
+    const term = normalise(query);
     if (!term) return resources;
-    return resources.filter((item) => `${item.name} ${item.author_name || ""}`.toLowerCase().includes(term));
+    return resources.filter((item) => normalise(`${item.name} ${item.author_name || ""}`).includes(term));
   }, [resources, query]);
+
+  const scholarDirectory = useMemo(() => SCHOLAR_WORKS[language].map((work) => {
+    const aliases = work.aliases.map(normalise);
+    const match = resources.find((resource) => {
+      const sourceText = normalise(`${resource.name} ${resource.author_name || ""}`);
+      return aliases.some((alias) => alias.length > 3 && sourceText.includes(alias));
+    });
+    const term = normalise(query);
+    const matchesSearch = !term || normalise(`${work.title} ${work.author}`).includes(term);
+    return { ...work, resource: match, matchesSearch };
+  }).filter((work) => work.matchesSearch), [language, resources, query]);
 
   function toggleEdition(id: string) {
     setSelectedIds((current) => current.includes(id)
@@ -170,7 +216,20 @@ export default function TafsirLibraryPage() {
             {!filteredResources.length && !error && <p className={styles.status}>No matching editions found.</p>}
           </div>}
           {error && <p className={styles.error} role="status">{error}</p>}
-          <p className={styles.sourceNote}>Catalogue and Tafsir passages are supplied by Quran Foundation Content API. Availability depends on the permissions and editions enabled for RHM.</p>
+          <div className={styles.directory}>
+            <div className={styles.directoryHeading}><h3>More scholars & classical works</h3><span>{scholarDirectory.length} works</span></div>
+            <p className={styles.hint}>Browse notable works by language. A work is selectable only when the connected provider supplies a matching edition to RHM.</p>
+            <div className={styles.directoryList}>
+              {scholarDirectory.map((work) => <div className={styles.directoryItem} key={work.title}>
+                <span className={styles.directoryMark} aria-hidden="true">✦</span>
+                <span className={styles.directoryText}><strong>{work.title}</strong><small>{work.author}</small></span>
+                <span className={work.resource ? styles.availableTag : styles.unavailableTag}>{work.resource ? "Available above" : "Catalogue only"}</span>
+              </div>)}
+              {!scholarDirectory.length && <p className={styles.status}>No scholar or work matches this search.</p>}
+            </div>
+            <p className={styles.directoryNote}>“Catalogue only” means this work is listed for discovery, but its text is not currently enabled in RHM. It cannot be opened or selected until an authorised source provides it.</p>
+          </div>
+          <p className={styles.sourceNote}>Selectable editions and original passages are supplied by the Quran Foundation Content API. Catalogue-only entries are discovery information, not downloadable or readable texts. Availability depends on provider permissions and publication rights.</p>
         </aside>
 
         <section className={styles.reader} aria-labelledby="reader-title">
