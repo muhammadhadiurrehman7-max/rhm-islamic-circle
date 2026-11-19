@@ -13,7 +13,6 @@ const hijriPartsFormatter = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", 
 const gregorianFormatter = new Intl.DateTimeFormat("en-PK", {
   timeZone: TIME_ZONE, day: "numeric", month: "short", year: "numeric",
 });
-const weekdayFormatter = new Intl.DateTimeFormat("en", { timeZone: TIME_ZONE, weekday: "short" });
 function part(parts: Intl.DateTimeFormatPart[], type: string) {
   return parts.find((item) => item.type === type)?.value ?? "";
 }
