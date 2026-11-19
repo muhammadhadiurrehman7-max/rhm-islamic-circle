@@ -52,7 +52,7 @@ const groups: Group[] = [
     features: [
       { title: "Learning Academy", description: "Follow structured Islamic learning pathways and guided lessons.", href: "/academy", label: "Courses", keywords: "course lessons study academy" },
       { title: "Qaida & Arabic foundations", description: "Learn Arabic letters and build confidence in Qur’an reading.", href: "/qaida", label: "Start from basics", keywords: "noorani qaida arabic letters makharij" },
-      { title: "Guided Islamic learning", description: "Continue exploring introductory topics and learning resources.", href: "/discover-islam", label: "Explore topics", keywords: "learn islam topics" },
+      { title: "Guided Islamic learning", description: "Continue exploring introductory topics and learning resources.", href: "/learn", label: "Explore topics", keywords: "learn islam topics" },
     ],
   },
   {
