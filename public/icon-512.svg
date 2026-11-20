@@ -1,15 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="RHM Islam 360 app icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="RHM Islam 360 Kaaba icon">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b3028"/><stop offset="1" stop-color="#1c5947"/></linearGradient>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dfa0"/><stop offset="1" stop-color="#c69a45"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#171a18"/><stop offset="1" stop-color="#050706"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2a5"/><stop offset=".52" stop-color="#d6b568"/><stop offset="1" stop-color="#a77b35"/></linearGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <circle cx="256" cy="220" r="178" fill="none" stroke="url(#gold)" stroke-width="8" opacity=".8"/>
-  <path d="M320 74a137 137 0 1 0 88 226A153 153 0 1 1 320 74Z" fill="url(#gold)"/>
-  <path d="M128 342h256v18H128z" fill="url(#gold)"/>
-  <path d="M164 342v-80l36-30 36 30v80M276 342v-80l36-30 36 30v80" fill="none" stroke="#fff9e9" stroke-width="13" stroke-linejoin="round"/>
-  <path d="M184 262v-22a16 16 0 0 1 32 0v22M296 262v-22a16 16 0 0 1 32 0v22" fill="none" stroke="#fff9e9" stroke-width="10"/>
-  <path d="M236 342v-58a20 20 0 0 1 40 0v58" fill="none" stroke="url(#gold)" stroke-width="11"/>
-  <text x="256" y="414" text-anchor="middle" font-family="Arial,sans-serif" font-size="48" font-weight="800" letter-spacing="5" fill="#fff9e9">RHM</text>
-  <text x="256" y="455" text-anchor="middle" font-family="Arial,sans-serif" font-size="23" font-weight="700" letter-spacing="3" fill="#f0d58c">ISLAM 360</text>
+  <rect width="512" height="512" rx="104" fill="url(#bg)"/>
+  <path d="M104 112 256 62l152 50-152 53z" fill="#292c29" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M104 112 256 165v174l-152-54z" fill="#101311" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M256 165 408 112v173l-152 54z" fill="#080a09" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="m109 169 147 51 147-51v28l-147 52-147-52z" fill="url(#gold)"/>
+  <path d="m109 197 147 51 147-51" fill="none" stroke="#fff0c4" stroke-width="3" opacity=".7"/>
+  <path d="m180 238 25 9v91l-25-9z" fill="#c69b4d" opacity=".9"/>
+  <path d="m256 264 28-10v88l-28 10z" fill="#c69b4d" opacity=".9"/>
+  <text x="256" y="410" text-anchor="middle" font-family="Arial,sans-serif" font-size="58" font-weight="800" letter-spacing="8" fill="#fff9e9">RHM</text>
+  <text x="256" y="453" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="700" letter-spacing="5" fill="url(#gold)">ISLAM 360</text>
 </svg>
