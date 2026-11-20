@@ -26,6 +26,7 @@ const groups: Group[] = [
     features: [
       { title: "Hadith library", description: "Browse available Hadith collections and check references and grading where provided.", href: "/hadith", label: "Hadith & Sunnah", keywords: "bukhari muslim hadith sunnah narration" },
       { title: "Islamic history, Seerah & heritage", description: "Explore the Prophet’s ﷺ life, early Muslim community, key historical events, major eras, scholars, civilisations and sacred places with source-aware learning.", href: "/heritage", label: "History & Seerah", keywords: "seerah biography history heritage timeline badr uhud trench hudaybiyyah umayyad abbasid ottoman mughal scholars" },
+      { title: "Sahabah — Companions of the Prophet ﷺ", description: "Read biographies of the men and women who supported the Prophet ﷺ, their family connections, important roles, sacrifices and contributions to Islam.", href: "/sahaba", label: "Companion biographies", keywords: "sahaba sahabah companions abu bakr umar uthman ali khadijah aisha fatima bilal ansar muhajirun" },
       { title: "Discover Islam", description: "Explore clear introductions to belief, worship, the Qur’an and Sunnah.", href: "/learn", label: "Foundations", keywords: "belief aqeedah islam basics" },
       { title: "Names of Allah", description: "Study the Beautiful Names with Arabic, transliteration and meanings.", href: "/names-of-allah", label: "Asma ul Husna", keywords: "allah names attributes" },
     ],
