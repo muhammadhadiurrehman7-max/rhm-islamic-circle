@@ -25,7 +25,8 @@ const groups: Group[] = [
     intro: "Explore the Prophet’s ﷺ Sunnah, Islamic beliefs, history and essential knowledge in one place.",
     features: [
       { title: "Hadith library", description: "Browse available Hadith collections and check references and grading where provided.", href: "/hadith", label: "Hadith & Sunnah", keywords: "bukhari muslim hadith sunnah narration" },
-      { title: "Seerah & Islamic heritage", description: "Learn about the Prophet’s ﷺ life, Islamic history and historic places.", href: "/heritage", label: "History & Seerah", keywords: "seerah biography history heritage" },
+      { title: "Islamic history, Seerah & heritage", description: "Explore the Prophet’s ﷺ life, early Muslim community, key historical events, major eras, scholars, civilisations and sacred places with source-aware learning.", href: "/heritage", label: "History & Seerah", keywords: "seerah biography history heritage timeline badr uhud trench hudaybiyyah umayyad abbasid ottoman mughal scholars" },
+      { title: "Sahabah — Companions of the Prophet ﷺ", description: "Read biographies of the men and women who supported the Prophet ﷺ, their family connections, important roles, sacrifices and contributions to Islam.", href: "/sahaba", label: "Companion biographies", keywords: "sahaba sahabah companions abu bakr umar uthman ali khadijah aisha fatima bilal ansar muhajirun" },
       { title: "Discover Islam", description: "Explore clear introductions to belief, worship, the Qur’an and Sunnah.", href: "/learn", label: "Foundations", keywords: "belief aqeedah islam basics" },
       { title: "Names of Allah", description: "Study the Beautiful Names with Arabic, transliteration and meanings.", href: "/names-of-allah", label: "Asma ul Husna", keywords: "allah names attributes" },
     ],
@@ -37,6 +38,7 @@ const groups: Group[] = [
     intro: "Your everyday worship tools—from prayer times and Qibla to remembrance, Hijri dates and personal routines.",
     features: [
       { title: "Prayer times, Azan & Qibla", description: "Check local Salah times, configure reminders and find the Qibla direction.", href: "/prayer-times", label: "Salah centre", keywords: "namaz salah prayer azan adhan qibla" },
+      { title: "Learn how to pray Salah", description: "Follow a step-by-step guide to Wudu, prayer movements, recitations and the five daily obligatory prayers.", href: "/salah-guide", label: "Salah learning", keywords: "namaz how to pray rakah ruku sujud tashahhud wudu" },
       { title: "Islamic calendar", description: "View Hijri months alongside Gregorian dates, with guidance about local moon sighting.", href: "/islamic-calendar", label: "Hijri calendar", keywords: "hijri ramadan eid islamic dates" },
       { title: "Duas & Azkar", description: "Read daily supplications with Arabic, meanings and available source references.", href: "/duas", label: "Daily remembrance", keywords: "dua dhikr zikr morning evening" },
       { title: "Daily Muslim life", description: "Learn about Wudu, cleanliness, prayer preparation and everyday guidance.", href: "/daily-life", label: "Everyday guidance", keywords: "wudu ablution taharah cleanliness" },
