@@ -155,6 +155,7 @@ export default function IslamicHeritagePage() {
       </section>
 
       <section className="heritage-history-section" id="companions">
+        <div className="heritage-note"><strong>Explore the Sahabah in depth:</strong> Open the dedicated Companion library for searchable biographies, their connection with Prophet Muhammad ﷺ, their roles, contributions and source references. <Link href="/sahaba">Explore Sahabah biographies →</Link></div>
         <div className="heritage-section-heading"><span className="eyebrow">The first Muslim generations</span><h2>Companions and exemplary Muslim figures</h2><p>Learn about the Sahabah with respect and historical care. Muslims across traditions may differ in how particular events and personalities are interpreted.</p></div>
         <div className="heritage-scholar-grid">
           <article><h3>Khadijah bint Khuwaylid رضي الله عنها</h3><span>Faith and steadfast support</span><p>The Prophet’s first wife and the first person to believe in his message. Remembered for her generosity, wisdom and support.</p></article>
