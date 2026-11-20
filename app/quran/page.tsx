@@ -149,7 +149,7 @@ export default function QuranPage() {
   const [tafsirError, setTafsirError] = useState("");
   const [tafsirSearchQuery, setTafsirSearchQuery] = useState("");
   const [selectedTafsirs, setSelectedTafsirs] = useState<string[]>([]);
-  const [tafsirMode, setTafsirMode] = useState(true);
+  const [tafsirMode, setTafsirMode] = useState(false);
   const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, TafsirPassage[]>>(new Map());
   const [globalSearch, setGlobalSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchMatch[]>([]);
@@ -296,7 +296,7 @@ export default function QuranPage() {
         const languageResources = available.filter((item) => item.id && (String(item.language_name || "").toLowerCase() === studyLanguage || (studyLanguage === "ur" && String(item.language_name || "").toLowerCase() === "urdu") || (studyLanguage === "en" && String(item.language_name || "").toLowerCase() === "english")));
         setTafsirs(languageResources);
         const recommended = recommendedTafsirIds(languageResources, studyLanguage);
-        setSelectedTafsirs(recommended.length ? recommended : languageResources.slice(0, 2).map((item) => String(item.id)));
+        setSelectedTafsirs(recommended.length ? recommended.slice(0, 1) : languageResources.slice(0, 1).map((item) => String(item.id)));
       })
       .catch(() => { if (active) setTafsirError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Confirm that the Quran Foundation app has the content.tafsirs.read permission and that the selected environment has valid credentials.`); });
     return () => { active = false; };
