@@ -134,6 +134,8 @@ export default function QuranPage() {
   const [readerQuery, setReaderQuery] = useState("");
   const [surahSearchQuery, setSurahSearchQuery] = useState("");
   const [fontScale, setFontScale] = useState(1);
+  const [readerLayout, setReaderLayout] = useState<"paragraph" | "ayah">("paragraph");
+  const [showTranslation, setShowTranslation] = useState(false);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [noteFor, setNoteFor] = useState<string | null>(null);
@@ -737,7 +739,10 @@ useEffect(() => {
           <input id="quran-search" type="search" value={readerQuery} onChange={(event) => setReaderQuery(event.target.value)} placeholder="Search Arabic, translation or reference (e.g. 2:5)" />
           <button type="button" className={`reader-tool-button ${showBookmarksOnly ? "is-active" : ""}`} onClick={() => setShowBookmarksOnly((value) => !value)}>{showBookmarksOnly ? "Show all Ayahs" : `Bookmarks (${bookmarks.length})`}</button>
           <button type="button" className={`reader-tool-button ${wordStudyMode ? "is-active" : ""}`} aria-pressed={wordStudyMode} onClick={() => setWordStudyMode((enabled) => !enabled)}>{wordStudyMode ? "Word-by-word mode: On" : "Word-by-word mode: Off"}</button>
-          <button type="button" className={`reader-tool-button ${tajweedMode ? "is-active" : ""}`} aria-pressed={tajweedMode} onClick={() => setTajweedMode((enabled) => !enabled)}>{tajweedMode ? "Tajweed colours: On" : "Show Tajweed colours"}</button>
+          <button type="button" className={`reader-tool-button ${readerLayout === "paragraph" ? "is-active" : ""}`} aria-pressed={readerLayout === "paragraph"} onClick={() => setReaderLayout("paragraph")}>Paragraph reading</button>
+          <button type="button" className={`reader-tool-button ${readerLayout === "ayah" ? "is-active" : ""}`} aria-pressed={readerLayout === "ayah"} onClick={() => setReaderLayout("ayah")}>Ayah-by-Ayah cards</button>
+          <button type="button" className={`reader-tool-button ${showTranslation ? "is-active" : ""}`} aria-pressed={showTranslation} onClick={() => setShowTranslation((value) => !value)}>{showTranslation ? "Hide translation" : "Show translation / ترجمہ"}</button>
+          <button type="button" className={`reader-tool-button ${tajweedMode ? "is-active" : ""}`} aria-pressed={tajweedMode} onClick={() => setTajweedMode((enabled) => !enabled)}>{tajweedMode ? "Tajweed colours: On" : "Show Tajweed rules / تجوید"}</button>
           <label>Arabic size <input aria-label="Arabic text size" type="range" min="0.8" max="1.6" step="0.05" value={fontScale} onChange={(event) => setFontScale(Number(event.target.value))} /></label>
           <label>Repeat Ayah <select value={repeatCount} onChange={(event) => setRepeatCount(Number(event.target.value))}><option value={1}>Off</option><option value={2}>2 times</option><option value={3}>3 times</option><option value={5}>5 times</option><option value={10}>10 times</option></select></label>
           <label>Playback speed <select value={playbackRate} onChange={(event) => setPlaybackRate(Number(event.target.value))}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option><option value={2}>2×</option></select></label>
@@ -766,8 +771,23 @@ useEffect(() => {
             <div className="surah-title">
               <span className="surah-arabic-name" lang="ar" dir="rtl">{chapter.name}</span>
               <h2>{chapter.englishName}</h2>
-              <p>{chapter.editions[1]?.edition?.englishName || chapter.editions[1]?.edition?.name || selectedTranslation} · {chapter.editions[1]?.edition?.language?.toUpperCase() || "Translation"}</p>
+              {showTranslation && <p>{chapter.editions[1]?.edition?.englishName || chapter.editions[1]?.edition?.name || selectedTranslation} · {chapter.editions[1]?.edition?.language?.toUpperCase() || "Translation"}</p>}
             </div>
+            {readerLayout === "paragraph" ? (
+              <div className="quran-paragraph-reader">
+                <p className={"quran-arabic-paragraph" + (tajweedMode ? " ayah-arabic-tajweed" : "")} lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(30px, 4.8vw, 46px) * ${fontScale})` }}>
+                  {visibleAyahs.map((ayah) => {
+                    const key = `${selected}:${ayah.numberInSurah}`;
+                    const arabic = tajweedMode && tajweedVerses[key] ? renderTajweedText(tajweedVerses[key]) : ayah.text.replace(/^\\uFEFF/, "");
+                    return <span className="quran-paragraph-verse" id={`ayah-${selected}-${ayah.numberInSurah}`} key={ayah.numberInSurah}>{arabic}<span className="quran-verse-end" aria-label={`Ayah ${ayah.numberInSurah}`}> ۞{ayah.numberInSurah} </span></span>;
+                  })}
+                </p>
+                {showTranslation && <div className={`quran-translation-paragraph ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || studyLanguage} dir={chapter.editions[1]?.edition?.language === "ur" ? "rtl" : "auto"}>
+                  {visibleAyahs.map((ayah) => <span key={ayah.numberInSurah}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."} <small>({ayah.numberInSurah})</small> </span>)}
+                </div>}
+                <p className="quran-paragraph-hint">Read the Arabic Qur’an continuously, Surah by Surah. Translation is optional — use “Show translation” whenever you need it. You can change the text size above.</p>
+              </div>
+            ) : (
             <div className="ayah-list">
               {visibleAyahs.map((ayah) => {
                 const key = `${selected}:${ayah.numberInSurah}`;
@@ -780,7 +800,7 @@ useEffect(() => {
                     <div className="ayah-actions"><button type="button" aria-expanded={wordStudyMode || !!wordPanelsOpen[key]} onClick={() => { setWordPanelsOpen((current) => ({ ...current, [key]: !current[key] })); if (!wordStudy[key] && wordLoading !== key) void loadWordStudy(key); }}>{wordStudyMode || wordPanelsOpen[key] ? "Hide words" : wordLoading === key ? "Loading…" : "Show words"}</button><button type="button" aria-pressed={bookmarked} onClick={() => toggleBookmark(key)}>{bookmarked ? "★ Saved" : "☆ Bookmark"}</button><button type="button" onClick={() => setNoteFor(noteFor === key ? null : key)}>{notes[key] ? "Edit note" : "Add note"}</button></div>
                   </div>
                   <p className={"ayah-arabic" + (tajweedMode && tajweedVerses[key] ? " ayah-arabic-tajweed" : "")} lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(28px, 4.5vw, 40px) * ${fontScale})` }}>{tajweedMode && tajweedVerses[key] ? renderTajweedText(tajweedVerses[key]) : ayah.text.replace(/^\uFEFF/, "")}</p>
-                  <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>
+                  {showTranslation && <p className={`ayah-translation ${chapter.editions[1]?.edition?.language === "ur" ? "ayah-translation-urdu" : ""}`} lang={chapter.editions[1]?.edition?.language || "ur"} dir={chapter.editions[1]?.edition?.language === "ur" || chapter.editions[1]?.edition?.language === "ar" ? "rtl" : "auto"}>{translationByAyah.get(ayah.numberInSurah) || "Translation unavailable for this Ayah."}</p>}
                   {wordErrors[key] && <p className="word-study-error" role="status">{wordErrors[key]}</p>}
                   {wordStudy[key] && (wordStudyMode || wordPanelsOpen[key]) ? (
                     <>
@@ -847,6 +867,7 @@ useEffect(() => {
               ); })}
               {visibleAyahs.length === 0 && <p className="quran-status">No Ayahs match this search or bookmark filter.</p>}
             </div>
+            )}
           </>
         )}
         <p className="quran-source">Arabic Quran text, translations, and Ayah-by-Ayah recitations are streamed through AlQuran Cloud. Translation names and contributors are shown where supplied by the source. Translation is not a substitute for Tafsir or scholarly explanation.</p>
