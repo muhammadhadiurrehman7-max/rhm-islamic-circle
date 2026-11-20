@@ -45,6 +45,8 @@ const features = [
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [guidanceIndex, setGuidanceIndex] = useState(0);
+  const [lastReadKey, setLastReadKey] = useState<string | null>(null);
+  useEffect(() => { try { setLastReadKey(window.localStorage.getItem("rhm-quran-last-read")); } catch { setLastReadKey(null); } }, []);
   useEffect(() => {
     const timer = window.setInterval(() => setGuidanceIndex((current) => (current + 1) % guidanceQuotes.length), 20000);
     return () => window.clearInterval(timer);
@@ -82,7 +84,44 @@ export default function Home() {
         html[data-site-theme="dark"] .premium-hero { background-image:linear-gradient(90deg,rgba(5,18,14,.95),rgba(5,18,14,.78) 45%,rgba(5,18,14,.25)),url('/images/rhm-islam360-quran-hero.webp'); }
         @media(max-width:850px) { .premium-hero { background-position:58% center; } .premium-hero:before { content:"";position:absolute;inset:0;background:rgba(7,24,18,.24);pointer-events:none; } .premium-hero-copy,.calligraphy-stage { position:relative;z-index:1; } }
         @media(max-width:560px) { .premium-hero { background-position:62% center; } .premium-hero-copy { padding:18px 12px;border-radius:18px;background:rgba(7,24,18,.52);backdrop-filter:blur(3px); } }
-      `}</style>
+        .rhm-quran-hub{position:relative;overflow:hidden;padding:clamp(42px,6vw,78px) 20px;background:linear-gradient(180deg,#f3f0e5 0%,#e8eee4 100%);color:#17392e}
+        .rhm-quran-hub-shell{width:min(1180px,100%);margin:auto}
+        .rhm-quran-hub-intro{max-width:760px}.rhm-quran-kicker{display:block;color:#8b682d;font-size:.72rem;font-weight:850;letter-spacing:.16em}
+        .rhm-quran-hub-intro h2{margin:13px 0 14px;color:#17392e;font:600 clamp(32px,4.7vw,54px)/1.08 Georgia,serif;letter-spacing:-.035em}
+        .rhm-quran-hub-intro>p{max-width:680px;color:#52665a;font-size:1.02rem;line-height:1.85}
+        .rhm-quran-hub-actions{display:flex;gap:12px;flex-wrap:wrap;margin:25px 0 18px}
+        .rhm-quran-action-primary,.rhm-quran-action-secondary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:0 19px;border-radius:999px;text-decoration:none;font-weight:800}
+        .rhm-quran-action-primary{background:#173d30;color:#fff8e9;border:1px solid #173d30}.rhm-quran-action-secondary{border:1px solid #9d875d;color:#294b3a;background:rgba(255,255,255,.45)}
+        .rhm-quran-trustline{display:flex;gap:10px;flex-wrap:wrap;color:#647467;font-size:.83rem;font-weight:650}
+        .rhm-quran-hub-art{position:absolute;top:44px;right:max(5vw,calc((100vw - 1180px)/2));width:clamp(220px,27vw,340px);height:310px;display:grid;place-items:center;pointer-events:none}
+        .rhm-quran-arch{width:80%;height:100%;padding:12px;border:1px solid #b79b61;border-radius:180px 180px 24px 24px;background:linear-gradient(145deg,#244b39,#102a21);box-shadow:0 22px 50px rgba(26,57,41,.2)}
+        .rhm-quran-arch-inner{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;border:1px solid rgba(226,198,133,.55);border-radius:170px 170px 17px 17px;text-align:center;color:#f7edcf}
+        .rhm-quran-arch-star{font-size:30px;color:#dfbd73}.rhm-quran-arch-inner p{margin:18px 0;color:#fff5dc;font:2rem/1.8 Georgia,serif}
+        .rhm-quran-verse-ref{font-size:.65rem;letter-spacing:.18em;color:#e6c77e;font-weight:800}.rhm-quran-verse-meaning{max-width:190px;margin-top:12px;color:#eee3c9;font-size:.85rem;line-height:1.6}
+        .rhm-quran-journey-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:38px 0 18px;padding:19px 22px;border:1px solid #d4d9ca;border-radius:17px;background:rgba(255,255,255,.7);box-shadow:0 8px 26px rgba(33,61,43,.06)}
+        .rhm-quran-journey-copy strong,.rhm-quran-journey-copy small{display:block}.rhm-quran-journey-copy strong{margin:5px 0;color:#1b3d30;font-size:1.05rem}.rhm-quran-journey-copy small{color:#617064}
+        .rhm-quran-journey-bar>a{flex:none;padding:12px 16px;border-radius:999px;background:#e8d5a4;color:#352813;text-decoration:none;font-weight:850}
+        .rhm-quran-tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+        .rhm-quran-tool{display:flex;flex-direction:column;align-items:flex-start;min-height:205px;padding:21px;border:1px solid #d8ddcf;border-radius:17px;background:#fffdf7;color:#1b3d30;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+        .rhm-quran-tool:hover{transform:translateY(-3px);border-color:#b89b5d;box-shadow:0 12px 28px rgba(27,61,48,.09)}
+        .rhm-quran-tool-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#edf1e6;color:#28543d;font-size:1.35rem}
+        .rhm-quran-tool-label{margin-top:15px;color:#927039;font-size:.64rem;font-weight:850;letter-spacing:.15em}
+        .rhm-quran-tool strong{margin:5px 0;color:#1b3d30;font-size:1.06rem}.rhm-quran-tool p{margin:0 0 15px;color:#657367;font-size:.9rem;line-height:1.65}
+        .rhm-quran-tool-link{margin-top:auto;color:#755622;font-size:.83rem;font-weight:850}
+        .rhm-quran-hub-footnote{margin-top:20px;color:#6b766a;font-size:.76rem;line-height:1.6}
+        html[data-site-theme="dark"] .rhm-quran-hub{background:linear-gradient(180deg,#111f19,#17291f);color:#f2ead8}
+        html[data-site-theme="dark"] .rhm-quran-hub-intro h2,html[data-site-theme="dark"] .rhm-quran-tool strong{color:#f4ead3}
+        html[data-site-theme="dark"] .rhm-quran-hub-intro>p,html[data-site-theme="dark"] .rhm-quran-trustline,html[data-site-theme="dark"] .rhm-quran-tool p,html[data-site-theme="dark"] .rhm-quran-hub-footnote{color:#c2cdbf}
+        html[data-site-theme="dark"] .rhm-quran-journey-bar{background:#20372b;border-color:#405b47}
+        html[data-site-theme="dark"] .rhm-quran-journey-copy strong{color:#f4ead3}html[data-site-theme="dark"] .rhm-quran-journey-copy small{color:#c2cdbf}
+        html[data-site-theme="dark"] .rhm-quran-tool{background:#1c3025;border-color:#3d5947;color:#f4ead3}
+        html[data-site-theme="dark"] .rhm-quran-tool-icon{background:#294534;color:#f0dba7}
+        html[data-site-theme="dark"] .rhm-quran-tool-link{color:#e6c77e}
+        html[data-site-theme="dark"] .rhm-quran-action-secondary{color:#f1dfb5;border-color:#8c784e;background:#23372a}
+        @media(max-width:760px){.rhm-quran-hub-art{position:relative;top:auto;right:auto;width:210px;height:230px;margin:28px auto 0}.rhm-quran-journey-bar{align-items:flex-start;flex-direction:column}.rhm-quran-journey-bar>a{align-self:stretch;text-align:center}.rhm-quran-tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+        @media(max-width:520px){.rhm-quran-hub{padding:38px 15px}.rhm-quran-tools-grid{grid-template-columns:1fr}.rhm-quran-tool{min-height:unset}.rhm-quran-hub-actions>*{width:100%}.rhm-quran-trustline{font-size:.75rem}}
+      `}
+</style>
       <section className="hero premium-hero">
         <div className="hero-copy premium-hero-copy">
           <div className="eyebrow">A beautiful space for beneficial knowledge</div>
@@ -120,6 +159,50 @@ export default function Home() {
       </section>
 
 
+
+      {/* RHM_QURAN_EXPERIENCE_START: original learning hub, independently designed for RHM Islam 360 */}
+      <section className="rhm-quran-hub" aria-labelledby="rhm-quran-hub-title">
+        <div className="rhm-quran-hub-shell">
+          <div className="rhm-quran-hub-intro">
+            <span className="rhm-quran-kicker">YOUR QUR’AN JOURNEY · RHM ISLAM 360</span>
+            <h2 id="rhm-quran-hub-title">A closer connection, one Ayah at a time.</h2>
+            <p>Read at your pace, listen with focus, explore trusted explanations and build a lasting daily habit. Your study space brings the tools together without crowding the page.</p>
+            <div className="rhm-quran-hub-actions">
+              <a className="rhm-quran-action-primary" href="/quran">Open the Qur’an reader <span aria-hidden="true">↗</span></a>
+              <a className="rhm-quran-action-secondary" href="/tafsir">Explore Tafsir library</a>
+            </div>
+            <div className="rhm-quran-trustline"><span>114 Surahs</span><i aria-hidden="true">·</i><span>Arabic, Urdu & English</span><i aria-hidden="true">·</i><span>Free core learning</span></div>
+          </div>
+          <div className="rhm-quran-hub-art" aria-label="Decorative geometric arch inspired by Islamic architecture">
+            <div className="rhm-quran-arch">
+              <div className="rhm-quran-arch-inner">
+                <span className="rhm-quran-arch-star">۞</span>
+                <p lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا</p>
+                <span className="rhm-quran-verse-ref">TA-HA · 20:114</span>
+                <span className="rhm-quran-verse-meaning">Ask your Lord to increase you in knowledge.</span>
+              </div>
+            </div>
+          </div>
+          <div className="rhm-quran-journey-bar">
+            <div className="rhm-quran-journey-copy">
+              <span className="rhm-quran-kicker">PICK UP WHERE YOU PAUSED</span>
+              <strong>{lastReadKey ? `Continue your reading · Ayah ${lastReadKey}` : "Begin a new reading journey"}</strong>
+              <small>{lastReadKey ? "Your last reading position is saved on this device." : "Your reading position will be remembered on this device."}</small>
+            </div>
+            <a href={lastReadKey ? `/quran?surah=${encodeURIComponent(lastReadKey.split(":")[0])}#ayah-${lastReadKey.replace(":", "-")}` : "/quran"}> {lastReadKey ? "Continue reading" : "Start reading"} <span aria-hidden="true">→</span></a>
+          </div>
+          <div className="rhm-quran-tools-grid">
+            <a className="rhm-quran-tool" href="/quran#quran-reader"><span className="rhm-quran-tool-icon">♫</span><span className="rhm-quran-tool-label">LISTEN</span><strong>Recitation studio</strong><p>Choose a reciter, replay an Ayah, follow along and continue through a Surah.</p><span className="rhm-quran-tool-link">Explore listening ↗</span></a>
+            <a className="rhm-quran-tool" href="/quran#quran-reader"><span className="rhm-quran-tool-icon">文</span><span className="rhm-quran-tool-label">UNDERSTAND</span><strong>Translations & word study</strong><p>Read meaning alongside the Arabic and explore individual words at your pace.</p><span className="rhm-quran-tool-link">Study the words ↗</span></a>
+            <a className="rhm-quran-tool" href="/tafsir"><span className="rhm-quran-tool-icon">۞</span><span className="rhm-quran-tool-label">REFLECT</span><strong>Scholarly Tafsir</strong><p>Explore attributed editions and keep each scholar’s explanation distinct.</p><span className="rhm-quran-tool-link">Open Tafsir ↗</span></a>
+            <a className="rhm-quran-tool" href="/academy"><span className="rhm-quran-tool-icon">ا ب</span><span className="rhm-quran-tool-label">BUILD SKILLS</span><strong>Qur’an learning path</strong><p>Strengthen your foundations through Arabic, Qaida, recitation and guided learning.</p><span className="rhm-quran-tool-link">Start learning ↗</span></a>
+            <a className="rhm-quran-tool" href="/my-rhm"><span className="rhm-quran-tool-icon">◎</span><span className="rhm-quran-tool-label">YOUR PROGRESS</span><strong>Bookmarks & notes</strong><p>Keep meaningful passages close and return to your personal study notes.</p><span className="rhm-quran-tool-link">View my space ↗</span></a>
+            <a className="rhm-quran-tool" href="/islamic-calendar"><span className="rhm-quran-tool-icon">☾</span><span className="rhm-quran-tool-label">STAY CONSISTENT</span><strong>Daily goals & seasons</strong><p>Make space for regular reading and prepare for Ramadan and other blessed days.</p><span className="rhm-quran-tool-link">Plan your routine ↗</span></a>
+          </div>
+          <div className="rhm-quran-hub-footnote">RHM is independently designed. Qur’anic text, translations, recitations and explanations remain attributed to their respective sources.</div>
+        </div>
+      </section>
+      {/* RHM_QURAN_EXPERIENCE_END */}
 
       <section className="faith-entry-section" aria-labelledby="faith-entry-title">
         <div className="faith-entry-heading">
