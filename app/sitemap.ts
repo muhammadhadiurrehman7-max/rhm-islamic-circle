@@ -18,6 +18,7 @@ const pages = [
   { path: "/quran", priority: 0.9, changeFrequency: "weekly" as const },
   { path: "/hadith", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/duas", priority: 0.8, changeFrequency: "weekly" as const },
+  { path: "/weekly-zikr", priority: 0.8, changeFrequency: "weekly" as const },
   { path: "/qaida", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/daily-life", priority: 0.9, changeFrequency: "monthly" as const },
   { path: "/prayer-times", priority: 0.8, changeFrequency: "daily" as const },
