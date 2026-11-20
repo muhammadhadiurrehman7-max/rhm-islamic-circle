@@ -588,10 +588,10 @@ useEffect(() => {
       </header>
       <section className="sacred-places" aria-label="Photographs of the holy mosques">
         <div className="sacred-place sacred-kaaba">
-          <div className="sacred-place-caption"><span>Makkah al-Mukarramah</span><strong>The Holy Kaaba</strong></div>
+          <div className="sacred-place-caption"><span>Makkah al-Mukarramah</span><strong>The Holy Kaaba</strong><a href="https://commons.wikimedia.org/wiki/File:Kaaba-Masjid_al-Haram.JPG" target="_blank" rel="noreferrer">Photo source · Wikimedia Commons</a></div>
         </div>
         <div className="sacred-place sacred-madinah">
-          <div className="sacred-place-caption"><span>Al-Madinah al-Munawwarah</span><strong>Al-Masjid an-Nabawi</strong></div>
+          <div className="sacred-place-caption"><span>Al-Madinah al-Munawwarah</span><strong>Al-Masjid an-Nabawi</strong><a href="https://commons.wikimedia.org/wiki/File:MasjidNabawi.jpg" target="_blank" rel="noreferrer">Photo source · Wikimedia Commons (CC0)</a></div>
         </div>
       </section>
       <section className="quran-heading">
