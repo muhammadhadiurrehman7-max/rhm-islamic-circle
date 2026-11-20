@@ -53,6 +53,34 @@ export default function IslamicHeritagePage() {
         </div>
       </section>
 
+      <section className="heritage-history-section" id="early-events">
+        <div className="heritage-section-heading"><span className="eyebrow">The early Muslim community</span><h2>Key events in the Prophet’s ﷺ lifetime</h2><p>These events are presented as a concise historical overview. The Qur’an gives spiritual and moral lessons about several of them; consult reliable Seerah works for fuller context and differences in reported details.</p></div>
+        <div className="heritage-timeline">
+          <article><span className="heritage-date">624 CE</span><div><h3>The Battle of Badr</h3><p>A major early encounter between the Muslims of Madinah and the Quraysh of Makkah. The Qur’an refers to divine support at Badr and calls believers to gratitude and steadfastness. <strong>Study:</strong> Qur’an 3:123–127 and 8:1–19.</p></div></article>
+          <article><span className="heritage-date">625 CE</span><div><h3>The Battle of Uhud</h3><p>The Muslims faced a difficult setback at Uhud. Qur’anic passages reflect on discipline, patience, consultation and learning from hardship. <strong>Study:</strong> Qur’an 3:121–175.</p></div></article>
+          <article><span className="heritage-date">627 CE</span><div><h3>The Battle of the Trench (Al-Ahzab)</h3><p>Madinah faced a confederate siege. The community used a defensive trench, and the Qur’an describes the trial and the believers’ response. <strong>Study:</strong> Qur’an 33:9–27.</p></div></article>
+          <article><span className="heritage-date">628 CE</span><div><h3>The Treaty of Hudaybiyyah</h3><p>An agreement between the Muslims and Quraysh created a period of truce and opened the way for wider peaceful contact. The Qur’an describes it as a manifest victory. <strong>Study:</strong> Qur’an 48:1–27.</p></div></article>
+          <article><span className="heritage-date">630 CE</span><div><h3>The opening of Makkah</h3><p>The Prophet ﷺ returned to Makkah with the Muslim community. The event is remembered in Seerah as a turning point; study accounts alongside the Prophet’s teachings on humility and mercy. <strong>Related reading:</strong> Qur’an 110.</p></div></article>
+          <article><span className="heritage-date">632 CE</span><div><h3>The Farewell Pilgrimage</h3><p>During his final Hajj, the Prophet ﷺ addressed the Muslim community. Reports of the sermon are preserved in Hadith collections with variations in wording and transmission; avoid treating popular composite versions as one verbatim transcript.</p></div></article>
+        </div>
+        <div className="heritage-note">Important: the Qur’an is the primary source for its own accounts. Hadith and Seerah reports have different chains and levels of reliability; check the specific source and wording rather than relying on unsourced social-media timelines.</div>
+      </section>
+
+      <section className="heritage-history-section" id="later-turning-points">
+        <div className="heritage-section-heading"><span className="eyebrow">A changing world</span><h2>Later turning points in Muslim history</h2><p>These milestones help orient learners, but no single empire represents all Muslims. Political rule, religious scholarship and everyday Muslim communities often followed different paths.</p></div>
+        <div className="heritage-timeline">
+          <article><span className="heritage-date">661 CE</span><div><h3>Beginning of Umayyad rule</h3><p>After a period of internal conflict, Mu‘awiyah established Umayyad rule with its centre in Damascus. The transition and the events around it are interpreted differently across Muslim historical traditions.</p></div></article>
+          <article><span className="heritage-date">750 CE</span><div><h3>Abbasid revolution</h3><p>The Abbasids replaced Umayyad rule in most of the central caliphate. Baghdad, founded in 762 CE, later became a major centre of administration, commerce and scholarship.</p></div></article>
+          <article><span className="heritage-date">711 CE onward</span><div><h3>Islam in Sindh and South Asia</h3><p>Arab campaigns reached Sindh in the early 8th century, while Islam spread across South Asia over many centuries through varied routes including trade, migration, scholarship, Sufi networks and changing states. Avoid reducing this long history to one conquest.</p></div></article>
+          <article><span className="heritage-date">10th–13th centuries</span><div><h3>Regional dynasties and scholarly centres</h3><p>Fatimid, Seljuk, Ghaznavid, Ghurid and many other states shaped different regions. Cairo, Nishapur, Bukhara, Delhi and other cities supported varied institutions of learning and culture.</p></div></article>
+          <article><span className="heritage-date">1258 CE</span><div><h3>Baghdad under Mongol attack</h3><p>The Mongol capture of Baghdad was a devastating event for the Abbasid caliphate in the city. It did not end Islamic civilisation or scholarship, which continued and developed across many other regions.</p></div></article>
+          <article><span className="heritage-date">1453 CE</span><div><h3>Ottoman conquest of Constantinople</h3><p>Sultan Mehmed II captured Constantinople, making it the Ottoman capital. The city’s history includes Byzantine, Ottoman and modern Turkish periods and remains culturally layered.</p></div></article>
+          <article><span className="heritage-date">1492 CE</span><div><h3>End of Nasrid rule in Granada</h3><p>The surrender of Granada marked the end of the last Muslim-ruled kingdom in Iberia. The subsequent history of Muslims and other communities in the peninsula includes forced conversions, expulsions and cultural change.</p></div></article>
+          <article><span className="heritage-date">1526 CE</span><div><h3>Beginning of Mughal rule in North India</h3><p>Babur’s victory at Panipat established Mughal rule in parts of North India. The empire later changed significantly under different rulers and interacted with many regional powers and communities.</p></div></article>
+        </div>
+        <div className="heritage-note">Historical dates are conventional reference points. For deeper study, compare reputable academic histories and primary sources; political borders, dynastic labels and the dating of some events can be debated.</div>
+      </section>
+
       <section className="heritage-history-section" id="civilisations">
         <div className="heritage-section-heading"><span className="eyebrow">Many regions, many stories</span><h2>Explore Islamic civilisations</h2><p>These labels are broad starting points. Each region had different rulers, languages, schools of thought and local traditions; none should be treated as a single uniform culture.</p></div>
         <div className="heritage-topic-grid">
