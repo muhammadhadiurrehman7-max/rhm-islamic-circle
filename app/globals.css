@@ -2694,3 +2694,16 @@ html[data-site-theme="dark"] .quran-page .ayah-tafsir-source{color:#c3d0df}
     padding: 0 15px;
   }
 }
+
+
+/* Continuous Surah reading mode */
+.quran-page .quran-paragraph-reader{margin:24px 0;padding:clamp(18px,3vw,30px);border:1px solid var(--q-border,#e5e9e3);border-radius:18px;background:var(--q-surface,#fbfaf6)}
+.quran-page .quran-arabic-paragraph{margin:0;color:var(--q-ink,#17352d);font-family:"Noto Naskh Arabic","Amiri","Times New Roman",serif;font-weight:500;line-height:2.35;text-align:justify;text-align-last:right;overflow-wrap:anywhere}
+.quran-page .quran-paragraph-verse{scroll-margin-top:100px}
+.quran-page .quran-verse-end{display:inline-block;margin:0 .22em;color:var(--q-gold,#9b783e);font-family:serif;font-size:.48em;white-space:nowrap;vertical-align:middle}
+.quran-page .quran-translation-paragraph{margin-top:26px;padding:20px 22px;border-top:1px solid var(--q-border,#e5e9e3);color:var(--q-ink,#33483d);font-size:17px;line-height:2.1;white-space:normal}
+.quran-page .quran-translation-paragraph[dir="rtl"]{text-align:right}
+.quran-page .quran-translation-paragraph small{color:var(--q-gold,#9b783e);font-size:.75em}
+.quran-page .quran-paragraph-hint{margin:20px 0 0;color:var(--q-muted,#687b73);font-size:13px;line-height:1.7}
+.quran-page[data-theme="dark"] .quran-paragraph-reader{background:var(--q-surface);border-color:var(--q-border)}
+@media(max-width:600px){.quran-page .quran-paragraph-reader{padding:14px;border-radius:14px}.quran-page .quran-arabic-paragraph{line-height:2.2;text-align:right}.quran-page .quran-translation-paragraph{padding:16px 8px;font-size:16px}}
