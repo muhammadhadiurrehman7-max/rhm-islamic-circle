@@ -45,6 +45,8 @@ const features = [
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [guidanceIndex, setGuidanceIndex] = useState(0);
+  const [lastReadKey, setLastReadKey] = useState<string | null>(null);
+  useEffect(() => { try { setLastReadKey(window.localStorage.getItem("rhm-quran-last-read")); } catch { setLastReadKey(null); } }, []);
   useEffect(() => {
     const timer = window.setInterval(() => setGuidanceIndex((current) => (current + 1) % guidanceQuotes.length), 20000);
     return () => window.clearInterval(timer);
@@ -120,6 +122,50 @@ export default function Home() {
       </section>
 
 
+
+      {/* RHM_QURAN_EXPERIENCE_START: original learning hub, independently designed for RHM Islam 360 */}
+      <section className="rhm-quran-hub" aria-labelledby="rhm-quran-hub-title">
+        <div className="rhm-quran-hub-shell">
+          <div className="rhm-quran-hub-intro">
+            <span className="rhm-quran-kicker">YOUR QUR’AN JOURNEY · RHM ISLAM 360</span>
+            <h2 id="rhm-quran-hub-title">A closer connection, one Ayah at a time.</h2>
+            <p>Read at your pace, listen with focus, explore trusted explanations and build a lasting daily habit. Your study space brings the tools together without crowding the page.</p>
+            <div className="rhm-quran-hub-actions">
+              <a className="rhm-quran-action-primary" href="/quran">Open the Qur’an reader <span aria-hidden="true">↗</span></a>
+              <a className="rhm-quran-action-secondary" href="/tafsir">Explore Tafsir library</a>
+            </div>
+            <div className="rhm-quran-trustline"><span>114 Surahs</span><i aria-hidden="true">·</i><span>Arabic, Urdu & English</span><i aria-hidden="true">·</i><span>Free core learning</span></div>
+          </div>
+          <div className="rhm-quran-hub-art" aria-label="Decorative geometric arch inspired by Islamic architecture">
+            <div className="rhm-quran-arch">
+              <div className="rhm-quran-arch-inner">
+                <span className="rhm-quran-arch-star">۞</span>
+                <p lang="ar" dir="rtl">وَقُل رَّبِّ زِدْنِي عِلْمًا</p>
+                <span className="rhm-quran-verse-ref">TA-HA · 20:114</span>
+                <span className="rhm-quran-verse-meaning">Ask your Lord to increase you in knowledge.</span>
+              </div>
+            </div>
+          </div>
+          <div className="rhm-quran-journey-bar">
+            <div className="rhm-quran-journey-copy">
+              <span className="rhm-quran-kicker">PICK UP WHERE YOU PAUSED</span>
+              <strong>{lastReadKey ? `Continue your reading · Ayah ${lastReadKey}` : "Begin a new reading journey"}</strong>
+              <small>{lastReadKey ? "Your last reading position is saved on this device." : "Your reading position will be remembered on this device."}</small>
+            </div>
+            <a href={lastReadKey ? `/quran?surah=${encodeURIComponent(lastReadKey.split(":")[0])}#ayah-${encodeURIComponent(lastReadKey)}` : "/quran"}> {lastReadKey ? "Continue reading" : "Start reading"} <span aria-hidden="true">→</span></a>
+          </div>
+          <div className="rhm-quran-tools-grid">
+            <a className="rhm-quran-tool" href="/quran#recitation"><span className="rhm-quran-tool-icon">♫</span><span className="rhm-quran-tool-label">LISTEN</span><strong>Recitation studio</strong><p>Choose a reciter, replay an Ayah, follow along and continue through a Surah.</p><span className="rhm-quran-tool-link">Explore listening ↗</span></a>
+            <a className="rhm-quran-tool" href="/quran#translation"><span className="rhm-quran-tool-icon">文</span><span className="rhm-quran-tool-label">UNDERSTAND</span><strong>Translations & word study</strong><p>Read meaning alongside the Arabic and explore individual words at your pace.</p><span className="rhm-quran-tool-link">Study the words ↗</span></a>
+            <a className="rhm-quran-tool" href="/tafsir"><span className="rhm-quran-tool-icon">۞</span><span className="rhm-quran-tool-label">REFLECT</span><strong>Scholarly Tafsir</strong><p>Explore attributed editions and keep each scholar’s explanation distinct.</p><span className="rhm-quran-tool-link">Open Tafsir ↗</span></a>
+            <a className="rhm-quran-tool" href="/academy"><span className="rhm-quran-tool-icon">ا ب</span><span className="rhm-quran-tool-label">BUILD SKILLS</span><strong>Qur’an learning path</strong><p>Strengthen your foundations through Arabic, Qaida, recitation and guided learning.</p><span className="rhm-quran-tool-link">Start learning ↗</span></a>
+            <a className="rhm-quran-tool" href="/my-rhm"><span className="rhm-quran-tool-icon">◎</span><span className="rhm-quran-tool-label">YOUR PROGRESS</span><strong>Bookmarks & notes</strong><p>Keep meaningful passages close and return to your personal study notes.</p><span className="rhm-quran-tool-link">View my space ↗</span></a>
+            <a className="rhm-quran-tool" href="/islamic-calendar"><span className="rhm-quran-tool-icon">☾</span><span className="rhm-quran-tool-label">STAY CONSISTENT</span><strong>Daily goals & seasons</strong><p>Make space for regular reading and prepare for Ramadan and other blessed days.</p><span className="rhm-quran-tool-link">Plan your routine ↗</span></a>
+          </div>
+          <div className="rhm-quran-hub-footnote">RHM is independently designed. Qur’anic text, translations, recitations and explanations remain attributed to their respective sources.</div>
+        </div>
+      </section>
+      {/* RHM_QURAN_EXPERIENCE_END */}
 
       <section className="faith-entry-section" aria-labelledby="faith-entry-title">
         <div className="faith-entry-heading">
