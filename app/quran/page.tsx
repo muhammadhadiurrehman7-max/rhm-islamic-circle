@@ -170,6 +170,16 @@ export default function QuranPage() {
   const surahAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    if (!chapter || !lastRead) return;
+    const [savedSurah, savedAyah] = lastRead.split(":").map(Number);
+    if (savedSurah !== selected || !Number.isInteger(savedAyah) || savedAyah < 1) return;
+    const timer = window.setTimeout(() => {
+      document.getElementById(`ayah-${savedSurah}-${savedAyah}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 450);
+    return () => window.clearTimeout(timer);
+  }, [chapter, lastRead, selected]);
+
+  useEffect(() => {
     const requestedSurah = Number(new URLSearchParams(window.location.search).get("surah"));
     if (Number.isInteger(requestedSurah) && requestedSurah >= 1 && requestedSurah <= 114) setSelected(requestedSurah);
   }, []);
