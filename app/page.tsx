@@ -84,7 +84,6 @@ export default function Home() {
         html[data-site-theme="dark"] .premium-hero { background-image:linear-gradient(90deg,rgba(5,18,14,.95),rgba(5,18,14,.78) 45%,rgba(5,18,14,.25)),url('/images/rhm-islam360-quran-hero.webp'); }
         @media(max-width:850px) { .premium-hero { background-position:58% center; } .premium-hero:before { content:"";position:absolute;inset:0;background:rgba(7,24,18,.24);pointer-events:none; } .premium-hero-copy,.calligraphy-stage { position:relative;z-index:1; } }
         @media(max-width:560px) { .premium-hero { background-position:62% center; } .premium-hero-copy { padding:18px 12px;border-radius:18px;background:rgba(7,24,18,.52);backdrop-filter:blur(3px); } }
-      `}
         .rhm-quran-hub{position:relative;overflow:hidden;padding:clamp(42px,6vw,78px) 20px;background:linear-gradient(180deg,#f3f0e5 0%,#e8eee4 100%);color:#17392e}
         .rhm-quran-hub-shell{width:min(1180px,100%);margin:auto}
         .rhm-quran-hub-intro{max-width:760px}.rhm-quran-kicker{display:block;color:#8b682d;font-size:.72rem;font-weight:850;letter-spacing:.16em}
@@ -121,6 +120,7 @@ export default function Home() {
         html[data-site-theme="dark"] .rhm-quran-action-secondary{color:#f1dfb5;border-color:#8c784e;background:#23372a}
         @media(max-width:760px){.rhm-quran-hub-art{position:relative;top:auto;right:auto;width:210px;height:230px;margin:28px auto 0}.rhm-quran-journey-bar{align-items:flex-start;flex-direction:column}.rhm-quran-journey-bar>a{align-self:stretch;text-align:center}.rhm-quran-tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
         @media(max-width:520px){.rhm-quran-hub{padding:38px 15px}.rhm-quran-tools-grid{grid-template-columns:1fr}.rhm-quran-tool{min-height:unset}.rhm-quran-hub-actions>*{width:100%}.rhm-quran-trustline{font-size:.75rem}}
+      `}
 </style>
       <section className="hero premium-hero">
         <div className="hero-copy premium-hero-copy">
