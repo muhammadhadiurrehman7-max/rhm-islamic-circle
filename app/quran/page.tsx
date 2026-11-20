@@ -601,10 +601,12 @@ useEffect(() => {
           </select>
           {surahSearchQuery.trim() && !surahs.some((surah) => { const query = surahSearchQuery.trim().toLocaleLowerCase(); return String(surah.number) === query || surah.englishName.toLocaleLowerCase().includes(query) || surah.name.toLocaleLowerCase().includes(query) || surah.englishNameTranslation.toLocaleLowerCase().includes(query); }) && <span className="quran-count" role="status">No Surah found. Try another name or number.</span>}
           {chapter && <span className="quran-count">{chapter.numberOfAyahs} Ayahs</span>}
+          <details className="reader-disclosure navigation-disclosure"><summary>More navigation · Previous/Next Surah and Juz</summary>
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.max(1, value - 1))} disabled={selected === 1}>← Previous Surah</button>
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.min(114, value + 1))} disabled={selected === 114}>Next Surah →</button>
           <label htmlFor="juz-select">Jump to Juz</label>
           <select id="juz-select" value={selectedJuz} onChange={(event) => { if (event.target.value) void jumpToJuz(Number(event.target.value)); }}><option value="">Choose Juz (1–30)</option>{Array.from({ length: 30 }, (_, index) => <option key={index + 1} value={index + 1}>Juz {index + 1}</option>)}</select>
+          </details>
           <div className="quran-language-choice" role="group" aria-label="Choose translation and Tafsir language">
             <span className="quran-language-label">Study language / مطالعے کی زبان</span>
             <button type="button" className={studyLanguage === "ur" ? "reader-tool-button is-selected" : "reader-tool-button"} aria-pressed={studyLanguage === "ur"} onClick={() => setStudyLanguage("ur")}>اردو · Urdu</button>
