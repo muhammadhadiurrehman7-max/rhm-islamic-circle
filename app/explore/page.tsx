@@ -38,7 +38,8 @@ const groups: Group[] = [
     features: [
       { title: "Prayer times, Azan & Qibla", description: "Check local Salah times, configure reminders and find the Qibla direction.", href: "/prayer-times", label: "Salah centre", keywords: "namaz salah prayer azan adhan qibla" },
       { title: "Islamic calendar", description: "View Hijri months alongside Gregorian dates, with guidance about local moon sighting.", href: "/islamic-calendar", label: "Hijri calendar", keywords: "hijri ramadan eid islamic dates" },
-      { title: "Duas & Azkar", description: "Read daily supplications with Arabic, meanings and available source references.", href: "/duas", label: "Daily remembrance", keywords: "dua dhikr zikr morning evening" },
+      { title: "Daily Duas", description: "Read Qur’anic and Prophetic supplications with Arabic, Urdu, English meanings and source references.", href: "/duas", label: "Daily supplications", keywords: "dua duas supplication morning evening" },
+      { title: "Weekly Zikr", description: "Follow a simple seven-day learning plan for authentic dhikr, with Arabic, meanings, narration counts where established and source links.", href: "/weekly-zikr", label: "Weekly remembrance", keywords: "dhikr zikr tasbih istighfar salawat remembrance" },
       { title: "Daily Muslim life", description: "Learn about Wudu, cleanliness, prayer preparation and everyday guidance.", href: "/daily-life", label: "Everyday guidance", keywords: "wudu ablution taharah cleanliness" },
       { title: "Worship tracker", description: "Keep a private checklist to reflect on your daily worship routine.", href: "/worship-tracker", label: "Personal routine", keywords: "habit salah fasting tracker" },
       { title: "Muslim Companion", description: "Open useful tools including Tasbeeh, Zakat guidance and the Islamic glossary.", href: "/companion", label: "More tools", keywords: "tasbeeh zakat glossary" },

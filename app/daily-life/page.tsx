@@ -114,7 +114,7 @@ export default function DailyLifePage() {
         <nav><a href="/">Home</a><a href="/learn">Discover Islam</a><a href="/quran">Qur’an</a></nav>
       </header>
 
-      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life" aria-current="page">Daily Life</a></nav>
+      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/duas">Daily Duas</a><a href="/weekly-zikr">Weekly Zikr</a><a href="/daily-life" aria-current="page">Daily Life</a></nav>
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <span className={styles.eyebrow}>{t.eyebrow}</span>
@@ -128,6 +128,11 @@ export default function DailyLifePage() {
         <div className={styles.heroLinks}>
           <a href="#qibla">{t.qibla} ↘</a><a href="#wudu">{t.wudu} ↘</a><a href="#cleanliness">{t.cleanliness} ↘</a>
         </div>
+      </section>
+
+      <section className={styles.remembranceLinks} aria-label="Daily remembrance">
+        <a className={styles.remembranceLink} href="/duas"><span className={styles.remembranceIcon} aria-hidden="true">د</span><span><strong>Daily Duas</strong><small>Supplications from the Qur’an and Sunnah, with Arabic, Urdu, English and references</small></span><b aria-hidden="true">↗</b></a>
+        <a className={styles.remembranceLink} href="/weekly-zikr"><span className={styles.remembranceIcon} aria-hidden="true">ذ</span><span><strong>Weekly Zikr</strong><small>A simple seven-day learning plan for authentic remembrance, with meanings and sources</small></span><b aria-hidden="true">↗</b></a>
       </section>
 
       <section className={styles.qiblaCard} id="qibla">
