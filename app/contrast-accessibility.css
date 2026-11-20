@@ -1,0 +1,90 @@
+/* RHM high-contrast typography — loaded last so page-level legacy rules cannot wash out headings. */
+:root {
+  --rhm-heading-light: #102b46;
+  --rhm-body-light: #354657;
+  --rhm-accent-light: #704800;
+  --rhm-heading-dark: #fff8e9;
+  --rhm-body-dark: #e4eaf0;
+  --rhm-accent-dark: #f1d18a;
+}
+
+/* Light theme: strong ink for every heading, including headings outside cards. */
+html[data-site-theme="light"] body :is(h1,h2,h3,h4,h5,h6),
+html[data-site-theme="light"] body :is(.section-heading,.page-heading,.page-title,.section-title,.card-title) {
+  color: var(--rhm-heading-light) !important;
+  -webkit-text-fill-color: var(--rhm-heading-light) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-site-theme="light"] body :is(p,li,dd,dt,figcaption,blockquote,label,legend,.muted,.description,.helper-text,.field-hint) {
+  color: var(--rhm-body-light);
+  opacity: 1;
+}
+html[data-site-theme="light"] body :is(.eyebrow,.section-kicker,.section-label,.hero-note,.caption,.overline) {
+  color: var(--rhm-accent-light) !important;
+  -webkit-text-fill-color: var(--rhm-accent-light) !important;
+  opacity: 1 !important;
+}
+html[data-site-theme="light"] body a:not(.btn):not(.site-theme-toggle):not(.theme-toggle) {
+  color: #124e78;
+}
+html[data-site-theme="light"] body :is(.feature-card,.faith-entry-card,.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,.content-card,.surface-card,.daily-tool-card,.prayer-time-card,.prayer-note,.prayer-location,.tasbeeh-mini,.donation-card,.linkCard,.toolCard,.lesson,.note,.progressCard,.statsCard,.task,.card,.ayah-card,.recitation-panel,.quran-search-panel,.word-study-item) :is(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: var(--rhm-heading-light) !important;
+  -webkit-text-fill-color: var(--rhm-heading-light) !important;
+}
+
+/* Keep intentionally dark feature panels light-on-dark, even with the light theme selected. */
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,.footer,.quran-footer) :is(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: #fff9ed !important;
+  -webkit-text-fill-color: #fff9ed !important;
+}
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,.footer,.quran-footer) :is(p,li,dd,dt,figcaption,blockquote,label,legend,small,span) {
+  color: #f2f5f7;
+  opacity: 1;
+}
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,.footer,.quran-footer) :is(.eyebrow,.section-kicker,.hero-note) {
+  color: #f5d58c !important;
+  -webkit-text-fill-color: #f5d58c !important;
+}
+/* The reader also has an independent dark reading mode. */
+html[data-site-theme="light"] body .quran-page[data-theme="dark"] :is(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: #fff8e9 !important;
+  -webkit-text-fill-color: #fff8e9 !important;
+}
+html[data-site-theme="light"] body .quran-page[data-theme="dark"] :is(p,li,small,label,span) {
+  color: #e4eaf0;
+}
+
+/* Dark theme: warm ivory headings and brighter supporting text. */
+html[data-site-theme="dark"] body :is(h1,h2,h3,h4,h5,h6),
+html[data-site-theme="dark"] body :is(.section-heading,.page-heading,.page-title,.section-title,.card-title) {
+  color: var(--rhm-heading-dark) !important;
+  -webkit-text-fill-color: var(--rhm-heading-dark) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-site-theme="dark"] body :is(p,li,dd,dt,figcaption,blockquote,label,legend,.muted,.description,.helper-text,.field-hint) {
+  color: var(--rhm-body-dark);
+  opacity: 1;
+}
+html[data-site-theme="dark"] body :is(.eyebrow,.section-kicker,.section-label,.hero-note,.caption,.overline) {
+  color: var(--rhm-accent-dark) !important;
+  -webkit-text-fill-color: var(--rhm-accent-dark) !important;
+  opacity: 1 !important;
+}
+html[data-site-theme="dark"] body a:not(.btn):not(.site-theme-toggle):not(.theme-toggle) {
+  color: #a9d5f5;
+}
+html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card,.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,.content-card,.surface-card,.daily-tool-card,.prayer-time-card,.prayer-note,.prayer-location,.tasbeeh-mini,.donation-card,.linkCard,.toolCard,.lesson,.note,.progressCard,.statsCard,.task,.card,.ayah-card,.recitation-panel,.quran-search-panel,.word-study-item) :is(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: var(--rhm-heading-dark) !important;
+  -webkit-text-fill-color: var(--rhm-heading-dark) !important;
+}
+
+/* Keep keyboard focus obvious and form hints readable. */
+html[data-site-theme="light"] body :is(input,select,textarea)::placeholder { color: #526273 !important; opacity: 1; }
+html[data-site-theme="dark"] body :is(input,select,textarea)::placeholder { color: #cbd8e4 !important; opacity: 1; }
+html[data-site-theme="light"] body :is(a,button,input,select,textarea):focus-visible,
+html[data-site-theme="dark"] body :is(a,button,input,select,textarea):focus-visible {
+  outline: 3px solid #d0a64d !important;
+  outline-offset: 3px;
+}
