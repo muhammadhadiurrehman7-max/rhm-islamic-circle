@@ -420,6 +420,23 @@ export default function QuranPage() {
     } catch { setSearchError("Could not open that Juz right now. Please try again."); }
   };
   const saveLastRead = (key: string) => { setLastRead(key); window.localStorage.setItem("rhm-quran-last-read", key); };
+  useEffect(() => {
+    if (!chapter || loading) return;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".quran-page .ayah-card[data-ayah-key]"));
+    if (!cards.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      const current = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+      if (!current || current.intersectionRatio < 0.55) return;
+      const key = (current.target as HTMLElement).dataset.ayahKey;
+      if (!key) return;
+      setLastRead(key);
+      window.localStorage.setItem("rhm-quran-last-read", key);
+    }, { threshold: [0.55, 0.75] });
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [selected, chapter, loading, visibleAyahs.length]);
   const advanceToNextSurah = () => {
     if (selected >= 114) {
       setPlaybackStatus("You have reached the end of the Qur’an. May your recitation be accepted.");
