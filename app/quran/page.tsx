@@ -149,7 +149,7 @@ export default function QuranPage() {
   const [tafsirError, setTafsirError] = useState("");
   const [tafsirSearchQuery, setTafsirSearchQuery] = useState("");
   const [selectedTafsirs, setSelectedTafsirs] = useState<string[]>([]);
-  const [tafsirMode, setTafsirMode] = useState(true);
+  const [tafsirMode, setTafsirMode] = useState(false);
   const [tafsirByAyah, setTafsirByAyah] = useState<Map<number, TafsirPassage[]>>(new Map());
   const [globalSearch, setGlobalSearch] = useState("");
   const [searchResults, setSearchResults] = useState<SearchMatch[]>([]);
@@ -296,7 +296,7 @@ export default function QuranPage() {
         const languageResources = available.filter((item) => item.id && (String(item.language_name || "").toLowerCase() === studyLanguage || (studyLanguage === "ur" && String(item.language_name || "").toLowerCase() === "urdu") || (studyLanguage === "en" && String(item.language_name || "").toLowerCase() === "english")));
         setTafsirs(languageResources);
         const recommended = recommendedTafsirIds(languageResources, studyLanguage);
-        setSelectedTafsirs(recommended.length ? recommended : languageResources.slice(0, 2).map((item) => String(item.id)));
+        setSelectedTafsirs(recommended.length ? recommended.slice(0, 1) : languageResources.slice(0, 1).map((item) => String(item.id)));
       })
       .catch(() => { if (active) setTafsirError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Confirm that the Quran Foundation app has the content.tafsirs.read permission and that the selected environment has valid credentials.`); });
     return () => { active = false; };
@@ -420,6 +420,23 @@ export default function QuranPage() {
     } catch { setSearchError("Could not open that Juz right now. Please try again."); }
   };
   const saveLastRead = (key: string) => { setLastRead(key); window.localStorage.setItem("rhm-quran-last-read", key); };
+  useEffect(() => {
+    if (!chapter || loading) return;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".quran-page .ayah-card[data-ayah-key]"));
+    if (!cards.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      const current = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+      if (!current || current.intersectionRatio < 0.55) return;
+      const key = (current.target as HTMLElement).dataset.ayahKey;
+      if (!key) return;
+      setLastRead(key);
+      window.localStorage.setItem("rhm-quran-last-read", key);
+    }, { threshold: [0.55, 0.75] });
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [selected, chapter, loading, visibleAyahs.length]);
   const advanceToNextSurah = () => {
     if (selected >= 114) {
       setPlaybackStatus("You have reached the end of the Qur’an. May your recitation be accepted.");
@@ -575,6 +592,7 @@ useEffect(() => {
 
   return (
     <main className="quran-page" data-theme={theme}>
+      <style jsx>{`.quran-page .reader-disclosure{margin:14px 0;border:1px solid var(--q-border,#d8ddcf);border-radius:14px;background:var(--q-card,#fffdf7);color:var(--q-ink,#20382c);overflow:hidden}.quran-page .reader-disclosure>summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:750;display:flex;align-items:center;justify-content:space-between;gap:12px}.quran-page .reader-disclosure>summary::-webkit-details-marker{display:none}.quran-page .reader-disclosure>summary:after{content:"＋";color:var(--q-gold,#a17b36);font-size:1.1rem}.quran-page .reader-disclosure[open]>summary:after{content:"−"}.quran-page .reader-disclosure[open]>.tafsir-library,.quran-page .reader-disclosure[open]>.quran-search-panel{padding:8px 16px 16px}.quran-page .learning-space-nav{display:flex;flex-wrap:wrap;gap:8px}.quran-page .learning-space-nav a{padding:9px 14px;border-radius:999px}.quran-page .quran-reader{scroll-margin-top:18px}@media(max-width:600px){.quran-page .reader-disclosure>summary{padding:13px 14px}.quran-page .learning-space-nav{gap:6px}.quran-page .learning-space-nav a{padding:8px 11px}}`}</style>
       <header className="quran-topbar">
         <a className="quran-brand" href="/"> <span className="brand-mark">ر</span> RHM Islam 360</a>
         <div className="quran-top-actions">
@@ -584,47 +602,13 @@ useEffect(() => {
           <button className="quran-home-link" type="button" onClick={() => { const hasInAppHistory = typeof window.history.state?.idx === "number" && window.history.state.idx > 0; const cameFromThisSite = Boolean(document.referrer) && new URL(document.referrer).origin === window.location.origin; if (hasInAppHistory || cameFromThisSite) window.history.back(); else window.location.assign("/"); }} aria-label="Go back to the previous page">← Back</button>
         </div>
       </header>
-      <section className="sacred-places" aria-label="Photographs of the holy mosques">
-        <div className="sacred-place sacred-kaaba">
-          <div className="sacred-place-caption"><span>Makkah al-Mukarramah</span><strong>The Holy Kaaba</strong></div>
-        </div>
-        <div className="sacred-place sacred-madinah">
-          <div className="sacred-place-caption"><span>Al-Madinah al-Munawwarah</span><strong>Al-Masjid an-Nabawi</strong></div>
-        </div>
-      </section>
       <section className="quran-heading">
         <div className="eyebrow">The Noble Quran</div>
         <h1>Read. Reflect. Return.</h1>
         <p>Read every Ayah in Arabic, listen verse by verse, and choose Urdu or another available translation language. Open to everyone, without sign-in.</p>
       </section>
-      <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran" aria-current="page">Qur’an</a><a href="/tafsir">Tafsir Library</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
-      <section className="faith-centre" aria-labelledby="faith-centre-title">
-        <div className="faith-centre-heading">
-          <span className="eyebrow">RHM Islamic learning</span>
-          <h2 id="faith-centre-title">Explore the foundations of Islam</h2>
-          <p>Learn the essentials, read the Qur’an, and explore Hadith and beginner Arabic lessons — all within RHM Islam 360.</p>
-        </div>
-        <div className="faith-card-grid">
-          <article className="faith-card"><span className="faith-icon">☪</span><h3>What is Islam?</h3><p>Explore Tawheed, faith, worship, mercy and the purpose of Islam.</p><a href="/learn/what-is-islam">Open full lesson →</a></article>
-          <article className="faith-card"><span className="faith-icon">✦</span><h3>The Five Pillars</h3><p>Explore five separate explanations: Shahadah, Salah, Zakah, Sawm and Hajj.</p><a href="/learn/five-pillars">Open all five explanations →</a></article>
-          <article className="faith-card"><span className="faith-icon">❖</span><h3>The Six Articles of Iman</h3><p>Learn about the six essential beliefs of a Muslim, each explained separately.</p><a href="/learn/six-articles">Open full lesson →</a></article>
-          <article className="faith-card"><span className="faith-icon">۞</span><h3>Qur’an and Sunnah</h3><p>Understand the Qur’an, the Prophetic example and how to study them carefully.</p><a href="/learn/quran-sunnah">Open full lesson →</a></article>
-          <article className="faith-card"><span className="faith-icon">♡</span><h3>Character and daily life</h3><p>Explore honesty, patience, mercy, family rights, justice and kindness.</p><a href="/learn/character">Open full lesson →</a></article>
-          
-          
-          
-        </div>
-        <p className="faith-note"><strong>Learn responsibly:</strong> These are introductory learning notes, not personal religious rulings. Translation is not a substitute for the Arabic Qur’an or detailed Tafsir. For questions of Islamic law, consult a qualified, trusted scholar.</p>
-      </section>
-            <section className="faith-resources" aria-labelledby="faith-resources-title">
-        <div className="faith-resources-heading"><span className="eyebrow">More from RHM</span><h2 id="faith-resources-title">Explore other learning spaces</h2><p>These resources are separate from the Discover Islam guide. Open each one whenever you want to study a different subject.</p></div>
-        <div className="faith-resource-grid">
-          <a className="faith-resource-card" href="/hadith"><span>📚</span><h3>Hadith Library</h3><p>Explore Hadith collections and translations.</p><strong>Open Hadith ↗</strong></a>
-          <a className="faith-resource-card" href="/qaida"><span>ا ب</span><h3>Beginner’s Qaida</h3><p>Learn Arabic letters and basic reading rules.</p><strong>Open Qaida ↗</strong></a>
-          <a className="faith-resource-card" href="/heritage"><span>🕌</span><h3>Islamic Heritage</h3><p>Discover famous mosques and historic places.</p><strong>Explore heritage ↗</strong></a>
-        </div>
-      </section>
-<section className="quran-reader" id="quran-reader" aria-label="Quran reader">
+      <nav className="learning-space-nav" aria-label="Learning sections"><a href="/quran" aria-current="page">Read Qur’an</a><a href="/tafsir">Tafsir</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas">Duas</a></nav>
+      <section className="quran-reader" id="quran-reader" aria-label="Quran reader">
         <div className="quran-controls">
           <label htmlFor="surah-search">Search Surah by name or number</label>
           <input id="surah-search" type="search" value={surahSearchQuery} onChange={(event) => setSurahSearchQuery(event.target.value)} placeholder="Search e.g. Al-Fatihah, Yaseen or 36…" autoComplete="off" />
@@ -634,10 +618,12 @@ useEffect(() => {
           </select>
           {surahSearchQuery.trim() && !surahs.some((surah) => { const query = surahSearchQuery.trim().toLocaleLowerCase(); return String(surah.number) === query || surah.englishName.toLocaleLowerCase().includes(query) || surah.name.toLocaleLowerCase().includes(query) || surah.englishNameTranslation.toLocaleLowerCase().includes(query); }) && <span className="quran-count" role="status">No Surah found. Try another name or number.</span>}
           {chapter && <span className="quran-count">{chapter.numberOfAyahs} Ayahs</span>}
+          <details className="reader-disclosure navigation-disclosure"><summary>More navigation · Previous/Next Surah and Juz</summary>
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.max(1, value - 1))} disabled={selected === 1}>← Previous Surah</button>
           <button type="button" className="reader-tool-button" onClick={() => setSelected((value) => Math.min(114, value + 1))} disabled={selected === 114}>Next Surah →</button>
           <label htmlFor="juz-select">Jump to Juz</label>
           <select id="juz-select" value={selectedJuz} onChange={(event) => { if (event.target.value) void jumpToJuz(Number(event.target.value)); }}><option value="">Choose Juz (1–30)</option>{Array.from({ length: 30 }, (_, index) => <option key={index + 1} value={index + 1}>Juz {index + 1}</option>)}</select>
+          </details>
           <div className="quran-language-choice" role="group" aria-label="Choose translation and Tafsir language">
             <span className="quran-language-label">Study language / مطالعے کی زبان</span>
             <button type="button" className={studyLanguage === "ur" ? "reader-tool-button is-selected" : "reader-tool-button"} aria-pressed={studyLanguage === "ur"} onClick={() => setStudyLanguage("ur")}>اردو · Urdu</button>
@@ -659,13 +645,11 @@ useEffect(() => {
           <div className="recitation-heading">
             <div>
               <div className="eyebrow">Listen to the Quran</div>
-              <h2>Choose a Qari / Reciter</h2>
-              <p>Only reciters listed in the provider’s full-Surah catalogue appear here. Availability and audio quality are taken from the provider’s live index.</p>
+              <h2>Listen to recitation</h2>
+              <p>Choose a reciter, then play the full Surah or individual Ayahs.</p>
             </div>
             <span className="recitation-symbol" aria-hidden="true">♫</span>
           </div>
-          <label className="reciter-label" htmlFor="full-surah-reciter-search">Find a full-Surah reciter</label>
-          <input id="full-surah-reciter-search" className="reciter-select" type="search" value={fullSurahReciterSearch} onChange={(event) => setFullSurahReciterSearch(event.target.value)} placeholder="Search Qari or recitation style…" aria-controls="full-surah-reciter-select" disabled={recitersLoading || chapterReciters.length === 0} />
           <label className="reciter-label" htmlFor="full-surah-reciter-select">Full-Surah reciter · Expanded catalogue</label>
           <select id="full-surah-reciter-select" className="reciter-select" value={selectedChapterReciter} onChange={(event) => { setSelectedChapterReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || chapterReciters.length === 0}>
             {recitersLoading && <option value="">Loading full-Surah reciters…</option>}
@@ -675,8 +659,6 @@ useEffect(() => {
           </select>
           {!recitersLoading && chapterReciters.length > 0 && <p className="recitation-note" role="status">Showing {filteredChapterReciters.length} of {chapterReciters.length} full-Surah reciters.</p>}
           {activeChapterReciter && !surahIsAvailableForChapterReciter && <p className="recitation-note" role="status">This reciter does not have Surah {selected} in the provider catalogue. Please choose another reciter or a Surah they have recorded.</p>}
-          <label className="reciter-label" htmlFor="ayah-reciter-search">Find an Ayah-by-Ayah reciter</label>
-          <input id="ayah-reciter-search" className="reciter-select" type="search" value={ayahReciterSearch} onChange={(event) => setAyahReciterSearch(event.target.value)} placeholder="Search reciter name…" aria-controls="reciter-select" disabled={recitersLoading || reciters.length === 0} />
           <label className="reciter-label" htmlFor="reciter-select">Ayah-by-Ayah reciter</label>
           <select id="reciter-select" className="reciter-select" value={selectedReciter} onChange={(event) => { setSelectedReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || reciters.length === 0}>
             {recitersLoading && <option>Loading Ayah reciters…</option>}
@@ -686,7 +668,7 @@ useEffect(() => {
           {!recitersLoading && reciters.length > 0 && <p className="recitation-note" role="status">Showing {filteredAyahReciters.length} of {reciters.length} Ayah-by-Ayah reciters.</p>}
           <p className="recitation-note">The full-Surah catalogue includes additional Qaris and recitation styles. Ayah-by-Ayah playback uses the separate AlQuran Cloud catalogue.</p>
           <label className="auto-next-toggle"><input type="checkbox" checked={autoNextSurah} onChange={(event) => setAutoNextSurah(event.target.checked)} /> Automatically play the next Surah when this one finishes</label>
-          <section className="tafsir-library" aria-labelledby="tafsir-library-title">
+          <details className="reader-disclosure tafsir-disclosure"><summary>Choose Tafsir editions and display settings</summary><section className="tafsir-library" aria-labelledby="tafsir-library-title">
             <div className="tafsir-library-heading">
               <div><span className="eyebrow">Scholarly explanations</span><h3 id="tafsir-library-title">{studyLanguage === "ur" ? "Choose Urdu Tafsir editions / تفاسیر منتخب کریں" : "Choose English Tafsir editions"}</h3></div>
               <span className="tafsir-count">{tafsirs.length} available · {selectedTafsirs.length} selected</span>
@@ -709,7 +691,7 @@ useEffect(() => {
             {tafsirError && <p className="recitation-note" role="status">{tafsirError}</p>}
             <p id="tafsir-help" className="recitation-note">Choose one or more editions. Up to six recommended editions are preselected when the provider supplies them; the searchable list still includes every edition returned for this language. You can compare each scholar’s text separately. Source: Quran Foundation Content API. RHM does not rewrite, merge or generate Tafsir.</p>
             <label className="auto-next-toggle"><input type="checkbox" checked={tafsirMode} onChange={(event) => setTafsirMode(event.target.checked)} disabled={!selectedTafsirs.length} /> {studyLanguage === "ur" ? "Automatically show selected Urdu Tafsir for each Ayah" : "Automatically show selected English Tafsir for each Ayah"}</label>
-          </section>
+          </section></details>
           <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
@@ -723,15 +705,14 @@ useEffect(() => {
             }}>
             Your browser does not support audio playback.
           </audio>
-          <button type="button" className="reader-tool-button" onClick={advanceToNextSurah} disabled={selected >= 114}>Next Surah <span aria-hidden="true">→</span></button>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
         </section>
-        <section className="quran-search-panel" aria-label="Search the Quran">
+        <details className="reader-disclosure quran-search-disclosure"><summary>Search the entire Qur’an</summary><section className="quran-search-panel" aria-label="Search the Quran">
           <form onSubmit={(event) => { event.preventDefault(); void runGlobalSearch(); }}><label htmlFor="quran-global-search">Search the entire Quran</label><input id="quran-global-search" type="search" value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search a word or phrase in the selected translation"/><button type="submit" disabled={searching || !globalSearch.trim()}>{searching ? "Searching…" : "Search Quran"}</button></form>
           {searchError && <p role="status">{searchError}</p>}
           {searchResults.length > 0 && <ul className="quran-search-results">{searchResults.slice(0, 12).map((match) => <li key={match.number}><button type="button" onClick={() => { setSelected(match.surah.number); window.setTimeout(() => document.getElementById(`ayah-${match.surah.number}-${match.numberInSurah}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 700); }}>{match.surah.englishName} {match.surah.number}:{match.numberInSurah}</button><span>{match.text}</span></li>)}</ul>}
-        </section>
+        </section></details>
         <div className="reader-tools" aria-label="Reading tools">
           <label htmlFor="quran-search">Find in this Surah</label>
           <input id="quran-search" type="search" value={readerQuery} onChange={(event) => setReaderQuery(event.target.value)} placeholder="Search Arabic, translation or reference (e.g. 2:5)" />
@@ -739,10 +720,12 @@ useEffect(() => {
           <button type="button" className={`reader-tool-button ${wordStudyMode ? "is-active" : ""}`} aria-pressed={wordStudyMode} onClick={() => setWordStudyMode((enabled) => !enabled)}>{wordStudyMode ? "Word-by-word mode: On" : "Word-by-word mode: Off"}</button>
           <button type="button" className={`reader-tool-button ${tajweedMode ? "is-active" : ""}`} aria-pressed={tajweedMode} onClick={() => setTajweedMode((enabled) => !enabled)}>{tajweedMode ? "Tajweed colours: On" : "Show Tajweed colours"}</button>
           <label>Arabic size <input aria-label="Arabic text size" type="range" min="0.8" max="1.6" step="0.05" value={fontScale} onChange={(event) => setFontScale(Number(event.target.value))} /></label>
+          <details className="reader-disclosure advanced-reader-disclosure"><summary>More playback settings</summary>
           <label>Repeat Ayah <select value={repeatCount} onChange={(event) => setRepeatCount(Number(event.target.value))}><option value={1}>Off</option><option value={2}>2 times</option><option value={3}>3 times</option><option value={5}>5 times</option><option value={10}>10 times</option></select></label>
           <label>Playback speed <select value={playbackRate} onChange={(event) => setPlaybackRate(Number(event.target.value))}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option><option value={2}>2×</option></select></label>
           <label><input type="checkbox" checked={autoNextAyah} onChange={(event) => setAutoNextAyah(event.target.checked)} /> Auto-play next Ayah</label>
-          {lastRead && <button type="button" className="reader-tool-button" onClick={() => { const [surahNo, ayahNo] = lastRead.split(":").map(Number); setSelected(surahNo); window.setTimeout(() => document.getElementById(`ayah-${surahNo}-${ayahNo}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 650); }}>Resume {lastRead}</button>}
+          </details>
+
         </div>
         {tajweedMode && <section className="tajweed-guide" aria-label="Tajweed colour guide">
           <strong>Tajweed colour guide · أحكام التجويد</strong>
