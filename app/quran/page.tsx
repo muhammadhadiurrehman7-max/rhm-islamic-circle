@@ -626,13 +626,11 @@ useEffect(() => {
           <div className="recitation-heading">
             <div>
               <div className="eyebrow">Listen to the Quran</div>
-              <h2>Choose a Qari / Reciter</h2>
-              <p>Only reciters listed in the provider’s full-Surah catalogue appear here. Availability and audio quality are taken from the provider’s live index.</p>
+              <h2>Listen to recitation</h2>
+              <p>Choose a reciter, then play the full Surah or individual Ayahs.</p>
             </div>
             <span className="recitation-symbol" aria-hidden="true">♫</span>
           </div>
-          <label className="reciter-label" htmlFor="full-surah-reciter-search">Find a full-Surah reciter</label>
-          <input id="full-surah-reciter-search" className="reciter-select" type="search" value={fullSurahReciterSearch} onChange={(event) => setFullSurahReciterSearch(event.target.value)} placeholder="Search Qari or recitation style…" aria-controls="full-surah-reciter-select" disabled={recitersLoading || chapterReciters.length === 0} />
           <label className="reciter-label" htmlFor="full-surah-reciter-select">Full-Surah reciter · Expanded catalogue</label>
           <select id="full-surah-reciter-select" className="reciter-select" value={selectedChapterReciter} onChange={(event) => { setSelectedChapterReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || chapterReciters.length === 0}>
             {recitersLoading && <option value="">Loading full-Surah reciters…</option>}
@@ -642,8 +640,6 @@ useEffect(() => {
           </select>
           {!recitersLoading && chapterReciters.length > 0 && <p className="recitation-note" role="status">Showing {filteredChapterReciters.length} of {chapterReciters.length} full-Surah reciters.</p>}
           {activeChapterReciter && !surahIsAvailableForChapterReciter && <p className="recitation-note" role="status">This reciter does not have Surah {selected} in the provider catalogue. Please choose another reciter or a Surah they have recorded.</p>}
-          <label className="reciter-label" htmlFor="ayah-reciter-search">Find an Ayah-by-Ayah reciter</label>
-          <input id="ayah-reciter-search" className="reciter-select" type="search" value={ayahReciterSearch} onChange={(event) => setAyahReciterSearch(event.target.value)} placeholder="Search reciter name…" aria-controls="reciter-select" disabled={recitersLoading || reciters.length === 0} />
           <label className="reciter-label" htmlFor="reciter-select">Ayah-by-Ayah reciter</label>
           <select id="reciter-select" className="reciter-select" value={selectedReciter} onChange={(event) => { setSelectedReciter(event.target.value); setAudioError(""); }} disabled={recitersLoading || reciters.length === 0}>
             {recitersLoading && <option>Loading Ayah reciters…</option>}
@@ -709,7 +705,6 @@ useEffect(() => {
           <details className="reader-disclosure advanced-reader-disclosure"><summary>More playback settings</summary>
           <label>Repeat Ayah <select value={repeatCount} onChange={(event) => setRepeatCount(Number(event.target.value))}><option value={1}>Off</option><option value={2}>2 times</option><option value={3}>3 times</option><option value={5}>5 times</option><option value={10}>10 times</option></select></label>
           <label>Playback speed <select value={playbackRate} onChange={(event) => setPlaybackRate(Number(event.target.value))}><option value={0.75}>0.75×</option><option value={1}>1×</option><option value={1.25}>1.25×</option><option value={1.5}>1.5×</option><option value={2}>2×</option></select></label>
-          <label><input type="checkbox" checked={autoNextAyah} onChange={(event) => setAutoNextAyah(event.target.checked)} /> Auto-play next Ayah</label>
           <label><input type="checkbox" checked={autoNextAyah} onChange={(event) => setAutoNextAyah(event.target.checked)} /> Auto-play next Ayah</label>
           </details>
 
