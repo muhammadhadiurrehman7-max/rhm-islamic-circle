@@ -778,7 +778,7 @@ useEffect(() => {
                 <p className={"quran-arabic-paragraph" + (tajweedMode ? " ayah-arabic-tajweed" : "")} lang="ar" dir="rtl" style={{ fontSize: `calc(clamp(30px, 4.8vw, 46px) * ${fontScale})` }}>
                   {visibleAyahs.map((ayah) => {
                     const key = `${selected}:${ayah.numberInSurah}`;
-                    const arabic = tajweedMode && tajweedVerses[key] ? renderTajweedText(tajweedVerses[key]) : ayah.text.replace(/^\\uFEFF/, "");
+                    const arabic = tajweedMode && tajweedVerses[key] ? renderTajweedText(tajweedVerses[key]) : ayah.text.replace(/^\uFEFF/, "");
                     return <span className="quran-paragraph-verse" id={`ayah-${selected}-${ayah.numberInSurah}`} key={ayah.numberInSurah}>{arabic}<span className="quran-verse-end" aria-label={`Ayah ${ayah.numberInSurah}`}> ۞{ayah.numberInSurah} </span></span>;
                   })}
                 </p>
