@@ -56,6 +56,16 @@ const groups: Group[] = [
     ],
   },
   {
+    id: "events",
+    number: "06",
+    title: "Islamic Calendar, Events & Special Days",
+    intro: "Understand the important months and occasions of the Hijri year, with Qur’an and Hadith references and clear date guidance.",
+    features: [
+      { title: "Islamic Events & Special Days", description: "Learn about Ramadan, Laylat al-Qadr, Eid, Hajj, Arafah, Ashura and the sacred months, with references and practical guidance.", href: "/islamic-events", label: "Hijri year guide", keywords: "islamic events ramadan eid fitr adha hajj arafah ashura muharram rajab hijri sacred months seerah isra miraj" },
+      { title: "Islamic calendar", description: "View Hijri months alongside Gregorian dates, with guidance about local moon sighting.", href: "/islamic-calendar", label: "Hijri calendar", keywords: "hijri ramadan eid islamic dates" },
+    ],
+  },
+  {
     id: "personal",
     number: "05",
     title: "My RHM, Personal Progress & Support",
