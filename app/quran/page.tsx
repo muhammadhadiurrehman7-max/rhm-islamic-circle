@@ -39,7 +39,7 @@ type Translation = { identifier: string; name: string; englishName: string; lang
 type Edition = { ayahs: Ayah[]; edition?: Translation };
 type SurahText = { name: string; englishName: string; numberOfAyahs: number; editions: Edition[] };
 type SearchMatch = { text: string; number: number; numberInSurah: number; surah: { number: number; englishName: string; name: string } };
-type WordPart = { id?: number; position?: number; textUthmani?: string; textIndopak?: string; text_uthmani?: string; text_indopak?: string; translation?: { text?: string }; transliteration?: { text?: string }; audioUrl?: string; audio_url?: string };
+type WordPart = { id?: number; position?: number; text?: string; textUthmani?: string; textIndopak?: string; text_uthmani?: string; text_indopak?: string; char_type_name?: string; translation?: { text?: string }; transliteration?: { text?: string }; audioUrl?: string; audio_url?: string | null };
 type TafsirResource = { id: number; name: string; author_name?: string; slug: string; language_name: string };
 type TafsirPassage = { id: number; name: string; author?: string; text: string };
 type TajweedVerse = { numberInSurah: number; text: string };
@@ -466,7 +466,12 @@ export default function QuranPage() {
       if (!response.ok) throw new Error(data.error || "Word-by-word study is unavailable.");
       const verseData = data.verses?.[0] || data.verse || data;
       const words = verseData.words || data.words;
-      if (Array.isArray(words) && words.length) setWordStudy((current) => ({ ...current, [key]: words }));
+      if (Array.isArray(words) && words.length) {
+        // Quran Foundation includes non-word markers (such as the verse-end sign).
+        // Keep actual lexical words only and preserve the provider Arabic text field.
+        const lexicalWords = (words as WordPart[]).filter((word) => word.char_type_name ? word.char_type_name === "word" : Boolean(word.text || word.textUthmani || word.text_uthmani || word.textIndopak || word.text_indopak));
+        if (lexicalWords.length) setWordStudy((current) => ({ ...current, [key]: lexicalWords }));
+      }
       if (selectedTafsirs.length) {
         const passages = (verseData.tafsirs || [])
           .filter((item: { resource_id?: number; id?: number; text?: string }) => selectedTafsirs.includes(String(item.resource_id || item.id)) && item.text)
@@ -776,11 +781,11 @@ useEffect(() => {
                           const audioPath = word.audioUrl || word.audio_url;
                           return (
                             <div className="word-study-item" key={word.id || word.position || index}>
-                              <span className="word-study-arabic" lang="ar" dir="rtl">{word.textUthmani || word.text_uthmani || word.textIndopak || word.text_indopak || ""}</span>
+                              <span className="word-study-arabic" lang="ar" dir="rtl">{word.textUthmani || word.text_uthmani || word.textIndopak || word.text_indopak || word.text || ""}</span>
                               <small className="word-study-meaning" lang={studyLanguage} dir={studyLanguage === "ur" ? "rtl" : "ltr"}>{word.translation?.text || (studyLanguage === "ur" ? "اردو معنی دستیاب نہیں" : "English meaning unavailable")}</small>
                               <small className="word-study-transliteration" lang="en" dir="ltr">{word.transliteration?.text || ""}</small>
                               <small className="word-study-index">{studyLanguage === "ur" ? `لفظ ${word.position || index + 1}` : `Word ${word.position || index + 1}`}</small>
-                              <audio controls preload="none" src={"https://audio.qurancdn.com/" + (audioPath || "")} aria-label={"Pronounce word " + (index + 1)}></audio>
+                              {audioPath ? <audio controls preload="none" src={"https://audio.qurancdn.com/" + audioPath} aria-label={"Pronounce word " + (index + 1)}></audio> : <small className="word-study-audio-unavailable">{studyLanguage === "ur" ? "آواز دستیاب نہیں" : "Audio unavailable"}</small>}
                             </div>
                           );
                         })}
