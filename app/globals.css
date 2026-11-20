@@ -168,11 +168,13 @@ html[data-site-theme="dark"] .brand-copy small { color:#e3c98f; }
 .sacred-places { display:grid; grid-template-columns:1fr 1fr; gap:14px; width:min(1160px,calc(100% - 36px)); margin:26px auto 0; }
 .sacred-place { position:relative; min-height:clamp(170px,25vw,290px); overflow:hidden; border-radius:22px; background-color:#24483b; background-size:cover; background-position:center; box-shadow:0 14px 34px rgba(15,38,29,.13); }
 .sacred-place:after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(6,20,15,.78),rgba(6,20,15,.02) 72%); }
-.sacred-kaaba { background-image:url("https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=1400&q=85"); }
-.sacred-madinah { background-image:url("https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&w=1400&q=85"); }
+.sacred-kaaba { background-image:url("https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Kaaba-Masjid_al-Haram.JPG/960px-Kaaba-Masjid_al-Haram.JPG"); }
+.sacred-madinah { background-image:url("https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/MasjidNabawi.jpg/960px-MasjidNabawi.jpg"); }
 .sacred-place-caption { position:absolute; z-index:1; left:22px; right:22px; bottom:20px; display:flex; flex-direction:column; gap:5px; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.3); }
 .sacred-place-caption span { font-size:11px; letter-spacing:.12em; text-transform:uppercase; opacity:.9; }
 .sacred-place-caption strong { font:600 clamp(18px,2.5vw,27px) "Playfair Display",serif; }
+.sacred-place-caption a { width:max-content; max-width:100%; color:#f4e4c4; font:500 10px/1.5 "DM Sans",sans-serif; text-decoration:underline; text-underline-offset:3px; opacity:.92; }
+.sacred-place-caption a:hover { opacity:1; }
 .quran-page[data-theme="dark"] .quran-heading { background:linear-gradient(135deg,#15251f,#101d19); }
 .quran-page[data-theme="dark"] .quran-reader { box-shadow:0 14px 42px rgba(0,0,0,.18); }
 @media(max-width:600px) { .sacred-places { grid-template-columns:1fr; gap:10px; margin-top:16px; }.sacred-place { min-height:190px; }.quran-top-actions { gap:8px; }.theme-toggle { padding:8px 10px; font-size:12px; }.quran-home-link { font-size:12px; } }
