@@ -1,0 +1,164 @@
+/* RHM visual polish — calm, premium blue-and-gold Islamic learning identity.
+   Shared improvements are intentionally restrained and keep reading contrast first. */
+:root {
+  --rhm-accent-blue:#173f62;
+  --rhm-accent-blue-2:#2878b8;
+  --rhm-accent-gold:#bd9654;
+  --rhm-soft-blue:#eaf2f9;
+  --rhm-radius-lg:24px;
+}
+html[data-site-theme="light"] body { background-color:#f4f7fa; }
+html[data-site-theme="dark"] body { background-color:#101d2a; }
+
+/* Navigation: cleaner hierarchy, breathing room and a subtle glass-like surface. */
+.site-header {
+  position:sticky; top:0; z-index:100;
+  min-height:76px; padding:12px clamp(18px,5vw,76px);
+  gap:18px; backdrop-filter:blur(16px);
+  box-shadow:0 8px 28px rgba(15,42,65,.055);
+}
+.site-header .brand { flex-shrink:0; gap:13px; }
+.site-header .brand-mark {
+  width:46px; height:46px; border-radius:15px;
+  font-size:23px; box-shadow:0 5px 16px rgba(23,63,98,.18);
+}
+.site-header .brand-copy strong { font-size:16px; letter-spacing:-.025em; }
+.site-header .brand-copy small { font-size:9px; letter-spacing:.11em; }
+.site-header .nav-links { gap:clamp(10px,1.7vw,24px); font-size:13px; font-weight:650; }
+.site-header .nav-links a { padding:9px 2px; border-bottom:2px solid transparent; transition:color .18s ease,border-color .18s ease; }
+.site-header .nav-links a:hover { color:#bd9654; border-color:#bd9654; }
+.site-header .nav-actions .btn { padding:11px 19px; box-shadow:0 5px 16px rgba(23,63,98,.12); }
+.mobile-menu-toggle { border-radius:12px; padding:8px 12px; }
+
+/* Hero: cinematic but readable, with a deliberate editorial rhythm. */
+.hero.premium-hero {
+  min-height:clamp(570px,66vw,720px);
+  padding:clamp(54px,7vw,94px) clamp(22px,7vw,104px);
+  gap:clamp(26px,4vw,64px);
+  background-position:center 54%;
+}
+.premium-hero-copy { max-width:680px; }
+.premium-hero-copy .eyebrow { display:inline-flex; align-items:center; gap:10px; padding:8px 13px; border:1px solid rgba(232,215,174,.45); border-radius:999px; background:rgba(12,35,54,.42); font-size:10px; letter-spacing:.15em; }
+.premium-hero-copy .eyebrow:before { content:""; width:6px; height:6px; border-radius:50%; background:#e8d7ae; box-shadow:0 0 12px rgba(232,215,174,.8); }
+.premium-hero-copy .hero-arabic-kicker { margin:24px 0 8px; font-family:"Noto Naskh Arabic","Amiri",serif; font-size:clamp(23px,3vw,31px); color:#f0d69e; }
+.premium-hero-copy h1 { max-width:680px; margin:14px 0 20px; font-size:clamp(42px,5.6vw,68px); line-height:1.08; letter-spacing:-.045em; }
+.premium-hero-copy > p:not(.hero-arabic-kicker) { max-width:590px; font-size:clamp(15px,1.35vw,17px); line-height:1.85; }
+.premium-hero-copy .hero-actions { gap:13px; margin-top:30px; }
+.premium-hero-copy .hero-actions .btn { min-height:50px; padding:13px 21px; border-radius:13px; font-size:13px; box-shadow:0 8px 22px rgba(0,0,0,.16); transition:transform .2s ease,box-shadow .2s ease; }
+.premium-hero-copy .hero-actions .btn:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.22); }
+.premium-hero-copy .hero-note { margin-top:24px; font-size:11px; letter-spacing:.035em; }
+
+/* Calligraphy frame: give the sacred text space and a refined architectural frame. */
+.calligraphy-stage { max-width:470px; width:100%; justify-self:center; }
+.calligraphy-arch { padding:clamp(12px,2vw,18px); border-radius:48% 48% 22px 22px; box-shadow:0 26px 70px rgba(0,0,0,.28),inset 0 0 0 1px rgba(255,255,255,.45); }
+.calligraphy-inner { border-radius:48% 48% 14px 14px; }
+.calligraphy-bismillah { font-family:"Noto Naskh Arabic","Amiri",serif; }
+.calligraphy-main { font-family:"Noto Naskh Arabic","Amiri",serif; line-height:2.05; }
+.calligraphy-caption { margin-top:14px; color:#f0dfb9; font-size:11px; letter-spacing:.08em; }
+
+/* Sacred-place ribbon: three clear destinations rather than a dense menu. */
+.sacred-learning-ribbon {
+  width:min(1180px,calc(100% - 40px)); margin:-1px auto 0;
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  overflow:hidden; border:1px solid rgba(189,150,84,.55); border-radius:0 0 20px 20px;
+  background:linear-gradient(110deg,#173f62,#1e527b 55%,#173f62);
+  box-shadow:0 14px 34px rgba(23,63,98,.13);
+}
+.sacred-learning-ribbon a { display:flex; align-items:center; gap:12px; min-width:0; padding:19px clamp(12px,2vw,25px); color:#fff !important; transition:background .2s ease; }
+.sacred-learning-ribbon a+a { border-left:1px solid rgba(232,215,174,.25); }
+.sacred-learning-ribbon a:hover { background:rgba(255,255,255,.09); }
+.sacred-learning-ribbon .ribbon-symbol { display:grid; place-items:center; flex:0 0 38px; width:38px; height:38px; border:1px solid rgba(232,215,174,.6); border-radius:12px; color:#f1dfb8; font-size:20px; }
+.sacred-learning-ribbon a strong,.sacred-learning-ribbon a small { display:block; color:#fff !important; }
+.sacred-learning-ribbon a strong { font-size:12px; line-height:1.4; }
+.sacred-learning-ribbon a small { margin-top:3px; color:#dce9f3 !important; font-size:10px; line-height:1.45; }
+.sacred-learning-ribbon .ribbon-arrow { margin-left:auto; color:#e8d7ae; }
+
+/* Purpose cards: consistent height, clear actions and gentle interaction. */
+.faith-entry-section { width:min(1240px,calc(100% - 40px)); margin:0 auto; padding:clamp(54px,7vw,88px) 0; }
+.faith-entry-heading { max-width:690px; margin:0 auto 30px; text-align:center; }
+.faith-entry-heading .eyebrow { color:#98733c; }
+.faith-entry-heading h2 { margin:12px 0 10px; color:#173f62; font:600 clamp(30px,4vw,44px)/1.15 "Playfair Display",Georgia,serif; letter-spacing:-.025em; }
+.faith-entry-heading p { margin:0 auto; max-width:590px; color:#52677a; font-size:15px; line-height:1.8; }
+.home-primary-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+.faith-entry-card {
+  position:relative; display:flex; flex-direction:column; align-items:flex-start;
+  min-height:265px; padding:25px 22px; border-radius:19px;
+  background:rgba(255,255,255,.92); border:1px solid #d7e1e9;
+  box-shadow:0 9px 28px rgba(23,63,98,.055);
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+.faith-entry-card:hover { transform:translateY(-5px); border-color:#bd9654; box-shadow:0 18px 38px rgba(23,63,98,.12); }
+.faith-entry-card .faith-entry-icon { display:grid; place-items:center; width:48px; height:48px; margin-bottom:18px; border-radius:15px; font-size:23px; }
+.faith-entry-card .faith-entry-label { margin:-5px 0 7px; color:#8b6a35; font-size:9px; font-weight:800; letter-spacing:.13em; }
+.faith-entry-card h3 { margin:0 0 9px; color:#173f62; font:600 20px/1.25 "Playfair Display",Georgia,serif; }
+.faith-entry-card p { margin:0 0 18px; color:#53697c; font-size:13px; line-height:1.75; }
+.faith-entry-card strong { margin-top:auto; color:#1b659b; font-size:12px; }
+.faith-entry-main { background:linear-gradient(145deg,#173f62,#245f88); border-color:#bd9654; box-shadow:0 14px 34px rgba(23,63,98,.18); }
+.faith-entry-main .faith-entry-icon { color:#f2dfb8 !important; background:rgba(255,255,255,.11) !important; border:1px solid rgba(232,215,174,.45) !important; }
+.faith-entry-main h3,.faith-entry-main p,.faith-entry-main strong,.faith-entry-main .faith-entry-label { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+.faith-entry-main .faith-entry-label { color:#f0d69e !important; }
+.faith-entry-main p { color:#e1ebf3 !important; }
+.home-explore-link { margin-top:27px; text-align:center; }
+.home-explore-link .btn { min-height:48px; padding:13px 22px; border-radius:13px; }
+
+/* Reflection: quieter, more legible and framed like a reading moment. */
+.guidance-section { position:relative; overflow:hidden; padding:clamp(48px,6vw,76px) 20px; background:linear-gradient(120deg,#102d49,#174b70 55%,#102d49); border-top:1px solid rgba(189,150,84,.65); border-bottom:1px solid rgba(189,150,84,.65); }
+.guidance-inner { position:relative; width:min(850px,100%); margin:0 auto; text-align:center; }
+.guidance-section .eyebrow { color:#e8d7ae; }
+.guidance-section h2 { margin:10px 0 8px; color:#fff7e8; font:600 clamp(30px,4vw,42px)/1.2 "Playfair Display",Georgia,serif; }
+.guidance-ornament { margin:10px 0; color:#d8b978; font-size:23px; }
+.guidance-quote { min-height:150px; }
+.guidance-quote .guidance-arabic { margin:0 auto 14px; color:#f1dfb8; font:500 clamp(22px,3vw,30px)/1.9 "Noto Naskh Arabic","Amiri",serif; }
+.guidance-quote blockquote { max-width:760px; margin:0 auto 12px; color:#fff !important; font:500 clamp(18px,2.2vw,23px)/1.65 "Playfair Display",Georgia,serif; }
+.guidance-by { margin:8px 0 2px; color:#f2dfb8 !important; font-size:12px; font-weight:700; }
+.guidance-source { color:#dce9f3 !important; font-size:11px; text-underline-offset:4px; }
+.guidance-timer { margin-top:16px; color:#c5d5e2; font-size:10px; }
+.guidance-dots { display:flex; justify-content:center; gap:8px; margin-top:17px; }
+.guidance-dots button { width:8px; min-height:8px; height:8px; padding:0; border:1px solid #e8d7ae; border-radius:99px; background:transparent; }
+.guidance-dots button.active { width:24px; background:#e8d7ae; }
+
+/* Footer: compact and coordinated with the main blue identity. */
+.footer { align-items:center; padding:30px clamp(20px,7vw,100px); background:#0d263d; border-top:2px solid #bd9654; color:#e4edf5; }
+.footer span { font-size:12px; line-height:1.6; }
+.footer span strong { color:#f1dfb8; font-size:13px; }
+.footer span small { color:#c7d6e2; }
+
+/* Dark theme: preserve the same structure while giving cards a calm midnight surface. */
+html[data-site-theme="dark"] .faith-entry-heading h2 { color:#edf5fb; }
+html[data-site-theme="dark"] .faith-entry-heading p { color:#c4d2df; }
+html[data-site-theme="dark"] .faith-entry-card:not(.faith-entry-main) { background:#1b2b3a; border-color:#40566b; }
+html[data-site-theme="dark"] .faith-entry-card:not(.faith-entry-main) h3 { color:#f1f6fb; }
+html[data-site-theme="dark"] .faith-entry-card:not(.faith-entry-main) p { color:#c4d2df; }
+html[data-site-theme="dark"] .faith-entry-card:not(.faith-entry-main) strong { color:#9bc9f0; }
+html[data-site-theme="dark"] .faith-entry-card:not(.faith-entry-main):hover { border-color:#bd9654; }
+html[data-site-theme="dark"] .site-header { box-shadow:0 8px 28px rgba(0,0,0,.2); }
+html[data-site-theme="dark"] .footer { background:#091725; }
+
+@media(max-width:1050px) {
+  .site-header { flex-wrap:wrap; }
+  .site-header .nav-links { order:3; width:100%; justify-content:center; flex-wrap:wrap; }
+  .home-primary-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:760px) {
+  .site-header { position:relative; }
+  .site-header .nav-links { order:initial; width:auto; }
+  .sacred-learning-ribbon { grid-template-columns:1fr; width:calc(100% - 28px); border-radius:18px; margin:14px auto 0; }
+  .sacred-learning-ribbon a { padding:14px 17px; }
+  .sacred-learning-ribbon a+a { border-left:0; border-top:1px solid rgba(232,215,174,.25); }
+  .faith-entry-section { width:calc(100% - 28px); }
+}
+@media(max-width:560px) {
+  .hero.premium-hero { min-height:0; padding:42px 18px 48px; }
+  .premium-hero-copy h1 { font-size:clamp(37px,10vw,48px); }
+  .premium-hero-copy .hero-actions { align-items:stretch; flex-direction:column; }
+  .premium-hero-copy .hero-actions .btn { width:100%; }
+  .calligraphy-stage { width:min(88%,350px); }
+  .home-primary-grid { grid-template-columns:1fr; gap:13px; }
+  .faith-entry-card { min-height:0; padding:22px; }
+  .faith-entry-heading { text-align:left; }
+  .guidance-section { padding:44px 18px; }
+  .guidance-quote { min-height:190px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .faith-entry-card,.premium-hero-copy .hero-actions .btn,.sacred-learning-ribbon a { transition:none; }
+}
