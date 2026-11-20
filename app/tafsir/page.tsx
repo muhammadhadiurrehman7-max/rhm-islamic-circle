@@ -202,6 +202,26 @@ export default function TafsirLibraryPage() {
         </div>
       </section>
 
+      <section className={styles.heritageScholars} aria-labelledby="heritage-scholars-title">
+        <div className={styles.heritageIntro}>
+          <span className={styles.eyebrow}>THE CLASSICAL TAFSIR TRADITION</span>
+          <h2 id="heritage-scholars-title">Scholars whose works shaped Qur’anic study</h2>
+          <p>Explore the legacy of renowned mufassirun through a manuscript-inspired gallery. Historical artwork is shown as period context, not as an authenticated portrait of any named scholar.</p>
+        </div>
+        <div className={styles.heritageGallery}>
+          <figure className={styles.manuscriptFeature}>
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Manuscript%20Middle-Eastern%20miniature%20court%20scene.jpg?width=1100" alt="Public-domain medieval Middle Eastern manuscript miniature, used as historical context rather than a portrait of a Tafsir author" loading="lazy" />
+            <figcaption>Medieval manuscript miniature · Wikimedia Commons · Public domain</figcaption>
+          </figure>
+          <div className={styles.scholarLegacyList}>
+            <article><span className={styles.scholarEra}>9th–10th century</span><h3>Muhammad ibn Jarir al-Tabari</h3><p>Author of <em>Jami’ al-Bayan</em>, a foundational work drawing on transmitted reports and linguistic explanation.</p></article>
+            <article><span className={styles.scholarEra}>12th–13th century</span><h3>Abu Abdullah al-Qurtubi</h3><p>Author of <em>Al-Jami’ li-Ahkam al-Qur’an</em>, known for its extensive discussion of Qur’anic legal guidance.</p></article>
+            <article><span className={styles.scholarEra}>14th century</span><h3>Isma’il ibn Kathir</h3><p>Author of <em>Tafsir al-Qur’an al-‘Azim</em>, widely studied for its use of Qur’an, Hadith and early reports.</p></article>
+            <article><span className={styles.scholarEra}>15th century</span><h3>Jalal al-Din al-Suyuti</h3><p>Co-author, with Jalal al-Din al-Mahalli, of the concise and influential <em>Tafsir al-Jalalayn</em>.</p></article>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.layout}>
         <aside className={styles.catalogue}>
           <div className={styles.sectionHead}><div><span className={styles.eyebrow}>EDITIONS & SCHOLARS</span><h2>{language === "ur" ? "اردو تفاسیر" : language === "ar" ? "التفاسير العربية" : "English Tafsir"}</h2></div><span className={styles.count}>{resources.length}</span></div>
