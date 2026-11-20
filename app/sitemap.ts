@@ -23,6 +23,7 @@ const pages = [
   { path: "/prayer-times", priority: 0.8, changeFrequency: "daily" as const },
   { path: "/names-of-allah", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/heritage", priority: 0.8, changeFrequency: "monthly" as const },
+  { path: "/sahaba", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/discover-islam", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/donate", priority: 0.4, changeFrequency: "monthly" as const },
 ];

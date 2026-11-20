@@ -162,3 +162,95 @@ html[data-site-theme="dark"] .footer { background:#091725; }
 @media(prefers-reduced-motion:reduce) {
   .faith-entry-card,.premium-hero-copy .hero-actions .btn,.sacred-learning-ribbon a { transition:none; }
 }
+
+
+/* SITE-WIDE HEADING CONTRAST SYSTEM — final override for every route.
+   Light pages use deep ink on pale surfaces; dark pages use warm ivory.
+   Intentionally dark/photo panels retain light headings in BOTH themes. */
+:root {
+  --rhm-heading-light: #173650;
+  --rhm-heading-dark: #f7f1e5;
+  --rhm-heading-accent: #8a641f;
+  --rhm-heading-accent-dark: #edcf8c;
+}
+html[data-site-theme="light"] body :is(h1,h2,h3,h4,h5,h6) {
+  color: var(--rhm-heading-light) !important;
+  -webkit-text-fill-color: var(--rhm-heading-light) !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+html[data-site-theme="dark"] body :is(h1,h2,h3,h4,h5,h6) {
+  color: var(--rhm-heading-dark) !important;
+  -webkit-text-fill-color: var(--rhm-heading-dark) !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+/* Section labels and small headings use a legible gold-brown / pale gold. */
+html[data-site-theme="light"] body :is(.eyebrow,.section-kicker,.section-label,.heading-kicker) {
+  color: var(--rhm-heading-accent) !important;
+  -webkit-text-fill-color: var(--rhm-heading-accent) !important;
+}
+html[data-site-theme="dark"] body :is(.eyebrow,.section-kicker,.section-label,.heading-kicker) {
+  color: var(--rhm-heading-accent-dark) !important;
+  -webkit-text-fill-color: var(--rhm-heading-accent-dark) !important;
+}
+/* Dark branded panels/photo heroes always use warm white headings and labels,
+   even when the overall site is set to light mode. */
+html[data-site-theme="light"] body :is(
+  .premium-hero,.daily,.guidance-section,.share-learning-section,
+  .daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,
+  .mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,
+  .quran-footer,.footer
+) :is(h1,h2,h3,h4,h5,h6) {
+  color: #fff8e9 !important;
+  -webkit-text-fill-color: #fff8e9 !important;
+  text-shadow: 0 1px 10px rgba(0,0,0,.18) !important;
+}
+html[data-site-theme="light"] body :is(
+  .premium-hero,.daily,.guidance-section,.share-learning-section,
+  .daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,
+  .mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,
+  .quran-footer,.footer
+) :is(.eyebrow,.section-kicker,.section-label,.heading-kicker) {
+  color: #f1d28d !important;
+  -webkit-text-fill-color: #f1d28d !important;
+}
+html[data-site-theme="dark"] body :is(
+  .premium-hero,.daily,.guidance-section,.share-learning-section,
+  .daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,
+  .mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,
+  .quran-footer,.footer
+) :is(h1,h2,h3,h4,h5,h6) {
+  color: #fff8e9 !important;
+  -webkit-text-fill-color: #fff8e9 !important;
+}
+html[data-site-theme="dark"] body :is(
+  .premium-hero,.daily,.guidance-section,.share-learning-section,
+  .daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,
+  .mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,
+  .quran-footer,.footer
+) :is(.eyebrow,.section-kicker,.section-label,.heading-kicker) {
+  color: #f1d28d !important;
+  -webkit-text-fill-color: #f1d28d !important;
+}
+/* Card and content headings stay distinct from body copy in both themes. */
+html[data-site-theme="light"] body :is(
+  .feature-card,.faith-entry-card,.faith-resource-card,.discover-topic-card,
+  .learning-section-card,.faith-card,.islam-info-card,.heritage-card,
+  .qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,
+  .content-card,.surface-card,.daily-tool-card,.prayer-time-card,
+  .prayer-note,.prayer-location,.donation-card,.ayah-card,.word-study-item
+) :is(h1,h2,h3,h4,h5,h6) {
+  color: #173650 !important;
+  -webkit-text-fill-color: #173650 !important;
+}
+html[data-site-theme="dark"] body :is(
+  .feature-card,.faith-entry-card,.faith-resource-card,.discover-topic-card,
+  .learning-section-card,.faith-card,.islam-info-card,.heritage-card,
+  .qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,
+  .content-card,.surface-card,.daily-tool-card,.prayer-time-card,
+  .prayer-note,.prayer-location,.donation-card,.ayah-card,.word-study-item
+) :is(h1,h2,h3,h4,h5,h6) {
+  color: #f7f1e5 !important;
+  -webkit-text-fill-color: #f7f1e5 !important;
+}

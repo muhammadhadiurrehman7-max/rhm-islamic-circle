@@ -33,3 +33,20 @@
 .directorySelect{display:flex;align-items:center;gap:5px;color:var(--accent);font-size:10px;font-weight:750;white-space:nowrap;cursor:pointer}
 .directorySelect input{accent-color:var(--accent);margin:0}
 .directorySelect input:disabled{opacity:.4;cursor:not-allowed}
+
+
+.heritageScholars{max-width:1180px;margin:0 auto 28px;padding:0 24px}
+.heritageIntro{padding:22px 24px;border:1px solid var(--line);border-radius:18px 18px 0 0;background:linear-gradient(120deg,var(--surface),var(--accent-soft))}
+.heritageIntro h2{font-size:clamp(21px,3vw,29px);line-height:1.2;margin:8px 0}
+.heritageIntro p{max-width:850px;color:var(--muted);font-size:13px;line-height:1.7;margin:0}
+.heritageGallery{display:grid;grid-template-columns:minmax(240px,.85fr) minmax(0,1.5fr);gap:16px;padding:16px;border:1px solid var(--line);border-top:0;border-radius:0 0 18px 18px;background:var(--surface)}
+.manuscriptFeature{margin:0;min-width:0}
+.manuscriptFeature img{display:block;width:100%;height:100%;min-height:270px;max-height:370px;object-fit:cover;object-position:center;border-radius:12px;border:1px solid var(--line);filter:sepia(.12) contrast(1.02)}
+.manuscriptFeature figcaption{font-size:10px;line-height:1.5;color:var(--muted);margin-top:7px}
+.scholarLegacyList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.scholarLegacyList article{padding:15px;border:1px solid var(--line);border-radius:12px;background:var(--bg);min-width:0}
+.scholarEra{display:inline-block;color:var(--accent);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.scholarLegacyList h3{font-size:15px;line-height:1.35;margin:7px 0}
+.scholarLegacyList p{font-size:12px;line-height:1.65;color:var(--muted);margin:0}
+@media(max-width:800px){.heritageScholars{padding:0 14px}.heritageGallery{grid-template-columns:1fr}.manuscriptFeature img{height:210px;min-height:0}.scholarLegacyList{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){.heritageIntro{padding:18px}.heritageGallery{padding:12px}.scholarLegacyList{grid-template-columns:1fr}}

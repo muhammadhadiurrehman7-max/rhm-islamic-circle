@@ -41,8 +41,15 @@ async function getContentToken(
     });
 
     if (!response.ok) {
-      // Do not include the upstream body: it can contain sensitive diagnostic details.
-      throw new Error(`Quran Foundation authentication failed (${response.status}).`);
+      // Record only the upstream OAuth error code, never credentials or tokens.
+      let oauthError = "unknown";
+      try {
+        const details = await response.clone().json();
+        if (typeof details.error === "string") oauthError = details.error.slice(0, 80);
+      } catch {
+        // Some gateway errors are not JSON.
+      }
+      throw new Error(`Quran Foundation authentication failed (${response.status}; ${oauthError}).`);
     }
 
     const data = await response.json();
@@ -86,8 +93,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Tafsir resource IDs must be comma-separated numbers." }, { status: 400 });
   }
 
-  const clientId = process.env.QF_CLIENT_ID;
-  const clientSecret = process.env.QF_CLIENT_SECRET;
+  // Trim copied environment values to avoid invisible whitespace breaking Basic auth.
+  const clientId = process.env.QF_CLIENT_ID?.trim();
+  const clientSecret = process.env.QF_CLIENT_SECRET?.trim();
   if (!clientId || !clientSecret) {
     return NextResponse.json({
       error: "Quran Foundation API credentials are not configured for this environment.",
@@ -102,7 +110,17 @@ export async function GET(request: Request) {
   const apiBase = environment === "prelive"
     ? "https://apis-prelive.quran.foundation"
     : "https://apis.quran.foundation";
-  const scope = process.env.QF_SCOPE || "content";
+  // New Backend/server apps use granular Content scopes. Set QF_SCOPE=legacy-content
+  // only for older credentials that were explicitly granted the legacy "content" scope.
+  const configuredScope = (process.env.QF_SCOPE || "").trim();
+  const requiredScopes = resources === "tafsirs"
+    ? ["content.tafsirs.read"]
+    : tafsirs
+      ? ["content.quran.read", "content.tafsirs.read"]
+      : ["content.quran.read"];
+  const scope = configuredScope === "legacy-content"
+    ? "content"
+    : requiredScopes.join(" ");
 
   const endpoint = resources === "tafsirs"
     ? `${apiBase}/content/api/v4/resources/tafsirs?language=${encodeURIComponent(language)}`
@@ -142,7 +160,9 @@ export async function GET(request: Request) {
     return NextResponse.json(await response.json(), {
       headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
     });
-  } catch {
+  } catch (reason) {
+    // Log only a sanitised message; never log credentials or access tokens.
+    console.error("[QF] Content API request failed:", reason instanceof Error ? reason.message : "Unknown error");
     return NextResponse.json({
       error: "The Quran study service is temporarily unavailable. Please try again shortly.",
     }, { status: 502 });
