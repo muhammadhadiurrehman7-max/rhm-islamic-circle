@@ -14,7 +14,7 @@ const organizationSchema = {
   name: "RHM Islam 360",
   alternateName: "Rehmat, Hidayat & Ma'rifat",
   url: siteUrl,
-  logo: `${siteUrl}/icon.jpg`,
+  logo: `${siteUrl}/icon.svg`,
   description: "A free online space for Qur'an reading, Islamic learning, Hadith, daily duas, Arabic foundations and Islamic heritage, with source details where available.",
   knowsAbout: ["Qur'an", "Hadith", "Islamic studies", "Arabic reading", "Islamic history", "Daily supplications"]
 };
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "RHM Islam 360", statusBarStyle: "default" },
   icons: {
-    icon: [{ url: "/icon.jpg", type: "image/jpeg" }],
-    shortcut: [{ url: "/icon.jpg", type: "image/jpeg" }],
-    apple: [{ url: "/icon.jpg", type: "image/jpeg" }]
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/icon-512.svg", type: "image/svg+xml" }]
   },
   verification: { google: "oLZJuf2MTIq_Rwi3bvXEFPY202vRZ5_8plMjXqHYdvo" },
   keywords: [
