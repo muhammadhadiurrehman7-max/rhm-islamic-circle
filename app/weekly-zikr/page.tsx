@@ -4,8 +4,8 @@ const plan = [
   {
     day: "Monday",
     title: "Seek Allah’s forgiveness",
-    arabic: "أَسْتَغْفِرُ اللَّهَ",
-    transliteration: "Astaghfirullah.",
+    arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
+    transliteration: "Astaghfirullaha wa atubu ilayh.",
     english: "I seek the forgiveness of Allah.",
     urdu: "میں اللہ سے بخشش طلب کرتا ہوں۔",
     guidance: "The Prophet ﷺ said that he sought Allah’s forgiveness and turned to Him in repentance one hundred times a day. This is a daily practice in the narration, not a Monday-only Sunnah.",
@@ -107,7 +107,7 @@ export default function WeeklyZikrPage() {
           <strong>One remembrance to study each day.</strong>
           <p>This is an optional way to organise learning across the week. The weekdays are not special religious timings for these adhkar unless a source explicitly says so. Follow the counts only where the cited narration mentions them; otherwise, no number is prescribed here.</p>
         </div>
-        <div className="weekly-zikr-list">
+        <div className="weekly-zikr-list" style={{ display: "grid", gap: "18px" }}>
           {plan.map((item, index) => (
             <article className="dua-card weekly-zikr-card" key={item.day}>
               <div className="dua-card-top"><span className="dua-category">{item.day}</span><span className="dua-origin">Weekly learning plan · {String(index + 1).padStart(2, "0")}/07</span></div>
