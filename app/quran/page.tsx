@@ -420,6 +420,24 @@ export default function QuranPage() {
     } catch { setSearchError("Could not open that Juz right now. Please try again."); }
   };
   const saveLastRead = (key: string) => { setLastRead(key); window.localStorage.setItem("rhm-quran-last-read", key); };
+  const advanceToNextSurah = () => {
+    if (selected >= 114) {
+      setPlaybackStatus("You have reached the end of the Qur’an. May your recitation be accepted.");
+      return;
+    }
+    const nextNumber = selected + 1;
+    // Some full-Surah reciters do not provide every chapter. Switch to a
+    // catalogue entry that has the next Surah, or fall back to AlQuran Cloud.
+    if (activeChapterReciter && !activeChapterReciter.surahs.includes(nextNumber)) {
+      const compatibleReciter = chapterReciters.find((reader) => reader.surahs.includes(nextNumber));
+      setSelectedChapterReciter(compatibleReciter ? String(compatibleReciter.id) : "");
+    }
+    const nextName = surahs.find((surah) => surah.number === nextNumber)?.englishName || "the next Surah";
+    setContinueAfterSurah(true);
+    setPlaybackStatus(`Loading ${nextName}…`);
+    setAudioError("");
+    setSelected(nextNumber);
+  };
   const loadWordStudy = async (key: string) => {
     if (wordStudy[key]) return; // Keep fetched word/Tafsir data cached; panel visibility is controlled separately.
     setWordLoading(key); setWordErrors((current) => ({ ...current, [key]: "" }));
@@ -695,16 +713,9 @@ useEffect(() => {
           <audio key={surahAudioUrl || "no-full-surah-audio"} ref={(audio) => { surahAudioRef.current = audio; if (audio) audio.playbackRate = playbackRate; }} className="surah-audio" controls preload="none" src={surahAudioUrl || undefined}
             onPlay={() => { document.querySelectorAll<HTMLAudioElement>(".quran-page .ayah-audio-row audio").forEach((audio) => audio.pause()); setActiveAyah(null); }}
             onEnded={() => {
-              if (autoNextSurah && selected < 114) {
-                const nextName = surahs.find((surah) => surah.number === selected + 1)?.englishName || "the next Surah";
-                setContinueAfterSurah(true);
-                setPlaybackStatus(`Completed. Loading ${nextName}…`);
-                setSelected((current) => Math.min(114, current + 1));
-              } else if (selected === 114) {
-                setPlaybackStatus("You have reached the end of the Qur’an. May your recitation be accepted.");
-              } else {
-                setPlaybackStatus("Surah completed. Select the next Surah whenever you are ready.");
-              }
+              if (autoNextSurah) advanceToNextSurah();
+              else if (selected === 114) setPlaybackStatus("You have reached the end of the Qur’an. May your recitation be accepted.");
+              else setPlaybackStatus("Surah completed. Select the next Surah whenever you are ready.");
             }}
             onError={() => {
               setAudioError("This Surah audio is temporarily unavailable for the selected reciter. Try another reciter or select the Surah again.");
@@ -712,6 +723,7 @@ useEffect(() => {
             }}>
             Your browser does not support audio playback.
           </audio>
+          <button type="button" className="reader-tool-button" onClick={advanceToNextSurah} disabled={selected >= 114}>Next Surah <span aria-hidden="true">→</span></button>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
         </section>
