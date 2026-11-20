@@ -36,7 +36,7 @@ const groups: Group[] = [
     title: "Salah, Duas & Daily Muslim Life",
     intro: "Your everyday worship tools—from prayer times and Qibla to remembrance, Hijri dates and personal routines.",
     features: [
-      { title: "Prayer times, Azan & Qibla", description: "Check local Salah times, configure reminders and find the Qibla direction.", href: "/prayer-times", label: "Salah centre", keywords: "namaz salah prayer azan adhan qibla" },
+      { title: "Prayer times, Azan & Qibla", description: "Check local Salah times, configure reminders and find the Qibla direction.", href: "/prayer-times", label: "Salah centre", keywords: "namaz salah prayer azan adhan qibla" },\n      { title: "Learn how to pray Salah", description: "Follow a step-by-step guide to Wudu, prayer movements, recitations and the five daily obligatory prayers.", href: "/salah-guide", label: "Salah learning", keywords: "namaz how to pray rakah ruku sujud tashahhud wudu" },
       { title: "Islamic calendar", description: "View Hijri months alongside Gregorian dates, with guidance about local moon sighting.", href: "/islamic-calendar", label: "Hijri calendar", keywords: "hijri ramadan eid islamic dates" },
       { title: "Duas & Azkar", description: "Read daily supplications with Arabic, meanings and available source references.", href: "/duas", label: "Daily remembrance", keywords: "dua dhikr zikr morning evening" },
       { title: "Daily Muslim life", description: "Learn about Wudu, cleanliness, prayer preparation and everyday guidance.", href: "/daily-life", label: "Everyday guidance", keywords: "wudu ablution taharah cleanliness" },
