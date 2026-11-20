@@ -705,7 +705,6 @@ useEffect(() => {
             }}>
             Your browser does not support audio playback.
           </audio>
-          <button type="button" className="reader-tool-button" onClick={advanceToNextSurah} disabled={selected >= 114}>Next Surah <span aria-hidden="true">→</span></button>
           {audioError && <p className="recitation-error" role="status">{audioError}</p>}
           {playbackStatus && <p className="recitation-note" role="status" aria-live="polite">{playbackStatus}</p>}
         </section>
