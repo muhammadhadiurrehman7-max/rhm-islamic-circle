@@ -8,7 +8,7 @@ const programmes = [
   { icon: "♡", title: "Voluntary support", status: "Not accepting payments yet", description: "Support may help cover hosting, accessibility, app development and free learning resources. No payment details are being collected on this page.", href: "/donate", action: "Read the support information" },
   { icon: "◈", title: "RHM supporter membership", status: "Planned", description: "An optional membership may offer extra study sessions and downloadable learning materials. Essential Qur’an, Hadith and core learning resources will remain free.", href: "/academy", action: "Explore free learning" },
   { icon: "◎", title: "Ethical advertising", status: "Subject to platform approval", description: "If introduced, advertising will be limited, clearly identifiable and kept away from Qur’an text, recitation controls and other sensitive learning moments.", href: "/learn", action: "Our learning approach" },
-  { icon: "⌂", title: "Institutional partnerships", status: "Partnership enquiries", description: "We welcome appropriate educational collaborations with reputable institutions, publishers and qualified teachers. Sponsorships will be disclosed transparently.", href: "mailto:hello@rhm-islamic-circle.vercel.app", action: "Make an enquiry" },
+  { icon: "⌂", title: "Institutional partnerships", status: "Partnership enquiries", description: "We welcome appropriate educational collaborations with reputable institutions, publishers and qualified teachers. Sponsorships will be disclosed transparently.", href: "/donate", action: "View support information" },
 ];
 
 export const metadata = {
