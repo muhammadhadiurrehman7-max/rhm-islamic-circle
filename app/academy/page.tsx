@@ -8,7 +8,10 @@ const pathways = [
  {n:"03",icon:"☾",tone:"gold",title:"Worship & daily practice",desc:"Build understanding of prayer, purification, daily manners, prayer times and personal worship routines.",links:[["Daily life guide","/daily-life"],["Prayer times","/prayer-times"],["Worship tracker","/worship-tracker"]]},
  {n:"04",icon:"🤲",tone:"rose",title:"Duas & remembrance",desc:"Read daily supplications with Arabic, translations and references where available. Learn the Names of Allah.",links:[["Daily Duas","/duas"],["99 Names of Allah","/names-of-allah"]]},
  {n:"05",icon:"⌂",tone:"violet",title:"Seerah & Islamic heritage",desc:"Explore Islamic heritage, historic places and introductory learning about the faith, with source notes.",links:[["Heritage & history","/heritage"],["Discover Islam","/learn"]]},
- {n:"06",icon:"ا",tone:"teal",title:"Arabic foundations",desc:"Begin with Arabic letters and Qaida foundations, then practise reading slowly and clearly.",links:[["Begin Qaida","/qaida"],["Qur’an reading","/quran"]]}
+ {n:"06",icon:"ا",tone:"teal",title:"Arabic foundations",desc:"Begin with Arabic letters and Qaida foundations, then practise reading slowly and clearly.",links:[["Begin Qaida","/qaida"],["Qur’an reading","/quran"]]},
+ {n:"07",icon:"۩",tone:"emerald",title:"Understand the Qur’an",desc:"Move from reading to understanding: explore available translations, study Tafsir with its source details, and return to the verses in context.",links:[["Read the Qur’an","/quran"],["Explore Tafsir","/tafsir"]]},
+ {n:"08",icon:"♫",tone:"blue",title:"Recitation & memorisation practice",desc:"Build a steady recitation routine. Use the available audio and repeat controls, practise pronunciation, and revise at a pace that suits you.",links:[["Listen and read","/quran"],["Practise Arabic","/qaida"]]},
+ {n:"09",icon:"♡",tone:"rose",title:"Prophetic character & daily conduct",desc:"Connect knowledge with action through the Sunnah, good manners, cleanliness, remembrance and everyday Muslim life.",links:[["Study Hadith","/hadith"],["Daily life guide","/daily-life"]]}
 ];
 const plan=[
  ["day1","Day 1","Begin with intention","Read a short Qur’an passage and explore its available translation.","/quran","Open Qur’an"],
