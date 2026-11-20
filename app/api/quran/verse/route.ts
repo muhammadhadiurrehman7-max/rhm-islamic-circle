@@ -89,10 +89,22 @@ export async function GET(request: Request) {
   const clientId = process.env.QF_CLIENT_ID;
   const clientSecret = process.env.QF_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
-    return NextResponse.json({
-      error: "Quran Foundation API credentials are not configured for this environment.",
-      setupRequired: true,
-    }, { status: 503 });
+    // Preview deployments can safely use the production server-side proxy.
+    // Credentials remain server-only in Production and are never exposed to the browser.
+    const productionUrl = new URL("https://rhm-islamic-circle.vercel.app/api/quran/verse");
+    searchParams.forEach((value, key) => productionUrl.searchParams.set(key, value));
+    try {
+      const upstream = await fetch(productionUrl, { cache: "no-store" });
+      const payload = await upstream.json();
+      return NextResponse.json(payload, {
+        status: upstream.status,
+        headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+      });
+    } catch {
+      return NextResponse.json({
+        error: "The Qur’an study service is temporarily unavailable. Please try again shortly.",
+      }, { status: 503 });
+    }
   }
 
   const environment = process.env.QF_ENV === "prelive" ? "prelive" : "production";
