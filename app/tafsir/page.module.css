@@ -33,3 +33,8 @@
 .directorySelect{display:flex;align-items:center;gap:5px;color:var(--accent);font-size:10px;font-weight:750;white-space:nowrap;cursor:pointer}
 .directorySelect input{accent-color:var(--accent);margin:0}
 .directorySelect input:disabled{opacity:.4;cursor:not-allowed}
+
+/* Scholarly library atmosphere, with a dark overlay for readable headings. */
+.hero{max-width:none;margin:0 auto;padding:clamp(54px,7vw,88px) clamp(24px,8vw,112px) 38px;background-image:linear-gradient(90deg,rgba(12,28,30,.94),rgba(12,28,30,.78) 58%,rgba(12,28,30,.38)),url('https://commons.wikimedia.org/wiki/Special:FilePath/Great_Mosque_of_C%C3%B3rdoba_(Spain).jpg?width=1600');background-size:cover;background-position:center 48%;color:#fff}
+.hero .eyebrow{color:#f0d18e}
+.hero>p:not(.eyebrow){color:#f2f5f3}

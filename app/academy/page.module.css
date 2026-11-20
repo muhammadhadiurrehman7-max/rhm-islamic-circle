@@ -4,3 +4,6 @@
 @media(max-width:900px){.siteNav{gap:10px 16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.heading{align-items:flex-start;flex-direction:column}.planSection{grid-template-columns:1fr}.planIntro{max-width:720px}}
 @media(max-width:600px){.siteNav{justify-content:flex-start;padding:0 18px 14px}.hero{padding:58px 20px 48px}.hero>p{font-size:15px}.pathways,.planSection{padding:50px 18px}.grid{grid-template-columns:1fr}.card{min-height:0}.planItem,.completed{padding:14px;gap:12px}.guidance{margin:38px 18px;padding:21px;gap:14px}.guidanceIcon{flex-basis:42px;height:42px}.guidance h2{font-size:25px}}
 @media(prefers-reduced-motion:reduce){.page *{scroll-behavior:auto!important;transition:none!important}}
+
+/* A photographic welcome banner for the learning academy. */
+.hero{background-image:linear-gradient(90deg,rgba(8,34,27,.94) 0%,rgba(8,45,35,.82) 54%,rgba(8,45,35,.40) 100%),url('https://commons.wikimedia.org/wiki/Special:FilePath/Faisal_Mosque,_Islamabad,_Pakistan.jpg?width=1600');background-size:cover;background-position:center 48%;background-color:#103d32}

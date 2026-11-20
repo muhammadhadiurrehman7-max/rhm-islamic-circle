@@ -2694,3 +2694,29 @@ html[data-site-theme="dark"] .quran-page .ayah-tafsir-source{color:#c3d0df}
     padding: 0 15px;
   }
 }
+
+/* Page-specific Islamic learning photography: calm, readable hero banners. */
+.hadith-page .hadith-hero {
+  color:#fff;
+  background-image:linear-gradient(90deg,rgba(10,27,22,.92),rgba(10,27,22,.72) 58%,rgba(10,27,22,.36)),url('https://commons.wikimedia.org/wiki/Special:FilePath/The_Umayyad_Mosque,_Damascus,_Syria.jpg?width=1600');
+  background-size:cover;background-position:center 48%;border:1px solid rgba(210,185,132,.24);
+}
+.qaida-page .quran-heading {
+  color:#fff;
+  background-image:linear-gradient(90deg,rgba(12,35,29,.92),rgba(12,35,29,.70) 60%,rgba(12,35,29,.34)),url('https://commons.wikimedia.org/wiki/Special:FilePath/Sultan_Ahmed_Mosque_in_Istanbul.jpg?width=1600');
+  background-size:cover;background-position:center 46%;
+}
+.duas-page .quran-heading {
+  color:#fff;
+  background-image:linear-gradient(90deg,rgba(20,26,22,.92),rgba(20,26,22,.72) 58%,rgba(20,26,22,.34)),url('https://commons.wikimedia.org/wiki/Special:FilePath/The_Ka%27ba,_Great_Mosque_of_Mecca,_Saudi_Arabia_(4).jpg?width=1600');
+  background-size:cover;background-position:center 52%;
+}
+.hadith-page .hadith-hero .eyebrow,
+.qaida-page .quran-heading .eyebrow,
+.duas-page .quran-heading .eyebrow {color:#f0d18e}
+.hadith-page .hadith-hero p,
+.qaida-page .quran-heading p,
+.duas-page .quran-heading p {color:#fff;max-width:760px}
+html[data-site-theme="dark"] .hadith-page .hadith-hero,
+html[data-site-theme="dark"] .qaida-page .quran-heading,
+html[data-site-theme="dark"] .duas-page .quran-heading {color:#fff}
