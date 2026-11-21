@@ -89,3 +89,30 @@ html[data-site-theme="dark"] .rhm-palette-check { color:#9fe0b7; }
   .rhm-appearance-controls { right:max(12px,env(safe-area-inset-right)); bottom:max(12px,env(safe-area-inset-bottom)); }
   .rhm-appearance-controls .site-theme-toggle,.rhm-palette-toggle { min-height:42px; padding:0 13px; }
 }
+
+/* Intentionally dark visual panels retain their designed light-on-dark typography. */
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,.footer,.quran-footer) :is(h1,h2,h3,h4,h5,h6,strong,b) {
+  color:#fff8e9 !important; -webkit-text-fill-color:#fff8e9 !important;
+}
+html[data-site-theme="light"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,.footer,.quran-footer) :is(p,li,dd,dt,figcaption,blockquote,label,legend,small,span) {
+  color:#f0eadc !important; -webkit-text-fill-color:#f0eadc !important;
+}
+html[data-site-theme="dark"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,.footer,.quran-footer) :is(h1,h2,h3,h4,h5,h6,strong,b) {
+  color:#fff8e9 !important; -webkit-text-fill-color:#fff8e9 !important;
+}
+html[data-site-theme="dark"] body :is(.premium-hero,.daily,.guidance-section,.share-learning-section,.daily-tool-primary,.faith-entry-main,.prayer-hero,.calligraphy-inner,.mosque-scene,.heritage-hero,.dark-panel,.sacred-learning-ribbon,.footer,.quran-footer) :is(p,li,dd,dt,figcaption,blockquote,label,legend,small,span) {
+  color:#f0eadc !important; -webkit-text-fill-color:#f0eadc !important;
+}
+/* Let the selected palette colour meaningful actions and small visual accents. */
+html[data-site-theme="light"] body :is(.btn-primary,.button-primary,.primary-button) {
+  background:var(--rhm-accent) !important; border-color:var(--rhm-accent) !important; color:#fff !important;
+}
+html[data-site-theme="dark"] body :is(.btn-primary,.button-primary,.primary-button) {
+  background:var(--rhm-accent) !important; border-color:var(--rhm-accent) !important; color:#fff !important;
+}
+html[data-site-theme="light"] body :is(.feature-icon,.discover-topic-icon,.faith-entry-card .faith-entry-icon) {
+  border-color:var(--rhm-accent-border) !important;
+}
+html[data-site-theme="dark"] body :is(.feature-icon,.discover-topic-icon,.faith-entry-card .faith-entry-icon) {
+  border-color:var(--rhm-accent) !important;
+}
