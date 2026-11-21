@@ -62,7 +62,7 @@ export default function GlobalExploreMenu() {
   }, [open]);
 
   const normalized = query.trim().toLocaleLowerCase();
-  const filter = (items: typeof moreLinks) => normalized
+  const filter = <T extends { label: string; detail: string }>(items: T[]): T[] => normalized
     ? items.filter((item) => (item.label + " " + item.detail).toLocaleLowerCase().includes(normalized))
     : items;
 
