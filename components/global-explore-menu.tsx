@@ -2,239 +2,202 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const groups = [
-  {
-    title: "Qur’an & Hadith",
-    links: [
-      { label: "Read the Qur’an", href: "/quran", detail: "Surahs, translation and recitation" },
-      { label: "Tafsir library", href: "/tafsir", detail: "Browse available explanations" },
-      { label: "Hadith collections", href: "/hadith", detail: "Read narrations and references" },
-    ],
-  },
-  {
-    title: "Learn Islam",
-    links: [
-      { label: "Learning academy", href: "/academy", detail: "Courses and learning paths" },
-      { label: "Arabic Qaida", href: "/qaida", detail: "Start with Arabic letters and reading" },
-      { label: "Lessons", href: "/learn", detail: "Browse available lessons" },
-      { label: "Discover Islam", href: "/discover-islam", detail: "Explore Islamic knowledge" },
-    ],
-  },
-  {
-    title: "Daily worship",
-    links: [
-      { label: "Daily duas", href: "/duas", detail: "Supplications with references" },
-      { label: "Prayer times", href: "/prayer-times", detail: "Find daily prayer times" },
-      { label: "Daily life", href: "/daily-life", detail: "Practical everyday guidance" },
-      { label: "Worship tracker", href: "/worship-tracker", detail: "Keep track of your routine" },
-    ],
-  },
-  {
-    title: "Explore & occasions",
-    links: [
-      { label: "Islamic events", href: "/islamic-events", detail: "Important dates and occasions" },
-      { label: "Islamic calendar", href: "/islamic-calendar", detail: "Browse the Hijri calendar" },
-      { label: "Names of Allah", href: "/names-of-allah", detail: "Learn the beautiful names" },
-      { label: "Islamic heritage", href: "/heritage", detail: "Explore sacred places and history" },
-    ],
-  },
-  {
-    title: "Your RHM space",
-    links: [
-      { label: "My RHM", href: "/my-rhm", detail: "Your personal learning space" },
-      { label: "My dashboard", href: "/dashboard", detail: "Your account and activity" },
-      { label: "My learning journey", href: "/journey", detail: "Continue your progress" },
-      { label: "Sign in / Create account", href: "/login", detail: "Access your account" },
-    ],
-  },
-  {
-    title: "More",
-    links: [
-      { label: "Explore all sections", href: "/explore", detail: "See the full RHM directory" },
-      { label: "Qur’an offline reading", href: "/quran/offline", detail: "Open saved reading resources" },
-      { label: "Learning companion", href: "/companion", detail: "Open your study companion" },
-      { label: "Support RHM", href: "/donate", detail: "View ways to support the project" },
-    ],
-  },
+const primaryLinks = [
+  { label: "Read the Qur’an", href: "/quran", detail: "Surahs, Arabic, translation and recitation", icon: "⌂" },
+  { label: "My Qur’an", href: "/my-rhm", detail: "Continue reading and revisit saved progress", icon: "▣" },
+  { label: "Qur’an audio & reciters", href: "/quran", detail: "Choose a reciter and listen ayah by ayah", icon: "♫" },
+];
+
+const learnLinks = [
+  { label: "Learning plans & Academy", href: "/academy", detail: "Structured lessons and learning progress" },
+  { label: "Arabic Qaida & foundations", href: "/qaida", detail: "Build confidence with Arabic reading" },
+  { label: "Tafsir library", href: "/tafsir", detail: "Explore available scholarly explanations" },
+  { label: "Hadith library", href: "/hadith", detail: "Browse narrations and source references" },
+  { label: "Islamic topics & lessons", href: "/learn", detail: "Study belief, Seerah and daily guidance" },
+];
+
+const moreLinks = [
+  { label: "Duas & daily Azkar", href: "/duas", detail: "Supplications with source details" },
+  { label: "Prayer times & Qibla", href: "/prayer-times", detail: "Everyday worship tools" },
+  { label: "Islamic calendar & events", href: "/islamic-calendar", detail: "Hijri months and important occasions" },
+  { label: "Names of Allah", href: "/names-of-allah", detail: "Meanings and reflections" },
+  { label: "Islamic heritage & Seerah", href: "/heritage", detail: "History and sacred places" },
+  { label: "My RHM dashboard", href: "/my-rhm", detail: "Your personal learning space" },
+  { label: "Explore all features", href: "/explore", detail: "Browse the complete RHM directory" },
+  { label: "Support RHM", href: "/donate", detail: "Help sustain beneficial learning" },
 ];
 
 export default function GlobalExploreMenu() {
   const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const dragRef = useRef<{ pointerId: number; offsetX: number; offsetY: number } | null>(null);
-  const movedRef = useRef(false);
-  const suppressClickRef = useRef(false);
+  const [learnOpen, setLearnOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const panelRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem("rhm-all-pages-position");
-      if (saved) {
-        const parsed = JSON.parse(saved) as { x?: number; y?: number };
-        if (typeof parsed.x === "number" && typeof parsed.y === "number") {
-          const el = buttonRef.current;
-          const width = el?.offsetWidth ?? 150;
-          const height = el?.offsetHeight ?? 46;
-          setPosition({
-            x: Math.max(8, Math.min(parsed.x, window.innerWidth - width - 8)),
-            y: Math.max(8, Math.min(parsed.y, window.innerHeight - height - 8)),
-          });
-        }
-      }
-    } catch {
-      // Ignore invalid or unavailable saved positions.
-    }
+    const sync = () => setTheme(document.documentElement.dataset.siteTheme === "dark" ? "dark" : "light");
+    sync();
+    window.addEventListener("rhm-theme-change", sync);
+    return () => window.removeEventListener("rhm-theme-change", sync);
   }, []);
 
   useEffect(() => {
-    const move = (event: PointerEvent) => {
-      const drag = dragRef.current;
-      if (!drag || event.pointerId !== drag.pointerId) return;
-      const el = buttonRef.current;
-      const width = el?.offsetWidth ?? 150;
-      const height = el?.offsetHeight ?? 46;
-      const x = Math.max(8, Math.min(event.clientX - drag.offsetX, window.innerWidth - width - 8));
-      const y = Math.max(8, Math.min(event.clientY - drag.offsetY, window.innerHeight - height - 8));
-      if (Math.abs(event.movementX) + Math.abs(event.movementY) > 1) movedRef.current = true;
-      setPosition({ x, y });
-    };
-    const stop = (event: PointerEvent) => {
-      if (!dragRef.current || event.pointerId !== dragRef.current.pointerId) return;
-      dragRef.current = null;
-      if (movedRef.current) {
-        suppressClickRef.current = true;
-        try {
-          const el = buttonRef.current;
-          if (el) {
-            const rect = el.getBoundingClientRect();
-            window.localStorage.setItem("rhm-all-pages-position", JSON.stringify({ x: rect.left, y: rect.top }));
-          }
-        } catch {
-          // Position remains usable for this session if storage is unavailable.
-        }
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
       }
     };
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", stop);
-    window.addEventListener("pointercancel", stop);
+    window.addEventListener("keydown", onKeyDown);
+    panelRef.current?.focus();
     return () => {
-      window.removeEventListener("pointermove", move);
-      window.removeEventListener("pointerup", stop);
-      window.removeEventListener("pointercancel", stop);
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKeyDown);
     };
-  }, []);
+  }, [open]);
 
-  const startDrag = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (event.button !== 0) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    dragRef.current = {
-      pointerId: event.pointerId,
-      offsetX: event.clientX - rect.left,
-      offsetY: event.clientY - rect.top,
-    };
-    movedRef.current = false;
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
+  const normalized = query.trim().toLocaleLowerCase();
+  const filter = (items: typeof moreLinks) => normalized
+    ? items.filter((item) => (item.label + " " + item.detail).toLocaleLowerCase().includes(normalized))
+    : items;
 
-  const moveWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) return;
-    event.preventDefault();
-    const rect = event.currentTarget.getBoundingClientRect();
-    const step = event.shiftKey ? 50 : 20;
-    const x = event.key === "ArrowLeft" ? rect.left - step : event.key === "ArrowRight" ? rect.left + step : rect.left;
-    const y = event.key === "ArrowUp" ? rect.top - step : event.key === "ArrowDown" ? rect.top + step : rect.top;
-    const next = {
-      x: Math.max(8, Math.min(x, window.innerWidth - rect.width - 8)),
-      y: Math.max(8, Math.min(y, window.innerHeight - rect.height - 8)),
-    };
-    setPosition(next);
-    try { window.localStorage.setItem("rhm-all-pages-position", JSON.stringify(next)); } catch { /* optional persistence */ }
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.siteTheme = next;
+    document.documentElement.dataset.quranTheme = next;
+    window.localStorage.setItem("rhm-site-theme", next);
+    window.localStorage.setItem("rhm-quran-theme", next);
+    window.dispatchEvent(new CustomEvent("rhm-theme-change", { detail: next }));
+    setTheme(next);
   };
 
   return (
-    <div className="rhm-explore-menu" style={position ? { left: position.x, top: position.y, bottom: "auto", transform: "none" } : undefined}>
-      {open && (
-        <section className="rhm-explore-panel" id="rhm-explore-panel" aria-label="All RHM pages">
-          <div className="rhm-explore-panel-heading">
-            <div>
-              <p>RHM ISLAM 360</p>
-              <h2>Where would you like to go?</h2>
-              <span>Choose one section. Each topic has its own page.</span>
-            </div>
-            <button type="button" className="rhm-explore-close" onClick={() => setOpen(false)} aria-label="Close page menu">×</button>
-          </div>
-          <div className="rhm-explore-groups">
-            {groups.map((group) => (
-              <section className="rhm-explore-group" key={group.title} aria-labelledby={`rhm-group-${group.title.replace(/[^a-z0-9]+/gi, "-")}`}>
-                <h3 id={`rhm-group-${group.title.replace(/[^a-z0-9]+/gi, "-")}`}>{group.title}</h3>
-                <div className="rhm-explore-links">
-                  {group.links.map((link) => (
-                    <a href={link.href} key={link.href} onClick={() => setOpen(false)}>
-                      <strong>{link.label}</strong>
-                      <span>{link.detail}</span>
-                      <span className="rhm-explore-arrow" aria-hidden="true">→</span>
-                    </a>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
-      )}
+    <>
       <button
-        ref={buttonRef}
+        ref={triggerRef}
         type="button"
-        className="rhm-explore-trigger"
+        className="rhm-menu-trigger"
+        aria-label="Open RHM navigation"
         aria-expanded={open}
-        aria-controls="rhm-explore-panel"
-        aria-label="All pages. Drag to move this button; use arrow keys while focused to reposition."
-        title="Drag to move • Arrow keys to reposition"
-        onPointerDown={startDrag}
-        onKeyDown={moveWithKeyboard}
-        onClick={() => {
-          if (suppressClickRef.current) {
-            suppressClickRef.current = false;
-            return;
-          }
-          setOpen((value) => !value);
-        }}
+        aria-controls="rhm-navigation-drawer"
+        onClick={() => setOpen(true)}
       >
-        <span aria-hidden="true">☷</span>
-        <span>{open ? "Close pages" : "All pages"}</span>
+        <span aria-hidden="true">☰</span><span>Menu</span>
       </button>
+
+      {open && (
+        <div className="rhm-menu-overlay" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
+          <aside
+            ref={panelRef}
+            id="rhm-navigation-drawer"
+            className="rhm-navigation-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="RHM Islam 360 navigation"
+            tabIndex={-1}
+          >
+            <div className="rhm-drawer-brand">
+              <a href="/" onClick={() => setOpen(false)}><span className="rhm-drawer-mark">ر</span><span><strong>RHM Islam 360</strong><small>Rehmat · Hidayat · Ma’rifat</small></span></a>
+              <button type="button" className="rhm-drawer-close" aria-label="Close navigation" onClick={() => setOpen(false)}>×</button>
+            </div>
+
+            <div className="rhm-drawer-content">
+              <label className="rhm-drawer-search">
+                <span aria-hidden="true">⌕</span>
+                <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search RHM sections…" aria-label="Search RHM sections" />
+                {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search">×</button>}
+              </label>
+
+              <nav aria-label="RHM sections">
+                <div className="rhm-drawer-group">
+                  <h2>Start here</h2>
+                  {filter(primaryLinks).map((item) => <a className="rhm-drawer-link" href={item.href} key={item.label} onClick={() => setOpen(false)}><span className="rhm-drawer-icon" aria-hidden="true">{item.icon}</span><span><strong>{item.label}</strong><small>{item.detail}</small></span><span className="rhm-drawer-arrow" aria-hidden="true">›</span></a>)}
+                </div>
+
+                <div className="rhm-drawer-group">
+                  <button className="rhm-drawer-accordion" type="button" aria-expanded={learnOpen || Boolean(normalized)} onClick={() => setLearnOpen((value) => !value)}><span className="rhm-drawer-icon" aria-hidden="true">⌑</span><span><strong>Learn</strong><small>Courses, Qur’an study and knowledge</small></span><span className="rhm-drawer-chevron">{learnOpen || normalized ? "−" : "+"}</span></button>
+                  {(learnOpen || Boolean(normalized)) && filter(learnLinks).map((item) => <a className="rhm-drawer-sublink" href={item.href} key={item.label} onClick={() => setOpen(false)}><strong>{item.label}</strong><small>{item.detail}</small></a>)}
+                </div>
+
+                <div className="rhm-drawer-group">
+                  <button className="rhm-drawer-accordion" type="button" aria-expanded={moreOpen || Boolean(normalized)} onClick={() => setMoreOpen((value) => !value)}><span className="rhm-drawer-icon" aria-hidden="true">⋯</span><span><strong>More</strong><small>Daily worship, events and personal tools</small></span><span className="rhm-drawer-chevron">{moreOpen || normalized ? "−" : "+"}</span></button>
+                  {(moreOpen || Boolean(normalized)) && filter(moreLinks).map((item) => <a className="rhm-drawer-sublink" href={item.href} key={item.label} onClick={() => setOpen(false)}><strong>{item.label}</strong><small>{item.detail}</small></a>)}
+                </div>
+                {normalized && filter([...primaryLinks, ...learnLinks, ...moreLinks]).length === 0 && <p className="rhm-drawer-empty">No matching section. Try another search.</p>}
+              </nav>
+            </div>
+
+            <div className="rhm-drawer-footer">
+              <div className="rhm-drawer-settings">
+                <a href="/login" onClick={() => setOpen(false)}><span aria-hidden="true">◎</span> Profile / Sign in</a>
+                <button type="button" onClick={toggleTheme}><span aria-hidden="true">{theme === "dark" ? "☀" : "☾"}</span> {theme === "dark" ? "Light theme" : "Dark theme"}</button>
+              </div>
+              <a className="rhm-drawer-donate" href="/donate" onClick={() => setOpen(false)}>✦ Support beneficial knowledge</a>
+              <small className="rhm-drawer-note">A calm space to read, learn and reflect.</small>
+            </div>
+          </aside>
+        </div>
+      )}
+
       <style jsx global>{`
-        .rhm-explore-menu{position:fixed;left:50%;right:auto;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10001;font-family:"DM Sans",Arial,sans-serif}
-        .rhm-explore-trigger{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border:1px solid #174b3c;border-radius:999px;background:#174b3c;color:#fff;box-shadow:0 6px 22px rgba(10,38,29,.24);font-size:14px;font-weight:750}
-        .rhm-explore-trigger:hover{background:#103c30}.rhm-explore-trigger:active{cursor:grabbing}
-        .rhm-explore-trigger:focus-visible,.rhm-explore-close:focus-visible,.rhm-explore-links a:focus-visible{outline:3px solid #d4a94f;outline-offset:3px}
-        .rhm-explore-trigger>span:first-child{font-size:20px;line-height:1}
-        .rhm-explore-panel{position:absolute;left:50%;right:auto;bottom:58px;transform:translateX(-50%);width:min(760px,calc(100vw - 28px));max-height:min(78vh,760px);overflow:auto;padding:22px;border:1px solid #dce6de;border-radius:20px;background:#fff;color:#18372e;box-shadow:0 18px 60px rgba(8,28,21,.24)}
-        .rhm-explore-panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:16px;border-bottom:1px solid #e7ede8}
-        .rhm-explore-panel-heading p{margin:0 0 5px;color:#96733b;font-size:10px;font-weight:800;letter-spacing:.14em}
-        .rhm-explore-panel-heading h2{margin:0 0 5px;color:#17352d;font:700 clamp(21px,3vw,28px)/1.2 "Playfair Display",Georgia,serif}
-        .rhm-explore-panel-heading span{color:#5b7065;font-size:13px;line-height:1.5}
-        .rhm-explore-close{flex:none;width:36px;height:36px;border:1px solid #dce6de;border-radius:50%;background:#f6f8f5;color:#24483b;font-size:24px;line-height:1;cursor:pointer}
-        .rhm-explore-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px;padding-top:18px}
-        .rhm-explore-group h3{margin:0 0 9px;color:#174b3c;font-size:13px;font-weight:800}
-        .rhm-explore-links{display:grid;gap:7px}
-        .rhm-explore-links a{position:relative;display:grid;gap:2px;padding:10px 32px 10px 12px;border:1px solid #e8eee9;border-radius:11px;background:#fbfcfa;text-decoration:none}
-        .rhm-explore-links a:hover{border-color:#9bb9a4;background:#f0f6f0}
-        .rhm-explore-links a strong{color:#1d3e32;font-size:13px}
-        .rhm-explore-links a span:not(.rhm-explore-arrow){color:#62766b;font-size:11px;line-height:1.4}
-        .rhm-explore-links .rhm-explore-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#287052;font-size:18px}
-        html[data-site-theme="dark"] .rhm-explore-panel{border-color:#3d5d4c;background:#142b21;color:#f2f1e8}
-        html[data-site-theme="dark"] .rhm-explore-panel-heading{border-color:#365343}
-        html[data-site-theme="dark"] .rhm-explore-panel-heading h2{color:#f4f0e4}
-        html[data-site-theme="dark"] .rhm-explore-panel-heading span{color:#c5d3c9}
-        html[data-site-theme="dark"] .rhm-explore-close{border-color:#46634f;background:#203d2e;color:#f5f0df}
-        html[data-site-theme="dark"] .rhm-explore-group h3{color:#c5ddb9}
-        html[data-site-theme="dark"] .rhm-explore-links a{border-color:#365343;background:#1a3427}
-        html[data-site-theme="dark"] .rhm-explore-links a:hover{border-color:#83a58c;background:#244533}
-        html[data-site-theme="dark"] .rhm-explore-links a strong{color:#f2f1e8}
-        html[data-site-theme="dark"] .rhm-explore-links a span:not(.rhm-explore-arrow){color:#c4d2c8}
-        @media(max-width:600px){.rhm-explore-menu{left:50%;right:auto;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%)}.rhm-explore-panel{left:50%;transform:translateX(-50%);width:calc(100vw - 24px);max-height:76vh;padding:17px;border-radius:16px}.rhm-explore-groups{grid-template-columns:1fr;gap:15px;padding-top:15px}.rhm-explore-trigger{min-height:44px;padding:0 15px}.rhm-explore-panel-heading h2{font-size:22px}}
-        @media(prefers-reduced-motion:no-preference){.rhm-explore-panel{animation:rhm-menu-in .16s ease-out}@keyframes rhm-menu-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}}
+        .rhm-menu-trigger{position:fixed;right:20px;top:18px;z-index:10002;display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:0 15px;border:1px solid #d9c9a9;border-radius:999px;background:#fff9ef;color:#263b31;box-shadow:0 4px 18px rgba(47,37,20,.13);font:650 13px/1 "DM Sans",Arial,sans-serif;cursor:pointer}
+        .rhm-menu-trigger span:first-child{font-size:18px}
+        .rhm-menu-trigger:hover{background:#f3ead9;border-color:#b89a67}
+        .rhm-menu-trigger:focus-visible,.rhm-drawer-close:focus-visible,.rhm-drawer-link:focus-visible,.rhm-drawer-sublink:focus-visible,.rhm-drawer-accordion:focus-visible,.rhm-drawer-settings :is(a,button):focus-visible{outline:3px solid #b78b43;outline-offset:3px}
+        .rhm-menu-overlay{position:fixed;inset:0;z-index:10003;display:flex;justify-content:flex-end;background:rgba(25,27,22,.38);backdrop-filter:blur(2px)}
+        .rhm-navigation-drawer{display:flex;flex-direction:column;width:min(430px,100%);height:100%;max-height:100dvh;background:#fff9ef;color:#27271f;box-shadow:-16px 0 55px rgba(0,0,0,.16);outline:none;animation:rhm-drawer-in .2s ease-out}
+        .rhm-drawer-brand{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 20px;border-bottom:1px solid #e7dcc9}
+        .rhm-drawer-brand>a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#243a30}
+        .rhm-drawer-brand strong,.rhm-drawer-brand small{display:block}
+        .rhm-drawer-brand strong{font-size:16px;letter-spacing:-.02em}
+        .rhm-drawer-brand small{margin-top:3px;color:#806b4b;font-size:10px;letter-spacing:.08em}
+        .rhm-drawer-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#234b3a;color:#fff4df;font:700 23px Georgia,serif}
+        .rhm-drawer-close{width:36px;height:36px;border:0;border-radius:50%;background:transparent;color:#29271f;font-size:27px;cursor:pointer}
+        .rhm-drawer-content{flex:1;overflow:auto;padding:17px 18px 20px;overscroll-behavior:contain}
+        .rhm-drawer-search{display:flex;align-items:center;gap:9px;min-height:43px;padding:0 12px;border:1px solid #e0d3bd;border-radius:12px;background:#fffdf8;color:#675b48}
+        .rhm-drawer-search>span{font-size:22px}
+        .rhm-drawer-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#28271f;font:14px "DM Sans",Arial,sans-serif}
+        .rhm-drawer-search input::placeholder{color:#827766;opacity:1}
+        .rhm-drawer-search button{border:0;background:transparent;color:#5e5548;font-size:20px}
+        .rhm-drawer-group{padding:18px 0 4px}
+        .rhm-drawer-group h2{margin:0 0 9px 3px;color:#8b7047;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+        .rhm-drawer-link,.rhm-drawer-accordion{display:flex;align-items:center;gap:12px;width:100%;padding:10px 8px;border:0;border-radius:11px;background:transparent;color:#28271f;text-align:left;text-decoration:none}
+        .rhm-drawer-link:hover,.rhm-drawer-accordion:hover,.rhm-drawer-sublink:hover{background:#f2eadc}
+        .rhm-drawer-icon{display:grid;place-items:center;flex:none;width:24px;color:#a88b59;font-size:18px}
+        .rhm-drawer-link>span:nth-child(2),.rhm-drawer-accordion>span:nth-child(2){display:grid;gap:3px;min-width:0}
+        .rhm-drawer-link strong,.rhm-drawer-accordion strong{font-size:14px;font-weight:650}
+        .rhm-drawer-link small,.rhm-drawer-accordion small,.rhm-drawer-sublink small{color:#756b5c;font-size:11px;line-height:1.45}
+        .rhm-drawer-arrow,.rhm-drawer-chevron{margin-left:auto;color:#8e7957;font-size:22px}
+        .rhm-drawer-sublink{display:grid;gap:3px;margin:3px 0 3px 35px;padding:9px 12px;border-left:2px solid #d7c29b;border-radius:0 9px 9px 0;color:#2c2a23;text-decoration:none}
+        .rhm-drawer-sublink strong{font-size:13px;font-weight:650}
+        .rhm-drawer-empty{padding:12px;color:#756b5c;font-size:13px}
+        .rhm-drawer-footer{padding:15px 18px max(16px,env(safe-area-inset-bottom));border-top:1px solid #e7dcc9;background:#fff7e9}
+        .rhm-drawer-settings{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+        .rhm-drawer-settings :is(a,button){display:flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:0 10px;border:1px solid #dfd1b9;border-radius:999px;background:#fffaf1;color:#342f25;font-size:12px;font-weight:600;text-decoration:none}
+        .rhm-drawer-donate{display:flex;justify-content:center;align-items:center;min-height:39px;margin-top:10px;border-radius:999px;background:#493516;color:#fff4db;font-size:12px;font-weight:750;text-decoration:none}
+        .rhm-drawer-note{display:block;margin-top:9px;color:#80745f;text-align:center;font-size:10px}
+        html[data-site-theme="dark"] .rhm-navigation-drawer{background:#171d19;color:#f4eee1}
+        html[data-site-theme="dark"] .rhm-drawer-brand{border-color:#35463a}
+        html[data-site-theme="dark"] .rhm-drawer-brand>a,.rhm-navigation-drawer[data-theme="dark"] .rhm-drawer-brand>a{color:#f4eee1}
+        html[data-site-theme="dark"] .rhm-drawer-brand small,html[data-site-theme="dark"] .rhm-drawer-group h2{color:#d7bc82}
+        html[data-site-theme="dark"] .rhm-drawer-close,html[data-site-theme="dark"] .rhm-drawer-link,html[data-site-theme="dark"] .rhm-drawer-accordion{color:#f4eee1}
+        html[data-site-theme="dark"] .rhm-drawer-link:hover,html[data-site-theme="dark"] .rhm-drawer-accordion:hover,html[data-site-theme="dark"] .rhm-drawer-sublink:hover{background:#25352b}
+        html[data-site-theme="dark"] .rhm-drawer-link small,html[data-site-theme="dark"] .rhm-drawer-accordion small,html[data-site-theme="dark"] .rhm-drawer-sublink small,html[data-site-theme="dark"] .rhm-drawer-note{color:#c4cbbb}
+        html[data-site-theme="dark"] .rhm-drawer-sublink{color:#f4eee1;border-color:#8e774e}
+        html[data-site-theme="dark"] .rhm-drawer-search{background:#202820;border-color:#4a5948}
+        html[data-site-theme="dark"] .rhm-drawer-search input{color:#f4eee1}
+        html[data-site-theme="dark"] .rhm-drawer-footer{background:#1c241e;border-color:#35463a}
+        html[data-site-theme="dark"] .rhm-drawer-settings :is(a,button){background:#242e26;border-color:#53634f;color:#f4eee1}
+        html[data-site-theme="dark"] .rhm-drawer-donate{background:#d5b879;color:#241d10}
+        @keyframes rhm-drawer-in{from{transform:translateX(22px);opacity:.7}to{transform:translateX(0);opacity:1}}
+        @media(max-width:560px){.rhm-menu-trigger{top:auto;right:14px;bottom:max(14px,env(safe-area-inset-bottom));min-height:45px}.rhm-navigation-drawer{width:100%;max-width:460px}.rhm-drawer-content{padding:13px 15px 18px}}
+        @media(prefers-reduced-motion:reduce){.rhm-navigation-drawer{animation:none}}
       `}</style>
-    </div>
+    </>
   );
 }
