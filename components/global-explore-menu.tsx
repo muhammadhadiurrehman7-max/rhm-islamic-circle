@@ -68,6 +68,11 @@ export default function GlobalExploreMenu() {
         }
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
+        if (!panel.contains(document.activeElement)) {
+          event.preventDefault();
+          (event.shiftKey ? last : first).focus();
+          return;
+        }
         if (event.shiftKey && (document.activeElement === first || document.activeElement === panel)) {
           event.preventDefault();
           last.focus();
@@ -115,7 +120,7 @@ export default function GlobalExploreMenu() {
       </button>
 
       {open && (
-        <div className="rhm-menu-overlay" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
+        <div className="rhm-menu-overlay" onMouseDown={(event) => { if (event.target === event.currentTarget) { setOpen(false); triggerRef.current?.focus(); } }}>
           <aside
             ref={panelRef}
             id="rhm-navigation-drawer"
@@ -127,7 +132,7 @@ export default function GlobalExploreMenu() {
           >
             <div className="rhm-drawer-brand">
               <a href="/" onClick={() => setOpen(false)}><span className="rhm-drawer-mark">ر</span><span><strong>RHM Islam 360</strong><small>Rehmat · Hidayat · Ma’rifat</small></span></a>
-              <button type="button" className="rhm-drawer-close" aria-label="Close navigation" onClick={() => setOpen(false)}>×</button>
+              <button type="button" className="rhm-drawer-close" aria-label="Close navigation" onClick={() => { setOpen(false); triggerRef.current?.focus(); }}>×</button>
             </div>
 
             <div className="rhm-drawer-content">
