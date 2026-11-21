@@ -3,11 +3,13 @@ import "./globals.css";
 import "./readability.css";
 import "./heritage-palette.css";
 import "./visual-polish.css";
+import "./accent-colours.css";
 import "./contrast-accessibility.css";
 import ThemeProvider from "../components/theme-provider";
 import PwaRegister from "../components/pwa-register";
 import QuranOfflineShortcut from "../components/quran-offline-shortcut";
 import GlobalBackButton from "../components/global-back-button";
+import GlobalExploreMenu from "../components/global-explore-menu";
 
 const siteUrl = "https://rhm-islamic-circle.vercel.app";
 const organizationSchema = {
@@ -80,6 +82,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <ThemeProvider>
           <GlobalBackButton />
+          <GlobalExploreMenu />
           {children}
           <PwaRegister />
           <QuranOfflineShortcut />
