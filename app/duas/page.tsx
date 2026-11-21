@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 type Dua = {
   id: string;
   title: string;
-  category: "Qur'anic duas" | "Prophetic Sunnah";
+  category: "Qur'anic duas" | "Prophetic Sunnah" | "Ramadan & special occasions" | "Daily Azkar";
   sourceType: string;
   narrator?: string;
   arabic: string;
@@ -150,7 +150,7 @@ export default function DailyDuasPage() {
   }, [theme, themeReady]);
   const filtered = useMemo(() => {
     const q = query.trim().toLocaleLowerCase();
-    return duas.filter((dua) => {
+    return allDuas.filter((dua) => {
       const categoryMatch = category === "All" || dua.category === category;
       const textMatch = !q || [dua.title, dua.arabic, dua.transliteration, dua.english, dua.urdu, dua.reference, dua.narrator ?? ""].some((part) => part.toLocaleLowerCase().includes(q));
       return categoryMatch && textMatch;
@@ -170,16 +170,16 @@ export default function DailyDuasPage() {
       </section>
       <nav className="learning-space-nav" aria-label="Explore learning spaces"><a href="/quran">Qur’an</a><a href="/hadith">Hadith</a><a href="/qaida">Qaida</a><a href="/duas" aria-current="page">Daily Duas</a><a href="/learn">Discover Islam</a><a href="/daily-life">Daily Life</a></nav>
       <section className="quran-reader duas-reader">
-        <div className="duas-intro"><strong>Learn one dua at a time.</strong><p>Use the search to find a dua by occasion, Prophet's name, Companion narrator, words or exact reference such as 6312.</p></div>
+        <div className="duas-intro"><strong>Learn one dua at a time.</strong><p>Use the search to find a dua, daily dhikr or Ramadan supplication by occasion, Prophet's name, narrator, words or exact reference.</p></div>
         <div className="duas-controls">
           <label htmlFor="duas-search">Search duas or references</label>
           <input id="duas-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try: sleep, Musa, 6312, forgiveness…" />
           <label htmlFor="duas-category">Browse by source</label>
-          <select id="duas-category" value={category} onChange={(event) => setCategory(event.target.value)}><option>All</option><option>Qur'anic duas</option><option>Prophetic Sunnah</option></select>
+          <select id="duas-category" value={category} onChange={(event) => setCategory(event.target.value)}><option>All</option><option>Qur'anic duas</option><option>Prophetic Sunnah</option><option>Ramadan &amp; special occasions</option><option>Daily Azkar</option></select>
           <label htmlFor="duas-language">Meaning language</label>
           <select id="duas-language" value={language} onChange={(event) => { const value = event.target.value; if (value === "both" || value === "en" || value === "ur") setLanguage(value); }}><option value="both">Urdu + English</option><option value="ur">Urdu</option><option value="en">English</option></select>
         </div>
-        <p className="duas-count" aria-live="polite">{filtered.length} supplications found</p>
+        <p className="duas-count" aria-live="polite">{filtered.length} supplications and remembrances found</p><div className="duas-intro"><strong>More remembrance tools</strong><p>For a digital Tasbeeh counter and worship tools, open the <a href="/companion">RHM Muslim Companion</a>. Repetition counts are shown only where the cited narration specifies them.</p></div>
         {filtered.map((dua) => <article className="dua-card" key={dua.id}>
           <div className="dua-card-top"><span className="dua-category">{dua.category}</span><span className="dua-origin">{dua.sourceType}</span></div>
           <h2>{dua.title}</h2>
