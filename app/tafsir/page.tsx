@@ -168,16 +168,25 @@ export default function TafsirLibraryPage() {
     setPassageError("");
     setPassages([]);
     const key = `${surah}:${nextAyah}`;
+    // Quran Foundation may return 404 when Tazkir-ul-Quran (818) is requested
+    // alone, although it returns the same Urdu passage in a multi-edition request.
+    // Add a verified companion only for the upstream request; display only editions
+    // the learner actually selected.
+    const requestIds = selectedIds.length === 1 && selectedIds[0] === "818"
+      ? ["818", "160"]
+      : selectedIds;
     try {
       const [tafsirResponse, verseResponse] = await Promise.all([
-        fetch(`/api/quran/verse?${new URLSearchParams({ verse: key, language, tafsirs: selectedIds.join(",") })}`),
+        fetch(`/api/quran/verse?${new URLSearchParams({ verse: key, language, tafsirs: requestIds.join(",") })}`),
         fetch(`https://api.alquran.cloud/v1/ayah/${key}/quran-uthmani`),
       ]);
       const tafsirData = await tafsirResponse.json();
       if (!tafsirResponse.ok) throw new Error(tafsirData.error || "The selected Tafsir text could not be loaded.");
       const tafsirPayload = tafsirData?.data ?? tafsirData;
       const verseData = tafsirPayload.verses?.[0] || tafsirPayload.verse || tafsirPayload;
-      const returned = (verseData.tafsirs || []).filter((item: { text?: string }) => item.text);
+      const returned = (verseData.tafsirs || []).filter((item: { text?: string; resource_id?: number; id?: number }) =>
+        item.text && selectedIds.includes(String(item.resource_id || item.id))
+      );
       const mapped = returned.map((item: { resource_id?: number; id?: number; name?: string; resource_name?: string; author_name?: string; text: string }) => {
         const id = Number(item.resource_id || item.id);
         const resource = resources.find((candidate) => candidate.id === id);
