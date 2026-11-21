@@ -96,7 +96,7 @@ export default function TafsirLibraryPage() {
     setPassages([]);
     setPassageError("");
     setError("");
-    fetch(`/api/quran/verse?resources=tafsirs&language=${language}`)
+    fetch(`/api/quran/verse?resources=tafsirs&language=${language}`, { cache: "no-store" })
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "The Tafsir catalogue could not be loaded.");
@@ -104,13 +104,31 @@ export default function TafsirLibraryPage() {
       })
       .then((data) => {
         if (!active) return;
-        const available = (data.tafsirs || data.resources || []) as TafsirResource[];
+        // The provider may wrap its payload in a data envelope. Accept the
+        // documented response shapes without inventing or relabelling editions.
+        const payload = data?.data ?? data;
+        const rawResources = Array.isArray(payload)
+          ? payload
+          : payload?.tafsirs ?? payload?.resources ?? [];
+        const available = (Array.isArray(rawResources) ? rawResources : []) as TafsirResource[];
+        const languageAliases: Record<Language, string[]> = {
+          ur: ["ur", "urdu", "urdu pakistan"],
+          en: ["en", "english", "english international"],
+          ar: ["ar", "arabic", "العربية"],
+        };
         const languageResources = available.filter((item) => {
-          const code = String(item.language_name || "").toLowerCase();
-          return item.id && (code === language || code === LANGUAGES.find((item) => item.id === language)?.label.toLowerCase() || (language === "ar" && code.includes("arab")));
+          const code = String(item.language_name || "").trim().toLowerCase().replace(/[_-]/g, " ");
+          return Boolean(item.id && item.name) && languageAliases[language].includes(code);
         });
         setResources(languageResources);
-        if (!languageResources.length) setError("The connected provider did not return any editions for this language. RHM will not invent or substitute scholar texts.");
+        // Preselect up to six real provider editions so the reader is usable
+        // immediately; the learner can still choose a smaller comparison set.
+        setSelectedIds(languageResources.slice(0, 6).map((item) => String(item.id)));
+        if (available.length && !languageResources.length) {
+          setError(`The provider returned ${available.length} Tafsir editions, but none was explicitly identified as ${LANGUAGES.find((item) => item.id === language)?.label}. RHM has not mislabelled another language.`);
+        } else if (!languageResources.length) {
+          setError("The connected provider did not return any editions for this language. RHM will not invent or substitute scholar texts.");
+        }
       })
       .catch((reason) => { if (active) setError(reason instanceof Error ? reason.message : "The Tafsir catalogue is unavailable."); })
       .finally(() => { if (active) setLoadingCatalogue(false); });
@@ -138,7 +156,7 @@ export default function TafsirLibraryPage() {
   function toggleEdition(id: string) {
     setSelectedIds((current) => current.includes(id)
       ? current.filter((value) => value !== id)
-      : current.length < 3 ? [...current, id] : current);
+      : current.length < 6 ? [...current, id] : current);
   }
 
   async function loadPassages(nextAyah = ayah) {
@@ -157,7 +175,8 @@ export default function TafsirLibraryPage() {
       ]);
       const tafsirData = await tafsirResponse.json();
       if (!tafsirResponse.ok) throw new Error(tafsirData.error || "The selected Tafsir text could not be loaded.");
-      const verseData = tafsirData.verses?.[0] || tafsirData.verse || tafsirData;
+      const tafsirPayload = tafsirData?.data ?? tafsirData;
+      const verseData = tafsirPayload.verses?.[0] || tafsirPayload.verse || tafsirPayload;
       const returned = (verseData.tafsirs || []).filter((item: { text?: string }) => item.text);
       const mapped = returned.map((item: { resource_id?: number; id?: number; name?: string; resource_name?: string; author_name?: string; text: string }) => {
         const id = Number(item.resource_id || item.id);
@@ -204,13 +223,13 @@ export default function TafsirLibraryPage() {
 
       <section className={styles.layout}>
         <aside className={styles.catalogue}>
-          <div className={styles.sectionHead}><div><span className={styles.eyebrow}>EDITIONS & SCHOLARS</span><h2>{language === "ur" ? "اردو تفاسیر" : language === "ar" ? "التفاسير العربية" : "English Tafsir"}</h2></div><span className={styles.count}>{resources.length}</span></div>
+          <div className={styles.sectionHead}><div><span className={styles.eyebrow}>EDITIONS & SCHOLARS</span><h2>{language === "ur" ? "اردو تفاسیر" : language === "ar" ? "التفاسير العربية" : "English Tafsir"}</h2></div><span className={styles.count}>{resources.length} available · {selectedIds.length} selected</span></div>
           <label className={styles.searchLabel} htmlFor="tafsir-edition-search">Search scholar or book</label>
           <input id="tafsir-edition-search" className={styles.search} type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by title or author…" />
-          <p className={styles.hint}>Choose up to 3 editions to compare. Every edition remains separate.</p>
+          <p className={styles.hint}>Choose up to 6 editions to compare. Every edition remains separate.</p>
           {loadingCatalogue ? <p className={styles.status}>Loading verified editions…</p> : <div className={styles.editionList}>
             {filteredResources.map((item) => <label key={item.id} className={styles.edition}>
-              <input type="checkbox" checked={selectedIds.includes(String(item.id))} onChange={() => toggleEdition(String(item.id))} disabled={!selectedIds.includes(String(item.id)) && selectedIds.length >= 3} />
+              <input type="checkbox" checked={selectedIds.includes(String(item.id))} onChange={() => toggleEdition(String(item.id))} disabled={!selectedIds.includes(String(item.id)) && selectedIds.length >= 6} />
               <span><strong>{item.name}</strong><small>{item.author_name || "Author details not supplied by provider"}</small></span>
             </label>)}
             {!filteredResources.length && !error && <p className={styles.status}>No matching editions found.</p>}
@@ -223,7 +242,7 @@ export default function TafsirLibraryPage() {
               {scholarDirectory.map((work) => <div className={styles.directoryItem} key={work.title}>
                 <span className={styles.directoryMark} aria-hidden="true">✦</span>
                 <span className={styles.directoryText}><strong>{work.title}</strong><small>{work.author}</small></span>
-                {work.resource ? <label className={styles.directorySelect}><input type="checkbox" checked={selectedIds.includes(String(work.resource.id))} onChange={() => toggleEdition(String(work.resource!.id))} disabled={!selectedIds.includes(String(work.resource!.id)) && selectedIds.length >= 3} /> Select</label> : <span className={styles.unavailableTag}>Catalogue only</span>}
+                {work.resource ? <label className={styles.directorySelect}><input type="checkbox" checked={selectedIds.includes(String(work.resource.id))} onChange={() => toggleEdition(String(work.resource!.id))} disabled={!selectedIds.includes(String(work.resource!.id)) && selectedIds.length >= 6} /> Select</label> : <span className={styles.unavailableTag}>Catalogue only</span>}
               </div>)}
               {!scholarDirectory.length && <p className={styles.status}>No scholar or work matches this search.</p>}
             </div>
