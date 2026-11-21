@@ -72,10 +72,14 @@ export default function MuslimCompanionPage() {
     try { hijri = new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", { dateStyle: "full" }).format(now); } catch { /* Keep the explanatory fallback. */ }
     setCalendarLabels({ gregorian, hijri });
     try {
-      const saved = Number(localStorage.getItem("rhm-companion-tasbeeh-v1"));
+      const savedKey = `rhm-companion-tasbeeh-${selectedZikr}`;
+      const legacy = selectedZikr === "subhan" ? localStorage.getItem("rhm-companion-tasbeeh-v1") : null;
+      const saved = Number(localStorage.getItem(savedKey) ?? legacy ?? 0);
       if (Number.isFinite(saved) && saved >= 0) setCount(saved);
+      const option = tasbeehOptions.find((item) => item.id === selectedZikr);
+      if (option) setTarget(option.target);
     } catch { /* The counter remains usable for this visit. */ }
-  }, []);
+  }, [selectedZikr]);
 
   function updateCount(next: number) {
     const safe = Math.max(0, Math.floor(next));
