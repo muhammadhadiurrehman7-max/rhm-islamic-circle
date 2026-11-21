@@ -3,6 +3,7 @@ import "./globals.css";
 import "./readability.css";
 import "./heritage-palette.css";
 import "./visual-polish.css";
+import "./accent-colours.css";
 import "./contrast-accessibility.css";
 import ThemeProvider from "../components/theme-provider";
 import PwaRegister from "../components/pwa-register";
