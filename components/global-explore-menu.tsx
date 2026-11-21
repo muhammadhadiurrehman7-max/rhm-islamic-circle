@@ -47,6 +47,15 @@ const groups = [
       { label: "Sign in / Create account", href: "/login", detail: "Access your account" },
     ],
   },
+  {
+    title: "More",
+    links: [
+      { label: "Explore all sections", href: "/explore", detail: "See the full RHM directory" },
+      { label: "Qur’an offline reading", href: "/quran/offline", detail: "Open saved reading resources" },
+      { label: "Learning companion", href: "/companion", detail: "Open your study companion" },
+      { label: "Support RHM", href: "/donate", detail: "View ways to support the project" },
+    ],
+  },
 ];
 
 export default function GlobalExploreMenu() {
