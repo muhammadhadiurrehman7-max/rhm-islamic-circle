@@ -152,3 +152,41 @@ html[data-site-theme="dark"] .quran-page .ayah-translation { color: #dce6de !imp
   body :where(.site-header,.quran-topbar,.topbar,.header) { padding-left: 16px; padding-right: 16px; }
   body :where(.quran-reader,.reader,.panel) { width: calc(100% - 24px); margin-left: auto; margin-right: auto; }
 }
+
+
+/* Quran Foundation current identity-inspired palette: teal, white, charcoal.
+   The RHM mark remains original; only the interface palette/type treatment is referenced. */
+:root {
+ --rhm-bg:#fff; --rhm-surface:#fff; --rhm-surface-soft:#f5f8f8;
+ --rhm-text:#272727; --rhm-muted:#555f61; --rhm-border:#e4e9e9;
+ --rhm-accent:#2ca4ab; --rhm-accent-hover:#218d94; --rhm-accent-soft:#e6f4f4;
+ --rhm-gold:#c5a15d; --rhm-navy:#142c43;
+}
+html[data-site-theme="dark"] {
+ color-scheme:dark; --rhm-bg:#171f27; --rhm-surface:#202a34; --rhm-surface-soft:#263541;
+ --rhm-text:#f5f7f7; --rhm-muted:#c4ced1; --rhm-border:#40505b;
+ --rhm-accent:#55c1c5; --rhm-accent-hover:#79d1d3; --rhm-accent-soft:#263f46;
+ --rhm-gold:#ddc17e; --rhm-navy:#101d2b;
+}
+body { font-family:"Figtree","IBM Plex Sans",system-ui,sans-serif !important; background:var(--rhm-bg) !important; color:var(--rhm-text) !important; background-image:none !important; }
+body :where(h1,h2,h3,h4,h5,h6) { font-family:"Figtree","IBM Plex Sans",system-ui,sans-serif !important; color:var(--rhm-text) !important; -webkit-text-fill-color:currentColor !important; }
+body :where(p,li,dd,dt,label,small,figcaption,blockquote) { color:var(--rhm-muted); }
+body :where(.site-header,.quran-topbar,.topbar,.header) { background:var(--rhm-surface) !important; color:var(--rhm-text) !important; border-color:var(--rhm-border) !important; box-shadow:none !important; }
+body :where(.hero,.quran-heading,.donate-heading,.discover-islam-hero,.prayer-hero,.page-hero) { background:var(--rhm-surface-soft) !important; color:var(--rhm-text) !important; box-shadow:none !important; }
+body :where(.hero h1,.quran-heading h1,.donate-heading h1,.discover-islam-hero h1,.prayer-hero h1) { color:var(--rhm-text) !important; -webkit-text-fill-color:var(--rhm-text) !important; }
+body :where(.hero p,.quran-heading p,.donate-heading p,.discover-islam-hero p,.prayer-hero p) { color:var(--rhm-muted) !important; }
+body :where(.feature-card,.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-time-card,.prayer-note,.prayer-location,.lesson,.note,.calendarWrap,.todayPanel,.selectedPanel,.quran-reader,.reader,.panel,.donation-card,.dua-card,.name-card,.heritage-card,.worship-item,.worship-summary,.worship-group,.recitation-panel,.quran-search-panel,.word-study-item) { background:var(--rhm-surface) !important; color:var(--rhm-text) !important; border:1px solid var(--rhm-border) !important; border-radius:12px !important; box-shadow:0 1px 5px rgba(20,40,48,.035) !important; }
+body :where(.btn-primary,.primary,.primaryButton,.donation-copy) { background:var(--rhm-accent) !important; color:#fff !important; border-color:var(--rhm-accent) !important; box-shadow:none !important; }
+body :where(.btn-light,.secondary,.secondaryButton) { background:var(--rhm-surface) !important; color:var(--rhm-accent-hover) !important; border:1px solid var(--rhm-border) !important; }
+body :where(.feature-icon,.icon,.number,.ayah-number,.donation-method-icon) { background:var(--rhm-accent-soft) !important; color:#176d72 !important; }
+body :where(button,a,input,select,textarea):focus-visible { outline:3px solid var(--rhm-accent) !important; outline-offset:3px; }
+body :where(.arabic,.ayah-arabic,.dua-arabic,.name-arabic,.qaida-arabic,.heritage-arabic,.discover-islam-arabic) { font-family:"Noto Naskh Arabic","Amiri",serif !important; }
+body :where([lang="ur"],.ayah-translation-urdu,.dua-meaning-ur) { font-family:"Noto Nastaliq Urdu","Noto Naskh Arabic",serif !important; }
+.quran-page,.quran-page .quran-reader { background:var(--rhm-bg) !important; color:var(--rhm-text) !important; }
+.quran-page .quran-reader { background:var(--rhm-surface) !important; border:1px solid var(--rhm-border) !important; box-shadow:none !important; }
+.quran-page .ayah { border-color:var(--rhm-border) !important; }
+.quran-page .ayah-arabic { color:var(--rhm-text) !important; font-family:"Noto Naskh Arabic","Amiri",serif !important; }
+.quran-page .ayah-translation,.quran-page .quran-source { color:var(--rhm-muted) !important; }
+html[data-site-theme="dark"] body :where(.feature-card,.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-time-card,.prayer-note,.prayer-location,.lesson,.note,.calendarWrap,.todayPanel,.selectedPanel,.quran-reader,.reader,.panel,.donation-card,.dua-card,.name-card,.heritage-card,.worship-item,.worship-summary,.worship-group,.recitation-panel,.quran-search-panel,.word-study-item) { background:var(--rhm-surface) !important; color:var(--rhm-text) !important; border-color:var(--rhm-border) !important; }
+html[data-site-theme="dark"] .quran-page .ayah-arabic { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+html[data-site-theme="dark"] .quran-page .ayah-translation { color:#dce6e8 !important; -webkit-text-fill-color:#dce6e8 !important; }
