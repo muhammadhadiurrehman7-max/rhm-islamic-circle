@@ -22,9 +22,9 @@ html[data-site-theme="dark"] {
   color-scheme: dark;
   --rhm-ink: #f3f0e7;
   --rhm-muted: #d0d7cf;
-  --rhm-paper: #111914;
-  --rhm-surface: #1b2820;
-  --rhm-line: #39483e;
+  --rhm-paper: #26332c;
+  --rhm-surface: #303e35;
+  --rhm-line: #526257;
 }
 html, body { min-height: 100%; }
 body { color: var(--rhm-ink); }
@@ -52,7 +52,7 @@ body :where(input,select,textarea) {
 }
 body :where(input,select,textarea)::placeholder { color: #778279; opacity: 1; }
 html[data-site-theme="dark"] body {
-  background-color: #111914;
+  background-color: #26332c;
   color: #f3f0e7;
 }
 html[data-site-theme="dark"] body :where(p,li,dd,dt,label,small,figcaption,blockquote) {
@@ -64,8 +64,8 @@ html[data-site-theme="dark"] body :where(h1,h2,h3,h4,h5,h6,strong,b) {
 }
 html[data-site-theme="dark"] body :where(input,select,textarea) {
   color: #f3f0e7;
-  background: #17241c;
-  border-color: #526256;
+  background: #28372e;
+  border-color: #65786a;
 }
 html[data-site-theme="dark"] body :where(input,select,textarea)::placeholder { color: #b7c1b8; }
 
@@ -111,7 +111,7 @@ html[data-site-theme="dark"] body :where(input,select,textarea)::placeholder { c
   color: #172f25 !important;
   -webkit-text-fill-color: #172f25 !important;
   font-family: "Noto Naskh Arabic","Amiri","Scheherazade New","Times New Roman",serif !important;
-  font-size: clamp(30px,4.3vw,42px) !important;
+  font-size: clamp(30px,4.3vw,42px);
   line-height: 2.15 !important;
   text-align: right !important;
   direction: rtl;
@@ -139,13 +139,13 @@ html[data-site-theme="dark"] body :where(input,select,textarea)::placeholder { c
   min-height: 40px;
 }
 html[data-site-theme="dark"] .quran-page {
-  --q-bg: #111914;
-  --q-surface: #1b2820;
-  --q-card: #202f26;
+  --q-bg: #26332c;
+  --q-surface: #303e35;
+  --q-card: #35463b;
   --q-ink: #f3f0e7;
   --q-muted: #d0d7cf;
-  --q-border: #39483e;
-  background: #111914 !important;
+  --q-border: #526257;
+  background: #26332c !important;
   color: #f3f0e7 !important;
 }
 html[data-site-theme="dark"] .quran-page .quran-heading {
@@ -159,9 +159,9 @@ html[data-site-theme="dark"] .quran-page .quran-heading p {
 html[data-site-theme="dark"] .quran-page .quran-reader,
 html[data-site-theme="dark"] .quran-page .ayah-card,
 html[data-site-theme="dark"] .quran-page .reader-disclosure {
-  background: #1b2820 !important;
+  background: #303e35 !important;
   color: #f3f0e7 !important;
-  border-color: #39483e !important;
+  border-color: #526257 !important;
 }
 html[data-site-theme="dark"] .quran-page .ayah-arabic,
 html[data-site-theme="dark"] .quran-page [class*="arabic-text"] {
@@ -172,7 +172,7 @@ html[data-site-theme="dark"] .quran-page .ayah-translation,
 html[data-site-theme="dark"] .quran-page [class*="translation"] {
   color: #e1e7df !important;
   -webkit-text-fill-color: #e1e7df !important;
-  background: #15221a !important;
+  background: #28372e !important;
 }
 html[data-site-theme="dark"] .quran-page .quran-controls label,
 html[data-site-theme="dark"] .quran-page .ayah-reference,
@@ -182,12 +182,12 @@ html[data-site-theme="dark"] .quran-page .reader-disclosure>summary {
 html[data-site-theme="dark"] .quran-page .quran-controls input,
 html[data-site-theme="dark"] .quran-page .quran-controls select {
   color: #f3f0e7 !important;
-  background: #15221a !important;
-  border-color: #526256 !important;
+  background: #28372e !important;
+  border-color: #65786a !important;
 }
 html[data-site-theme="dark"] .quran-page .learning-space-nav {
   background: #17251c !important;
-  border-color: #39483e !important;
+  border-color: #526257 !important;
 }
 html[data-site-theme="dark"] .quran-page .learning-space-nav a { color: #e4e9df !important; }
 html[data-site-theme="dark"] .quran-page .learning-space-nav a[aria-current="page"] {
@@ -197,11 +197,84 @@ html[data-site-theme="dark"] .quran-page .learning-space-nav a[aria-current="pag
 @media (max-width: 700px) {
   .quran-page .quran-reader { width: calc(100% - 20px) !important; padding: 16px !important; }
   .quran-page .ayah-card { padding: 17px !important; }
-  .quran-page .ayah-arabic { font-size: 29px !important; line-height: 2.05 !important; }
+  .quran-page .ayah-arabic { font-size: 29px; line-height: 2.05 !important; }
   .quran-page .ayah-translation { font-size: 16px !important; }
   .quran-page .ayah-actions { gap: 7px; }
   .quran-page .ayah-actions button { min-height: 42px; padding: 8px 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after { scroll-behavior:auto !important; transition-duration:.01ms !important; animation-duration:.01ms !important; }
+}
+
+
+/* Site-wide page rhythm and card consistency. Keep each page's own content hierarchy. */
+:root {
+  --rhm-radius-card: 18px;
+  --rhm-shadow-card: 0 8px 26px rgba(24, 39, 30, .07);
+}
+body :where(.site-header,.quran-topbar) {
+  backdrop-filter: blur(14px);
+}
+body :where(.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-time-card,.prayer-note,.prayer-location,.prayer-hero,.qiblaCard,.lesson,.note,.calendarWrap,.todayPanel,.selectedPanel) {
+  border-radius: var(--rhm-radius-card);
+}
+body :where(.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-time-card,.prayer-note,.prayer-location,.lesson,.note) {
+  box-shadow: var(--rhm-shadow-card);
+}
+body :where(.quran-heading,.discover-islam-hero,.prayer-hero) {
+  border-radius: 22px;
+}
+body :where(.quran-heading p,.discover-islam-hero p,.prayer-hero p) {
+  max-width: 70ch;
+}
+body :where(.quran-page,.prayer-page,.discover-islam-page) {
+  padding-bottom: 48px;
+}
+body :where(.faith-entry-grid,.discover-islam-grid,.qaida-lesson-grid,.prayer-times-grid) {
+  gap: clamp(14px, 2vw, 22px);
+}
+body :where(.faith-entry-card,.discover-topic-card,.qaida-lesson,.hadith-card,.prayer-note,.prayer-location) {
+  padding: clamp(18px, 2.5vw, 26px);
+}
+html[data-site-theme="dark"] body {
+  background: #26332c !important;
+  color: #f5f2e9 !important;
+}
+html[data-site-theme="dark"] body :where(.site-header,.quran-topbar) {
+  background: rgba(39, 53, 45, .94) !important;
+  border-color: #56675b !important;
+}
+html[data-site-theme="dark"] body :where(.hero,.premium-hero,.guidance-section,.quran-heading,.discover-islam-hero,.prayer-hero) {
+  background-color: #303e35 !important;
+  color: #f5f2e9 !important;
+}
+html[data-site-theme="dark"] body :where(.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-time-card,.prayer-note,.prayer-location,.lesson,.note,.calendarWrap,.todayPanel,.selectedPanel) {
+  background: #303e35 !important;
+  color: #f5f2e9 !important;
+  border: 1px solid #56675b !important;
+}
+html[data-site-theme="dark"] body :where(.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-time-card,.prayer-note,.prayer-location,.lesson,.note) :where(p,li,small,label,span:not(.brand-mark)) {
+  color: #dce4dc !important;
+}
+html[data-site-theme="dark"] body :where(.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-time-card,.prayer-note,.prayer-location,.lesson,.note) :where(h2,h3,h4,strong) {
+  color: #fff8e9 !important;
+  -webkit-text-fill-color: #fff8e9 !important;
+}
+html[data-site-theme="dark"] body :where(.quran-page,.prayer-page,.discover-islam-page) {
+  background: #26332c !important;
+}
+html[data-site-theme="dark"] .quran-page .quran-reader,
+html[data-site-theme="dark"] .quran-page .ayah-card,
+html[data-site-theme="dark"] .quran-page .reader-disclosure {
+  background: #303e35 !important;
+  border-color: #526257 !important;
+}
+html[data-site-theme="dark"] .quran-page .ayah-translation,
+html[data-site-theme="dark"] .quran-page [class*="translation"] {
+  background: #28372e !important;
+}
+@media (max-width: 700px) {
+  body :where(.faith-entry-card,.discover-topic-card,.hadith-card,.qaida-lesson,.prayer-note,.prayer-location,.lesson,.note) {
+    border-radius: 15px;
+  }
 }
