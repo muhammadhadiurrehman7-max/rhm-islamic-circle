@@ -57,7 +57,7 @@ export default function Home() {
         <a className="brand" href="/" aria-label="RHM Islam 360 — Rehmat, Hidayat and Ma’rifat"><span className="brand-mark">ر</span><span className="brand-copy"><strong>RHM Islam 360</strong><small>Rehmat • Hidayat • Ma’rifat</small></span></a>
         <button className="mobile-menu-toggle" type="button" aria-expanded={mobileMenuOpen} aria-controls="primary-navigation" onClick={() => setMobileMenuOpen((open) => !open)}><span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span><span>{mobileMenuOpen ? "Close" : "Menu"}</span></button>
         <nav id="primary-navigation" className={`nav-links${mobileMenuOpen ? " is-open" : ""}`} aria-label="Main navigation">
-          <a onClick={() => setMobileMenuOpen(false)} href="/">Home</a><a onClick={() => setMobileMenuOpen(false)} href="/quran">Qur’an</a><a onClick={() => setMobileMenuOpen(false)} href="/academy">Learn</a><a onClick={() => setMobileMenuOpen(false)} href="/explore#practice">Practice</a><a onClick={() => setMobileMenuOpen(false)} href="/my-rhm">My RHM</a><a onClick={() => setMobileMenuOpen(false)} href="/explore">Explore all</a>
+          <a onClick={() => setMobileMenuOpen(false)} href="/">Home</a><a onClick={() => setMobileMenuOpen(false)} href="/quran">Qur’an</a><a onClick={() => setMobileMenuOpen(false)} href="/academy">Learn</a><a onClick={() => setMobileMenuOpen(false)} href="/prayer-times">Prayer & Azan</a><a onClick={() => setMobileMenuOpen(false)} href="/explore#practice">Practice</a><a onClick={() => setMobileMenuOpen(false)} href="/my-rhm">My RHM</a><a onClick={() => setMobileMenuOpen(false)} href="/explore">Explore all</a>
         </nav>
         <div className="nav-actions"><a className="btn btn-primary" href="/login">Join the circle</a></div>
       </header>
@@ -121,6 +121,48 @@ export default function Home() {
 
 
 
+
+      <section className="home-quick-access" aria-labelledby="quick-access-title">
+        <div className="home-quick-access-heading">
+          <span className="eyebrow">Quick access</span>
+          <h2 id="quick-access-title">What would you like to do?</h2>
+          <p>Go straight to the things people use most. No need to search through menus.</p>
+        </div>
+        <div className="home-quick-access-grid">
+          <a className="home-quick-link home-quick-prayer" href="/prayer-times"><span aria-hidden="true">☾</span><strong>Namaz & Azan</strong><small>Prayer times and reminders</small></a>
+          <a className="home-quick-link" href="/daily-life#qibla"><span aria-hidden="true">⌖</span><strong>Qibla direction</strong><small>Find the Kaaba direction</small></a>
+          <a className="home-quick-link" href="/quran"><span aria-hidden="true">۩</span><strong>Read Qur’an</strong><small>Open Surahs and recitation</small></a>
+          <a className="home-quick-link" href="/duas"><span aria-hidden="true">🤲</span><strong>Daily Duas</strong><small>Supplications and Azkar</small></a>
+          <a className="home-quick-link" href="/hadith"><span aria-hidden="true">۞</span><strong>Hadith</strong><small>Browse source references</small></a>
+          <a className="home-quick-link" href="/tafsir"><span aria-hidden="true">📖</span><strong>Tafsir</strong><small>Explore available explanations</small></a>
+          <a className="home-quick-link" href="/qaida"><span aria-hidden="true">ا ب</span><strong>Qaida & Arabic</strong><small>Start learning step by step</small></a>
+          <a className="home-quick-link" href="/companion"><span aria-hidden="true">◎</span><strong>Tasbeeh & tools</strong><small>Open everyday Muslim tools</small></a>
+          <a className="home-quick-link" href="/islamic-calendar"><span aria-hidden="true">▦</span><strong>Islamic calendar</strong><small>Hijri dates and occasions</small></a>
+        </div>
+      </section>
+      <style jsx global>{`
+        .home-quick-access{width:min(1240px,calc(100% - 40px));margin:34px auto 10px;padding:clamp(22px,3vw,34px);border:1px solid #c9d8ce;border-radius:22px;background:#fffdf7;color:#17251f}
+        .home-quick-access-heading{max-width:720px;margin-bottom:20px}
+        .home-quick-access-heading h2{margin:6px 0;color:#14251d;font-size:clamp(24px,3vw,32px);line-height:1.2}
+        .home-quick-access-heading p{margin:0;color:#35463d;line-height:1.65}
+        .home-quick-access-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+        .home-quick-link{display:grid;grid-template-columns:42px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:12px;min-height:78px;padding:13px 15px;border:1px solid #c9d8ce;border-radius:14px;background:#fff;color:#17251f;text-decoration:none;transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease}
+        .home-quick-link:hover{border-color:#176b4d;transform:translateY(-2px);box-shadow:0 7px 20px rgba(23,107,77,.10)}
+        .home-quick-link>span{grid-row:1/3;display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#e1eee7;color:#10543c;font-size:23px}
+        .home-quick-link strong{align-self:end;color:#17251f;font-size:15px}
+        .home-quick-link small{align-self:start;color:#46584d;font-size:12px;line-height:1.4}
+        .home-quick-link.home-quick-prayer{border:2px solid #176b4d;background:#edf5ef}
+        .home-quick-link:focus-visible{outline:3px solid #b98735;outline-offset:3px}
+        html[data-site-theme="dark"] .home-quick-access{background:#17231e;border-color:#40594b;color:#fff8e9}
+        html[data-site-theme="dark"] .home-quick-access-heading h2,html[data-site-theme="dark"] .home-quick-link strong{color:#fff8e9}
+        html[data-site-theme="dark"] .home-quick-access-heading p,html[data-site-theme="dark"] .home-quick-link small{color:#e0e9e2}
+        html[data-site-theme="dark"] .home-quick-link{background:#101b16;border-color:#40594b}
+        html[data-site-theme="dark"] .home-quick-link>span{background:#294638;color:#d5f0df}
+        html[data-site-theme="dark"] .home-quick-link.home-quick-prayer{background:#1c382a;border-color:#9abdaa}
+        @media(max-width:760px){.home-quick-access{width:calc(100% - 28px);margin:24px auto 8px;padding:20px 16px}.home-quick-access-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.home-quick-link{grid-template-columns:36px minmax(0,1fr);min-height:74px;padding:10px;column-gap:9px}.home-quick-link>span{width:36px;height:36px;font-size:20px}.home-quick-link strong{font-size:13px}.home-quick-link small{font-size:11px}}
+        @media(max-width:380px){.home-quick-access-grid{grid-template-columns:1fr}}
+        @media(prefers-reduced-motion:reduce){.home-quick-link{transition:none}.home-quick-link:hover{transform:none}}
+      `}</style>
       <section className="faith-entry-section" aria-labelledby="faith-entry-title">
         <div className="faith-entry-heading">
           <span className="eyebrow">A clear path through RHM</span>
