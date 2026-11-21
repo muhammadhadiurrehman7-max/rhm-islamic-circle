@@ -114,18 +114,17 @@ export async function GET(request: Request) {
 
   try {
     let token = await getContentToken(clientId, clientSecret, authBase, scope);
-    let response = await fetch(endpoint, {
+    const requestOptions: RequestInit = {
       headers: { "x-auth-token": token, "x-client-id": clientId },
-      next: { revalidate: 3600 },
-    });
+      ...(resources === "tafsirs" ? { cache: "no-store" as RequestCache } : { next: { revalidate: 3600 } }),
+    };
+    let response = await fetch(endpoint, requestOptions);
 
     // A cached token can be revoked before its advertised expiry. Refresh and retry once.
     if (response.status === 401) {
       token = await getContentToken(clientId, clientSecret, authBase, scope, true);
-      response = await fetch(endpoint, {
-        headers: { "x-auth-token": token, "x-client-id": clientId },
-        next: { revalidate: 3600 },
-      });
+      requestOptions.headers = { "x-auth-token": token, "x-client-id": clientId };
+      response = await fetch(endpoint, requestOptions);
     }
 
     if (!response.ok) {
@@ -140,7 +139,7 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json(await response.json(), {
-      headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+      headers: { "Cache-Control": resources === "tafsirs" ? "no-store, max-age=0" : "public, s-maxage=3600, stale-while-revalidate=86400" },
     });
   } catch {
     return NextResponse.json({
