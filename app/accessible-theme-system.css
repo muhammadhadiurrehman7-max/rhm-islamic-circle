@@ -55,7 +55,7 @@ html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card:not(.faith
 
 /* Accent-coloured links, controls and focus indicators; body copy stays neutral for reading. */
 html[data-site-theme="light"] body a:not(.btn):not(.site-theme-toggle) { color:var(--rhm-accent-hover); }
-html[data-site-theme="dark"] body a:not(.btn):not(.site-theme-toggle):not(.rhm-palette-toggle) { color:#a9d9c0; }
+html[data-site-theme="dark"] body a:not(.btn):not(.site-theme-toggle) { color:#a9d9c0; }
 html[data-site-theme="light"] body :is(input,select,textarea) { background:#fffdf7 !important; color:#17251f !important; border-color:#9b9b87 !important; }
 html[data-site-theme="dark"] body :is(input,select,textarea) { background:#101b16 !important; color:#fff8e9 !important; border-color:#607568 !important; }
 html[data-site-theme="light"] body :is(input,select,textarea)::placeholder { color:#536257 !important; opacity:1 !important; }
