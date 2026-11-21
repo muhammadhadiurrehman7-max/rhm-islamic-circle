@@ -67,7 +67,7 @@ html[data-site-theme] body :is(a,button,input,select,textarea):focus-visible { o
 .rhm-appearance-controls .site-theme-toggle { position:static !important; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 15px; border:1px solid #b9a77f; border-radius:999px; background:#102c21; color:#fff8e9; box-shadow:0 5px 20px rgba(0,0,0,.22); font:700 13px/1.2 inherit; cursor:pointer; }
 .rhm-appearance-controls .site-theme-toggle:hover { background:#1a4935; }
 @media(max-width:560px) {
-  .rhm-appearance-controls { right:max(12px,env(safe-area-inset-right)); bottom:max(12px,env(safe-area-inset-bottom)); }
+  .rhm-appearance-controls { left:max(12px,env(safe-area-inset-left)); right:auto; bottom:max(12px,env(safe-area-inset-bottom)); }
   .rhm-appearance-controls .site-theme-toggle { min-height:42px; padding:0 13px; }
 }
 
