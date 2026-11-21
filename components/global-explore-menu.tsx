@@ -8,6 +8,7 @@ const primaryLinks = [
   { label: "Qur’an audio & reciters", href: "/quran", detail: "Choose a reciter and listen ayah by ayah", icon: "♫" },
   { label: "Prayer times & Azan", href: "/prayer-times", detail: "Today's Salah schedule, Azan audio and reminders", icon: "☾" },
   { label: "Qibla direction", href: "/daily-life#qibla", detail: "Find the direction of the Kaaba", icon: "⌖" },
+  { label: "Daily Duas & Azkar", href: "/duas", detail: "Morning, evening and everyday supplications", icon: "🤲" },
 ];
 
 const learnLinks = [
@@ -19,7 +20,6 @@ const learnLinks = [
 ];
 
 const moreLinks = [
-  { label: "Duas & daily Azkar", href: "/duas", detail: "Supplications with source details" },
   { label: "Islamic calendar & events", href: "/islamic-calendar", detail: "Hijri months and important occasions" },
   { label: "Names of Allah", href: "/names-of-allah", detail: "Meanings and reflections" },
   { label: "Islamic heritage & Seerah", href: "/heritage", detail: "History and sacred places" },
