@@ -175,7 +175,8 @@ export default function TafsirLibraryPage() {
       ]);
       const tafsirData = await tafsirResponse.json();
       if (!tafsirResponse.ok) throw new Error(tafsirData.error || "The selected Tafsir text could not be loaded.");
-      const verseData = tafsirData.verses?.[0] || tafsirData.verse || tafsirData;
+      const tafsirPayload = tafsirData?.data ?? tafsirData;
+      const verseData = tafsirPayload.verses?.[0] || tafsirPayload.verse || tafsirPayload;
       const returned = (verseData.tafsirs || []).filter((item: { text?: string }) => item.text);
       const mapped = returned.map((item: { resource_id?: number; id?: number; name?: string; resource_name?: string; author_name?: string; text: string }) => {
         const id = Number(item.resource_id || item.id);
