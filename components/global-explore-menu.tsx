@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const groups = [
   {
@@ -60,6 +60,96 @@ const groups = [
 
 export default function GlobalExploreMenu() {
   const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const dragRef = useRef<{ pointerId: number; offsetX: number; offsetY: number } | null>(null);
+  const movedRef = useRef(false);
+  const suppressClickRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("rhm-all-pages-position");
+      if (saved) {
+        const parsed = JSON.parse(saved) as { x?: number; y?: number };
+        if (typeof parsed.x === "number" && typeof parsed.y === "number") {
+          const el = buttonRef.current;
+          const width = el?.offsetWidth ?? 150;
+          const height = el?.offsetHeight ?? 46;
+          setPosition({
+            x: Math.max(8, Math.min(parsed.x, window.innerWidth - width - 8)),
+            y: Math.max(8, Math.min(parsed.y, window.innerHeight - height - 8)),
+          });
+        }
+      }
+    } catch {
+      // Ignore invalid or unavailable saved positions.
+    }
+  }, []);
+
+  useEffect(() => {
+    const move = (event: PointerEvent) => {
+      const drag = dragRef.current;
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      const el = buttonRef.current;
+      const width = el?.offsetWidth ?? 150;
+      const height = el?.offsetHeight ?? 46;
+      const x = Math.max(8, Math.min(event.clientX - drag.offsetX, window.innerWidth - width - 8));
+      const y = Math.max(8, Math.min(event.clientY - drag.offsetY, window.innerHeight - height - 8));
+      if (Math.abs(event.movementX) + Math.abs(event.movementY) > 1) movedRef.current = true;
+      setPosition({ x, y });
+    };
+    const stop = (event: PointerEvent) => {
+      if (!dragRef.current || event.pointerId !== dragRef.current.pointerId) return;
+      dragRef.current = null;
+      if (movedRef.current) {
+        suppressClickRef.current = true;
+        try {
+          const el = buttonRef.current;
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            window.localStorage.setItem("rhm-all-pages-position", JSON.stringify({ x: rect.left, y: rect.top }));
+          }
+        } catch {
+          // Position remains usable for this session if storage is unavailable.
+        }
+      }
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", stop);
+    window.addEventListener("pointercancel", stop);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", stop);
+      window.removeEventListener("pointercancel", stop);
+    };
+  }, []);
+
+  const startDrag = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (event.button !== 0) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    dragRef.current = {
+      pointerId: event.pointerId,
+      offsetX: event.clientX - rect.left,
+      offsetY: event.clientY - rect.top,
+    };
+    movedRef.current = false;
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const moveWithKeyboard = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) return;
+    event.preventDefault();
+    const rect = event.currentTarget.getBoundingClientRect();
+    const step = event.shiftKey ? 50 : 20;
+    const x = event.key === "ArrowLeft" ? rect.left - step : event.key === "ArrowRight" ? rect.left + step : rect.left;
+    const y = event.key === "ArrowUp" ? rect.top - step : event.key === "ArrowDown" ? rect.top + step : rect.top;
+    const next = {
+      x: Math.max(8, Math.min(x, window.innerWidth - rect.width - 8)),
+      y: Math.max(8, Math.min(y, window.innerHeight - rect.height - 8)),
+    };
+    setPosition(next);
+    try { window.localStorage.setItem("rhm-all-pages-position", JSON.stringify(next)); } catch { /* optional persistence */ }
+  };
 
   return (
     <div className="rhm-explore-menu">
@@ -92,19 +182,31 @@ export default function GlobalExploreMenu() {
         </section>
       )}
       <button
+        ref={buttonRef}
         type="button"
         className="rhm-explore-trigger"
         aria-expanded={open}
         aria-controls="rhm-explore-panel"
-        onClick={() => setOpen((value) => !value)}
+        aria-label="All pages. Drag to move this button; use arrow keys while focused to reposition."
+        title="Drag to move • Arrow keys to reposition"
+        onPointerDown={startDrag}
+        onKeyDown={moveWithKeyboard}
+        onClick={() => {
+          if (suppressClickRef.current) {
+            suppressClickRef.current = false;
+            return;
+          }
+          setOpen((value) => !value);
+        }}
+        style={position ? { left: position.x, top: position.y, bottom: "auto", transform: "none" } : undefined}
       >
         <span aria-hidden="true">☷</span>
         <span>{open ? "Close pages" : "All pages"}</span>
       </button>
       <style jsx global>{`
         .rhm-explore-menu{position:fixed;left:50%;right:auto;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10001;font-family:"DM Sans",Arial,sans-serif}
-        .rhm-explore-trigger{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border:1px solid #174b3c;border-radius:999px;background:#174b3c;color:#fff;box-shadow:0 6px 22px rgba(10,38,29,.24);font-size:14px;font-weight:750;cursor:pointer}
-        .rhm-explore-trigger:hover{background:#103c30}
+        .rhm-explore-trigger{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border:1px solid #174b3c;border-radius:999px;background:#174b3c;color:#fff;box-shadow:0 6px 22px rgba(10,38,29,.24);font-size:14px;font-weight:750;cursor:pointer}
+        .rhm-explore-trigger:hover{background:#103c30}.rhm-explore-trigger:active{cursor:grabbing}
         .rhm-explore-trigger:focus-visible,.rhm-explore-close:focus-visible,.rhm-explore-links a:focus-visible{outline:3px solid #d4a94f;outline-offset:3px}
         .rhm-explore-trigger>span:first-child{font-size:20px;line-height:1}
         .rhm-explore-panel{position:absolute;left:50%;right:auto;bottom:58px;transform:translateX(-50%);width:min(760px,calc(100vw - 28px));max-height:min(78vh,760px);overflow:auto;padding:22px;border:1px solid #dce6de;border-radius:20px;background:#fff;color:#18372e;box-shadow:0 18px 60px rgba(8,28,21,.24)}
