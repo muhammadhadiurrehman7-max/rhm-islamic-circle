@@ -39,6 +39,16 @@ const words = [
   ["Zakat", "زكاة", "Obligatory almsgiving, subject to its conditions."],
 ];
 
+const tasbeehOptions = [
+  { id: "subhan", label: "SubhanAllah", arabic: "سُبْحَانَ اللَّهِ", meaning: "Glory be to Allah", target: 33 },
+  { id: "hamd", label: "Alhamdulillah", arabic: "الْحَمْدُ لِلَّهِ", meaning: "All praise is for Allah", target: 33 },
+  { id: "takbir", label: "Allahu Akbar", arabic: "اللَّهُ أَكْبَرُ", meaning: "Allah is the Greatest", target: 34 },
+  { id: "istighfar", label: "Astaghfirullah", arabic: "أَسْتَغْفِرُ اللَّهَ", meaning: "I seek Allah's forgiveness", target: 100 },
+  { id: "hawqala", label: "La hawla wa la quwwata illa billah", arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", meaning: "There is no power nor strength except through Allah", target: 100 },
+  { id: "salawat", label: "Salawat upon the Prophet ﷺ", arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", meaning: "O Allah, send blessings upon Muhammad", target: 100 },
+  { id: "tahlil", label: "La ilaha illallah", arabic: "لَا إِلَٰهَ إِلَّا اللَّهُ", meaning: "There is no deity worthy of worship except Allah", target: 100 },
+];
+
 const formatPKR = (value: number) => new Intl.NumberFormat("en-PK", { style: "currency", currency: "PKR", maximumFractionDigits: 0 }).format(value);
 
 export default function MuslimCompanionPage() {
@@ -69,7 +79,7 @@ export default function MuslimCompanionPage() {
   function updateCount(next: number) {
     const safe = Math.max(0, Math.floor(next));
     setCount(safe);
-    try { localStorage.setItem("rhm-companion-tasbeeh-v1", String(safe)); } catch { /* Keep in memory if storage is blocked. */ }
+    try { localStorage.setItem(`rhm-companion-tasbeeh-${selectedZikr}`, String(safe)); if (selectedZikr === "subhan") localStorage.setItem("rhm-companion-tasbeeh-v1", String(safe)); } catch { /* Keep in memory if storage is blocked. */ }
   }
 
   const filteredWords = useMemo(() => words.filter(([en, ar, meaning]) => [en, ar, meaning].some((part) => part.toLowerCase().includes(query.trim().toLowerCase()))), [query]);
@@ -102,10 +112,10 @@ export default function MuslimCompanionPage() {
 
       <section className={styles.toolsGrid}>
         <article className={styles.toolCard}>
-          <p className={styles.eyebrow}>Personal remembrance</p><h2>Digital Tasbeeh</h2><p className={styles.arabicSmall} lang="ar" dir="rtl">سُبْحَانَ اللَّهِ</p>
+          <p className={styles.eyebrow}>Personal remembrance</p><h2>Digital Tasbeeh</h2><label className={styles.field}>Choose a remembrance<select value={selectedZikr} onChange={(e) => setSelectedZikr(e.target.value)}>{tasbeehOptions.map((item) => <option value={item.id} key={item.id}>{item.label}</option>)}</select></label><p className={styles.arabicSmall} lang="ar" dir="rtl">{tasbeehOptions.find((item) => item.id === selectedZikr)?.arabic}</p><p className={styles.muted}>{tasbeehOptions.find((item) => item.id === selectedZikr)?.meaning}</p>
           <div className={styles.counter} aria-live="polite">{count}</div>
           <label className={styles.field}>Target
-            <select value={target} onChange={(e) => setTarget(Number(e.target.value))}><option value={33}>33</option><option value={100}>100</option><option value={300}>300</option><option value={500}>500</option><option value={1000}>1,000</option></select>
+            <select value={target} onChange={(e) => setTarget(Number(e.target.value))}><option value={33}>33</option><option value={34}>34</option><option value={100}>100</option><option value={300}>300</option><option value={500}>500</option><option value={1000}>1,000</option></select>
           </label>
           <div className={styles.progressTrack} role="progressbar" aria-label="Tasbeeh target progress" aria-valuemin={0} aria-valuemax={target} aria-valuenow={Math.min(count, target)}><span style={{ width: Math.min(100, (count / target) * 100) + "%" }} /></div>
           <p className={styles.muted}>{Math.min(count, target)} of {target} counted · {Math.max(0, target - count)} remaining to target</p>
