@@ -102,12 +102,12 @@ export default function GlobalExploreMenu() {
         <span>{open ? "Close pages" : "All pages"}</span>
       </button>
       <style jsx global>{`
-        .rhm-explore-menu{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:10001;font-family:"DM Sans",Arial,sans-serif}
+        .rhm-explore-menu{position:fixed;left:50%;right:auto;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10001;font-family:"DM Sans",Arial,sans-serif}
         .rhm-explore-trigger{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border:1px solid #174b3c;border-radius:999px;background:#174b3c;color:#fff;box-shadow:0 6px 22px rgba(10,38,29,.24);font-size:14px;font-weight:750;cursor:pointer}
         .rhm-explore-trigger:hover{background:#103c30}
         .rhm-explore-trigger:focus-visible,.rhm-explore-close:focus-visible,.rhm-explore-links a:focus-visible{outline:3px solid #d4a94f;outline-offset:3px}
         .rhm-explore-trigger>span:first-child{font-size:20px;line-height:1}
-        .rhm-explore-panel{position:absolute;right:0;bottom:58px;width:min(760px,calc(100vw - 28px));max-height:min(78vh,760px);overflow:auto;padding:22px;border:1px solid #dce6de;border-radius:20px;background:#fff;color:#18372e;box-shadow:0 18px 60px rgba(8,28,21,.24)}
+        .rhm-explore-panel{position:absolute;left:50%;right:auto;bottom:58px;transform:translateX(-50%);width:min(760px,calc(100vw - 28px));max-height:min(78vh,760px);overflow:auto;padding:22px;border:1px solid #dce6de;border-radius:20px;background:#fff;color:#18372e;box-shadow:0 18px 60px rgba(8,28,21,.24)}
         .rhm-explore-panel-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:16px;border-bottom:1px solid #e7ede8}
         .rhm-explore-panel-heading p{margin:0 0 5px;color:#96733b;font-size:10px;font-weight:800;letter-spacing:.14em}
         .rhm-explore-panel-heading h2{margin:0 0 5px;color:#17352d;font:700 clamp(21px,3vw,28px)/1.2 "Playfair Display",Georgia,serif}
@@ -131,7 +131,7 @@ export default function GlobalExploreMenu() {
         html[data-site-theme="dark"] .rhm-explore-links a:hover{border-color:#83a58c;background:#244533}
         html[data-site-theme="dark"] .rhm-explore-links a strong{color:#f2f1e8}
         html[data-site-theme="dark"] .rhm-explore-links a span:not(.rhm-explore-arrow){color:#c4d2c8}
-        @media(max-width:600px){.rhm-explore-menu{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom))}.rhm-explore-panel{width:calc(100vw - 24px);max-height:76vh;padding:17px;border-radius:16px}.rhm-explore-groups{grid-template-columns:1fr;gap:15px;padding-top:15px}.rhm-explore-trigger{min-height:44px;padding:0 15px}.rhm-explore-panel-heading h2{font-size:22px}}
+        @media(max-width:600px){.rhm-explore-menu{left:50%;right:auto;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%)}.rhm-explore-panel{left:50%;transform:translateX(-50%);width:calc(100vw - 24px);max-height:76vh;padding:17px;border-radius:16px}.rhm-explore-groups{grid-template-columns:1fr;gap:15px;padding-top:15px}.rhm-explore-trigger{min-height:44px;padding:0 15px}.rhm-explore-panel-heading h2{font-size:22px}}
         @media(prefers-reduced-motion:no-preference){.rhm-explore-panel{animation:rhm-menu-in .16s ease-out}@keyframes rhm-menu-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}}
       `}</style>
     </div>
