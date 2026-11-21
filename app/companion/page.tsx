@@ -52,8 +52,9 @@ const tasbeehOptions = [
 const formatPKR = (value: number) => new Intl.NumberFormat("en-PK", { style: "currency", currency: "PKR", maximumFractionDigits: 0 }).format(value);
 
 export default function MuslimCompanionPage() {
-  const [count, setCount] = useState(0);\n  const [selectedZikr, setSelectedZikr] = useState("subhan");
-  const [target, setTarget] = useState(100);
+  const [count, setCount] = useState(0);
+  const [selectedZikr, setSelectedZikr] = useState("subhan");
+  const [target, setTarget] = useState(33);
   const [query, setQuery] = useState("");
   const [nisab, setNisab] = useState("");
   const [cash, setCash] = useState("");
