@@ -470,8 +470,9 @@ export default function QuranPage() {
       const response = await fetch(`/api/quran/verse?${params.toString()}`);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Word-by-word study is unavailable.");
-      const verseData = data.verses?.[0] || data.verse || data;
-      const words = verseData.words || data.words;
+      const payload = data?.data ?? data;
+      const verseData = payload.verses?.[0] || payload.verse || payload;
+      const words = verseData.words || payload.words;
       if (Array.isArray(words) && words.length) setWordStudy((current) => ({ ...current, [key]: words }));
       if (selectedTafsirs.length) {
         const passages = (verseData.tafsirs || [])
