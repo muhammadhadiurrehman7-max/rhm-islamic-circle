@@ -204,7 +204,7 @@ export default function GlobalExploreMenu() {
       </button>
       <style jsx global>{`
         .rhm-explore-menu{position:fixed;left:50%;right:auto;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10001;font-family:"DM Sans",Arial,sans-serif}
-        .rhm-explore-trigger{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border:1px solid #174b3c;border-radius:999px;background:#174b3c;color:#fff;box-shadow:0 6px 22px rgba(10,38,29,.24);font-size:14px;font-weight:750;cursor:pointer}
+        .rhm-explore-trigger{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border:1px solid #174b3c;border-radius:999px;background:#174b3c;color:#fff;box-shadow:0 6px 22px rgba(10,38,29,.24);font-size:14px;font-weight:750}
         .rhm-explore-trigger:hover{background:#103c30}.rhm-explore-trigger:active{cursor:grabbing}
         .rhm-explore-trigger:focus-visible,.rhm-explore-close:focus-visible,.rhm-explore-links a:focus-visible{outline:3px solid #d4a94f;outline-offset:3px}
         .rhm-explore-trigger>span:first-child{font-size:20px;line-height:1}
