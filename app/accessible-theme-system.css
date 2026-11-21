@@ -1,0 +1,91 @@
+/* Final, site-wide contrast and four-accent palette layer.
+   This intentionally loads after legacy styles so old low-contrast declarations cannot win. */
+:root {
+  --rhm-page-light: #f2f0e8;
+  --rhm-surface-light: #fffdf7;
+  --rhm-ink-light: #17251f;
+  --rhm-muted-light: #35463d;
+  --rhm-page-dark: #0b1411;
+  --rhm-surface-dark: #17231e;
+  --rhm-ink-dark: #fff8e9;
+  --rhm-muted-dark: #e0e9e2;
+  --rhm-accent: #176b4d;
+  --rhm-accent-hover: #10543c;
+  --rhm-accent-soft: #e1eee7;
+  --rhm-accent-border: #9abdaa;
+}
+html[data-site-accent="emerald"] { --rhm-accent:#176b4d; --rhm-accent-hover:#10543c; --rhm-accent-soft:#e1eee7; --rhm-accent-border:#9abdaa; }
+html[data-site-accent="ocean"] { --rhm-accent:#185d91; --rhm-accent-hover:#10466f; --rhm-accent-soft:#e2edf6; --rhm-accent-border:#9bbbd4; }
+html[data-site-accent="burgundy"] { --rhm-accent:#87384b; --rhm-accent-hover:#68283a; --rhm-accent-soft:#f3e5e8; --rhm-accent-border:#d5aab5; }
+html[data-site-accent="amethyst"] { --rhm-accent:#69459a; --rhm-accent-hover:#4e3277; --rhm-accent-soft:#eee8f6; --rhm-accent-border:#b9a6d3; }
+
+html[data-site-theme="light"] body {
+  background:var(--rhm-page-light) !important;
+  color:var(--rhm-ink-light) !important;
+  color-scheme:light;
+}
+html[data-site-theme="dark"] body {
+  background:var(--rhm-page-dark) !important;
+  color:var(--rhm-ink-dark) !important;
+  color-scheme:dark;
+}
+
+/* High-contrast text: no washed-out headings, paragraphs, labels or captions. */
+html[data-site-theme="light"] body :is(h1,h2,h3,h4,h5,h6,.section-heading,.page-heading,.page-title,.section-title,.card-title) {
+  color:#14251d !important; -webkit-text-fill-color:#14251d !important; opacity:1 !important; text-shadow:none !important;
+}
+html[data-site-theme="light"] body :is(p,li,dd,dt,figcaption,blockquote,label,legend,small,.muted,.description,.helper-text,.field-hint,.caption,.eyebrow,.section-kicker,.section-label,.overline) {
+  color:#35463d !important; -webkit-text-fill-color:#35463d !important; opacity:1 !important;
+}
+html[data-site-theme="dark"] body :is(h1,h2,h3,h4,h5,h6,.section-heading,.page-heading,.page-title,.section-title,.card-title) {
+  color:#fff8e9 !important; -webkit-text-fill-color:#fff8e9 !important; opacity:1 !important; text-shadow:none !important;
+}
+html[data-site-theme="dark"] body :is(p,li,dd,dt,figcaption,blockquote,label,legend,small,.muted,.description,.helper-text,.field-hint,.caption,.eyebrow,.section-kicker,.section-label,.overline) {
+  color:#e0e9e2 !important; -webkit-text-fill-color:#e0e9e2 !important; opacity:1 !important;
+}
+
+/* Clear, deep surfaces in light mode and genuinely dark surfaces in dark mode. */
+html[data-site-theme="light"] body :is(.feature-card,.faith-entry-card:not(.faith-entry-main),.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,.content-card,.surface-card,.daily-tool-card,.prayer-time-card,.prayer-note,.prayer-location,.tasbeeh-mini,.donation-card,.linkCard,.toolCard,.lesson,.note,.progressCard,.statsCard,.task,.card,.ayah-card,.recitation-panel,.quran-search-panel,.word-study-item) {
+  background:#fffdf7 !important; color:#17251f !important; border-color:#c9c1ad !important;
+}
+html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card:not(.faith-entry-main),.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,.content-card,.surface-card,.daily-tool-card,.prayer-time-card,.prayer-note,.prayer-location,.tasbeeh-mini,.donation-card,.linkCard,.toolCard,.lesson,.note,.progressCard,.statsCard,.task,.card,.ayah-card,.recitation-panel,.quran-search-panel,.word-study-item) {
+  background:#17231e !important; color:#fff8e9 !important; border-color:#40594b !important;
+}
+html[data-site-theme="light"] body :is(.feature-card,.faith-entry-card:not(.faith-entry-main),.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,.content-card,.surface-card,.daily-tool-card,.prayer-time-card,.prayer-note,.prayer-location,.tasbeeh-mini,.donation-card,.linkCard,.toolCard,.lesson,.note,.progressCard,.statsCard,.task,.card,.ayah-card,.recitation-panel,.quran-search-panel,.word-study-item) :is(p,li,small,label,span,figcaption) {
+  color:#35463d !important; -webkit-text-fill-color:#35463d !important;
+}
+html[data-site-theme="dark"] body :is(.feature-card,.faith-entry-card:not(.faith-entry-main),.faith-resource-card,.discover-topic-card,.learning-section-card,.faith-card,.islam-info-card,.heritage-card,.qaida-lesson,.hadith-card,.dua-card,.name-card,.worship-item,.content-card,.surface-card,.daily-tool-card,.prayer-time-card,.prayer-note,.prayer-location,.tasbeeh-mini,.donation-card,.linkCard,.toolCard,.lesson,.note,.progressCard,.statsCard,.task,.card,.ayah-card,.recitation-panel,.quran-search-panel,.word-study-item) :is(p,li,small,label,span,figcaption) {
+  color:#e0e9e2 !important; -webkit-text-fill-color:#e0e9e2 !important;
+}
+
+/* Accent-coloured links, controls and focus indicators; body copy stays neutral for reading. */
+html[data-site-theme="light"] body a:not(.btn):not(.site-theme-toggle):not(.rhm-palette-toggle) { color:var(--rhm-accent-hover); }
+html[data-site-theme="dark"] body a:not(.btn):not(.site-theme-toggle):not(.rhm-palette-toggle) { color:#a9d9c0; }
+html[data-site-theme="light"] body :is(input,select,textarea) { background:#fffdf7 !important; color:#17251f !important; border-color:#9b9b87 !important; }
+html[data-site-theme="dark"] body :is(input,select,textarea) { background:#101b16 !important; color:#fff8e9 !important; border-color:#607568 !important; }
+html[data-site-theme="light"] body :is(input,select,textarea)::placeholder { color:#536257 !important; opacity:1 !important; }
+html[data-site-theme="dark"] body :is(input,select,textarea)::placeholder { color:#c8d6cc !important; opacity:1 !important; }
+html[data-site-theme] body :is(a,button,input,select,textarea):focus-visible { outline:3px solid #d6ad55 !important; outline-offset:3px !important; }
+
+/* Compact palette selector sits above the existing theme switch; it never covers page text. */
+.rhm-appearance-controls { position:fixed; right:max(16px,env(safe-area-inset-right)); bottom:max(18px,env(safe-area-inset-bottom)); z-index:10020; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.rhm-appearance-controls .site-theme-toggle,.rhm-palette-toggle { position:static !important; display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 15px; border:1px solid #b9a77f; border-radius:999px; background:#102c21; color:#fff8e9; box-shadow:0 5px 20px rgba(0,0,0,.22); font:700 13px/1.2 inherit; cursor:pointer; }
+.rhm-appearance-controls .site-theme-toggle:hover,.rhm-palette-toggle:hover { background:#1a4935; }
+.rhm-palette-panel { width:min(290px,calc(100vw - 32px)); padding:15px; border:1px solid #b9a77f; border-radius:17px; background:#fffdf7; color:#17251f; box-shadow:0 14px 38px rgba(0,0,0,.24); }
+.rhm-palette-panel > strong { display:block; color:#17251f; font-size:15px; }
+.rhm-palette-panel > p { margin:3px 0 11px; color:#46564c; font-size:12px; line-height:1.5; }
+.rhm-palette-options { display:grid; gap:7px; }
+.rhm-palette-option { display:flex; align-items:center; gap:10px; width:100%; min-height:42px; padding:7px 9px; border:1px solid #d2cbbd; border-radius:10px; background:#fff; color:#17251f; text-align:left; font:600 13px/1.2 inherit; cursor:pointer; }
+.rhm-palette-option.is-selected { border:2px solid #17251f; background:#f1eee5; }
+.rhm-palette-swatch { width:20px; height:20px; flex:0 0 20px; border:2px solid rgba(0,0,0,.18); border-radius:50%; }
+.rhm-palette-check { margin-left:auto; color:#14583e; font-weight:900; }
+html[data-site-theme="dark"] .rhm-palette-panel { background:#17231e; color:#fff8e9; border-color:#647b6c; }
+html[data-site-theme="dark"] .rhm-palette-panel > strong,
+html[data-site-theme="dark"] .rhm-palette-panel > p { color:#fff8e9 !important; -webkit-text-fill-color:#fff8e9 !important; }
+html[data-site-theme="dark"] .rhm-palette-option { background:#101b16; color:#fff8e9; border-color:#52675a; }
+html[data-site-theme="dark"] .rhm-palette-option.is-selected { border:2px solid #e2c783; background:#25372d; }
+html[data-site-theme="dark"] .rhm-palette-check { color:#9fe0b7; }
+@media(max-width:560px) {
+  .rhm-appearance-controls { right:max(12px,env(safe-area-inset-right)); bottom:max(12px,env(safe-area-inset-bottom)); }
+  .rhm-appearance-controls .site-theme-toggle,.rhm-palette-toggle { min-height:42px; padding:0 13px; }
+}
