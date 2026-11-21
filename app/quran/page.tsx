@@ -288,15 +288,21 @@ export default function QuranPage() {
     setTafsirs([]);
     setSelectedTafsirs([]);
     setTafsirError("");
-    fetch(`/api/quran/verse?resources=tafsirs&language=${studyLanguage}`)
+    fetch(`/api/quran/verse?resources=tafsirs&language=${studyLanguage}`, { cache: "no-store" })
       .then((response) => { if (!response.ok) throw new Error("Tafsir resources are not available for this language."); return response.json(); })
       .then((data) => {
         if (!active) return;
-        const available = (data.tafsirs || data.resources || []) as TafsirResource[];
-        const languageResources = available.filter((item) => item.id && (String(item.language_name || "").toLowerCase() === studyLanguage || (studyLanguage === "ur" && String(item.language_name || "").toLowerCase() === "urdu") || (studyLanguage === "en" && String(item.language_name || "").toLowerCase() === "english")));
+        const payload = data?.data ?? data;
+        const rawResources = Array.isArray(payload) ? payload : payload?.tafsirs ?? payload?.resources ?? [];
+        const available = (Array.isArray(rawResources) ? rawResources : []).filter((item: unknown): item is TafsirResource => Boolean(item && typeof item === "object" && "id" in item && "name" in item));
+        const languageResources = available.filter((item) => {
+          const providerLanguage = String(item.language_name || "").trim().toLowerCase().replace(/[_-]/g, " ");
+          return Boolean(item.id) && (studyLanguage === "ur" ? ["ur", "urdu", "urdu pakistan"].includes(providerLanguage) : ["en", "english", "english international"].includes(providerLanguage));
+        });
+        if (available.length > 0 && languageResources.length === 0) setTafsirError(`The provider returned ${available.length} Tafsir editions, but none was explicitly identified as ${studyLanguage === "ur" ? "Urdu" : "English"}. RHM has not mislabelled another language.`);
         setTafsirs(languageResources);
         const recommended = recommendedTafsirIds(languageResources, studyLanguage);
-        setSelectedTafsirs(recommended.length ? recommended.slice(0, 1) : languageResources.slice(0, 1).map((item) => String(item.id)));
+        setSelectedTafsirs(recommended.length ? recommended.slice(0, 6) : languageResources.slice(0, 1).map((item) => String(item.id)));
       })
       .catch(() => { if (active) setTafsirError(`${studyLanguage === "ur" ? "Urdu" : "English"} Tafsir catalogue is unavailable. Confirm that the Quran Foundation app has the content.tafsirs.read permission and that the selected environment has valid credentials.`); });
     return () => { active = false; };
@@ -682,7 +688,7 @@ useEffect(() => {
               </div>
               <div id="tafsir-select" className="tafsir-source-options" aria-describedby="tafsir-help">
                 {filteredTafsirs.map((edition) => <label className="tafsir-source-option" key={edition.id}>
-                  <input type="checkbox" checked={selectedTafsirs.includes(String(edition.id))} onChange={(event) => setSelectedTafsirs((current) => event.target.checked ? [...current, String(edition.id)] : current.filter((id) => id !== String(edition.id)))} />
+                  <input type="checkbox" checked={selectedTafsirs.includes(String(edition.id))} disabled={!selectedTafsirs.includes(String(edition.id)) && selectedTafsirs.length >= 6} onChange={(event) => setSelectedTafsirs((current) => event.target.checked ? (current.length < 6 ? [...current, String(edition.id)] : current) : current.filter((id) => id !== String(edition.id)))} />
                   <span><strong>{edition.name}</strong>{edition.author_name ? <small>{edition.author_name}</small> : null}</span>
                 </label>)}
                 {filteredTafsirs.length === 0 && <p className="recitation-note">No Tafsir edition matches that search.</p>}
