@@ -20,3 +20,21 @@
 :global(html[data-site-theme="dark"]) .textButton{color:#b8e2c8}
 :global(html[data-site-theme="dark"]) .status{background:#405649;color:#e1f1e2}
 :global(html[data-site-theme="dark"]) .error{background:#62423a;color:#ffe0d6}
+
+:global(html[data-site-theme="light"]) .header{background:rgba(247,244,235,.96);border-color:#d9d0bb}
+:global(html[data-site-theme="light"]) .brand,:global(html[data-site-theme="light"]) .brandTitle{color:#244c3d}
+:global(html[data-site-theme="light"]) .panel,:global(html[data-site-theme="light"]) .reader{background:rgba(255,255,255,.92);border-color:#dfd7c6}
+:global(html[data-site-theme="light"]) .sectionHeading h2,:global(html[data-site-theme="light"]) .reader h2{color:#234b3a}
+:global(html[data-site-theme="light"]) .sectionHeading p,:global(html[data-site-theme="light"]) .readerTop p,:global(html[data-site-theme="light"]) .note,:global(html[data-site-theme="light"]) .footer{color:#657267}
+:global(html[data-site-theme="light"]) .controls label{color:#526357}
+:global(html[data-site-theme="light"]) .controls select,:global(html[data-site-theme="light"]) .search{background:#fff;color:#253d32;border-color:#cfc8b7}
+:global(html[data-site-theme="light"]) .surahCard{background:#fff;border-color:#e5dfd1}
+:global(html[data-site-theme="light"]) .surahCard strong{color:#253d32}
+:global(html[data-site-theme="light"]) .surahCard small{color:#788175}
+:global(html[data-site-theme="light"]) .number{background:#f1ead9;color:#315742}
+:global(html[data-site-theme="light"]) .secondary{background:#e9eee7;color:#28533e;border-color:#d1ddcf}
+:global(html[data-site-theme="light"]) .ayah{border-color:#e8e0d0}
+:global(html[data-site-theme="light"]) .arabic{color:#203e30}
+:global(html[data-site-theme="light"]) .translation{color:#45584b}
+:global(html[data-site-theme="light"]) .downloadList>div{border-color:#e9e4d9;color:#45584b}
+:global(html[data-site-theme="light"]) .textButton{color:#286044}
