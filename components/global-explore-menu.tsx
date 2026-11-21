@@ -152,7 +152,7 @@ export default function GlobalExploreMenu() {
   };
 
   return (
-    <div className="rhm-explore-menu">
+    <div className="rhm-explore-menu" style={position ? { left: position.x, top: position.y, bottom: "auto", transform: "none" } : undefined}>
       {open && (
         <section className="rhm-explore-panel" id="rhm-explore-panel" aria-label="All RHM pages">
           <div className="rhm-explore-panel-heading">
@@ -198,7 +198,6 @@ export default function GlobalExploreMenu() {
           }
           setOpen((value) => !value);
         }}
-        style={position ? { left: position.x, top: position.y, bottom: "auto", transform: "none" } : undefined}
       >
         <span aria-hidden="true">☷</span>
         <span>{open ? "Close pages" : "All pages"}</span>
