@@ -6,6 +6,8 @@ import "./visual-polish.css";
 import "./accent-colours.css";
 import "./contrast-accessibility.css";
 import "./accessible-theme-system.css";
+import "./design-system-v2.css";
+import "./quran-inspired-design.css";
 import ThemeProvider from "../components/theme-provider";
 import PwaRegister from "../components/pwa-register";
 import QuranOfflineShortcut from "../components/quran-offline-shortcut";
