@@ -49,7 +49,6 @@ export default function GlobalBackButton() {
   return (
     <button type="button" className="rhm-global-back" onClick={goBack} aria-label="Go back to the previous RHM page">
       <span aria-hidden="true">←</span>
-      <span>Back</span>
     </button>
   );
 }

@@ -2695,3 +2695,100 @@ html[data-site-theme="dark"] .quran-page .ayah-tafsir-source{color:#c3d0df}
     padding: 0 15px;
   }
 }
+
+
+/* Mobile navigation controls: one Menu, one Back, theme inside the drawer. */
+@media (max-width: 850px) {
+  /* The homepage had its own second Menu toggle in addition to the global drawer. */
+  .site-header .mobile-menu-toggle { display: none !important; }
+  .site-header .nav-links { display: none !important; }
+}
+@media (max-width: 560px) {
+  .rhm-global-back {
+    left: max(12px, env(safe-area-inset-left));
+    right: auto;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    z-index: 10001;
+    min-height: 46px;
+    padding: 0 16px;
+  }
+  .rhm-menu-trigger {
+    left: auto !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    top: auto !important;
+    bottom: max(14px, env(safe-area-inset-bottom)) !important;
+    z-index: 10002 !important;
+    min-height: 46px !important;
+    padding-inline: 17px !important;
+  }
+  /* No floating theme chip: theme is changed from Menu > Settings. */
+  .rhm-appearance-controls { display: none !important; }
+}
+
+
+/* Compact icon-only Back control: keep a generous tap target without a pill button. */
+.rhm-global-back {
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: var(--rhm-text, #263b31) !important;
+  box-shadow: none !important;
+}
+.rhm-global-back:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.rhm-global-back span:first-child {
+  font-size: 25px !important;
+  font-weight: 500;
+}
+.rhm-global-back:focus-visible {
+  outline: 2px solid var(--rhm-accent, #218d94) !important;
+  outline-offset: 1px;
+}
+.quran-page .ayah-actions .ayah-bookmark-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 7px 11px;
+  border-color: var(--q-border);
+  color: var(--q-ink);
+}
+.quran-page .ayah-actions .ayah-bookmark-button svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.quran-page .ayah-actions .ayah-bookmark-button.is-bookmarked {
+  border-color: var(--q-gold);
+  background: color-mix(in srgb, var(--q-gold) 18%, var(--q-card));
+  color: var(--q-ink);
+}
+.quran-page .ayah-actions .ayah-bookmark-button.is-bookmarked svg {
+  fill: var(--q-gold);
+  stroke: var(--q-ink);
+}
+@media (max-width: 560px) {
+  .rhm-global-back {
+    left: max(8px, env(safe-area-inset-left)) !important;
+    bottom: max(14px, env(safe-area-inset-bottom)) !important;
+  }
+  .quran-page .ayah-actions .ayah-bookmark-button {
+    min-height: 40px;
+    padding-inline: 12px;
+  }
+}

@@ -17,9 +17,11 @@ const learnLinks = [
   { label: "Tafsir library", href: "/tafsir", detail: "Explore available scholarly explanations" },
   { label: "Hadith library", href: "/hadith", detail: "Browse narrations and source references" },
   { label: "Islamic topics & lessons", href: "/learn", detail: "Study belief, Seerah and daily guidance" },
+  { label: "Discover Islam", href: "/discover-islam", detail: "Start with the foundations of Islam and core beliefs" },
 ];
 
 const moreLinks = [
+  { label: "Daily Life", href: "/daily-life", detail: "Practical guidance for everyday Muslim life" },
   { label: "Islamic calendar & events", href: "/islamic-calendar", detail: "Hijri months and important occasions" },
   { label: "Names of Allah", href: "/names-of-allah", detail: "Meanings and reflections" },
   { label: "Islamic heritage & Seerah", href: "/heritage", detail: "History and sacred places" },
