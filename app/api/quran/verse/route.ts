@@ -98,7 +98,9 @@ export async function GET(request: Request) {
       const payload = await upstream.json();
       return NextResponse.json(payload, {
         status: upstream.status,
-        headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+        headers: upstream.ok && searchParams.get("resources") !== "tafsirs"
+          ? { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" }
+          : { "Cache-Control": "no-store" },
       });
     } catch {
       return NextResponse.json({
